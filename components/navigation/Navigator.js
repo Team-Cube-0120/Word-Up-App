@@ -2,13 +2,10 @@ import React from 'react';
 import {  View } from 'react-native';
 import {  createAppContainer } from 'react-navigation';
 import { createMaterialBottomTabNavigator } from 'react-navigation-material-bottom-tabs';
-import { useNavigation } from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/Ionicons';
-
-
-import HomeScreen from './HomeScreen';
-import SettingsScreen from './SettingsScreen';
-import JobsScreen from './JobsScreen';
+import HomeScreen from '../screens/HomeScreen';
+import SettingsScreen from '../screens/SettingsScreen';
+import JobsScreen from '../screens/JobsScreen';
 
 const TabNavigator = createMaterialBottomTabNavigator(
   { 
