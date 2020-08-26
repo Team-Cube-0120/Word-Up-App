@@ -1,11 +1,40 @@
-# Sample Snack app
+# WORD UP app
 
-Open the `App.js` file to start writing some code. You can preview the changes directly on your phone or tablet by clicking the **Run** button or use the simulator by clicking **Tap to Play**. When you're done, click **Save** and share the link!
+---
+## Table of Contents
 
-When you're ready to see everything that Expo provides (or if you want to use your own editor) you can **Export** your project and use it with [expo-cli](https://docs.expo.io/versions/latest/introduction/installation.html).
+- [WORD UP app](#word-up-app)
+  - [Table of Contents](#table-of-contents)
+  - [Introduction](#introduction)
+  - [Architecture](#architecture)
+  - [Getting Started](#getting-started)
+  - [Naming Conventions](#naming-conventions)
 
-All projects created in Snack are publicly available, so you can easily share the link to this project via link, or embed it on a web page with the **Embed** button.
+---
+## Introduction
 
-If you're having problems, you can tweet to us [@expo](https://twitter.com/expo) or ask in our [forums](https://forums.expo.io).
+TODO- introduction to our app and purpose 
 
-Snack is Open Source. You can find the code on the [GitHub repo](https://github.com/expo/snack-web).
+---
+
+## Architecture
+![Diagram](assets/snack-icon.png)
+
+---
+
+## Getting Started
+
+---
+
+## Naming Conventions
+
+- Team mates are expected to follow these git conventions thorughout the project to have a standard structure for the commits (section will be deleted before final deliverable)
+
+    #### Branch Names
+    - Branch Names need to follow the format: `<Sprint Number>/<Epic Name>/..>`
+    - For example: `SprintOne/CommunityEvents`
+
+    #### Commit Messages
+    - Commit Messages need to follow the format `[<Sprint Number> - <Epic Name>] : commit message`
+    - For example: `[Sprint One - Community Events]: updated Events creation form`
+
