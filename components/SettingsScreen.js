@@ -7,7 +7,7 @@ import {StyleSheet, Text, TextInput, Button, View,Image,Dimensions} from 'react-
  return (  
         <View style={styles.container}>  
        
-       <Text>Settings </Text>
+       <Text>Settings Screen </Text>
          
         </View>  
     );  
