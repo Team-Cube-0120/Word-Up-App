@@ -23,5 +23,8 @@
   "bugs": {
     "url": "https://github.com/Team-Cube-0120/Word-Up-App/issues"
   },
-  "homepage": "https://github.com/Team-Cube-0120/Word-Up-App#readme"
+  "homepage": "https://github.com/Team-Cube-0120/Word-Up-App#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
 }
