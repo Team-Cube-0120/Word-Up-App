@@ -6,6 +6,7 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import HomeScreen from '../screens/HomeScreen';
 import SettingsScreen from '../screens/SettingsScreen';
 import JobsScreen from '../screens/JobsScreen';
+import EventsScreen from '../screens/EventsScreen';
 
 const TabNavigator = createMaterialBottomTabNavigator(
   { 
@@ -47,6 +48,17 @@ const TabNavigator = createMaterialBottomTabNavigator(
       },
     },
 
+    Events: {
+      screen: EventsScreen,
+      navigationOptions: {
+        tabBarLabel: 'Events',
+        tabBarIcon: ({ tintColor }) => (
+          <View>
+            <Icon style={[{ color: tintColor }]} size={25} name={'ios-book'} />
+          </View>
+        ),
+      },
+    },
 
   },
 
