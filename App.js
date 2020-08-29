@@ -1,10 +1,14 @@
-import * as React from 'react';
+import React, { Fragment } from 'react';
 
-import TabNavigator from './components/navigation/Navigator';
+import TabNavigator from './src/components/navigation/Navigator'
+import { NavigationContainer } from '@react-navigation/native';
 
 export default function App() {
   return (
-   <TabNavigator/>
+    <NavigationContainer>
+        <TabNavigator />
+    </NavigationContainer>
+    
   );
 }
 

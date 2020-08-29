@@ -1,14 +1,16 @@
 import React from 'react';
+import HomeScreen from '../../layout/screens/HomeScreen';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import JobsStackScreen from './JobsStackNavigator';
+import SettingsScreen from '../../layout/screens/SettingsScreen';
 import {  View } from 'react-native';
 import {  createAppContainer } from 'react-navigation';
 import { createMaterialBottomTabNavigator } from 'react-navigation-material-bottom-tabs';
 import Icon from 'react-native-vector-icons/Ionicons';
-import HomeScreen from '../screens/HomeScreen';
-import SettingsScreen from '../screens/SettingsScreen';
-import JobsScreen from '../screens/JobsScreen';
+
 
 const TabNavigator = createMaterialBottomTabNavigator(
-  { 
+  {
     Home: {
       screen: HomeScreen,
       navigationOptions: {
@@ -31,12 +33,12 @@ const TabNavigator = createMaterialBottomTabNavigator(
               style={[{ color: tintColor }]} size={25} name={'ios-settings'} />
           </View>
         ),
-       
+
       },
     },
 
     Jobs: {
-      screen: JobsScreen,
+      screen: JobsStackScreen,
       navigationOptions: {
         tabBarLabel: 'Jobs',
         tabBarIcon: ({ tintColor }) => (
@@ -46,11 +48,7 @@ const TabNavigator = createMaterialBottomTabNavigator(
         ),
       },
     },
-
-
   },
-
-     
   {
     initialRouteName: 'Home',
     activeColor: '#f0edf6',
@@ -60,7 +58,6 @@ const TabNavigator = createMaterialBottomTabNavigator(
 );
 
 export default createAppContainer(TabNavigator);
-
 
 
 
