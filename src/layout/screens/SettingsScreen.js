@@ -5,11 +5,9 @@ import {StyleSheet, Text, TextInput, Button, View,Image,Dimensions} from 'react-
  const SettingsScreen = props => {
    
  return (  
-        <View style={styles.container}>  
-       
-       <Text>Settings Screen </Text>
-         
-        </View>  
+    <View style={styles.container}>  
+        <Text>Settings Screen </Text>
+    </View>  
     );  
 }
 
