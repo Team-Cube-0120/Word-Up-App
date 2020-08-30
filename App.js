@@ -1,14 +1,22 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 
 import TabNavigator from './src/components/navigation/Navigator'
 import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
+import LoginStackScreen from './src/components/navigation/LoginStackNavigator';
+
+
+const Stack = createStackNavigator();
 
 export default function App() {
   return (
     <NavigationContainer>
-        <TabNavigator />
+      <Stack.Navigator>
+        <Stack.Screen name="Login" component={LoginStackScreen} />
+        <Stack.Screen name="Home" component={TabNavigator} />
+      </Stack.Navigator>
     </NavigationContainer>
-    
+
   );
 }
 
