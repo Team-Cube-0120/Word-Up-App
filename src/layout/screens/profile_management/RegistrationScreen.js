@@ -1,41 +1,47 @@
 import React, { useState } from 'react'
 import { Image, Text, TextInput, TouchableOpacity, View, StyleSheet, ScrollView} from 'react-native'
-import { firebase } from '../../../server/firebase/firebaseConfig'
+import { firebase } from '../../../../server/firebase/firebaseConfig'
 
-export default function LoginScreen({navigation}) {
+export default function RegistrationScreen({navigation}) {
+    const [fullName, setFullName] = useState('')
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
+    const [confirmPassword, setConfirmPassword] = useState('')
 
     const onFooterLinkPress = () => {
-        navigation.navigate('Registration')
+        navigation.navigate('Login')
     }
 
-    const onLoginPress = () => {
-
+    const onRegisterPress = () => {
+        if (password !== confirmPassword) {
+            alert("Passwords don't match.")
+            return
+        }
+    
         firebase
             .auth()
-            .signInWithEmailAndPassword(email, password)
+            .createUserWithEmailAndPassword(email, password)
             .then((response) => {
-                alert("here")
                 const uid = response.user.uid
+                const data = {
+                    id: uid,
+                    email,
+                    fullName,
+                };
                 const usersRef = firebase.firestore().collection('users')
                 usersRef
                     .doc(uid)
-                    .get()
-                    .then(firestoreDocument => {
-                        if (!firestoreDocument.exists) {
-                            alert("User does not exist anymore.")
-                            return;
-                        }
+                    .set(data)
+                    .then(() => {
                         navigation.navigate('Home')
                     })
-                    .catch(error => {
+                    .catch((error) => {
                         alert(error)
-                    }); 
+                    });
             })
-            .catch(error => {
+            .catch((error) => {
                 alert(error)
-            })
+        });
     }
 
     return (
@@ -46,6 +52,15 @@ export default function LoginScreen({navigation}) {
                 <Image
                     style={styles.logo}
                     source={require('../../../assets/icon2.png')}
+                />
+                <TextInput
+                    style={styles.input}
+                    placeholder='Full Name'
+                    placeholderTextColor="#aaaaaa"
+                    onChangeText={(text) => setFullName(text)}
+                    value={fullName}
+                    underlineColorAndroid="transparent"
+                    autoCapitalize="none"
                 />
                 <TextInput
                     style={styles.input}
@@ -66,13 +81,23 @@ export default function LoginScreen({navigation}) {
                     underlineColorAndroid="transparent"
                     autoCapitalize="none"
                 />
+                <TextInput
+                    style={styles.input}
+                    placeholderTextColor="#aaaaaa"
+                    secureTextEntry
+                    placeholder='Confirm Password'
+                    onChangeText={(text) => setConfirmPassword(text)}
+                    value={confirmPassword}
+                    underlineColorAndroid="transparent"
+                    autoCapitalize="none"
+                />
                 <TouchableOpacity
                     style={styles.button}
-                    onPress={() => onLoginPress()}>
-                    <Text style={styles.buttonTitle}>Log in</Text>
+                    onPress={() => onRegisterPress()}>
+                    <Text style={styles.buttonTitle}>Create account</Text>
                 </TouchableOpacity>
                 <View style={styles.footerView}>
-                    <Text style={styles.footerText}>Don't have an account? <Text onPress={onFooterLinkPress} style={styles.footerLink}>Sign up</Text></Text>
+                    <Text style={styles.footerText}>Already got an account? <Text onPress={onFooterLinkPress} style={styles.footerLink}>Log in</Text></Text>
                 </View>
             </ScrollView>
         </View>

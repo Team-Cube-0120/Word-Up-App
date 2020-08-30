@@ -1,13 +1,13 @@
 import React from 'react';
-import HomeScreen from '../../layout/screens/HomeScreen';
+import HomeScreen from '../../layout/screens/home/HomeScreen';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import JobsStackScreen from './JobsStackNavigator';
-import SettingsScreen from '../../layout/screens/SettingsScreen';
+import SettingsScreen from '../../layout/screens/profile_management/SettingsScreen';
 import { View } from 'react-native';
 import { createAppContainer } from 'react-navigation';
 import { createMaterialBottomTabNavigator } from 'react-navigation-material-bottom-tabs';
 import Icon from 'react-native-vector-icons/Ionicons';
-import EventsScreen from '../../layout/screens/EventsScreen';
+import EventsScreen from '../../layout/screens/events/EventsScreen';
 
 // const TabNavigator = createMaterialBottomTabNavigator(
 //   {
@@ -80,6 +80,7 @@ const TabNavigator = () => {
       <Nav.Screen name="Events" component={EventsScreen } />
       <Nav.Screen name="Settings" component={SettingsScreen } />
 
+      {/* <Screen HERE PAVAN> */}
 
     </Nav.Navigator>
   )
