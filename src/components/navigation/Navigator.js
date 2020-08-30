@@ -3,10 +3,11 @@ import HomeScreen from '../../layout/screens/HomeScreen';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import JobsStackScreen from './JobsStackNavigator';
 import SettingsScreen from '../../layout/screens/SettingsScreen';
-import {  View } from 'react-native';
-import {  createAppContainer } from 'react-navigation';
+import { View } from 'react-native';
+import { createAppContainer } from 'react-navigation';
 import { createMaterialBottomTabNavigator } from 'react-navigation-material-bottom-tabs';
 import Icon from 'react-native-vector-icons/Ionicons';
+import EventsScreen from '../../layout/screens/EventsScreen';
 
 const TabNavigator = createMaterialBottomTabNavigator(
   {
@@ -43,6 +44,19 @@ const TabNavigator = createMaterialBottomTabNavigator(
         tabBarIcon: ({ tintColor }) => (
           <View>
             <Icon style={[{ color: tintColor }]} size={25} name={'ios-book'} />
+          </View>
+        ),
+      },
+    },
+
+    Events: {
+      screen: EventsScreen,
+      navigationOptions: {
+        tabBarLabel: 'Events',
+        tabBarIcon: ({ tintColor }) => (
+          <View>
+            <Icon
+              style={[{ color: tintColor }]} size={25} name={'ios-settings'} />
           </View>
         ),
       },
