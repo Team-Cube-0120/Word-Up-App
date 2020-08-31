@@ -1,7 +1,7 @@
 
 import React, { Component } from 'react';
 import { StyleSheet, Text, View, Image, ScrollView } from 'react-native';
-import myIcon from '../../../assets/snack-icon.png';
+import myIcon from '../../../../assets/snack-icon.png';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 
 class JobsScreen extends Component {
