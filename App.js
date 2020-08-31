@@ -1,5 +1,4 @@
 import React from 'react';
-
 import TabNavigator from './src/components/navigation/Navigator'
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';

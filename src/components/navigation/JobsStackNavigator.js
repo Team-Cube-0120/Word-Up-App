@@ -1,7 +1,7 @@
 import React from 'react';
 const { createStackNavigator } = require("@react-navigation/stack");
-const { default: JobsScreen } = require("../../layout/screens/JobsScreen");
-const { default: CreateJobScreen } = require("../../layout/screens/CreateJobScreen");
+const { default: JobsScreen } = require("../../layout/screens/jobs/JobsScreen");
+const { default: CreateJobScreen } = require("../../layout/screens/jobs/CreateJobScreen");
 
 const JobsStack = createStackNavigator();
 
