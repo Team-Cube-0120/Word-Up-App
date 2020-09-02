@@ -1,99 +1,75 @@
- 
-import React, {useState} from 'react';  
-import {StyleSheet, Text, TextInput, Button, View, Picker, ScrollView ,SafeAreaView, TouchableOpacity} from 'react-native';
 
+import React, { Component } from 'react';
+import { StyleSheet, Text, View, Image, ScrollView } from 'react-native';
+import myIcon from '../../../../assets/snack-icon.png';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 
-
-const EventsScreen = props => {
-    const [selectedValue, setSelectedValue] = useState("Default");
- return (  
-    <ScrollView style={styles.container}>
-        <Text style = {styles.header}>Create Event</Text>
-        <TextInput style = {styles.textInput} placeholder = "Event Name:"></TextInput>
-        <TextInput style = {styles.textInput} placeholder = "Details:"></TextInput>
-        <TextInput style = {styles.textInput} placeholder = "Location:"></TextInput>
-        <TextInput style = {styles.textInput} placeholder = "RSVP Code:"></TextInput>
-        <TextInput style = {styles.textInput} placeholder = "Co-hosts:"></TextInput>
-
-        <Text style = {styles.text}>Choose an Event Type</Text>
-        <Picker
-            selectedValue={selectedValue}
-            style={styles.picker}
-            onValueChange={(itemValue, itemIndex) => setSelectedValue(itemValue)}
-        >
-            <Picker.Item label="Meeting" value="Default" />
-            <Picker.Item label="Outdoor" value="Outdoor" />
-            <Picker.Item label="Party" value="Party" />
-            <Picker.Item label="Food" value="Food" />
-        </Picker>
-
-        <TouchableOpacity style = {styles.button}>
+class EventsScreen extends Component {
+  render() {
+    const navigation = this.props.navigation
+    return (
+      <ScrollView style={styles.container}>
+        <Text style={styles.header}>Event Screen</Text>
+          <TouchableOpacity style = {styles.button}
+            onPress={() => navigation.navigate('CreateEvent')}>
             <Text style = {styles.btnText}>Create Event</Text>
-        </TouchableOpacity>
-        {/* <Button style = {styles.button} title="Create Event!" ></Button> */}
-    </ScrollView>
-    );  
+          </TouchableOpacity>
+      </ScrollView>
+    );
+  }
 }
 
+const styles = StyleSheet.create({
+  container: {
+    flexDirection: 'column',
+    backgroundColor: 'white',
+    padding:20
+  },
+  header: {
+    fontSize: 24,
+    color: '#36485f',
+    paddingBottom: 10,
+    marginBottom:20,
+    borderBottomColor: '#36485f',
+    borderBottomWidth: 1,
+    alignSelf: "center",
+    },
+  text: {
+    position: 'relative'
+  },
+  button: {
+    alignItems:"center",
+    padding: 20,
+    backgroundColor: "#59cbbd",
+    marginTop: 10,
+  },
+  btnText: {
+    color: '#fff',
+    fontWeight: "bold"
+  },
 
-const styles = StyleSheet.create({  
-    container: {  
-        flex: 1,
-        backgroundColor: '#36485f',
-        flexDirection: 'column',
-        padding: 20,    
-    },  
-    space: {
-        margin: 10, // adds margin of 10 on all sides (top, left, bottom, right)
-    },
-    error: {
-        color: 'red', // makes text color red
-    },
-    header: {
-        fontSize: 24,
-        color: '#fff',
-        paddingBottom: 10,
-        marginBottom:20,
-        borderBottomColor: '#fff',
-        borderBottomWidth: 1,
-        alignSelf: "center",
-    },
-    textInput: {
-        alignSelf: 'stretch',
-        height: 40,
-        marginBottom: 30,
-        color: '#fff',
-        borderBottomColor: '#fff',
-        borderBottomWidth: 1,
-    },
-    button: {
-        alignSelf: 'stretch',
-        alignItems: "center",
-        padding: 20,
-        backgroundColor: "#59cbbd",
-        marginTop: 10,
-    },
-    btnText: {
-        color: '#fff',
-        fontWeight: "bold"
-    },
-    picker:{
-        alignSelf: 'stretch',
-        height: 40,
-        marginBottom: 30,
-        color: '#fff',
-        borderBottomWidth: 1,
-    },
-    text: {
-        alignSelf: 'stretch',
-        fontSize: 12,
-        color: '#fff',
-        paddingBottom: 10,
-        borderBottomColor: '#fff',
-        borderBottomWidth: 1,
-    },
-});  
+  addJobView: {
+    position: 'absolute',
+    left: 330,
+    top: 620
+  },
+
+  addJob: {
+    width: 50,
+    height: 50,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+
+  floatingButton: {
+    resizeMode: 'contain',
+    width: 50,
+    height: 50,
+    backgroundColor:'black'
+  },
+
+
+});
 
 export default EventsScreen;
-
 

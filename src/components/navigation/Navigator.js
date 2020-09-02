@@ -7,6 +7,7 @@ import { View } from 'react-native';
 import { createAppContainer } from 'react-navigation';
 import { createMaterialBottomTabNavigator } from 'react-navigation-material-bottom-tabs';
 import Icon from 'react-native-vector-icons/Ionicons';
+import EventsStackScreen from './EventsStackNavigator';
 import EventsScreen from '../../layout/screens/events/EventsScreen';
 
 // const TabNavigator = createMaterialBottomTabNavigator(
@@ -77,7 +78,7 @@ const TabNavigator = () => {
     <Nav.Navigator>
       <Nav.Screen name="Home" component={HomeScreen} />
       <Nav.Screen name="Jobs" component={JobsStackScreen } />
-      <Nav.Screen name="Events" component={EventsScreen } />
+      <Nav.Screen name="Events" component={EventsStackScreen } />
       <Nav.Screen name="Settings" component={SettingsScreen } />
 
       {/* <Screen HERE PAVAN> */}
