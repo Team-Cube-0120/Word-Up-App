@@ -10,7 +10,6 @@ import {
 } from "react-native";
 import { firebase } from "../../../../server/firebase/firebaseConfig";
 import icon from "../../../../assets/icon2.png";
-import CardView from "react-native-cardview";
 
 export default function RegistrationScreen({ navigation }) {
   const [fullName, setFullName] = useState("");
@@ -60,20 +59,7 @@ export default function RegistrationScreen({ navigation }) {
         style={{ flex: 1, width: "100%" }}
         keyboardShouldPersistTaps="always"
       >
-        <CardView
-          style={styles.cardStyle}
-          cardElevation={2}
-          cardMaxElevation={2}
-          cornerRadius={5}
-        >
-          <Image style={styles.logo} source={icon} />
-        </CardView>
-        <CardView
-          style={styles.cardStyle}
-          cardElevation={2}
-          cardMaxElevation={2}
-          cornerRadius={5}
-        >
+        <Image style={styles.logo} source={icon} />
           <TextInput
             style={styles.input}
             placeholder="Full Name"
@@ -88,13 +74,7 @@ export default function RegistrationScreen({ navigation }) {
             autoCapitalize="none"
             blurOnSubmit={false}
           />
-        </CardView>
-        <CardView
-          style={styles.cardStyle}
-          cardElevation={2}
-          cardMaxElevation={2}
-          cornerRadius={5}
-        >
+
           <TextInput
             style={styles.input}
             ref={(input) => { this.email = input; }}
@@ -110,13 +90,7 @@ export default function RegistrationScreen({ navigation }) {
             autoCapitalize="none"
             blurOnSubmit={false}
           />
-        </CardView>
-        <CardView
-          style={styles.cardStyle}
-          cardElevation={2}
-          cardMaxElevation={2}
-          cornerRadius={5}
-        >
+
           <TextInput
             style={styles.input}
             ref={(input) => { this.password = input; }}
@@ -133,13 +107,7 @@ export default function RegistrationScreen({ navigation }) {
             autoCapitalize="none"
             blurOnSubmit={false}
           />
-        </CardView>
-        <CardView
-          style={styles.cardStyle}
-          cardElevation={2}
-          cardMaxElevation={2}
-          cornerRadius={5}
-        >
+
           <TextInput
             style={styles.input}
             ref={(input) => { this.confirm = input; }}
@@ -152,20 +120,13 @@ export default function RegistrationScreen({ navigation }) {
             underlineColorAndroid="transparent"
             autoCapitalize="none"
           />
-        </CardView>
-        <CardView
-          style={styles.cardStyle}
-          cardElevation={2}
-          cardMaxElevation={2}
-          cornerRadius={5}
-        >
+
           <TouchableOpacity
             style={styles.button}
             onPress={() => onRegisterPress()}
           >
             <Text style={styles.buttonTitle}>Create account</Text>
           </TouchableOpacity>
-        </CardView>
 
         <View style={styles.footerView}>
           <Text style={styles.footerText}>
@@ -192,12 +153,21 @@ const styles = StyleSheet.create({
     height: 120,
     width: 110,
     alignSelf: "center",
+    shadowColor: '#000',
+    shadowOffset: { width: 1, height: 1 },
+    shadowOpacity: 0.4,
+    shadowRadius: 2,  
+    elevation: 2,
     margin: 30,
   },
   input: {
     height: 48,
     borderRadius: 5,
-    overflow: "hidden",
+    shadowColor: '#000',
+    shadowOffset: { width: 1, height: 1 },
+    shadowOpacity: 0.4,
+    shadowRadius: 2,  
+    elevation: 2,
     backgroundColor: "white",
     marginTop: 10,
     marginBottom: 10,
@@ -207,6 +177,11 @@ const styles = StyleSheet.create({
   },
   button: {
     backgroundColor: "#68a678",
+    shadowColor: '#000',
+    shadowOffset: { width: 1, height: 1 },
+    shadowOpacity: 0.4,
+    shadowRadius: 2,  
+    elevation: 2,
     marginLeft: 30,
     marginRight: 30,
     marginTop: 20,

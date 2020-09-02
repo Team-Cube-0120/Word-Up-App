@@ -10,7 +10,6 @@ import {
 } from "react-native";
 import { firebase } from "../../../../server/firebase/firebaseConfig";
 import icon from "../../../../assets/icon2.png";
-import { Card, Input } from 'react-native-elements';
 
 // import Card from "react-native-Card";
 
@@ -126,11 +125,20 @@ const styles = StyleSheet.create({
     width: 110,
     alignSelf: "center",
     margin: 30,
+    shadowColor: '#000',
+    shadowOffset: { width: 1, height: 1 },
+    shadowOpacity: 0.4,
+    shadowRadius: 2,  
+    elevation: 2,
   },
   input: {
     height: 48,
     borderRadius: 5,
-    overflow: "hidden",
+    shadowColor: '#000',
+    shadowOffset: { width: 1, height: 1 },
+    shadowOpacity: 0.4,
+    shadowRadius: 2,  
+    elevation: 2,
     backgroundColor: "white",
     marginTop: 10,
     marginBottom: 10,
@@ -140,6 +148,11 @@ const styles = StyleSheet.create({
   },
   button: {
     backgroundColor: "#68a678",
+    shadowColor: '#000',
+    shadowOffset: { width: 1, height: 1 },
+    shadowOpacity: 0.4,
+    shadowRadius: 2,  
+    elevation: 2,
     marginLeft: 30,
     marginRight: 30,
     marginTop: 20,
