@@ -10,7 +10,9 @@ import {
 } from "react-native";
 import { firebase } from "../../../../server/firebase/firebaseConfig";
 import icon from "../../../../assets/icon2.png";
-import CardView from "react-native-cardview";
+import { Card, Input } from 'react-native-elements';
+
+// import Card from "react-native-Card";
 
 export default function LoginScreen({ navigation }) {
   const [email, setEmail] = useState("");
@@ -53,20 +55,15 @@ export default function LoginScreen({ navigation }) {
         style={{ flex: 1, width: "100%" }}
         keyboardShouldPersistTaps="always"
       >
-        <CardView
-          style={styles.cardStyle}
+        
+          {/* style={styles.cardStyle}
           cardElevation={2}
           cardMaxElevation={2}
-          cornerRadius={5}
-        >
-          <Image style={styles.logo} source={icon} />
-        </CardView>
-        <CardView
-          style={styles.cardStyle}
-          cardElevation={2}
-          cardMaxElevation={2}
-          cornerRadius={5}
-        >
+          cornerRadius={5} */}
+        
+        <Image style={styles.logo} source={icon} />
+        
+        
           <TextInput
             style={styles.input}
             placeholder="Email"
@@ -81,13 +78,8 @@ export default function LoginScreen({ navigation }) {
             autoCapitalize="none"
             blurOnSubmit={false}
           />
-        </CardView>
-        <CardView
-          style={styles.cardStyle}
-          cardElevation={2}
-          cardMaxElevation={2}
-          cornerRadius={5}
-        >
+         
+    
           <TextInput
             style={styles.input}
             ref={(input) => { this.password = input; }}
@@ -100,20 +92,14 @@ export default function LoginScreen({ navigation }) {
             autoCapitalize="none"
             returnKeyType={"done"}
           />
-        </CardView>
-        <CardView
-          style={styles.cardStyle}
-          cardElevation={2}
-          cardMaxElevation={2}
-          cornerRadius={5}
-        >
+       
           <TouchableOpacity
             style={styles.button}
             onPress={() => onLoginPress()}
           >
             <Text style={styles.buttonTitle}>Log in</Text>
           </TouchableOpacity>
-        </CardView>
+       
         <View style={styles.footerView}>
           <Text style={styles.footerText}>
             Don't have an account?{" "}
