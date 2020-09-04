@@ -1,10 +1,11 @@
-const MOCK_SERVICE_URL = require('../../enums/ApiConfigurationEnum').MOCK_SERVICE_URL;
+const getRequestOptions = require('./RequestOptions');
+const axios = require('axios');
 
 const request = async (method, apiPath, data) => {
     return new Promise(async (resolve, reject) => {
-        getRequestOptions(method, data)
-            .then((options) => fetch(MOCK_SERVICE_URL + apiPath, options))
-            .then((response) => resolve(response.json()))
+        getRequestOptions(method, apiPath, data)
+            .then((options) => axios(options))
+            .then((response) => resolve(JSON.stringify(response.data)))
             .catch((error) => reject({ Status: 400, Message: "Error POST data: " + error }))
     });
 }
