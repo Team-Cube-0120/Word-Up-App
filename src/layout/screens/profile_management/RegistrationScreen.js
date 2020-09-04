@@ -8,7 +8,7 @@ import {
   StyleSheet,
   ScrollView,
 } from "react-native";
-import { firebase } from "../../../../server/firebase/firebaseConfig";
+import { firebase } from "../../../../server/config/firebase/firebaseConfig";
 import icon from "../../../../assets/icon2.png";
 
 export default function RegistrationScreen({ navigation }) {
