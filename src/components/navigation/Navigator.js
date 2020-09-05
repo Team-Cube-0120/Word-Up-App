@@ -9,6 +9,8 @@ import { createMaterialBottomTabNavigator } from 'react-navigation-material-bott
 import Icon from 'react-native-vector-icons/Ionicons';
 import EventsStackScreen from './EventsStackNavigator';
 import EventsScreen from '../../layout/screens/events/EventsScreen';
+import AlertsStackScreen from './AlertsStackNavigator';
+import AlertsScreen from '../../layout/screens/alerts/AlertsScreen';
 
 // const TabNavigator = createMaterialBottomTabNavigator(
 //   {
@@ -80,8 +82,7 @@ const TabNavigator = () => {
       <Nav.Screen name="Jobs" component={JobsStackScreen } />
       <Nav.Screen name="Events" component={EventsStackScreen } />
       <Nav.Screen name="Settings" component={SettingsScreen } />
-
-      {/* <Screen HERE PAVAN> */}
+      <Nav.Screen name="Alerts" component={AlertsStackScreen } />
 
     </Nav.Navigator>
   )

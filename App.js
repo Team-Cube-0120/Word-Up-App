@@ -4,7 +4,6 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import LoginStackScreen from './src/components/navigation/LoginStackNavigator';
 
-
 const Stack = createStackNavigator();
 
 export default function App() {
