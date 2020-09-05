@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { View, Text, StyleSheet, TextInput, ScrollView, Button } from 'react-native';
 import { Card, Input } from 'react-native-elements';
+import { TouchableHighlight } from 'react-native-gesture-handler';
 
 
 class CreateJobScreen extends Component {
@@ -77,6 +78,28 @@ class CreateJobScreen extends Component {
                                 style={styles.textInput}
                                 placeholder="e.g. 123-456-7890"
                                 onChangeText={(phoneNumber) => this.setState({ phoneNumber: phoneNumber })}
+                            />
+                        </View>
+                        <View style={styles.viewItem}>
+                            <Text style={styles.text}>Job Application URL</Text>
+                            <TextInput
+                                style={styles.textInput}
+                                placeholder="e.g. http://google.com/careers/<job-id>"
+                                onChangeText={(jobAppUrl) => this.setState({ jobAppUrl: jobAppUrl })} />
+                        </View>
+                        <View style={styles.viewItem}>
+                            <Text style={styles.text}>Email</Text>
+                            <TextInput
+                                style={styles.textInput}
+                                placeholder="e.g. John.Doe@gmail.com"
+                                onChangeText={(email) => this.setState({ email: email })} />
+                        </View>
+                        <View style={styles.viewItem}>
+                            <Text style={styles.text}>Phone Number</Text>
+                            <TextInput
+                                style={styles.textInput}
+                                placeholder="e.g. 123-456-7890"
+                                onChangeText={(phoneNumber) => this.setState({ phoneNumber: phoneNumber })}
                                 />
                         </View>
                         <View style={styles.viewItem}>
@@ -107,10 +130,12 @@ class CreateJobScreen extends Component {
                                 placeholder="e.g. 12345"
                                 onChangeText={(zip) => this.setState({ zip: zip })} />
                         </View>
-                        <Button 
-                            title="Review"
-                            onPress={() => this.props.navigation.push('ReviewJobs', {jobInfo: this.state})}
-                        ></Button>
+                        <TouchableHighlight>
+                            <Button
+                                title="Review"
+                                onPress={() => this.props.navigation.push('ReviewJobs', { jobInfo: this.state })}
+                            ></Button>
+                        </TouchableHighlight>
                     </Card>
                 </ScrollView>
             </View>

@@ -1,12 +1,21 @@
-const getRequestOptions = require('./RequestOptions');
+const RequestOptions = require('./RequestOptions');
 const axios = require('axios');
 
 const request = async (method, apiPath, data) => {
     return new Promise(async (resolve, reject) => {
-        getRequestOptions(method, apiPath, data)
-            .then((options) => axios(options))
-            .then((response) => resolve(JSON.stringify(response.data)))
-            .catch((error) => reject({ Status: 400, Message: "Error POST data: " + error }))
+        try {
+            RequestOptions.generateOptions(method, apiPath, data)
+                .then((options) => axios(options))
+                .then((response) => {
+                    if (response.data.Status == 200) {
+                        resolve(JSON.stringify(response.data)) 
+                    } else {
+                        reject(JSON.stringify(response.data));
+                    }
+                });
+        } catch (error) {
+            reject({ Status: 400, Message: "Error POST data: " + error })
+        }
     });
 }
 

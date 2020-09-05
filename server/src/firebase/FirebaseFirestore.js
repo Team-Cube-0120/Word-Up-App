@@ -1,5 +1,5 @@
 const admin = require('firebase-admin');
-const serviceAccount = require('../../config/firebase/wordup-50b05-firebase-adminsdk-adpl1-8cc9071df5.json');
+const serviceAccount = require('../../config/firebase/service-account-credentials.json');
 
 class FirebaseFirestore {
     constructor() {
@@ -11,34 +11,43 @@ class FirebaseFirestore {
 
     async post(collection, document, data) {
         return new Promise(async (resolve, reject) => {
-            this.database
-                .collection(collection)
-                .doc(document)
-                .set(data)
-                .then(() => resolve("Data successfully posted"))
-                .catch((err) => reject("Error posting data: " + err));
+            try {
+                this.database
+                    .collection(collection)
+                    .doc(document)
+                    .set(data)
+                    .then(() => resolve("Data successfully posted"));
+            } catch (error) {
+                reject("Error posting data: " + error);
+            }
         });
     }
 
     async update(collection, document, data) {
         return new Promise((resolve, reject) => {
-            this.database
-                .collection(collection)
-                .doc(document)
-                .update(data)
-                .then(() => resolve("Data successfully updated"))
-                .catch((err) => reject("Error updating data: " + err));
+            try {
+                this.database
+                    .collection(collection)
+                    .doc(document)
+                    .update(data)
+                    .then(() => resolve("Data successfully updated"));
+            } catch (error) {
+                reject("Error updating data: " + error)
+            }
         });
     }
 
     async get(collection, document) {
         return new Promise((resolve, reject) => {
-            this.database
-                .collection(collection)
-                .doc(document)
-                .get()
-                .then((payload) => resolve(payload.data()))
-                .catch((err) => reject("Error retrieving data: " + err));
+            try {
+                this.database
+                    .collection(collection)
+                    .doc(document)
+                    .get()
+                    .then((payload) => resolve(payload.data()));
+            } catch (error) {
+                reject("Error retrieving data: " + error)
+            }
         });
     }
 }

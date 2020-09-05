@@ -2,34 +2,55 @@ import React, { Component } from 'react';
 import { View, ScrollView, Button, Text, StyleSheet, ActivityIndicator } from 'react-native';
 import { Card } from 'react-native-elements';
 import ApiService from '../../../service/api/ApiService';
+import RequestOptions from '../../../service/api/RequestOptions';
+import SubmissionDialog from '../../../components/dialog/SubmissionDialog';
 const sleep = require('../../../util/Thread');
+
 
 class ReviewJobScreen extends Component {
     constructor(props) {
         super(props);
         this.jobInfo = this.props.route.params.jobInfo;
         this.state = {
-            isLoading: false
-        }
-        this.body = {
-            collection: "jobs",
-            document: "1",
-            data: this.jobInfo
-        }
+            isLoading: false,
+            toggleDialog: false,
+            title: '',
+            addJobResponse: ' ',
+            isResponseError: false
+        };
     }
 
     async addJob() {
         this.setState({ isLoading: true });
-        ApiService.post('data/add', this.body)
-            .then((response) => console.log("response: " + JSON.stringify(response)))
+        RequestOptions.setUpRequestBody("jobs", this.jobInfo)
+            .then((body) => ApiService.post('data/add', body))
+            .then((response) => this.setState({
+                title: 'Congratulations',
+                addJobResponse: 'Your job has been successfully posted!'
+            }))
+            .catch((error) => this.setState({
+                isResponseError: true,
+                title: 'Oops!',
+                addJobResponse: 'There was a problem adding your job information. Please try again.'
+            }))
             .then(() => sleep(5000))
-            .then(() => this.setState({isLoading: false}))
-            .catch((error) => console.log("error: " + error))
+            .then(() => this.openDialog())
+    }
+
+    openDialog() {
+        this.setState({ isLoading: false });
+        this.setState({ toggleDialog: true });
+    }
+
+    closeDialog() {
+        this.setState({ toggleDialog: false });
+        if (!this.state.isResponseError) {
+            this.props.navigation.navigate("Jobs");
+        }
+        this.setState({ isResponseError: false });
     }
 
     render() {
-        // const jobInfo = this.props.navigation.getParams('jobInfo');
-        console.log(this.jobInfo.position);
         return (
             <View>
                 <ScrollView>
@@ -91,6 +112,11 @@ class ReviewJobScreen extends Component {
                         <ActivityIndicator animating={this.state.isLoading} />
                     </Card>
                 </ScrollView >
+                <SubmissionDialog
+                    visible={this.state.toggleDialog}
+                    onClose={() => this.closeDialog()}
+                    text={this.state.addJobResponse}
+                    title={this.state.title} />
             </View >
         )
     }
