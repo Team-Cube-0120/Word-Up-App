@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import {
   Image,
   Text,
@@ -16,6 +16,7 @@ import icon from "../../../../assets/icon2.png";
 export default function LoginScreen({ navigation }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const pass = useRef(null);
 
   const onFooterLinkPress = () => {
     navigation.navigate("Registration");
@@ -54,51 +55,46 @@ export default function LoginScreen({ navigation }) {
         style={{ flex: 1, width: "100%" }}
         keyboardShouldPersistTaps="always"
       >
-        
-          {/* style={styles.cardStyle}
+        {/* style={styles.cardStyle}
           cardElevation={2}
           cardMaxElevation={2}
           cornerRadius={5} */}
-        
+
         <Image style={styles.logo} source={icon} />
-        
-        
-          <TextInput
-            style={styles.input}
-            placeholder="Email"
-            returnKeyType={"next"}
-            onSubmitEditing={() => {
-              this.password.focus();
-            }}
-            placeholderTextColor="#aaaaaa"
-            onChangeText={(text) => setEmail(text)}
-            value={email}
-            underlineColorAndroid="transparent"
-            autoCapitalize="none"
-            blurOnSubmit={false}
-          />
-         
-    
-          <TextInput
-            style={styles.input}
-            ref={(input) => { this.password = input; }}
-            placeholderTextColor="#aaaaaa"
-            secureTextEntry
-            placeholder="Password"
-            onChangeText={(text) => setPassword(text)}
-            value={password}
-            underlineColorAndroid="transparent"
-            autoCapitalize="none"
-            returnKeyType={"done"}
-          />
-       
-          <TouchableOpacity
-            style={styles.button}
-            onPress={() => onLoginPress()}
-          >
-            <Text style={styles.buttonTitle}>Log in</Text>
-          </TouchableOpacity>
-       
+
+        <TextInput
+          style={styles.input}
+          placeholder="Email"
+          returnKeyType={"next"}
+          onSubmitEditing={() => {
+            pass.current.focus();
+          }}
+          placeholderTextColor="#aaaaaa"
+          onChangeText={(text) => setEmail(text)}
+          value={email}
+          underlineColorAndroid="transparent"
+          autoCapitalize="none"
+          blurOnSubmit={false}
+        />
+
+        <TextInput
+          style={styles.input}
+          ref={pass}
+          // ref={(input) => { password = input; }}
+          placeholderTextColor="#aaaaaa"
+          secureTextEntry
+          placeholder="Password"
+          onChangeText={(text) => setPassword(text)}
+          value={password}
+          underlineColorAndroid="transparent"
+          autoCapitalize="none"
+          returnKeyType={"done"}
+        />
+
+        <TouchableOpacity style={styles.button} onPress={() => onLoginPress()}>
+          <Text style={styles.buttonTitle}>Log in</Text>
+        </TouchableOpacity>
+
         <View style={styles.footerView}>
           <Text style={styles.footerText}>
             Don't have an account?{" "}
@@ -125,20 +121,42 @@ const styles = StyleSheet.create({
     width: 110,
     alignSelf: "center",
     margin: 30,
-    shadowColor: '#000',
-    shadowOffset: { width: 1, height: 1 },
-    shadowOpacity: 0.4,
-    shadowRadius: 2,  
-    elevation: 2,
+    ...Platform.select({
+      ios: {
+        shadowColor: "#000",
+        shadowOffset: { width: 1, height: 1 },
+        shadowOpacity: 0.4,
+        shadowRadius: 2,
+      },
+      default: {
+        shadowColor: "#000",
+        shadowOffset: { width: 1, height: 1 },
+        shadowOpacity: 0.4,
+        shadowRadius: 2,
+      },
+    }),
   },
   input: {
     height: 48,
     borderRadius: 5,
-    shadowColor: '#000',
-    shadowOffset: { width: 1, height: 1 },
-    shadowOpacity: 0.4,
-    shadowRadius: 2,  
-    elevation: 2,
+    ...Platform.select({
+      ios: {
+        shadowColor: "#000",
+        shadowOffset: { width: 1, height: 1 },
+        shadowOpacity: 0.4,
+        shadowRadius: 2,
+      },
+      android: {
+        elevation: 2,
+      },
+      default: {
+        shadowColor: "#000",
+        shadowOffset: { width: 1, height: 1 },
+        shadowOpacity: 0.4,
+        shadowRadius: 2,
+        elevation: 2,
+      },
+    }),
     backgroundColor: "white",
     marginTop: 10,
     marginBottom: 10,
@@ -148,11 +166,24 @@ const styles = StyleSheet.create({
   },
   button: {
     backgroundColor: "#68a678",
-    shadowColor: '#000',
-    shadowOffset: { width: 1, height: 1 },
-    shadowOpacity: 0.4,
-    shadowRadius: 2,  
-    elevation: 2,
+    ...Platform.select({
+      ios: {
+        shadowColor: "#000",
+        shadowOffset: { width: 1, height: 1 },
+        shadowOpacity: 0.4,
+        shadowRadius: 2,
+      },
+      android: {
+        elevation: 2,
+      },
+      default: {
+        shadowColor: "#000",
+        shadowOffset: { width: 1, height: 1 },
+        shadowOpacity: 0.4,
+        shadowRadius: 2,
+        elevation: 2,
+      },
+    }),
     marginLeft: 30,
     marginRight: 30,
     marginTop: 20,
