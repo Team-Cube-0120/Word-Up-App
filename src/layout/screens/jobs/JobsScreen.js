@@ -1,22 +1,27 @@
 
 import React, { Component } from 'react';
 import { StyleSheet, Text, View, Image, ScrollView } from 'react-native';
-import myIcon from '../../../../assets/snack-icon.png';
+import plusIcon from '../../../../assets/plus-icon.png';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 
 class JobsScreen extends Component {
   render() {
     const navigation = this.props.navigation
     return (
-      <ScrollView style={styles.container}>
-        <Text style={styles.text}>Hello</Text>
+      <View style={styles.container}>
+        <ScrollView>
+        </ScrollView>
+        <View style={styles.addJobParentView}>
           <TouchableOpacity
+            style={styles.touchableOpacityView}
             onPress={() => navigation.navigate('CreateJobs')}>
             <Image
-              source={myIcon}
-              />
+              style={styles.floatingButton}
+              source={plusIcon}
+            />
           </TouchableOpacity>
-      </ScrollView>
+        </View>
+      </View>
     );
   }
 }
@@ -28,31 +33,22 @@ const styles = StyleSheet.create({
     backgroundColor: 'white'
   },
 
-  text: {
-    position: 'relative'
+  addJobParentView: {
+    alignSelf: 'flex-end',
+    marginRight: 20,
+    marginBottom: 20
   },
 
-  addJobView: {
-    position: 'absolute',
-    left: 330,
-    top: 620
-  },
-
-  addJob: {
-    width: 50,
-    height: 50,
-    alignItems: 'center',
-    justifyContent: 'center',
+  touchableOpacityView: {
+    width: 75,
+    height: 75,
   },
 
   floatingButton: {
-    resizeMode: 'contain',
-    width: 50,
-    height: 50,
-    backgroundColor:'black'
+    position: 'absolute',
+    width: 75,
+    height: 75
   },
-
-
 });
 
 export default JobsScreen;

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import {
   Image,
   Text,
@@ -7,8 +7,9 @@ import {
   View,
   StyleSheet,
   ScrollView,
+  Platform,
 } from "react-native";
-import { firebase } from "../../../../server/firebase/firebaseConfig";
+import { firebase } from "../../../../server/config/firebase/firebaseConfig";
 import icon from "../../../../assets/icon2.png";
 
 export default function RegistrationScreen({ navigation }) {
@@ -16,6 +17,9 @@ export default function RegistrationScreen({ navigation }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const mail = useRef(null);
+  const pass = useRef(null);
+  const confirm = useRef(null);
 
   const onFooterLinkPress = () => {
     navigation.navigate("Login");
@@ -60,73 +64,73 @@ export default function RegistrationScreen({ navigation }) {
         keyboardShouldPersistTaps="always"
       >
         <Image style={styles.logo} source={icon} />
-          <TextInput
-            style={styles.input}
-            placeholder="Full Name"
-            placeholderTextColor="#aaaaaa"
-            returnKeyType={"next"}
-            onSubmitEditing={() => {
-              this.email.focus();
-            }}
-            onChangeText={(text) => setFullName(text)}
-            value={fullName}
-            underlineColorAndroid="transparent"
-            autoCapitalize="none"
-            blurOnSubmit={false}
-          />
+        <TextInput
+          style={styles.input}
+          placeholder="Full Name"
+          placeholderTextColor="#aaaaaa"
+          returnKeyType={"next"}
+          onSubmitEditing={() => {
+            mail.current.focus();
+          }}
+          onChangeText={(text) => setFullName(text)}
+          value={fullName}
+          underlineColorAndroid="transparent"
+          autoCapitalize="none"
+          blurOnSubmit={false}
+        />
 
-          <TextInput
-            style={styles.input}
-            ref={(input) => { this.email = input; }}
-            returnKeyType={"next"}
-            onSubmitEditing={() => {
-              this.password.focus();
-            }}
-            placeholder="Email"
-            placeholderTextColor="#aaaaaa"
-            onChangeText={(text) => setEmail(text)}
-            value={email}
-            underlineColorAndroid="transparent"
-            autoCapitalize="none"
-            blurOnSubmit={false}
-          />
+        <TextInput
+          style={styles.input}
+          ref={mail}
+          returnKeyType={"next"}
+          onSubmitEditing={() => {
+            pass.current.focus();
+          }}
+          placeholder="Email"
+          placeholderTextColor="#aaaaaa"
+          onChangeText={(text) => setEmail(text)}
+          value={email}
+          underlineColorAndroid="transparent"
+          autoCapitalize="none"
+          blurOnSubmit={false}
+        />
 
-          <TextInput
-            style={styles.input}
-            ref={(input) => { this.password = input; }}
-            returnKeyType={"next"}
-            onSubmitEditing={() => {
-              this.confirm.focus();
-            }}
-            placeholderTextColor="#aaaaaa"
-            secureTextEntry
-            placeholder="Password"
-            onChangeText={(text) => setPassword(text)}
-            value={password}
-            underlineColorAndroid="transparent"
-            autoCapitalize="none"
-            blurOnSubmit={false}
-          />
+        <TextInput
+          style={styles.input}
+          ref={pass}
+          returnKeyType={"next"}
+          onSubmitEditing={() => {
+            confirm.current.focus();
+          }}
+          placeholderTextColor="#aaaaaa"
+          secureTextEntry
+          placeholder="Password"
+          onChangeText={(text) => setPassword(text)}
+          value={password}
+          underlineColorAndroid="transparent"
+          autoCapitalize="none"
+          blurOnSubmit={false}
+        />
 
-          <TextInput
-            style={styles.input}
-            ref={(input) => { this.confirm = input; }}
-            returnKeyType={"done"}
-            placeholderTextColor="#aaaaaa"
-            secureTextEntry
-            placeholder="Confirm Password"
-            onChangeText={(text) => setConfirmPassword(text)}
-            value={confirmPassword}
-            underlineColorAndroid="transparent"
-            autoCapitalize="none"
-          />
+        <TextInput
+          style={styles.input}
+          ref={confirm}
+          returnKeyType={"done"}
+          placeholderTextColor="#aaaaaa"
+          secureTextEntry
+          placeholder="Confirm Password"
+          onChangeText={(text) => setConfirmPassword(text)}
+          value={confirmPassword}
+          underlineColorAndroid="transparent"
+          autoCapitalize="none"
+        />
 
-          <TouchableOpacity
-            style={styles.button}
-            onPress={() => onRegisterPress()}
-          >
-            <Text style={styles.buttonTitle}>Create account</Text>
-          </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.button}
+          onPress={() => onRegisterPress()}
+        >
+          <Text style={styles.buttonTitle}>Create account</Text>
+        </TouchableOpacity>
 
         <View style={styles.footerView}>
           <Text style={styles.footerText}>
@@ -153,21 +157,43 @@ const styles = StyleSheet.create({
     height: 120,
     width: 110,
     alignSelf: "center",
-    shadowColor: '#000',
-    shadowOffset: { width: 1, height: 1 },
-    shadowOpacity: 0.4,
-    shadowRadius: 2,  
-    elevation: 2,
+    ...Platform.select({
+      ios: {
+        shadowColor: "#000",
+        shadowOffset: { width: 1, height: 1 },
+        shadowOpacity: 0.4,
+        shadowRadius: 2,
+      },
+      default: {
+        shadowColor: "#000",
+        shadowOffset: { width: 1, height: 1 },
+        shadowOpacity: 0.4,
+        shadowRadius: 2,
+      },
+    }),
     margin: 30,
   },
   input: {
     height: 48,
     borderRadius: 5,
-    shadowColor: '#000',
-    shadowOffset: { width: 1, height: 1 },
-    shadowOpacity: 0.4,
-    shadowRadius: 2,  
-    elevation: 2,
+    ...Platform.select({
+      ios: {
+        shadowColor: "#000",
+        shadowOffset: { width: 1, height: 1 },
+        shadowOpacity: 0.4,
+        shadowRadius: 2,
+      },
+      android: {
+        elevation: 2,
+      },
+      default: {
+        shadowColor: "#000",
+        shadowOffset: { width: 1, height: 1 },
+        shadowOpacity: 0.4,
+        shadowRadius: 2,
+        elevation: 2,
+      },
+    }),
     backgroundColor: "white",
     marginTop: 10,
     marginBottom: 10,
@@ -177,11 +203,24 @@ const styles = StyleSheet.create({
   },
   button: {
     backgroundColor: "#68a678",
-    shadowColor: '#000',
-    shadowOffset: { width: 1, height: 1 },
-    shadowOpacity: 0.4,
-    shadowRadius: 2,  
-    elevation: 2,
+    ...Platform.select({
+      ios: {
+        shadowColor: "#000",
+        shadowOffset: { width: 1, height: 1 },
+        shadowOpacity: 0.4,
+        shadowRadius: 2,
+      },
+      android: {
+        elevation: 2,
+      },
+      default: {
+        shadowColor: "#000",
+        shadowOffset: { width: 1, height: 1 },
+        shadowOpacity: 0.4,
+        shadowRadius: 2,
+        elevation: 2,
+      },
+    }),
     marginLeft: 30,
     marginRight: 30,
     marginTop: 20,

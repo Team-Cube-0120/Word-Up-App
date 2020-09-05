@@ -3,6 +3,7 @@ import React, {useState, Component} from 'react';
 import {StyleSheet, Text, TextInput, Button, View, ScrollView ,SafeAreaView, TouchableOpacity} from 'react-native';
 import { Card, Input } from 'react-native-elements';
 import PickerExample from './PickerExample';
+import DateandTime from './DateandTime';
 
 
 class CreateEventsScreen extends Component {
@@ -14,6 +15,10 @@ class CreateEventsScreen extends Component {
                 <Card.Divider />
                     <Text style = {styles.text}>Position</Text>
                     <TextInput style = {styles.textInput} placeholder = "Event Name:"></TextInput>
+                    <DateandTime />
+                    <View>  
+                        <Text></Text>
+                    </View>
                     <Text style = {styles.text}>Details</Text>
                     <TextInput style = {styles.textInput} placeholder = "Details:"></TextInput>
                     <Text style = {styles.text}>Location</Text>
@@ -25,7 +30,8 @@ class CreateEventsScreen extends Component {
                
                     <Text style = {styles.text}>Choose an Event Type</Text>
                     <PickerExample />
-
+                    
+                    
                 <TouchableOpacity style = {styles.button}>
                     <Text style = {styles.btnText}>Create Event</Text>
                 </TouchableOpacity>
@@ -52,7 +58,6 @@ const styles = StyleSheet.create({
     text: {
         fontSize: 16,
         marginBottom: 5,
-        fontFamily: 'sans-serif',
         fontWeight: 'bold'
     },
     header: {
