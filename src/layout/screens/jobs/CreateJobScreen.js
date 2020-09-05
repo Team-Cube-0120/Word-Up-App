@@ -149,7 +149,8 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         borderRadius: 10,
         paddingLeft: 10,
-        height: 40
+        marginBottom: 20,
+        height: 40,
     },
 
     textInputMultipleLine: {
@@ -165,15 +166,14 @@ const styles = StyleSheet.create({
 
     text: {
         fontSize: 16,
-        marginBottom: 5,
-        fontFamily: 'sans-serif',
+        marginBottom: 7,
         fontWeight: 'bold'
     },
 
     viewItem: {
         width: '100%',
-        marginBottom: '5%'
-    }
+        marginBottom: 10,
+        }
 })
 
 export default CreateJobScreen;

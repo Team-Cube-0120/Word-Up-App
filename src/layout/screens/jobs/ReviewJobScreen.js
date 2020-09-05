@@ -139,12 +139,10 @@ const styles = StyleSheet.create({
     title: {
         fontWeight: 'bold',
         marginRight: '1%',
-        fontFamily: 'sans-serif',
         fontSize: 16
     },
 
     value: {
-        fontFamily: 'sans-serif',
         fontSize: 16
     },
 

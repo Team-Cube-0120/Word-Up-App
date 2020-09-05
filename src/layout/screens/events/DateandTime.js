@@ -6,6 +6,7 @@ import DateTimePicker from '@react-native-community/datetimepicker';
 const DateandTime = () => {
     const onChange = (event, selectedDate) => {
         const currentDate = selectedDate || date;
+        alert(currentDate);
         setShow(Platform.OS === 'ios');
         setDate(currentDate);
       };
@@ -77,7 +78,6 @@ const DateandTime = () => {
 const styles = StyleSheet.create({
     text: {
         fontSize: 16,
-        fontFamily: 'sans-serif',
         fontWeight: 'bold',
         marginRight: 10,
         marginLeft:20,
