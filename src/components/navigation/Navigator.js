@@ -11,6 +11,7 @@ import EventsStackScreen from './EventsStackNavigator';
 import EventsScreen from '../../layout/screens/events/EventsScreen';
 import AlertsStackScreen from './AlertsStackNavigator';
 import AlertsScreen from '../../layout/screens/alerts/AlertsScreen';
+import LoginStackScreen from './LoginStackNavigator';
 
 // const TabNavigator = createMaterialBottomTabNavigator(
 //   {
