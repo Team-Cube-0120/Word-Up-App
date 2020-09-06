@@ -7,6 +7,16 @@ import DateandTime from './DateandTime';
 
 
 class CreateEventsScreen extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            eventName: '',
+            details: '',
+            location: '',
+            rsvpCode: '',
+            coHosts: '',    
+        }
+    }
     render() {
         return ( 
         <ScrollView style={styles.container}>
@@ -14,26 +24,35 @@ class CreateEventsScreen extends Component {
                 <Card.Title>Create Event</Card.Title>
                 <Card.Divider />
                     <Text style = {styles.text}>Position</Text>
-                    <TextInput style = {styles.textInput} placeholder = "Event Name:"></TextInput>
+                    <TextInput style = {styles.textInput} placeholder = "Event Name:" 
+                        onChangeText={(eventName) => this.setState({ eventName: eventName })}></TextInput>
                     <DateandTime />
                     <View>  
                         <Text></Text>
                     </View>
                     <Text style = {styles.text}>Details</Text>
-                    <TextInput style = {styles.textInput} placeholder = "Details:"></TextInput>
+                    <TextInput style = {styles.textInput} placeholder = "Details:"
+                         onChangeText={(details) => this.setState({ details: details })}></TextInput>
                     <Text style = {styles.text}>Location</Text>
-                    <TextInput style = {styles.textInput} placeholder = "Location:"></TextInput>
+                    <TextInput style = {styles.textInput} placeholder = "Location:" 
+                         onChangeText={(location) => this.setState({ location: location })}></TextInput>
                     <Text style = {styles.text}>RSVP Code</Text>
-                    <TextInput style = {styles.textInput} placeholder = "RSVP Code:"></TextInput>
+                    <TextInput style = {styles.textInput} placeholder = "RSVP Code:"
+                         onChangeText={(rsvpCode) => this.setState({ rsvpCode: rsvpCode })}></TextInput>
                     <Text style = {styles.text}>Co-hosts</Text>
-                    <TextInput style = {styles.textInput} placeholder = "Co-hosts:"></TextInput>
+                    <TextInput style = {styles.textInput} placeholder = "Co-hosts:"
+                         onChangeText={(coHosts) => this.setState({ coHosts: coHosts })}></TextInput>
                
                     <Text style = {styles.text}>Choose an Event Type</Text>
                     <PickerExample />
                     
                     
-                <TouchableOpacity style = {styles.button}>
-                    <Text style = {styles.btnText}>Create Event</Text>
+                <TouchableOpacity>
+                    {/* <Text style = {styles.btnText}>Create Event</Text> */}
+                    <Button
+                        title="Create Event"
+                        onPress={() => this.props.navigation.push('ReviewEvents', { eventInfo: this.state })}
+                    ></Button>
                 </TouchableOpacity>
             </Card>
         </ScrollView>
@@ -73,7 +92,6 @@ const styles = StyleSheet.create({
         alignSelf: 'stretch',
         height: 40,
         marginBottom: 30,
-        color: '#59cbbd',
         borderColor: 'gray',
         borderWidth: 1,
         paddingLeft: 10,
