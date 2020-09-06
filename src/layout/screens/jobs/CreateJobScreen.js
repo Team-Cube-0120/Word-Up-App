@@ -24,7 +24,7 @@ class CreateJobScreen extends Component {
     render() {
         return (
             <View>
-                <ScrollView>
+                <ScrollView style = {styles.container}>
                     <Card>
                         <Card.Title>New Job Listing</Card.Title>
                         <Card.Divider />
@@ -144,6 +144,11 @@ class CreateJobScreen extends Component {
 }
 
 const styles = StyleSheet.create({
+    container: {  
+        backgroundColor: '#36485f',
+        flexDirection: 'column',
+        padding: 5,    
+    },  
     textInput: {
         borderColor: 'gray',
         borderWidth: 1,

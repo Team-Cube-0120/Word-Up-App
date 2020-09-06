@@ -9,8 +9,10 @@ class JobsScreen extends Component {
     const navigation = this.props.navigation
     return (
       <View style={styles.container}>
-        <ScrollView>
+        <ScrollView>  
+        <Text style={styles.header}>Jobs Screen</Text>
         </ScrollView>
+        
         <View style={styles.addJobParentView}>
           <TouchableOpacity
             style={styles.touchableOpacityView}
@@ -32,7 +34,15 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: 'white'
   },
-
+  header: {
+    fontSize: 24,
+    color: '#36485f',
+    paddingBottom: 10,
+    marginBottom:20,
+    borderBottomColor: '#36485f',
+    borderBottomWidth: 1,
+    alignSelf: "center",
+    },
   addJobParentView: {
     alignSelf: 'flex-end',
     marginRight: 20,
