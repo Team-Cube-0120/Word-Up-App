@@ -15,11 +15,7 @@ class CreateEventsScreen extends Component {
             location: '',
             rsvpCode: '',
             coHosts: '',
-            eventType: '',
-            startDate: '',
-            startTime: '',
-            endDate: '',
-            endTime: '',
+            eventType: ''
         }
     }
     render() {
