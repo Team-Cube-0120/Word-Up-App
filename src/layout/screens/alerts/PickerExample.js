@@ -1,40 +1,42 @@
 
 import React, { Component } from 'react';
 import { View, Text, Picker, StyleSheet } from 'react-native'
+import PropTypes from 'prop-types';
 
 class PickerExample extends Component {
-    state = {user: ''}
-    updateUser = (user) => {
-    this.setState({ user: user })
-   }
-   render() {
+    static propTypes = {
+        value: PropTypes.string,
+        onSelection: PropTypes.func
+    }
+    
+    render() {
         return (
-        <View>
-                <Picker selectedValue = {this.state.user} 
-                        style = {styles.picker}
-                        onValueChange = {this.updateUser}>
-                    <Picker.Item label="Weather" value="Default" />
-                    <Picker.Item label="Emergency" value="Outdoor" />
+            <View>
+                <Picker selectedValue={this.props.value}
+                    style={styles.picker}
+                    onValueChange={(itemValue, itemPosition) => this.props.onSelection(itemValue)} >
+                        <Picker.Item label="Weather" value="Weather" />
+                        <Picker.Item label="Emergency" value="Emergency" />
                 </Picker>
             </View>
         )
     }
 }
 
- 
+
 export default PickerExample;
 
 const styles = StyleSheet.create({
-   text: {
-      fontSize: 30,
-      alignSelf: 'center',
-      color: 'red'
-   },
-   picker:{
-    height: 40,
-    marginBottom: 30,
-    color: 'gray',
-    borderColor: 'gray',
-    borderWidth: 1,
+    text: {
+        fontSize: 30,
+        alignSelf: 'center',
+        color: 'red'
+    },
+    picker: {
+        height: 40,
+        marginBottom: 30,
+        color: 'gray',
+        borderColor: 'gray',
+        borderWidth: 1,
     },
 })
