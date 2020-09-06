@@ -14,7 +14,8 @@ class CreateEventsScreen extends Component {
             details: '',
             location: '',
             rsvpCode: '',
-            coHosts: '',    
+            coHosts: '',
+            eventType: ''
         }
     }
     render() {
@@ -44,7 +45,8 @@ class CreateEventsScreen extends Component {
                          onChangeText={(coHosts) => this.setState({ coHosts: coHosts })}></TextInput>
                
                     <Text style = {styles.text}>Choose an Event Type</Text>
-                    <PickerExample />
+                    <PickerExample value={this.state.eventType}
+                        onSelection={(eventType) => this.setState({ eventType: eventType })}/>
                     
                     
                 <TouchableOpacity>

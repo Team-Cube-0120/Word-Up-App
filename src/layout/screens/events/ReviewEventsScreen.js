@@ -77,6 +77,10 @@ class ReviewJobScreen extends Component {
                             <Text style={styles.title}>Co-Hosts: </Text>
                             <Text style={styles.value}>{this.eventInfo.coHosts}</Text>
                         </View>
+                        <View style={styles.containerView}>
+                            <Text style={styles.title}>Event Type: </Text>
+                            <Text style={styles.value}>{this.eventInfo.eventType}</Text>
+                        </View>
                        
                         <View style={styles.buttonView}>
                             <Button style={styles.buttonLeft}

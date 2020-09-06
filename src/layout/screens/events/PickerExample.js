@@ -1,18 +1,19 @@
 
 import React, { Component } from 'react';
 import { View, Text, Picker, StyleSheet } from 'react-native'
+import PropTypes from 'prop-types';
 
 class PickerExample extends Component {
-    state = {user: ''}
-    updateUser = (user) => {
-    this.setState({ user: user })
-   }
+    static propTypes = {
+        value: PropTypes.string,
+        onSelection: PropTypes.func
+    }
    render() {
         return (
         <View>
-                <Picker selectedValue = {this.state.user} 
+                <Picker selectedValue = {this.props.value} 
                         style = {styles.picker}
-                        onValueChange = {this.updateUser}>
+                        onValueChange={(itemValue, itemPosition) => this.props.onSelection(itemValue)}>
                     <Picker.Item label="Meeting" value="Default" />
                     <Picker.Item label="Outdoor" value="Outdoor" />
                     <Picker.Item label="Party" value="Party" />
