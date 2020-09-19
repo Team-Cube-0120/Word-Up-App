@@ -10,7 +10,7 @@ const JobsStack = createStackNavigator();
 const JobsStackScreen = () => {
     return (
         <JobsStack.Navigator>
-            <JobsStack.Screen name="Jobs" component={JobsScreen} />
+            <JobsStack.Screen name="Jobs" component={JobsScreen} options={{headerLeft: null}}/>
             <JobsStack.Screen name="CreateJobs" component={CreateJobScreen} />
             <JobsStack.Screen name="ReviewJobs" component={ReviewJobScreen} />
         </JobsStack.Navigator>

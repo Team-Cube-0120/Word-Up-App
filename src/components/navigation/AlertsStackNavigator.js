@@ -9,7 +9,7 @@ const AlertsStack = createStackNavigator();
 const AlertsStackScreen = () => {
     return (
         <AlertsStack.Navigator>
-            <AlertsStack.Screen name="Alerts" component={AlertsScreen} />
+            <AlertsStack.Screen name="Alerts" component={AlertsScreen} options={{headerLeft: null}}/>
             <AlertsStack.Screen name="CreateAlerts" component={CreateAlertsScreen} />
             <AlertsStack.Screen name="ReviewAlerts" component={ReviewAlertsScreen} />
         </AlertsStack.Navigator>

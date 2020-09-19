@@ -7,7 +7,7 @@ export default function MainScreen({navigation}) {
     const onLoginOutPress = async () => {
             try {
                 await firebase.auth().signOut();
-                navigation.navigate("Logout");
+                navigation.navigate("Login");
             } catch (e) {
                 console.log(e);
             }

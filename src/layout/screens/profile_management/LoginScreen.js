@@ -37,7 +37,8 @@ export default function LoginScreen({ navigation }) {
               alert("User does not exist anymore.");
               return;
             }
-            navigation.navigate("Home");
+            navigation.navigate("TabNavigator");
+            // navigation.navigate("TabNavigator", { screen: 'Events' });
           })
           .catch((error) => {
             alert(error);
