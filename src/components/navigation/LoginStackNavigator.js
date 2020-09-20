@@ -11,7 +11,7 @@ const LoginStackScreen = () => {
     return (
         <LoginStack.Navigator>
             <LoginStack.Screen name="Login" component={LoginScreen} options={{headerLeft: null}}/>
-            <LoginStack.Screen name="Registration" component={RegistrationScreen} />
+            <LoginStack.Screen name="Registration" component={RegistrationScreen} options={{headerLeft: null}} />
             <LoginStack.Screen name="Settings" component= {SettingsScreen} options={{headerLeft: null}}/>
         </LoginStack.Navigator>
     )

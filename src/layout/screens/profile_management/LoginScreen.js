@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { Component, useState, useRef } from "react";
 import {
   Image,
   Text,
@@ -7,11 +7,11 @@ import {
   View,
   StyleSheet,
   ScrollView,
+  Platform
 } from "react-native";
 import { firebase } from "../../../../server/config/firebase/firebaseConfig";
 import icon from "../../../../assets/icon2.png";
 
-// import Card from "react-native-Card";
 
 export default function LoginScreen({ navigation }) {
   const [email, setEmail] = useState("");
@@ -19,6 +19,7 @@ export default function LoginScreen({ navigation }) {
   const pass = useRef(null);
 
   const onFooterLinkPress = () => {
+
     navigation.navigate("Registration");
   };
 
@@ -37,7 +38,10 @@ export default function LoginScreen({ navigation }) {
               alert("User does not exist anymore.");
               return;
             }
+            setEmail("")
+            setPassword("")
             navigation.navigate("TabNavigator");
+
             // navigation.navigate("TabNavigator", { screen: 'Events' });
           })
           .catch((error) => {
@@ -212,3 +216,206 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
 });
+
+// import Card from "react-native-Card";
+
+// class LoginScreen extends Component{
+//   constructor(props) {
+//     super(props);
+//     this.state = {
+//       email: "",
+//       password: ""
+//     };
+//     this.passInput = React.createRef()
+//   }
+
+//   onLoginPress = () => {
+//     firebase
+//       .auth()
+//       .signInWithEmailAndPassword(this.state.email, this.state.password)
+//       .then((response) => {
+//         const uid = response.user.uid;
+//         const usersRef = firebase.firestore().collection("users");
+//         usersRef
+//           .doc(uid)
+//           .get()
+//           .then((firestoreDocument) => {
+//             if (!firestoreDocument.exists) {
+//               alert("User does not exist anymore.");
+//               return;
+//             }
+//             this.props.navigation.navigate("TabNavigator");
+//             // navigation.navigate("TabNavigator", { screen: 'Events' });
+//           })
+//           .catch((error) => {
+//             alert(error);
+//           });
+//       })
+//       .catch((error) => {
+//         alert(error);
+//       });
+//   }
+
+//   render(){
+//     const navigation = this.props.navigation
+//     return (
+//       <View style={styles.container}>
+//         <ScrollView
+//           style={{ flex: 1, width: "100%" }}
+//           keyboardShouldPersistTaps="always"
+//         >
+//           <Image style={styles.logo} source={icon} />
+  
+//           <TextInput
+//             style={styles.input}
+//             placeholder="Email"
+//             returnKeyType={"next"}
+//             onSubmitEditing={() => {
+//               this.passInput.current.focus();
+//             }}
+//             placeholderTextColor="#aaaaaa"
+//             onChangeText={(text) => this.setState({email: text})}
+//             value={this.state.email}
+//             underlineColorAndroid="transparent"
+//             autoCapitalize="none"
+//             blurOnSubmit={false}
+//           />
+  
+//           <TextInput
+//             style={styles.input}
+//             ref={this.passInput}
+//             placeholderTextColor="#aaaaaa"
+//             secureTextEntry
+//             placeholder="Password"
+//             onChangeText={(text) => this.setState({password: text})}
+//             value={this.state.password}
+//             underlineColorAndroid="transparent"
+//             autoCapitalize="none"
+//             returnKeyType={"done"}
+//           />
+  
+//           <TouchableOpacity style={styles.button} onPress={() => this.onLoginPress()}>
+//             <Text style={styles.buttonTitle}>Log in</Text>
+//           </TouchableOpacity>
+  
+//           <View style={styles.footerView}>
+//             <Text style={styles.footerText}>
+//               Don't have an account?{" "}
+//               <Text onPress={() => navigation.navigate('Settings')} style={styles.footerLink}>
+//                 Sign up
+//               </Text>
+//             </Text>
+//           </View>
+//         </ScrollView>
+//       </View>
+//     );
+//   }
+// }
+
+
+// const styles = StyleSheet.create({
+//   container: {
+//     flex: 1,
+//     alignItems: "center",
+//     backgroundColor: "#ffff",
+//   },
+//   title: {},
+//   logo: {
+//     flex: 1,
+//     height: 120,
+//     width: 110,
+//     alignSelf: "center",
+//     margin: 30,
+//     ...Platform.select({
+//       ios: {
+//         shadowColor: "#000",
+//         shadowOffset: { width: 1, height: 1 },
+//         shadowOpacity: 0.4,
+//         shadowRadius: 2,
+//       },
+//       default: {
+//         shadowColor: "#000",
+//         shadowOffset: { width: 1, height: 1 },
+//         shadowOpacity: 0.4,
+//         shadowRadius: 2,
+//       },
+//     }),
+//   },
+//   input: {
+//     height: 48,
+//     borderRadius: 5,
+//     ...Platform.select({
+//       ios: {
+//         shadowColor: "#000",
+//         shadowOffset: { width: 1, height: 1 },
+//         shadowOpacity: 0.4,
+//         shadowRadius: 2,
+//       },
+//       android: {
+//         elevation: 2,
+//       },
+//       default: {
+//         shadowColor: "#000",
+//         shadowOffset: { width: 1, height: 1 },
+//         shadowOpacity: 0.4,
+//         shadowRadius: 2,
+//         elevation: 2,
+//       },
+//     }),
+//     backgroundColor: "white",
+//     marginTop: 10,
+//     marginBottom: 10,
+//     marginLeft: 30,
+//     marginRight: 30,
+//     paddingLeft: 16,
+//   },
+//   button: {
+//     backgroundColor: "#68a678",
+//     ...Platform.select({
+//       ios: {
+//         shadowColor: "#000",
+//         shadowOffset: { width: 1, height: 1 },
+//         shadowOpacity: 0.4,
+//         shadowRadius: 2,
+//       },
+//       android: {
+//         elevation: 2,
+//       },
+//       default: {
+//         shadowColor: "#000",
+//         shadowOffset: { width: 1, height: 1 },
+//         shadowOpacity: 0.4,
+//         shadowRadius: 2,
+//         elevation: 2,
+//       },
+//     }),
+//     marginLeft: 30,
+//     marginRight: 30,
+//     marginTop: 20,
+//     height: 48,
+//     borderRadius: 5,
+//     alignItems: "center",
+//     justifyContent: "center",
+//   },
+//   buttonTitle: {
+//     color: "white",
+//     fontSize: 16,
+//     fontWeight: "bold",
+//   },
+//   footerView: {
+//     flex: 1,
+//     alignItems: "center",
+//     marginTop: 20,
+//   },
+//   footerText: {
+//     fontSize: 16,
+//     color: "#2e2e2d",
+//   },
+//   footerLink: {
+//     color: "#788eec",
+//     fontWeight: "bold",
+//     fontSize: 16,
+//   },
+// });
+
+// export default LoginScreen;
