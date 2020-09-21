@@ -43,7 +43,7 @@ class JobCard extends BaseCard {
                 </View>
                 <View style={this.styles.containerView}>
                     <Text style={this.styles.labels}>Date Posted</Text>
-                    <Text>5 days ago</Text>
+                    <Text>{this.props.data.datePosted}</Text>
                 </View>
             </View>
         )

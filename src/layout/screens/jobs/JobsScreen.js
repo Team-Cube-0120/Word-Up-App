@@ -1,6 +1,6 @@
 
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, Image, ScrollView, ActivityIndicator } from 'react-native';
+import { StyleSheet, Text, View, Image, ScrollView, ActivityIndicator, RefreshControl } from 'react-native';
 import plusIcon from '../../../../assets/plus-icon.png';
 import { TouchableHighlight, TouchableOpacity } from 'react-native-gesture-handler';
 import JobCard from '../../../components/card/JobCard';
@@ -12,26 +12,39 @@ class JobsScreen extends Component {
     super(props);
     this.state = {
       isLoading: true,
+      refreshing: false,
       jobs: []
     }
   }
 
   componentDidMount() {
+    this.fetchAllJobs();
+  }
+
+  fetchAllJobs() {
     ApiService.get('data/jobs/getAll?collection=jobs')
       .then((jobs) => {
-        this.setState({ isLoading: false, jobs: jobs })
+        this.setState({ isLoading: false, jobs: jobs, refreshing: false })
       })
       .catch((error) => {
-        this.setState({ jobs: <Text>Error Retrieving Data {error}</Text> })
+        this.setState({ jobs: <Text>Error Retrieving Data {error}</Text>, refreshing: false })
       })
+  }
+
+  onRefresh() {
+    this.setState({ refreshing: true });
+    this.fetchAllJobs();
   }
 
   render() {
     const navigation = this.props.navigation
-    let jobList = this.state.jobs.map((job, index) =>
-        <TouchableOpacity key={index}>
-          <JobCard title={job.position} data={job} />
-        </TouchableOpacity>)
+    let jobList =
+      (this.state.jobs.length > 0) ?
+        this.state.jobs.map((job, index) =>
+          <TouchableOpacity key={index}>
+            <JobCard title={job.position} data={job} />
+          </TouchableOpacity>)
+        : <Text>Error Retrieving Data</Text>
 
     if (this.state.isLoading) {
       return (
@@ -42,7 +55,8 @@ class JobsScreen extends Component {
 
     return (
       <View style={styles.container}>
-        <ScrollView>
+        <ScrollView
+          refreshControl={<RefreshControl refreshing={this.state.refreshing} onRefresh={() => this.onRefresh()} />}>
           {jobList}
         </ScrollView>
 
@@ -79,7 +93,7 @@ const styles = StyleSheet.create({
   addJobParentView: {
     alignSelf: 'flex-end',
     marginRight: 20,
-    marginBottom: 20
+    marginBottom: 20,
   },
 
   touchableOpacityView: {
