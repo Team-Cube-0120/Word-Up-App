@@ -28,8 +28,8 @@ app.post('/data/add', (req, res) => {
     let document = req.body.document;
     let data = req.body.data;
     firebaseFirestore.post(collection, document, data)
-        .then((message) => { res.send({Status: 200, Message: message})})
-        .catch((error) => { res.send({Status: 400, Message: error})});
+        .then((message) => { res.send({ Status: 200, Message: message }) })
+        .catch((error) => { res.send({ Status: 400, Message: error }) });
 });
 
 app.put('/data/update', (req, res) => {
@@ -37,17 +37,24 @@ app.put('/data/update', (req, res) => {
     let document = req.body.document;
     let data = req.body.data;
     firebaseFirestore.update(collection, document, data)
-        .then((message) => { res.send({Status: 200, Message: message})})
-        .catch((error) => { res.send({Status: 400, Message: error})});
+        .then((message) => { res.send({ Status: 200, Message: message }) })
+        .catch((error) => { res.send({ Status: 400, Message: error }) });
 });
 
 app.get('/data/get', (req, res) => {
     let collection = req.query.collection;
     let document = req.query.document;
     firebaseFirestore.get(collection, document)
-        .then((data) => { res.send(data)})
-        .catch((error) => { res.send({Status: 400, Message: error})});
+        .then((data) => { res.send({ Status: 200, data: data }) })
+        .catch((error) => { res.send({ Status: 400, Message: error }) });
 });
+
+app.get('/data/jobs/getAll', (req, res) => {
+    let collection = req.query.collection;
+    firebaseFirestore.getAll(collection)
+        .then((data) => { res.send({ Status: 200, data: data }) })
+        .catch((error) => { res.send({ Status: 400, Message: error }) })
+})
 
 app.listen(PORT, async () => {
     console.log("Server listening on port: " + PORT);

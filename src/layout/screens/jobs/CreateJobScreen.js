@@ -8,17 +8,17 @@ class CreateJobScreen extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            position: '',
-            jobType: '',
-            company: '',
-            jobDescription: '',
-            jobAppUrl: '',
-            email: '',
-            phoneNumber: '',
-            street: '',
-            city: '',
-            state: '',
-            zip: ''
+            position: 'NA',
+            jobType: 'NA',
+            company: 'NA',
+            jobDescription: 'NA',
+            jobAppUrl: 'NA',
+            email: 'NA',
+            phoneNumber: 'NA',
+            street: 'NA',
+            city: 'NA',
+            state: 'NA',
+            zip: 'NA'
         }
     }
     render() {
