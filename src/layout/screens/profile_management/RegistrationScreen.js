@@ -36,22 +36,35 @@ class RegistrationScreen extends Component{
       .auth()
       .createUserWithEmailAndPassword(this.state.email, this.state.password)
       .then((response) => {
-        const uid = response.user.uid;
-        const data = {
-          id: uid,
-          email,
-          fullName,
-        };
-        const usersRef = firebase.firestore().collection("users");
-        usersRef
-          .doc(uid)
-          .set(data)
-          .then(() => {
-            this.props.navigation.navigate("Home");
+        if (response.user) {
+         response.user.updateProfile({
+            displayName: this.state.naim
+          }).then((s)=> {
+            const uid = response.user.uid;
+            const data = {
+              id: uid,
+              email: this.state.email,
+              fullname: this.state.name,
+            };
+            const usersRef = firebase.firestore().collection("users");
+            usersRef
+              .doc(uid)
+              .set(data)
+              .then(() => {
+                this.setState({name: ""})
+                this.setState({email: ""})
+                this.setState({password: ""})
+                this.setState({confirmPassword: ""})
+                this.props.navigation.navigate("TabNavigator");
+              })
+              .catch((error) => {
+                alert(error);
+              });
           })
-          .catch((error) => {
-            alert(error);
-          });
+        } else {
+          alert("Account not found")
+        }
+
       })
       .catch((error) => {
         alert(error);
