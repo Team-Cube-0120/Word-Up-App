@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { Component, useState, useRef, useEffect } from "react";
 import {
   Image,
   Text,
@@ -7,11 +7,11 @@ import {
   View,
   StyleSheet,
   ScrollView,
+  Platform
 } from "react-native";
 import { firebase } from "../../../../server/config/firebase/firebaseConfig";
 import icon from "../../../../assets/icon2.png";
 
-// import Card from "react-native-Card";
 
 export default function LoginScreen({ navigation }) {
   const [email, setEmail] = useState("");
@@ -21,6 +21,7 @@ export default function LoginScreen({ navigation }) {
   const onFooterLinkPress = () => {
     navigation.navigate("Registration");
   };
+
 
   const onLoginPress = () => {
     firebase
@@ -37,7 +38,10 @@ export default function LoginScreen({ navigation }) {
               alert("User does not exist anymore.");
               return;
             }
+            setEmail("")
+            setPassword("")
             navigation.navigate("TabNavigator");
+
             // navigation.navigate("TabNavigator", { screen: 'Events' });
           })
           .catch((error) => {
@@ -212,3 +216,4 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
 });
+
