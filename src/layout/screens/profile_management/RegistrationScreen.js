@@ -34,7 +34,7 @@ class RegistrationScreen extends Component{
 
     firebase
       .auth()
-      .createUserWithEmailAndPassword(this.state.email, this.state.password)
+      .createUserWithEmailAndPassword(email, password)
       .then((response) => {
         const uid = response.user.uid;
         const data = {
@@ -47,7 +47,7 @@ class RegistrationScreen extends Component{
           .doc(uid)
           .set(data)
           .then(() => {
-            this.props.navigation.navigate("TabNavigator");
+            navigation.navigate("Home");
           })
           .catch((error) => {
             alert(error);
@@ -56,7 +56,7 @@ class RegistrationScreen extends Component{
       .catch((error) => {
         alert(error);
       });
-  }
+  };
 
   render() {
     return (
