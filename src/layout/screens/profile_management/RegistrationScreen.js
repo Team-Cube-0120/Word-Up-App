@@ -47,7 +47,7 @@ class RegistrationScreen extends Component{
           .doc(uid)
           .set(data)
           .then(() => {
-            this.props.navigation.navigate("Home");
+            this.props.navigation.navigate("TabNavigator");
           })
           .catch((error) => {
             alert(error);
