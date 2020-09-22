@@ -19,10 +19,10 @@ class ApiService {
         });
     }
 
-    static async get(apiPath, data) {
+    static async get(apiPath, data = {}) {
         return new Promise((resolve, reject) => {
             request(GET, apiPath, data)
-                .then((response) => resolve(response))
+                .then((response) => resolve(response.data))
                 .catch((error) => reject(error));
         });
     }

@@ -11,44 +11,51 @@ class FirebaseFirestore {
 
     async post(collection, document, data) {
         return new Promise(async (resolve, reject) => {
-            try {
-                this.database
-                    .collection(collection)
-                    .doc(document)
-                    .set(data)
-                    .then(() => resolve("Data successfully posted"));
-            } catch (error) {
-                reject("Error posting data: " + error);
-            }
+            this.database
+                .collection(collection)
+                .doc(document)
+                .set(data)
+                .then(() => resolve("Data successfully posted"))
+                .catch((error) => reject("Error posting data: " + error));
         });
     }
 
     async update(collection, document, data) {
         return new Promise((resolve, reject) => {
-            try {
-                this.database
-                    .collection(collection)
-                    .doc(document)
-                    .update(data)
-                    .then(() => resolve("Data successfully updated"));
-            } catch (error) {
-                reject("Error updating data: " + error)
-            }
+            this.database
+                .collection(collection)
+                .doc(document)
+                .update(data)
+                .then(() => resolve("Data successfully updated"))
+                .catch((error) => reject("Error updating data: " + error));
         });
     }
 
     async get(collection, document) {
         return new Promise((resolve, reject) => {
-            try {
-                this.database
-                    .collection(collection)
-                    .doc(document)
-                    .get()
-                    .then((payload) => resolve(payload.data()));
-            } catch (error) {
-                reject("Error retrieving data: " + error)
-            }
+            this.database
+                .collection(collection)
+                .doc(document)
+                .get()
+                .then((payload) => (payload.exists) ? resolve(payload.data()) : reject("Data does not exist in database"))
+                .catch((error) => reject("Error retrieving data: " + error));
         });
+    }
+
+    async getAll(collection) {
+        return new Promise((resolve, reject) => {
+            this.database
+                .collection(collection)
+                .get()
+                .then((payload) => {
+                    let data = [];
+                    payload.forEach((doc) => {
+                        data.push(doc.data());
+                    })
+                    resolve(data);
+                })
+                .catch((error) => reject("Error retrieving data: " + error));
+        })
     }
 }
 

@@ -21,14 +21,14 @@ class RequestOptions {
                     headers: {
                         'Content-Type': 'application/json'
                     },
-                    data: raw
+                    data: data
                 }
             default: 
                 return {
                     method: '',
                     url: MOCK_SERVICE_URL + apiPath,
                     headers: {},
-                    data: raw
+                    data: data
                 }
         }
     }
