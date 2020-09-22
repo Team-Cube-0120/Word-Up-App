@@ -8,17 +8,18 @@ class CreateJobScreen extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            position: '',
-            jobType: '',
-            company: '',
-            jobDescription: '',
-            jobAppUrl: '',
-            email: '',
-            phoneNumber: '',
-            street: '',
-            city: '',
-            state: '',
-            zip: ''
+            position: 'NA',
+            jobType: 'NA',
+            company: 'NA',
+            jobDescription: 'NA',
+            jobAppUrl: 'NA',
+            email: 'NA',
+            phoneNumber: 'NA',
+            street: 'NA',
+            city: 'NA',
+            state: 'NA',
+            zip: 'NA',
+            datePosted: new Date().toISOString().slice(0,10)
         }
     }
     render() {
@@ -86,21 +87,6 @@ class CreateJobScreen extends Component {
                                 style={styles.textInput}
                                 placeholder="e.g. http://google.com/careers/<job-id>"
                                 onChangeText={(jobAppUrl) => this.setState({ jobAppUrl: jobAppUrl })} />
-                        </View>
-                        <View style={styles.viewItem}>
-                            <Text style={styles.text}>Email</Text>
-                            <TextInput
-                                style={styles.textInput}
-                                placeholder="e.g. John.Doe@gmail.com"
-                                onChangeText={(email) => this.setState({ email: email })} />
-                        </View>
-                        <View style={styles.viewItem}>
-                            <Text style={styles.text}>Phone Number</Text>
-                            <TextInput
-                                style={styles.textInput}
-                                placeholder="e.g. 123-456-7890"
-                                onChangeText={(phoneNumber) => this.setState({ phoneNumber: phoneNumber })}
-                                />
                         </View>
                         <View style={styles.viewItem}>
                             <Text style={styles.text}>Street</Text>

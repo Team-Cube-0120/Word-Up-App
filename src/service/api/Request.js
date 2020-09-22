@@ -8,13 +8,13 @@ const request = async (method, apiPath, data) => {
                 .then((options) => axios(options))
                 .then((response) => {
                     if (response.data.Status == 200) {
-                        resolve(JSON.stringify(response.data)) 
+                        resolve(response.data) 
                     } else {
-                        reject(JSON.stringify(response.data));
+                        reject(response.data);
                     }
                 });
         } catch (error) {
-            reject({ Status: 400, Message: "Error POST data: " + error })
+            reject({ Status: 400, Message: "Error sending request: " + error })
         }
     });
 }

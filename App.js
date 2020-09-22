@@ -14,8 +14,5 @@ export default function App() {
         <Stack.Screen name="TabNavigator" component={TabNavigator} options={{ headerShown: false }} />
       </Stack.Navigator>
     </NavigationContainer>
-
   );
 }
-
-
