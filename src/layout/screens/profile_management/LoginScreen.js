@@ -11,6 +11,8 @@ import {
 } from "react-native";
 import { firebase } from "../../../../server/config/firebase/firebaseConfig";
 import icon from "../../../../assets/icon2.png";
+import { storeData, getData } from "../../../util/LocalStorage";
+import { USERINFO } from '../../../enums/StorageKeysEnum';
 
 
 export default function LoginScreen({ navigation }) {
@@ -33,16 +35,16 @@ export default function LoginScreen({ navigation }) {
         usersRef
           .doc(uid)
           .get()
-          .then((firestoreDocument) => {
+          .then(async (firestoreDocument) => {
             if (!firestoreDocument.exists) {
               alert("User does not exist anymore.");
               return;
+            } else {
+              setEmail("");
+              setPassword("");
+              await storeData(USERINFO, firestoreDocument.data());
+              navigation.navigate("TabNavigator");
             }
-            setEmail("")
-            setPassword("")
-            navigation.navigate("TabNavigator");
-
-            // navigation.navigate("TabNavigator", { screen: 'Events' });
           })
           .catch((error) => {
             alert(error);

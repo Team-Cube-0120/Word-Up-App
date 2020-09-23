@@ -16,7 +16,6 @@ class JobCard extends BaseCard {
     }
 
     render() {
-        console.log("state: " + this.props.data);
         let fields = this.renderCardViews();
         return (
             <Card>

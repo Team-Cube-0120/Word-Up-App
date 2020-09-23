@@ -13,6 +13,8 @@ import {
 import { CheckBox } from "react-native-elements";
 import { firebase } from "../../../../server/config/firebase/firebaseConfig";
 import icon from "../../../../assets/icon2.png";
+import { storeData } from "../../../util/LocalStorage";
+import { USERINFO } from '../../../enums/StorageKeysEnum';
 
 const screenWidth = Math.round(Dimensions.get("window").width);
 
@@ -44,7 +46,7 @@ class RegistrationScreen extends Component {
         if (response.user) {
           response.user
             .updateProfile({
-              displayName: this.state.naim,
+              displayName: this.state.name,
             })
             .then((s) => {
               const uid = response.user.uid;
@@ -59,12 +61,13 @@ class RegistrationScreen extends Component {
               usersRef
                 .doc(uid)
                 .set(data)
-                .then(() => {
+                .then(async () => {
                   this.setState({ name: "" });
                   this.setState({ email: "" });
                   this.setState({ password: "" });
                   this.setState({ confirmPassword: "" });
                   this.setState({ checked: false });
+                  await storeData(USERINFO, data);
                   this.props.navigation.navigate("TabNavigator");
                 })
                 .catch((error) => {
