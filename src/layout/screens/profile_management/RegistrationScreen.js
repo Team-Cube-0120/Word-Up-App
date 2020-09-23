@@ -11,6 +11,8 @@ import {
 } from "react-native";
 import { firebase } from "../../../../server/config/firebase/firebaseConfig";
 import icon from "../../../../assets/icon2.png";
+import storeData from "../../../util/LocalStorage";
+const USERINFO = require('../../../enums/StorageKeysEnum').USERINFO;
 
 export default function RegistrationScreen({ navigation }) {
   const [fullName, setFullName] = useState("");
@@ -45,7 +47,8 @@ export default function RegistrationScreen({ navigation }) {
         usersRef
           .doc(uid)
           .set(data)
-          .then(() => {
+          .then(async () => {
+            await storeData(USERINFO, data);
             navigation.navigate("Home");
           })
           .catch((error) => {

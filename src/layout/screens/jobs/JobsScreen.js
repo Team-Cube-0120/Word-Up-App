@@ -2,7 +2,7 @@
 import React, { Component } from 'react';
 import { StyleSheet, Text, View, Image, ScrollView, ActivityIndicator, RefreshControl } from 'react-native';
 import plusIcon from '../../../../assets/plus-icon.png';
-import { TouchableHighlight, TouchableOpacity } from 'react-native-gesture-handler';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 import JobCard from '../../../components/card/JobCard';
 import ApiService from '../../../service/api/ApiService';
 
@@ -31,7 +31,7 @@ class JobsScreen extends Component {
       })
   }
 
-  onRefresh() {
+  async onRefresh() {
     this.setState({ refreshing: true });
     this.fetchAllJobs();
   }
