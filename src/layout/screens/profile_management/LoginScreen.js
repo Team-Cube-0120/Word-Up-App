@@ -59,10 +59,6 @@ export default function LoginScreen({ navigation }) {
         style={{ flex: 1, width: "100%" }}
         keyboardShouldPersistTaps="always"
       >
-        {/* style={styles.cardStyle}
-          cardElevation={2}
-          cardMaxElevation={2}
-          cornerRadius={5} */}
 
         <Image style={styles.logo} source={icon} />
 
@@ -84,7 +80,6 @@ export default function LoginScreen({ navigation }) {
         <TextInput
           style={styles.input}
           ref={pass}
-          // ref={(input) => { password = input; }}
           placeholderTextColor="#aaaaaa"
           secureTextEntry
           placeholder="Password"
@@ -169,7 +164,7 @@ const styles = StyleSheet.create({
     paddingLeft: 16,
   },
   button: {
-    backgroundColor: "#68a678",
+    backgroundColor: "#2081a4",
     ...Platform.select({
       ios: {
         shadowColor: "#000",
