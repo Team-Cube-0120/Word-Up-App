@@ -12,7 +12,7 @@ import {
 import { firebase } from "../../../../server/config/firebase/firebaseConfig";
 import icon from "../../../../assets/icon2.png";
 import { storeData, getData } from "../../../util/LocalStorage";
-const USERINFO = require('../../../enums/StorageKeysEnum').USERINFO;
+import { USERINFO } from '../../../enums/StorageKeysEnum';
 
 
 export default function LoginScreen({ navigation }) {
