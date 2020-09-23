@@ -49,7 +49,6 @@ class CreateEventsScreen extends Component {
                     
                     
                 <TouchableOpacity>
-                    {/* <Text style = {styles.btnText}>Create Event</Text> */}
                     <Button
                         title="Create Event"
                         onPress={() => this.props.navigation.push('ReviewEvents', { eventInfo: this.state })}

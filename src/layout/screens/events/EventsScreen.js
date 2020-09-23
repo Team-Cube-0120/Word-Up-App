@@ -1,29 +1,80 @@
 
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, Image, ScrollView } from 'react-native';
-import myIcon from '../../../../assets/snack-icon.png';
+import { StyleSheet, Text, View, Image, ScrollView,ActivityIndicator, RefreshControl } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
+import EventCard from '../../../components/card/EventCard';
+import ApiService from '../../../service/api/ApiService';
 
 class EventsScreen extends Component {
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      isLoading: true,
+      refreshing: false,
+      events: []
+    }
+  }
+
+  componentDidMount() {
+    this.fetchAllEvents();
+  }
+
+  fetchAllEvents() {
+    ApiService.get('data/events/getAll?collection=events')
+      .then((events) => {
+        this.setState({ isLoading: false, events: events, refreshing: false })
+      })
+      .catch((error) => {
+        this.setState({ events: <Text>Error Retrieving Data {error}</Text>, refreshing: false })
+      })
+  }
+
+  async onRefresh() {
+    this.setState({ refreshing: true });
+    this.fetchAllEvents();
+  }
+
   render() {
     const navigation = this.props.navigation
+    let eventList =
+      (this.state.events.length > 0) ?
+        this.state.events.map((event, index) =>
+          <TouchableOpacity key={index}>
+            <EventCard title={event.eventName} data={event} />
+          </TouchableOpacity>)
+        : <Text>Error Retrieving Data</Text>
+
+    if (this.state.isLoading) {
+      return (
+        <View style={styles.container}>
+          <ActivityIndicator animating={this.state.isLoading} />
+        </View>)
+    }
+    
     return (
-      <ScrollView style={styles.container}>
-        <Text style={styles.header}>Event Screen</Text>
+      <View style={styles.container}>
+        <ScrollView
+          refreshControl={<RefreshControl refreshing={this.state.refreshing} onRefresh={() => this.onRefresh()} />}>
+          {eventList}
+        </ScrollView>
+
+        
           <TouchableOpacity style = {styles.button}
             onPress={() => navigation.navigate('CreateEvent')}>
             <Text style = {styles.btnText}>Create Event</Text>
           </TouchableOpacity>
-      </ScrollView>
+        
+      </View>
     );
   }
 }
 
 const styles = StyleSheet.create({
   container: {
-    flexDirection: 'column',
-    backgroundColor: 'white',
-    padding:20
+    position: 'relative',
+    flex: 1,
+    backgroundColor: 'white'
   },
   header: {
     fontSize: 24,
@@ -48,26 +99,17 @@ const styles = StyleSheet.create({
     fontWeight: "bold"
   },
 
-  addJobView: {
-    position: 'absolute',
-    left: 330,
-    top: 620
-  },
-
-  addJob: {
-    width: 50,
-    height: 50,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-
   floatingButton: {
     resizeMode: 'contain',
     width: 50,
     height: 50,
     backgroundColor:'black'
   },
-
+  addEventParentView: {
+    alignSelf: 'flex-end',
+    marginRight: 20,
+    marginBottom: 20,
+  },
 
 });
 
