@@ -1,4 +1,3 @@
- 
 import React, {useState, Component} from 'react';  
 import {StyleSheet, Text, TextInput, Button, View, ScrollView ,SafeAreaView, TouchableOpacity} from 'react-native';
 import { Card, Input } from 'react-native-elements';
@@ -113,5 +112,3 @@ const styles = StyleSheet.create({
 });  
 
 export default CreateEventsScreen;
-
-

@@ -7,58 +7,46 @@ import AsyncStorage from '@react-native-community/async-storage';
 import ApiService from '../../../service/api/ApiService';
 import { firebase } from "../../../../server/config/firebase/firebaseConfig";
 import { firestore } from 'firebase';
+import { getData } from "../../../util/LocalStorage";
+import { USERINFO } from '../../../enums/StorageKeysEnum';
 
 class AlertsScreen extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      users:[]
+      admin:false
     }
   }
 
   componentDidMount() {
-    this.getData().then((result))
+    this.getUserInfo()
   }
 
-
-  getAllUsers() { return new Promise((resolve, reject) => {
-    var userEmail = firebase.auth().currentUser.email;
-    firebase.firestore().collection("users").where("email", "==", userEmail)
-    .get()
-    .then(function(querySnapshot) {
-        querySnapshot.forEach(function(doc) {
-            // doc.data() is never undefined for query doc snapshots
-            resolve(doc.data())
-        });
-    })
-    .catch(function(error) {
-        reject("Error getting documents: ", error);
-    });
-   })}
-
-  getData = async () => {
-      try {
-        
-        return await this.getAllUsers()
-      } catch (error) {
-        alert(error)
-      }
-  };
-
-  
+  async getUserInfo() {
+    let userInfo = await getData(USERINFO)
+    this.setState({admin:userInfo.admin})
+  }
 
   render() {
     const navigation = this.props.navigation
-    console.log(this.getData())
-    return (
-      <ScrollView style={styles.container}>
-        <Text style={styles.header}>Alert Screen</Text>
-          <TouchableOpacity style = {styles.button}
-            onPress={() => navigation.navigate('CreateAlerts')}>
-            <Text style = {styles.btnText}>Create Alert</Text>
-          </TouchableOpacity>
-      </ScrollView>
-    );
+    if (this.state.admin) {
+      return (
+        <ScrollView style={styles.container}>
+          <Text style={styles.header}>Alert Screen</Text>
+            <TouchableOpacity style = {styles.button}
+              onPress={() => navigation.navigate('CreateAlerts')}>
+              <Text style = {styles.btnText}>Create Alert</Text>
+            </TouchableOpacity>
+        </ScrollView>
+      );
+    } else {
+      return (
+        <ScrollView style={styles.container}>
+          <Text style={styles.header}>Alert Screen</Text>
+        </ScrollView>
+      );
+    }
+    
   }
 }
 

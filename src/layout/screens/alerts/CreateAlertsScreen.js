@@ -75,7 +75,6 @@ const styles = StyleSheet.create({
     text: {
         fontSize: 16,
         marginBottom: 5,
-        fontFamily: 'sans-serif',
         fontWeight: 'bold'
     },
     header: {

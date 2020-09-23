@@ -56,7 +56,6 @@ class RegistrationScreen extends Component {
                 fullname: this.state.name,
                 admin: this.state.checked,
               };
-              this.storeData(this.state.checked)
               const usersRef = firebase.firestore().collection("users");
               usersRef
                 .doc(uid)

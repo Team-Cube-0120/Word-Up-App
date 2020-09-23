@@ -20,28 +20,43 @@ import { firebase } from "../../../../server/config/firebase/firebaseConfig";
 import profileImage from "../../../../assets/profile.png";
 import IoniconsIcon from "react-native-vector-icons/Ionicons";
 import MaterialCommunityIconsIcon from "react-native-vector-icons/MaterialCommunityIcons";
+import { getData } from "../../../util/LocalStorage";
+import { USERINFO } from "../../../enums/StorageKeysEnum";
 
-const screenWidth = Math.round(Dimensions.get('window').width)
-
+const screenWidth = Math.round(Dimensions.get("window").width);
 
 class SettingsScreen extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      fullname: "",
+      email: "",
+      admin: false,
     };
+  }
+
+  componentDidMount() {
+    this.getUserInfo();
+  }
+
+  async getUserInfo() {
+    let userInfo = await getData(USERINFO);
+    this.setState({ fullname: userInfo.fullname });
+    this.setState({ email: userInfo.email });
+    this.setState({ admin: userInfo.admin });
   }
 
   showAboutUs() {
     Alert.alert(
-      'WordUP',
-      'We are a team of Georgia Tech Students who are committed to making a difference in the lives of people through Technology. Our mission for this application is to be able to promote engagement and connectedness by enabling people to create and attend events within the community as well as allowing people to view local jobs and news.',
-      [  
+      "WordUP",
+      "We are a team of Georgia Tech Students who are committed to making a difference in the lives of people through Technology. Our mission for this application is to be able to promote engagement and connectedness by enabling people to create and attend events within the community as well as allowing people to view local jobs and news.",
+      [
         {
-          text: 'OK', 
-          onPress: () => ""
-        },   
-      ],   
-      { cancelable: false }, 
+          text: "OK",
+          onPress: () => "",
+        },
+      ],
+      { cancelable: false }
     );
   }
 
@@ -55,107 +70,225 @@ class SettingsScreen extends Component {
   };
 
   render() {
-    return (
-      <ScrollView style={styles.container}>
-        <View style={styles.userInfoSection}>
-          <View style={{ flexDirection: "row", marginTop: 10 }}>
-            <Avatar.Image source={profileImage} size={100} />
+    if (this.state.admin) {
+      return (
+        <ScrollView style={styles.container}>
+          <View style={styles.userInfoSection}>
+            <View style={{ flexDirection: "row", marginTop: 10 }}>
+              <Avatar.Image source={profileImage} size={100} />
+            </View>
+            <View>
+              <Title style={styles.title}>
+                {this.state.fullname + "(Admin)"}
+              </Title>
+            </View>
+            <View>
+              <Caption style={styles.caption}>{this.state.email}</Caption>
+            </View>
           </View>
-          <View>
-            <Title style={styles.title}>""</Title>
-          </View>
-          <View>
-            <Caption style={styles.caption}>email</Caption>
-          </View>
-        </View>
 
-        {/* divider */}
-        <View
-          style={styles.divider}
-        ></View>
-        
-        {/* Edit Profile Section */}
-        <View style={styles.infoBoxWrapper}>
-         <MaterialCommunityIconsIcon
-          name="account"
-          style={styles.icons}
-        ></MaterialCommunityIconsIcon>
-          <View>
-            <Title style={styles.menuTitleM}>Edit Profile</Title>
-            <IoniconsIcon name="ios-arrow-forward"
-            style={styles.arrow}
-            onPress={() => {
-              this.props.navigation.navigate("Edit Profile");
-            }}
-          ></IoniconsIcon>
-          </View>
-        </View>
+          {/* divider */}
+          <View style={styles.divider}></View>
 
-         {/* Change Password Section */}
-        <View style={styles.infoBoxWrapper}>
-        <MaterialCommunityIconsIcon
-          name="lock"
-          style={styles.icons}
-        ></MaterialCommunityIconsIcon>
-          <View>
-            <Title style={styles.menuTitleM}>Change Password</Title>
-            <IoniconsIcon name="ios-arrow-forward"
-            style={styles.arrow}
-          ></IoniconsIcon>
+          {/* Edit Profile Section */}
+          <View style={styles.infoBoxWrapper}>
+            <MaterialCommunityIconsIcon
+              name="account"
+              style={styles.icons}
+            ></MaterialCommunityIconsIcon>
+            <View>
+              <Title style={styles.menuTitleM}>Edit Profile</Title>
+              <IoniconsIcon
+                name="ios-arrow-forward"
+                style={styles.arrow}
+                onPress={() => {
+                  this.props.navigation.navigate("Edit Profile");
+                }}
+              ></IoniconsIcon>
+            </View>
           </View>
-        </View>
-        
-        {/* Notifications */}
-        <View style={styles.infoBoxWrapper}>
-        <MaterialCommunityIconsIcon
-          name="bell"
-          style={styles.icons}
-        ></MaterialCommunityIconsIcon>
-          <View>
-            <Title style={styles.menuTitleM}>Notifications</Title>
-            <Switch style={styles.switch}
+
+          {/* Change Password Section */}
+          <View style={styles.infoBoxWrapper}>
+            <MaterialCommunityIconsIcon
+              name="lock"
+              style={styles.icons}
+            ></MaterialCommunityIconsIcon>
+            <View>
+              <Title style={styles.menuTitleM}>Change Password</Title>
+              <IoniconsIcon
+                name="ios-arrow-forward"
+                style={styles.arrow}
+              ></IoniconsIcon>
+            </View>
+          </View>
+
+          {/* Notifications */}
+          <View style={styles.infoBoxWrapper}>
+            <MaterialCommunityIconsIcon
+              name="bell"
+              style={styles.icons}
+            ></MaterialCommunityIconsIcon>
+            <View>
+              <Title style={styles.menuTitleM}>Notifications</Title>
+              <Switch
+                style={styles.switch}
                 value={this.state.notifications}
-                onValueChange={value => this.setState({ notifications: value })}
+                onValueChange={(value) =>
+                  this.setState({ notifications: value })
+                }
               />
+            </View>
           </View>
-        </View>
 
-        {/* Get Feedback */}
-        <View style={styles.infoBoxWrapper}>
-        <MaterialCommunityIconsIcon
-          name="transcribe"
-          style={styles.icons}
-        ></MaterialCommunityIconsIcon>
-          <View>
-            <Title style={styles.menuTitleM}>Give Feedback</Title>
-            <IoniconsIcon name="ios-arrow-forward"
-            style={styles.arrow}
-          ></IoniconsIcon>
+          {/* Get Feedback */}
+          <View style={styles.infoBoxWrapper}>
+            <MaterialCommunityIconsIcon
+              name="transcribe"
+              style={styles.icons}
+            ></MaterialCommunityIconsIcon>
+            <View>
+              <Title style={styles.menuTitleM}>Give Feedback</Title>
+              <IoniconsIcon
+                name="ios-arrow-forward"
+                style={styles.arrow}
+              ></IoniconsIcon>
+            </View>
           </View>
-        </View>
 
-        {/* About Us */}
-        <View style={styles.infoBoxWrapper}>
-        <MaterialCommunityIconsIcon
-          name="information"
-          style={styles.icons}
-        ></MaterialCommunityIconsIcon>
-          <View>
-            <Title style={styles.menuTitleM}>About Us</Title>
-            <IoniconsIcon name="ios-arrow-forward"
-            style={styles.arrow}
-            onPress={() => this.showAboutUs()}
-            ></IoniconsIcon>
+          {/* About Us */}
+          <View style={styles.infoBoxWrapper}>
+            <MaterialCommunityIconsIcon
+              name="information"
+              style={styles.icons}
+            ></MaterialCommunityIconsIcon>
+            <View>
+              <Title style={styles.menuTitleM}>About Us</Title>
+              <IoniconsIcon
+                name="ios-arrow-forward"
+                style={styles.arrow}
+                onPress={() => this.showAboutUs()}
+              ></IoniconsIcon>
+            </View>
           </View>
-        </View>
 
-        <TouchableOpacity
-          style={styles.button}
-          onPress={() => this.onLoginOutPress()}>
-          <Text style={styles.buttonTitle}>Log Out</Text>
-        </TouchableOpacity>
-      </ScrollView>
-    );
+          <TouchableOpacity
+            style={styles.button}
+            onPress={() => this.onLoginOutPress()}
+          >
+            <Text style={styles.buttonTitle}>Log Out</Text>
+          </TouchableOpacity>
+        </ScrollView>
+      );
+    } else {
+      return (
+        <ScrollView style={styles.container}>
+          <View style={styles.userInfoSection}>
+            <View style={{ flexDirection: "row", marginTop: 10 }}>
+              <Avatar.Image source={profileImage} size={100} />
+            </View>
+            <View>
+              <Title style={styles.title}>{this.state.fullname}</Title>
+            </View>
+            <View>
+              <Caption style={styles.caption}>{this.state.email}</Caption>
+            </View>
+          </View>
+
+          {/* divider */}
+          <View style={styles.divider}></View>
+
+          {/* Edit Profile Section */}
+          <View style={styles.infoBoxWrapper}>
+            <MaterialCommunityIconsIcon
+              name="account"
+              style={styles.icons}
+            ></MaterialCommunityIconsIcon>
+            <View>
+              <Title style={styles.menuTitleM}>Edit Profile</Title>
+              <IoniconsIcon
+                name="ios-arrow-forward"
+                style={styles.arrow}
+                onPress={() => {
+                  this.props.navigation.navigate("Edit Profile");
+                }}
+              ></IoniconsIcon>
+            </View>
+          </View>
+
+          {/* Change Password Section */}
+          <View style={styles.infoBoxWrapper}>
+            <MaterialCommunityIconsIcon
+              name="lock"
+              style={styles.icons}
+            ></MaterialCommunityIconsIcon>
+            <View>
+              <Title style={styles.menuTitleM}>Change Password</Title>
+              <IoniconsIcon
+                name="ios-arrow-forward"
+                style={styles.arrow}
+              ></IoniconsIcon>
+            </View>
+          </View>
+
+          {/* Notifications */}
+          <View style={styles.infoBoxWrapper}>
+            <MaterialCommunityIconsIcon
+              name="bell"
+              style={styles.icons}
+            ></MaterialCommunityIconsIcon>
+            <View>
+              <Title style={styles.menuTitleM}>Notifications</Title>
+              <Switch
+                style={styles.switch}
+                value={this.state.notifications}
+                onValueChange={(value) =>
+                  this.setState({ notifications: value })
+                }
+              />
+            </View>
+          </View>
+
+          {/* Get Feedback */}
+          <View style={styles.infoBoxWrapper}>
+            <MaterialCommunityIconsIcon
+              name="transcribe"
+              style={styles.icons}
+            ></MaterialCommunityIconsIcon>
+            <View>
+              <Title style={styles.menuTitleM}>Give Feedback</Title>
+              <IoniconsIcon
+                name="ios-arrow-forward"
+                style={styles.arrow}
+              ></IoniconsIcon>
+            </View>
+          </View>
+
+          {/* About Us */}
+          <View style={styles.infoBoxWrapper}>
+            <MaterialCommunityIconsIcon
+              name="information"
+              style={styles.icons}
+            ></MaterialCommunityIconsIcon>
+            <View>
+              <Title style={styles.menuTitleM}>About Us</Title>
+              <IoniconsIcon
+                name="ios-arrow-forward"
+                style={styles.arrow}
+                onPress={() => this.showAboutUs()}
+              ></IoniconsIcon>
+            </View>
+          </View>
+
+          <TouchableOpacity
+            style={styles.button}
+            onPress={() => this.onLoginOutPress()}
+          >
+            <Text style={styles.buttonTitle}>Log Out</Text>
+          </TouchableOpacity>
+        </ScrollView>
+      );
+    }
   }
 }
 
@@ -188,14 +321,14 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     height: 80,
     alignItems: "center",
-    width:"90%",
-    marginLeft:screenWidth/20
+    width: "90%",
+    marginLeft: screenWidth / 20,
     // justifyContent: "center"
   },
   menuTitleM: {
-    flexDirection:"row",
-    alignItems:"center",
-    position:"relative",
+    flexDirection: "row",
+    alignItems: "center",
+    position: "relative",
     marginLeft: 15,
     fontSize: 20,
     fontWeight: "bold",
@@ -237,15 +370,15 @@ const styles = StyleSheet.create({
     left: screenWidth - 85,
     position: "absolute",
     color: "rgba(69,96,238,1)",
-    fontSize: 32
+    fontSize: 32,
   },
   switch: {
     left: screenWidth - 120,
     position: "absolute",
     color: "rgba(69,96,238,1)",
-    fontSize: 32
+    fontSize: 32,
   },
-  divider:{
+  divider: {
     width: screenWidth,
     height: 1,
     backgroundColor: "#E6E6E6",
@@ -261,8 +394,8 @@ const styles = StyleSheet.create({
   },
   icons: {
     color: "rgba(74,144,226,1)",
-    fontSize: 32
-  }
+    fontSize: 32,
+  },
 });
 
 export default SettingsScreen;
