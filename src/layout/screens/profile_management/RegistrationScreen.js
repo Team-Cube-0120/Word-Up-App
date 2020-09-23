@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { Component } from "react";
 import {
   Image,
   Text,
@@ -11,141 +11,158 @@ import {
 } from "react-native";
 import { firebase } from "../../../../server/config/firebase/firebaseConfig";
 import icon from "../../../../assets/icon2.png";
-import storeData from "../../../util/LocalStorage";
-const USERINFO = require('../../../enums/StorageKeysEnum').USERINFO;
+import { storeData } from "../../../util/LocalStorage";
+import { USERINFO } from '../../../enums/StorageKeysEnum';
 
-export default function RegistrationScreen({ navigation }) {
-  const [fullName, setFullName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
-  const mail = useRef(null);
-  const pass = useRef(null);
-  const confirm = useRef(null);
+class RegistrationScreen extends Component{
+  constructor(props){
+    super(props);
+    this.state = {
+      name: "",
+      email: "",
+      password: "",
+      confirmPassword: ""
+    };
+    this.passInput = React.createRef()
+    this.emailInput = React.createRef()
+    this.confirmInput = React.createRef()
+  }
 
-  const onFooterLinkPress = () => {
-    navigation.navigate("Login");
-  };
-
-  const onRegisterPress = () => {
-    if (password !== confirmPassword) {
+  onRegisterPress = () => {
+    if (this.state.password !== this.state.confirmPassword) {
       alert("Passwords don't match.");
       return;
     }
 
     firebase
-      .auth()
-      .createUserWithEmailAndPassword(email, password)
-      .then((response) => {
-        const uid = response.user.uid;
-        const data = {
-          id: uid,
-          email,
-          fullName,
-        };
-        const usersRef = firebase.firestore().collection("users");
-        usersRef
-          .doc(uid)
-          .set(data)
-          .then(async () => {
-            await storeData(USERINFO, data);
-            navigation.navigate("Home");
-          })
-          .catch((error) => {
-            alert(error);
-          });
-      })
-      .catch((error) => {
-        alert(error);
-      });
-  };
+    .auth()
+    .createUserWithEmailAndPassword(this.state.email, this.state.password)
+    .then((response) => {
+      if (response.user) {
+       response.user.updateProfile({
+          displayName: this.state.naim
+        }).then((s)=> {
+          const uid = response.user.uid;
+          const data = {
+            id: uid,
+            email: this.state.email,
+            fullname: this.state.name,
+          };
+          const usersRef = firebase.firestore().collection("users");
+          usersRef
+            .doc(uid)
+            .set(data)
+            .then(() => {
+              this.setState({name: ""})
+              this.setState({email: ""})
+              this.setState({password: ""})
+              this.setState({confirmPassword: ""})
+              await storeData(USERINFO, data);
+              this.props.navigation.navigate("TabNavigator");
+            })
+            .catch((error) => {
+              alert(error);
+            });
+        })
+      } else {
+        alert("Account not found")
+      }
 
-  return (
-    <View style={styles.container}>
-      <ScrollView
-        style={{ flex: 1, width: "100%" }}
-        keyboardShouldPersistTaps="always"
-      >
-        <Image style={styles.logo} source={icon} />
-        <TextInput
-          style={styles.input}
-          placeholder="Full Name"
-          placeholderTextColor="#aaaaaa"
-          returnKeyType={"next"}
-          onSubmitEditing={() => {
-            mail.current.focus();
-          }}
-          onChangeText={(text) => setFullName(text)}
-          value={fullName}
-          underlineColorAndroid="transparent"
-          autoCapitalize="none"
-          blurOnSubmit={false}
-        />
+    })
+    .catch((error) => {
+      alert(error);
+    });
+}
 
-        <TextInput
-          style={styles.input}
-          ref={mail}
-          returnKeyType={"next"}
-          onSubmitEditing={() => {
-            pass.current.focus();
-          }}
-          placeholder="Email"
-          placeholderTextColor="#aaaaaa"
-          onChangeText={(text) => setEmail(text)}
-          value={email}
-          underlineColorAndroid="transparent"
-          autoCapitalize="none"
-          blurOnSubmit={false}
-        />
-
-        <TextInput
-          style={styles.input}
-          ref={pass}
-          returnKeyType={"next"}
-          onSubmitEditing={() => {
-            confirm.current.focus();
-          }}
-          placeholderTextColor="#aaaaaa"
-          secureTextEntry
-          placeholder="Password"
-          onChangeText={(text) => setPassword(text)}
-          value={password}
-          underlineColorAndroid="transparent"
-          autoCapitalize="none"
-          blurOnSubmit={false}
-        />
-
-        <TextInput
-          style={styles.input}
-          ref={confirm}
-          returnKeyType={"done"}
-          placeholderTextColor="#aaaaaa"
-          secureTextEntry
-          placeholder="Confirm Password"
-          onChangeText={(text) => setConfirmPassword(text)}
-          value={confirmPassword}
-          underlineColorAndroid="transparent"
-          autoCapitalize="none"
-        />
-
-        <TouchableOpacity
-          style={styles.button}
-          onPress={() => onRegisterPress()}
+  render() {
+    return (
+      <View style={styles.container}>
+        <ScrollView
+          style={{ flex: 1, width: "100%" }}
+          keyboardShouldPersistTaps="always"
         >
-          <Text style={styles.buttonTitle}>Create account</Text>
-        </TouchableOpacity>
+          <Image style={styles.logo} source={icon} />
+          <TextInput
+            style={styles.input}
+            placeholder="Full Name"
+            placeholderTextColor="#aaaaaa"
+            returnKeyType={"next"}
+            onSubmitEditing={() => {
+              this.emailInput.current.focus();
+            }}
+            onChangeText={(text) => this.setState({name:text})}
+            value={this.state.name}
+            underlineColorAndroid="transparent"
+            autoCapitalize="none"
+            blurOnSubmit={false}
+          />
 
-        <View style={styles.footerView}>
-          <Text style={styles.footerText}>
-            Already got an account?{" "}
-            <Text onPress={onFooterLinkPress} style={styles.footerLink}>
-              Log in
+          <TextInput
+            style={styles.input}
+            ref={this.emailInput}
+            returnKeyType={"next"}
+            onSubmitEditing={() => {
+              this.passInput.current.focus();
+            }}
+            placeholder="Email"
+            placeholderTextColor="#aaaaaa"
+            onChangeText={(text) => this.setState({email:text})}
+            value={this.state.email}
+            underlineColorAndroid="transparent"
+            autoCapitalize="none"
+            blurOnSubmit={false}
+          />
+
+          <TextInput
+            style={styles.input}
+            ref={this.passInput}
+            returnKeyType={"next"}
+            onSubmitEditing={() => {
+              this.confirmInput.current.focus();
+            }}
+            placeholderTextColor="#aaaaaa"
+            secureTextEntry
+            placeholder="Password"
+            onChangeText={(text) => this.setState({password:text})}
+            value={this.state.password}
+            underlineColorAndroid="transparent"
+            autoCapitalize="none"
+            blurOnSubmit={false}
+          />
+
+          <TextInput
+            style={styles.input}
+            ref={this.confirmInput}
+            returnKeyType={"done"}
+            placeholderTextColor="#aaaaaa"
+            secureTextEntry
+            placeholder="Confirm Password"
+            onChangeText={(text) => this.setState({confirmPassword:text})}
+            value={this.state.confirmPassword}
+            underlineColorAndroid="transparent"
+            autoCapitalize="none"
+          />
+
+          <TouchableOpacity
+            style={styles.button}
+            onPress={() => this.onRegisterPress()}
+          >
+            <Text style={styles.buttonTitle}>Create account</Text>
+          </TouchableOpacity>
+
+          <View style={styles.footerView}>
+            <Text style={styles.footerText}>
+              Already got an account?{" "}
+              <Text onPress={() => this.props.navigation.navigate("Login")} style={styles.footerLink}>
+                Log in
+              </Text>
             </Text>
-          </Text>
-        </View>
-      </ScrollView>
-    </View>
-  );
+          </View>
+        </ScrollView>
+      </View>
+    )
+  }
+  
 }
 
 const styles = StyleSheet.create({
@@ -252,3 +269,5 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
 });
+
+export default RegistrationScreen;

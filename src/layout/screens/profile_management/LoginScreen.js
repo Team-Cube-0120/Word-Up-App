@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { Component, useState, useRef, useEffect } from "react";
 import {
   Image,
   Text,
@@ -7,13 +7,13 @@ import {
   View,
   StyleSheet,
   ScrollView,
+  Platform
 } from "react-native";
 import { firebase } from "../../../../server/config/firebase/firebaseConfig";
 import icon from "../../../../assets/icon2.png";
 import { storeData, getData } from "../../../util/LocalStorage";
 const USERINFO = require('../../../enums/StorageKeysEnum').USERINFO;
 
-// import Card from "react-native-Card";
 
 export default function LoginScreen({ navigation }) {
   const [email, setEmail] = useState("");
@@ -23,6 +23,7 @@ export default function LoginScreen({ navigation }) {
   const onFooterLinkPress = () => {
     navigation.navigate("Registration");
   };
+
 
   const onLoginPress = () => {
     firebase
@@ -39,6 +40,8 @@ export default function LoginScreen({ navigation }) {
               alert("User does not exist anymore.");
               return;
             } else {
+              setEmail("");
+              setPassword("");
               await storeData(USERINFO, firestoreDocument.data());
               navigation.navigate("TabNavigator");
             }
@@ -215,3 +218,4 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
 });
+
