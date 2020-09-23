@@ -18,18 +18,17 @@ class AlertsScreen extends Component {
     }
   }
 
-  componentDidMount() {
-    this.getUserInfo()
-  }
+  // componentDidMount() {
+  //   this.getUserInfo()
+  // }
 
-  async getUserInfo() {
-    let userInfo = await getData(USERINFO)
-    this.setState({admin:userInfo.admin})
-  }
+  // async getUserInfo() {
+  //   let userInfo = await getData(USERINFO)
+  //   this.setState({admin:userInfo.admin})
+  // }
 
   render() {
     const navigation = this.props.navigation
-    if (this.state.admin) {
       return (
         <ScrollView style={styles.container}>
           <Text style={styles.header}>Alert Screen</Text>
@@ -39,14 +38,6 @@ class AlertsScreen extends Component {
             </TouchableOpacity>
         </ScrollView>
       );
-    } else {
-      return (
-        <ScrollView style={styles.container}>
-          <Text style={styles.header}>Alert Screen</Text>
-        </ScrollView>
-      );
-    }
-    
   }
 }
 
