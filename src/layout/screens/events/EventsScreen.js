@@ -4,6 +4,9 @@ import { StyleSheet, Text, View, Image, ScrollView,ActivityIndicator, RefreshCon
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import EventCard from '../../../components/card/EventCard';
 import ApiService from '../../../service/api/ApiService';
+import {Agenda} from 'react-native-calendars';
+import {Card, Avatar} from 'react-native-paper';
+
 
 class EventsScreen extends Component {
 
@@ -74,7 +77,8 @@ const styles = StyleSheet.create({
   container: {
     position: 'relative',
     flex: 1,
-    backgroundColor: 'white'
+    backgroundColor: '#36485f'
+  
   },
   header: {
     fontSize: 24,
@@ -95,7 +99,6 @@ const styles = StyleSheet.create({
     marginTop: 10,
   },
   btnText: {
-    color: '#fff',
     fontWeight: "bold"
   },
 
