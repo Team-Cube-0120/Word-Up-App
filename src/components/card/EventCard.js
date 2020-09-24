@@ -32,7 +32,6 @@ class EventCard extends BaseCard {
                 <Text></Text>
             </View> */}
         </View>
-            
         );
     }
 
@@ -44,6 +43,14 @@ class EventCard extends BaseCard {
         } else if (this.props.data.eventType == 'Party'){
             styles.rightBox = {
             width: '8%',height: 150, backgroundColor: 'salmon', padding:10,
+            }
+        } else if (this.props.data.eventType == 'Food'){
+            styles.rightBox = {
+            width: '8%',height: 150, backgroundColor: 'lightblue', padding:10,
+            }
+        } else if (this.props.data.eventType == 'Meeting'){
+            styles.rightBox = {
+            width: '8%',height: 150, backgroundColor: 'red', padding:10,
             }
         }
         return (
