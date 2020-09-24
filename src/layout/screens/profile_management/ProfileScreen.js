@@ -7,6 +7,7 @@ import {
   Platform,
   Alert,
   TextInput,
+  Keyboard,
 } from "react-native";
 import {
   Avatar,
@@ -24,6 +25,9 @@ import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view
 import MaterialCommunityIconsIcon from "react-native-vector-icons/MaterialCommunityIcons";
 import { getData } from "../../../util/LocalStorage";
 import { USERINFO } from "../../../enums/StorageKeysEnum";
+import ModalSelector from "react-native-modal-selector";
+import DateTimePicker from "react-native-modal-datetime-picker";
+import moment from "moment";
 
 const screenWidth = Math.round(Dimensions.get("window").width);
 
@@ -31,10 +35,15 @@ class SettingsScreen extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      open: false,
+      showPlaceholderGender: true,
+      showPlaceholderBirthday: true,
       isEditProfile: false,
       dialogVisible: false,
+      isUsername: true,
       tmpData: {},
       profile: {},
+      setData: {},
     };
   }
 
@@ -46,26 +55,31 @@ class SettingsScreen extends Component {
     this.setState({ dialogVisible: false });
   };
 
+  handleChangeDate = (date) => {
+    var formatedDate = moment(date).format("MMMM Do, YYYY");
+    this.handleCloseDate();
+    let copyTmpData = { ...this.state.tmpData };
+    copyTmpData["birthday"] = formatedDate;
+    this.setState({ tmpData: copyTmpData });
+    this.setState({ showPlaceholderBirthday: false });
+  };
+
+  handleCloseDate = () => {
+    this.setState({ open: false });
+  };
+
+  handleOpenDate = () => {
+    Keyboard.dismiss();
+    this.setState({ open: true });
+  };
+
   componentDidMount() {
     this.getUserInfo();
   }
 
   async getUserInfo() {
     let userInfo = await getData(USERINFO);
-    this.setState({
-      tmpData: {
-        profileImageUrl: "",
-        fullname: userInfo.profile.fullname,
-        email: userInfo.profile.email,
-        birthday: "",
-        phoneNum: "",
-        username: "",
-        bio: "Type Your Profile Bio",
-        location: "",
-        gender: "",
-        admin: userInfo.profile.admin,
-      },
-    });
+    // console.log(this.state.tmpData)
     this.setState({
       profile: {
         profileImageUrl: userInfo.profile.profileImageUrl,
@@ -80,11 +94,48 @@ class SettingsScreen extends Component {
         admin: userInfo.profile.admin,
       },
     });
+    let copyData = { ...this.state.profile };
+    this.setState({ tmpData: copyData });
+    // console.log(this.state.tmpData)
+  }
+
+  showSubmissionAlert() {
+    if (this.state.isUsername == false) {
+      Alert.alert("Error!", "Please type a username with no spaces", [
+        {
+          text: "OK",
+          onPress: () => this.setState({ isEditProfile: true }),
+        },
+        { cancelable: false },
+      ]);
+    } else {
+      Alert.alert(
+        "Confirm Submission",
+        "Are you sure you want to make these changes to your profile?",
+        [
+          {
+            text: "Confirm",
+            onPress: () => this.compareData(),
+          },
+          {
+            text: "Cancel",
+            onPress: () => this.setState({ isEditProfile: true }),
+          },
+        ],
+        { cancelable: false }
+      );
+    }
   }
 
   compareData() {
     this.setState({ isEditProfile: false });
-    // console.log(this.state.tmpData)
+    console.log(this.state.tmpData);
+    console.log(this.state.profile);
+    var objNotSame = JSON.stringify(this.state.profile) === JSON.stringify(this.state.tmpData);
+    console.log(objNotSame);
+    // if (objNotSame){
+    //   this.setState({profile: tmpData})
+    // }
     // console.log(this.state.profile)
   }
 
@@ -173,7 +224,7 @@ class SettingsScreen extends Component {
               <View>
                 <Caption style={styles.caption}>Location</Caption>
               </View>
-              <View style={{ top: 15, right: screenWidth / 6.3 }}>
+              <View style={{ top: 15, right: screenWidth / 6.2 }}>
                 <Text style={{ fontSize: 18 }}>
                   {this.state.profile.location}
                 </Text>
@@ -182,9 +233,9 @@ class SettingsScreen extends Component {
 
             <View style={styles.infoBoxWrapperDate}>
               <View>
-                <Caption style={styles.captionDob}>Date of Birth</Caption>
+                <Caption style={styles.captionDob}>Birthday</Caption>
               </View>
-              <View style={{ top: 15, right: screenWidth / 4.2 }}>
+              <View style={{ top: 15, right: screenWidth / 6.31 }}>
                 <Text style={{ fontSize: 18 }}>
                   {this.state.profile.birthday}
                 </Text>
@@ -229,12 +280,12 @@ class SettingsScreen extends Component {
             </View>
           </KeyboardAwareScrollView>
 
-          <TouchableOpacity
+          {/* <TouchableOpacity
             style={styles.buttonSubmit}
             onPress={() => this.setState({ isEditProfile: false })}
           >
             <Text style={styles.buttonTitleSubmit}>Submit</Text>
-          </TouchableOpacity>
+          </TouchableOpacity> */}
         </View>
       );
     } else if (this.state.isEditProfile) {
@@ -314,9 +365,8 @@ class SettingsScreen extends Component {
                       copyTmpData["username"] = username;
                       this.setState({ tmpData: copyTmpData });
                     } else {
-                      alert(
-                        "Username can only contain letters and numbers and no spaces are allowed."
-                      );
+                      alert("Username can not contain any spaces.");
+                      this.setState({ isUsername: false });
                     }
                   }}
                 />
@@ -332,7 +382,7 @@ class SettingsScreen extends Component {
                   top: 15,
                   flex: 1,
                   alignItems: "stretch",
-                  right: screenWidth / 6.3,
+                  right: screenWidth / 6.2,
                 }}
               >
                 <TextInput
@@ -348,25 +398,81 @@ class SettingsScreen extends Component {
               </View>
             </View>
 
-            <View style={styles.infoBoxWrapperDate}>
+            <TouchableOpacity
+              onPress={this.handleOpenDate}
+              style={styles.infoBoxWrapper}
+            >
               <View>
-                <Caption style={styles.captionDob}>Date of Birth</Caption>
+                <Caption style={styles.caption}>Birthday</Caption>
               </View>
-              <View style={{ top: 15, right: screenWidth / 4.2 }}>
-                <Text style={{ fontSize: 18 }}>
-                  {this.state.profile.birthday}
-                </Text>
+              <View style={{ top: 15, right: screenWidth / 6.31 }}>
+                <DateTimePicker
+                  style={{ backgroundColor: "#fff" }}
+                  date={new Date()}
+                  isVisible={this.state.open}
+                  mode={"date"}
+                  minimumDate={new Date(1900, 1, 1)}
+                  display="default"
+                  onConfirm={this.handleChangeDate}
+                  onCancel={this.handleCloseDate}
+                ></DateTimePicker>
+
+                {this.state.showPlaceholderBirthday && (
+                  <Text
+                    onPress={this.handleOpenDate}
+                    style={{ fontSize: 20, color: "#C0C0C0" }}
+                  >
+                    {this.state.profile.birthday}
+                  </Text>
+                )}
+
+                {this.state.showPlaceholderBirthday == false && (
+                  <Text onPress={this.handleOpenDate} style={{ fontSize: 20 }}>
+                    {this.state.tmpData.birthday}
+                  </Text>
+                )}
               </View>
-            </View>
+            </TouchableOpacity>
 
             <View style={styles.infoBoxWrapper}>
               <View>
                 <Caption style={styles.caption}>Gender</Caption>
               </View>
               <View style={{ top: 15, right: screenWidth / 7.4 }}>
-                <Text style={{ fontSize: 18 }}>
-                  {this.state.profile.gender}
-                </Text>
+                <ModalSelector
+                  data={[
+                    { key: 0, label: "Male" },
+                    { key: 1, label: "Female" },
+                    { key: 2, label: "Other" },
+                  ]}
+                  initValue={this.state.profile.gender}
+                  supportedOrientations={["portrait"]}
+                  accessible={true}
+                  scrollViewAccessibilityLabel={"Scrollable options"}
+                  cancelButtonAccessibilityLabel={"Cancel Button"}
+                  onChange={(option) => {
+                    let copyTmpData = { ...this.state.tmpData };
+                    copyTmpData["gender"] = option.label;
+                    this.setState({ tmpData: copyTmpData });
+                    this.setState({ showPlaceholderGender: false });
+                  }}
+                >
+                  {this.state.showPlaceholderGender && (
+                    <TextInput
+                      style={{ fontSize: 20 }}
+                      editable={false}
+                      placeholder={this.state.profile.gender}
+                    />
+                  )}
+                  {this.state.showPlaceholderGender == false && (
+                    <TextInput
+                      style={{ fontSize: 20 }}
+                      editable={false}
+                      placeholder={this.state.profile.gender}
+                      value={this.state.tmpData.gender}
+                    />
+                  )}
+                </ModalSelector>
               </View>
             </View>
 
@@ -388,22 +494,11 @@ class SettingsScreen extends Component {
                   underlineColorAndroid="transparent"
                   keyboardType={"numeric"}
                   returnKeyType={"done"}
+                  maxLength={10}
                   onChangeText={(phoneNum) => {
-                    if (phoneNum.length == 10) {
-                      let copyTmpData = { ...this.state.tmpData };
-                      copyTmpData["phoneNum"] = this.formatPhoneNumber(
-                        phoneNum
-                      );
-                      this.setState({ tmpData: copyTmpData });
-                    } else if (phoneNum.length > 10) {
-                      alert(
-                        "The phone number you entered has too many digits. It should only have 10 digits. Please re-type it."
-                      );
-                    } else if (phoneNum.includes(".")) {
-                      alert(
-                        "Period detected! Please re-type your phone number."
-                      );
-                    }
+                    let copyTmpData = { ...this.state.tmpData };
+                    copyTmpData["phoneNum"] = this.formatPhoneNumber(phoneNum);
+                    this.setState({ tmpData: copyTmpData });
                   }}
                 />
               </View>
@@ -417,8 +512,8 @@ class SettingsScreen extends Component {
                 <View>
                   <Caption style={styles.captionParagraph}>Bio</Caption>
                 </View>
-                <View style={{marginRight: 10 }}>
-                  <Paragraph style={{marginRight: 10 }}>
+                <View style={{ marginRight: 10 }}>
+                  <Paragraph style={{ marginRight: 10 }}>
                     {this.state.tmpData.bio}
                   </Paragraph>
                   <Portal>
@@ -457,7 +552,7 @@ class SettingsScreen extends Component {
 
           <TouchableOpacity
             style={styles.buttonSubmit}
-            onPress={() => this.setState(() => this.compareData())}
+            onPress={() => this.setState(() => this.showSubmissionAlert())}
           >
             <Text style={styles.buttonTitleSubmit}>Submit</Text>
           </TouchableOpacity>
@@ -471,6 +566,17 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#fff",
+  },
+  onePicker: {
+    width: 200,
+    height: 44,
+    backgroundColor: "#FFF0E0",
+    borderColor: "black",
+    borderWidth: 1,
+  },
+  onePickerItem: {
+    height: 44,
+    color: "red",
   },
   input: {
     minHeight: 40,
