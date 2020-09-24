@@ -6,13 +6,13 @@ import {
   TouchableOpacity,
   View,
   StyleSheet,
-  ScrollView,
   Platform,
   Dimensions,
 } from "react-native";
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import { CheckBox } from "react-native-elements";
 import { firebase } from "../../../../server/config/firebase/firebaseConfig";
-import icon from "../../../../assets/icon2.png";
+import icon from "../../../../assets/appLogo.png";
 import { storeData } from "../../../util/LocalStorage";
 import { USERINFO } from '../../../enums/StorageKeysEnum';
 
@@ -22,6 +22,13 @@ class RegistrationScreen extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      birthday: "Select Your Birthday",
+      phoneNum:"Enter Your Mobile Number",
+      username:"Type a User Name",
+      bio:"Type Your Profile Bio",
+      location:"Type Your Location",
+      gender: "Select Your Gender",
+      imageUrl:"",
       name: "",
       email: "",
       password: "",
@@ -51,10 +58,18 @@ class RegistrationScreen extends Component {
             .then((s) => {
               const uid = response.user.uid;
               const data = {
-                id: uid,
-                email: this.state.email,
-                fullname: this.state.name,
-                admin: this.state.checked,
+                profile:{
+                  profileImageUrl: this.state.imageUrl,
+                  id: uid,
+                  email: this.state.email,
+                  fullname: this.state.name,
+                  admin: this.state.checked,
+                  birthday: this.state.birthday,
+                  phoneNum: this.state.phoneNum,
+                  username: this.state.username,
+                  bio: this.state.bio,
+                  location:this.state.location,
+                  gender: this.state.gender}
               };
               const usersRef = firebase.firestore().collection("users");
               usersRef
@@ -85,7 +100,7 @@ class RegistrationScreen extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <ScrollView
+        <KeyboardAwareScrollView
           style={{ flex: 1, width: "100%" }}
           keyboardShouldPersistTaps="always"
         >
@@ -184,7 +199,7 @@ class RegistrationScreen extends Component {
               </Text>
             </Text>
           </View>
-        </ScrollView>
+        </KeyboardAwareScrollView>
       </View>
     );
   }
@@ -204,7 +219,7 @@ const styles = StyleSheet.create({
   logo: {
     flex: 1,
     height: 120,
-    width: 110,
+    width: 140,
     alignSelf: "center",
     ...Platform.select({
       ios: {
@@ -281,7 +296,7 @@ const styles = StyleSheet.create({
     paddingLeft: 16,
   },
   button: {
-    backgroundColor: "#175377",
+    backgroundColor: "#70AF1A",
     ...Platform.select({
       ios: {
         shadowColor: "#000",
@@ -323,7 +338,7 @@ const styles = StyleSheet.create({
     color: "#2e2e2d",
   },
   footerLink: {
-    color: "#788eec",
+    color: "#006400",
     fontWeight: "bold",
     fontSize: 16,
   },

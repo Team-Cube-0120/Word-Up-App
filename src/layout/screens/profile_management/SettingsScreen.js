@@ -14,7 +14,6 @@ import {
   Title,
   Caption,
   Text,
-  TouchableRipple,
 } from "react-native-paper";
 import { firebase } from "../../../../server/config/firebase/firebaseConfig";
 import profileImage from "../../../../assets/profile.png";
@@ -41,9 +40,9 @@ class SettingsScreen extends Component {
 
   async getUserInfo() {
     let userInfo = await getData(USERINFO);
-    this.setState({ fullname: userInfo.fullname });
-    this.setState({ email: userInfo.email });
-    this.setState({ admin: userInfo.admin });
+    this.setState({ fullname: userInfo.profile.fullname });
+    this.setState({ email: userInfo.profile.email });
+    this.setState({ admin: userInfo.profile.admin });
   }
 
   showAboutUs() {
@@ -72,10 +71,10 @@ class SettingsScreen extends Component {
   render() {
     if (this.state.admin) {
       return (
-        <ScrollView style={styles.container}>
+        <View style={styles.container}>
           <View style={styles.userInfoSection}>
             <View style={{ flexDirection: "row", marginTop: 10 }}>
-              <Avatar.Image source={profileImage} size={100} />
+              <Avatar.Image style={{backgroundColor:"#fff", borderColor: '#006400', borderTopLeftRadius: 3, borderStyle:'solid' }} source={profileImage} size={100} />
             </View>
             <View>
               <Title style={styles.title}>
@@ -90,23 +89,22 @@ class SettingsScreen extends Component {
           {/* divider */}
           <View style={styles.divider}></View>
 
-          {/* Edit Profile Section */}
-          <View style={styles.infoBoxWrapper}>
+          <ScrollView style={styles.container}>
+
+          {/* Edit/View Profile Section */}
+          <TouchableOpacity style={styles.infoBoxWrapper} onPress={() => this.props.navigation.navigate("Profile")}>
             <MaterialCommunityIconsIcon
               name="account"
               style={styles.icons}
             ></MaterialCommunityIconsIcon>
             <View>
-              <Title style={styles.menuTitleM}>Edit Profile</Title>
+              <Title style={styles.menuTitleM}>View Profile</Title>
               <IoniconsIcon
                 name="ios-arrow-forward"
                 style={styles.arrow}
-                onPress={() => {
-                  this.props.navigation.navigate("Edit Profile");
-                }}
               ></IoniconsIcon>
             </View>
-          </View>
+          </TouchableOpacity>
 
           {/* Change Password Section */}
           <View style={styles.infoBoxWrapper}>
@@ -157,7 +155,7 @@ class SettingsScreen extends Component {
           </View>
 
           {/* About Us */}
-          <View style={styles.infoBoxWrapper}>
+          <TouchableOpacity style={styles.infoBoxWrapper} onPress={() => this.showAboutUs()}>
             <MaterialCommunityIconsIcon
               name="information"
               style={styles.icons}
@@ -167,10 +165,9 @@ class SettingsScreen extends Component {
               <IoniconsIcon
                 name="ios-arrow-forward"
                 style={styles.arrow}
-                onPress={() => this.showAboutUs()}
               ></IoniconsIcon>
             </View>
-          </View>
+          </TouchableOpacity>
 
           <TouchableOpacity
             style={styles.button}
@@ -179,10 +176,11 @@ class SettingsScreen extends Component {
             <Text style={styles.buttonTitle}>Log Out</Text>
           </TouchableOpacity>
         </ScrollView>
+        </View>
       );
     } else {
       return (
-        <ScrollView style={styles.container}>
+        <View style={styles.container}>
           <View style={styles.userInfoSection}>
             <View style={{ flexDirection: "row", marginTop: 10 }}>
               <Avatar.Image source={profileImage} size={100} />
@@ -198,23 +196,22 @@ class SettingsScreen extends Component {
           {/* divider */}
           <View style={styles.divider}></View>
 
-          {/* Edit Profile Section */}
-          <View style={styles.infoBoxWrapper}>
+          <ScrollView style={styles.container}>
+
+          {/* Edit/View Profile Section */}
+          <TouchableOpacity style={styles.infoBoxWrapper} onPress={() => this.props.navigation.navigate("Profile")}>
             <MaterialCommunityIconsIcon
               name="account"
               style={styles.icons}
             ></MaterialCommunityIconsIcon>
             <View>
-              <Title style={styles.menuTitleM}>Edit Profile</Title>
+              <Title style={styles.menuTitleM}>View Profile</Title>
               <IoniconsIcon
                 name="ios-arrow-forward"
                 style={styles.arrow}
-                onPress={() => {
-                  this.props.navigation.navigate("Edit Profile");
-                }}
               ></IoniconsIcon>
             </View>
-          </View>
+          </TouchableOpacity>
 
           {/* Change Password Section */}
           <View style={styles.infoBoxWrapper}>
@@ -265,7 +262,7 @@ class SettingsScreen extends Component {
           </View>
 
           {/* About Us */}
-          <View style={styles.infoBoxWrapper}>
+          <TouchableOpacity style={styles.infoBoxWrapper} onPress={() => this.showAboutUs()}>
             <MaterialCommunityIconsIcon
               name="information"
               style={styles.icons}
@@ -275,10 +272,9 @@ class SettingsScreen extends Component {
               <IoniconsIcon
                 name="ios-arrow-forward"
                 style={styles.arrow}
-                onPress={() => this.showAboutUs()}
               ></IoniconsIcon>
             </View>
-          </View>
+          </TouchableOpacity>
 
           <TouchableOpacity
             style={styles.button}
@@ -287,6 +283,7 @@ class SettingsScreen extends Component {
             <Text style={styles.buttonTitle}>Log Out</Text>
           </TouchableOpacity>
         </ScrollView>
+        </View>
       );
     }
   }
@@ -299,7 +296,7 @@ const styles = StyleSheet.create({
   },
   userInfoSection: {
     alignItems: "center",
-    marginBottom: 10,
+    marginBottom: 10
   },
   title: {
     alignItems: "center",
@@ -369,13 +366,13 @@ const styles = StyleSheet.create({
   arrow: {
     left: screenWidth - 85,
     position: "absolute",
-    color: "rgba(69,96,238,1)",
+    color: "#006400",
     fontSize: 32,
   },
   switch: {
     left: screenWidth - 120,
     position: "absolute",
-    color: "rgba(69,96,238,1)",
+    color: "#006400",
     fontSize: 32,
   },
   divider: {
@@ -393,7 +390,7 @@ const styles = StyleSheet.create({
     marginTop: 3,
   },
   icons: {
-    color: "rgba(74,144,226,1)",
+    color: "#70AF1A",
     fontSize: 32,
   },
 });

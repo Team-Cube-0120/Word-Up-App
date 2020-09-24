@@ -10,7 +10,7 @@ import {
   Platform
 } from "react-native";
 import { firebase } from "../../../../server/config/firebase/firebaseConfig";
-import icon from "../../../../assets/icon2.png";
+import icon from "../../../../assets/appLogo.png";
 import { storeData, getData } from "../../../util/LocalStorage";
 import { USERINFO } from '../../../enums/StorageKeysEnum';
 
@@ -119,7 +119,7 @@ const styles = StyleSheet.create({
   logo: {
     flex: 1,
     height: 120,
-    width: 110,
+    width: 140,
     alignSelf: "center",
     margin: 30,
     ...Platform.select({
@@ -166,7 +166,7 @@ const styles = StyleSheet.create({
     paddingLeft: 16,
   },
   button: {
-    backgroundColor: "#2081a4",
+    backgroundColor: "#70AF1A",
     ...Platform.select({
       ios: {
         shadowColor: "#000",
@@ -187,7 +187,7 @@ const styles = StyleSheet.create({
     }),
     marginLeft: 30,
     marginRight: 30,
-    marginTop: 20,
+    marginTop: 15,
     height: 48,
     borderRadius: 5,
     alignItems: "center",
@@ -208,7 +208,7 @@ const styles = StyleSheet.create({
     color: "#2e2e2d",
   },
   footerLink: {
-    color: "#788eec",
+    color: "#006400",
     fontWeight: "bold",
     fontSize: 16,
   },
