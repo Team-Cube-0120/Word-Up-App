@@ -22,7 +22,7 @@ class EventsScreen extends Component {
   }
 
   fetchAllEvents() {
-    ApiService.get('data/events/getAll?collection=events')
+    ApiService.get('data/getAll?collection=events')
       .then((events) => {
         this.setState({ isLoading: false, events: events, refreshing: false })
       })
@@ -41,7 +41,8 @@ class EventsScreen extends Component {
     let eventList =
       (this.state.events.length > 0) ?
         this.state.events.map((event, index) =>
-          <TouchableOpacity key={index}>
+          <TouchableOpacity key={index}
+            onPress={() => this.props.navigation.push("ViewEvent", {eventInfo: event})} >
             <EventCard title={event.eventName} data={event} />
           </TouchableOpacity>)
         : <Text>Error Retrieving Data</Text>
