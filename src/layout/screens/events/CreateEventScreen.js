@@ -5,21 +5,23 @@ import PickerExample from './PickerExample';
 import DateandTime from './DateandTime';
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import moment from 'moment';
+import UuidGenerator from '../../../util/UuidGenerator';
 
 
 class CreateEventsScreen extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            eventName: '',
-            details: '',
-            location: '',
-            rsvpCode: '',
-            coHosts: '',
-            eventType: '',
+            eventName: 'N/A',
+            details: 'N/A',
+            location: 'N/A',
+            rsvpCode: 'N/A',
+            coHosts: 'N/A',
+            eventType: 'N/A',
+            eventId: 'N/A',
             isVisible: false,
-            startDate: '',
-            endDate: '',
+            startDate: 'N/A',
+            endDate: 'N/A',
             start: false,
             end: false,
         }
@@ -50,6 +52,7 @@ class CreateEventsScreen extends Component {
                 isVisible: false,
                 endDate: moment(datetime, 'MMMM, Do YYYY hh:mm A').format('MMMM, Do YYYY    hh:mm A')
             })
+            
         }
     }
 
@@ -128,7 +131,10 @@ class CreateEventsScreen extends Component {
                     <TouchableOpacity>
                         <Button
                             title="Create Event"
-                            onPress={() => this.props.navigation.push('ReviewEvents', { eventInfo: this.state })}
+                            onPress={async () => {
+                                this.state.eventId = await UuidGenerator.generateUuid();
+                                this.props.navigation.push('ReviewEvents', { eventInfo: this.state })
+                            }}
                         ></Button>
                     </TouchableOpacity>
                 </Card>

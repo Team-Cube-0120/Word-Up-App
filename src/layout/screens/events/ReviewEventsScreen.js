@@ -22,7 +22,7 @@ class ReviewJobScreen extends Component {
 
     async addEvent() {
         this.setState({ isLoading: true });
-        RequestOptions.setUpRequestBody("events", this.eventInfo)
+        RequestOptions.setUpRequestBody("events", this.eventInfo.eventId, this.eventInfo)
             .then((body) => ApiService.post('data/add', body))
             .then((response) => this.setState({
                 title: 'Congratulations',
