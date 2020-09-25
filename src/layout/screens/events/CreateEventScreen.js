@@ -4,18 +4,20 @@ import {StyleSheet, Text, TextInput, Button, View, ScrollView ,SafeAreaView, Tou
 import { Card, Input } from 'react-native-elements';
 import PickerExample from './PickerExample';
 import DateandTime from './DateandTime';
+import UuidGenerator from '../../../util/UuidGenerator';
 
 
 class CreateEventsScreen extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            eventName: '',
-            details: '',
-            location: '',
-            rsvpCode: '',
-            coHosts: '',
-            eventType: ''
+            eventName: 'N/A',
+            details: 'N/A',
+            location: 'N/A',
+            rsvpCode: 'N/A',
+            coHosts: 'N/A',
+            eventType: 'N/A',
+            eventId: 'N/A'
         }
     }
     render() {
@@ -53,7 +55,10 @@ class CreateEventsScreen extends Component {
                     {/* <Text style = {styles.btnText}>Create Event</Text> */}
                     <Button
                         title="Create Event"
-                        onPress={() => this.props.navigation.push('ReviewEvents', { eventInfo: this.state })}
+                        onPress={async () => {
+                            this.state.eventId = await UuidGenerator.generateUuid();
+                            this.props.navigation.push('ReviewEvents', { eventInfo: this.state })
+                        }}
                     ></Button>
                 </TouchableOpacity>
             </Card>

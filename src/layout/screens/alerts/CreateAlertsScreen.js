@@ -2,6 +2,7 @@
 import React, { useState, Component } from 'react';
 import { StyleSheet, Text, TextInput, Button, ScrollView, TouchableOpacity } from 'react-native';
 import { Card, Input } from 'react-native-elements';
+import UuidGenerator from '../../../util/UuidGenerator';
 import PickerExample from './PickerExample';
 
 
@@ -9,11 +10,12 @@ class CreateAlertsScreen extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            name: '',
-            severity: '',
-            details: '',
-            location: '',
-            alertType: ''
+            name: 'N/A',
+            severity: 'N/A',
+            details: 'N/A',
+            location: 'N/A',
+            alertType: 'N/A',
+            alertId: 'N/A'
         }
     }
 
@@ -52,7 +54,10 @@ class CreateAlertsScreen extends Component {
                         <Button
                             style={styles.btnText}
                             title="Review"
-                            onPress={() => this.props.navigation.navigate("ReviewAlerts", { alertInfo: this.state })}></Button>
+                            onPress={async () => {
+                                this.state.alertId = await UuidGenerator.generateUuid();
+                                this.props.navigation.navigate("ReviewAlerts", { alertInfo: this.state })
+                            }}></Button>
                     </TouchableOpacity>
                 </Card>
             </ScrollView>

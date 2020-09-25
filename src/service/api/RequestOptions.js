@@ -5,9 +5,18 @@ import UuidGenerator from '../../util/UuidGenerator';
 class RequestOptions {
     static async generateOptions(method, apiPath, data) {
         switch (method) {
-            case (POST || PUT):
+            case POST:
                 return {
                     method: POST,
+                    url: MOCK_SERVICE_URL + apiPath,
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    data: JSON.stringify(data)
+                }
+            case PUT:
+                return {
+                    method: PUT,
                     url: MOCK_SERVICE_URL + apiPath,
                     headers: {
                         'Content-Type': 'application/json'
@@ -33,8 +42,7 @@ class RequestOptions {
         }
     }
     
-    static async setUpRequestBody(collection, jobInfo) {
-        let document = await UuidGenerator.generateUuid();
+    static async setUpRequestBody(collection, document, jobInfo) {
         return {
             collection: collection,
             document: document,

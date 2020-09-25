@@ -21,7 +21,7 @@ class ReviewAlertsScreen extends Component {
 
     async addAlert() {
         this.setState({ isLoading: true });
-        RequestOptions.setUpRequestBody("alerts", this.alertInfo)
+        RequestOptions.setUpRequestBody("alerts", this.alertInfo.alertId, this.alertInfo)
             .then((body) => ApiService.post('data/add', body))
             .then((response) => this.setState({
                 title: 'Congratulations',
