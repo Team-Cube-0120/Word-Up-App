@@ -49,12 +49,13 @@ app.get('/data/get', (req, res) => {
         .catch((error) => { res.send({ Status: 400, Message: error }) });
 });
 
-app.get('/data/jobs/getAll', (req, res) => {
+app.get('/data/getAll', (req, res) => {
     let collection = req.query.collection;
     firebaseFirestore.getAll(collection)
         .then((data) => { res.send({ Status: 200, data: data }) })
         .catch((error) => { res.send({ Status: 400, Message: error }) })
 })
+
 
 app.listen(PORT, async () => {
     console.log("Server listening on port: " + PORT);

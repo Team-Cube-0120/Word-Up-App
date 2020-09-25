@@ -55,6 +55,9 @@ class RegistrationScreen extends Component {
                 email: this.state.email,
                 fullname: this.state.name,
                 admin: this.state.checked,
+                jobIds: [],
+                eventIds: [],
+                alertIds: []
               };
               const usersRef = firebase.firestore().collection("users");
               usersRef
