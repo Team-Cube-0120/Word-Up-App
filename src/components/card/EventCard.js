@@ -28,9 +28,6 @@ class EventCard extends BaseCard {
                     {fields}
             </View>
             
-            {/* <View style={styles.rightBox}>
-                <Text></Text>
-            </View> */}
         </View>
         );
     }
@@ -56,16 +53,20 @@ class EventCard extends BaseCard {
         return (
             <View>
                 <View style={styles.containerView}>
-                    <Text style={styles.labels}>Event Name:</Text>
-                    <Text>{this.props.data.eventName}</Text>
+                    <Text style={styles.labels}>Event Type:</Text>
+                    <Text style = {styles.text}>{this.props.data.eventType}</Text>
                 </View>
                 <View style={styles.containerView}>
-                    <Text style={styles.labels}>Event Type:</Text>
-                    <Text  style={styles.labels} >{this.props.data.eventType}</Text>
+                    <Text style={styles.labels}>Event Start:</Text>
+                    <Text style = {styles.text}>{this.props.data.startDate}</Text>
+                </View>
+                <View style={styles.containerView}>
+                    <Text style={styles.labels}>Event End:</Text>
+                    <Text style = {styles.text}>{this.props.data.endDate}</Text>
                 </View>
                 <View style={styles.containerView}>
                     <Text style={styles.labels}>Location:</Text>
-                    <Text>{this.props.data.location}</Text>
+                    <Text style = {styles.text}>{this.props.data.location}</Text>
                 </View>
             </View>
         )
@@ -109,16 +110,24 @@ class EventCard extends BaseCard {
         
         labels: {
             fontWeight: 'bold',
-            marginRight: '3%'
+            marginRight: '3%',
+            fontSize: 16,
         },
     
         cardTitle: {
             textAlign: 'left',
             borderBottomWidth :5,
+            marginBottom: 10,
             borderBottomColor: '#000',
+            fontSize: 20,
+            fontWeight: 'bold',
+            color: 'darkblue',
         },
         rightBox:{
             width: '8%',height: 150, backgroundColor: 'salmon', padding:10,
+        },
+        text:{
+            fontSize: 16,
         }
     });
 

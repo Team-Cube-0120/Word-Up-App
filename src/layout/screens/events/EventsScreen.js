@@ -4,8 +4,6 @@ import { StyleSheet, Text, View, Image, ScrollView,ActivityIndicator, RefreshCon
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import EventCard from '../../../components/card/EventCard';
 import ApiService from '../../../service/api/ApiService';
-import {Agenda} from 'react-native-calendars';
-import {Card, Avatar} from 'react-native-paper';
 
 
 class EventsScreen extends Component {
