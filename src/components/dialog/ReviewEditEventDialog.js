@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Text, View, StyleSheet, ActivityIndicator } from 'react-native';
+import { Text, View, StyleSheet, ActivityIndicator, Button} from 'react-native';
 import { Card, Input } from 'react-native-elements';
 import Dialog from 'react-native-dialog';
 import PropTypes from 'prop-types';
@@ -21,18 +21,55 @@ class ReviewEditEventDialog extends Component {
         return (
             <View>
                 <Dialog.Container visible={this.props.visible}>
-                    <Dialog.Title style={styles.dialogTitle}>Confirm Edited Information</Dialog.Title>
-                    <ScrollView>
+                    <Dialog.Title style={styles.dialogTitle}>Confirm Edited Information:</Dialog.Title>
+                    <ScrollView >
                         <Card style={styles.cardView}>
-                            <View style={styles.containerView}>
-                                <Text style={styles.title}>Position: </Text>
+                            <View style={styles.containerViewMultiLine}>
+                                <Text style={styles.title}>Event Name: </Text>
                                 <Text style={styles.value}>{this.props.data.eventName}</Text>
+                            </View> 
+                            <Card.Divider />
+                            <View style={styles.containerViewMultiLine}>
+                                <Text style={styles.title}>Start Date: </Text>
+                                <Text style={styles.value}>{this.props.data.startDate}</Text>
                             </View>
-                            
+                            <Card.Divider />
+                            <View style={styles.containerViewMultiLine}>
+                                <Text style={styles.title}>End Date: </Text>
+                                <Text style={styles.value}>{this.props.data.endDate}</Text>
+                            </View>
+                            <Card.Divider />
+                            <View style={styles.containerViewMultiLine}>
+                                <Text style={styles.title}>Details: </Text>
+                                <Text style={styles.value}>{this.props.data.details}</Text>
+                            </View>
+                            <Card.Divider />
+                            <View style={styles.containerViewMultiLine}>
+                                <Text style={styles.title}>Location: </Text>
+                                <Text style={styles.value}>{this.props.data.location}</Text>
+                            </View>
+                            <Card.Divider />
+                            <View style={styles.containerViewMultiLine}>
+                                <Text style={styles.title}>RSVP Code: </Text>
+                                <Text style={styles.value}>{this.props.data.rsvpCode}</Text>
+                            </View>
+                            <Card.Divider />
+                            <View style={styles.containerViewMultiLine}>
+                                <Text style={styles.title}>Co Hosts: </Text>
+                                <Text style={styles.value}>{this.props.data.coHosts}</Text>
+                            </View>
+                            <Card.Divider />
+                            <View style={styles.containerViewMultiLine}>
+                                <Text style={styles.title}>Event Type: </Text>
+                                <Text style={styles.value}>{this.props.data.eventType}</Text>
+                            </View>
                         </Card>
                     </ScrollView>
-                    <Dialog.Button label="Close" onPress={this.props.onClose}></Dialog.Button>
-                    <Dialog.Button label="Submit" onPress={this.props.onSubmit}></Dialog.Button>
+                    <Button title="Close" onPress={this.props.onClose}></Button>
+                    <View>
+                        <Text></Text>
+                    </View>
+                    <Button title="Submit" onPress={this.props.onSubmit}></Button>
                     <ActivityIndicator animating={this.props.data.isLoading} />
                 </Dialog.Container>
             </View>

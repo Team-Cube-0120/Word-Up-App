@@ -1,7 +1,8 @@
 const RequestTypes = {
     POST: 'POST',
     PUT: 'PUT',
-    GET: 'GET'
+    GET: 'GET',
+    DELETE: 'DELETE'
 }
 
 module.exports = RequestTypes;

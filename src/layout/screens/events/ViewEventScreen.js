@@ -1,8 +1,11 @@
 import React, { Component } from 'react';
-import { View, ScrollView, Button, Text, StyleSheet, ActivityIndicator } from 'react-native';
+import { View, ScrollView, Button, Text, StyleSheet, ActivityIndicator , Alert} from 'react-native';
 import { Card } from 'react-native-elements';
 import { USERINFO } from '../../../enums/StorageKeysEnum';
 import { getData } from '../../../util/LocalStorage';
+
+import ApiService from '../../../service/api/ApiService';
+import RequestOptions from '../../../service/api/RequestOptions';
 
 class ViewEventScreen extends Component {
     constructor(props) {
@@ -10,7 +13,10 @@ class ViewEventScreen extends Component {
         let eventInfo = this.props.route.params.eventInfo;
         this.state = {
             eventInfo: eventInfo,
-            editButtonView: <View></View>
+            editButtonView: <View></View>,
+            deleteEventView: <View></View>,
+            isLoading: false,
+            toggleDialog: false,
         }
     }
 
@@ -18,34 +24,88 @@ class ViewEventScreen extends Component {
         this.isEditable();
     }
 
+    closeDialog() {
+        this.setState({ toggleDialog: false })
+    }
+
+    openDialog() {
+        this.setState({ toggleDialog: true })
+    }
+
+    deleteEvent() {
+        this.setState({ isLoading: true });
+        RequestOptions.setUpRequestBody("events", this.state.eventInfo.eventId, this.state)
+            .then((body) => ApiService.delete("data/delete", body))
+            .then(() => {
+                this.props.navigation.navigate("Events");
+                Alert.alert("Congratulations!", "Your event has been successfully deleted!")
+            })
+            .catch((error) => {
+                Alert.alert("Error", "There was a problem deleting your event. Please try again.")
+            })
+    }
+
     async isEditable() {
         let userInfo = await getData(USERINFO);
         if (userInfo.admin || userInfo.eventIds.includes(this.state.eventInfo.eventId)) {
             this.setState({
-                editButtonView: <Button 
+                editButtonView: <Button
                     style={styles.buttonRight}
                     title="Edit"
-                    onPress={() => this.props.navigation.push("EditEvent", { eventInfo: this.state.eventInfo })}></Button>
+                    onPress={() => this.props.navigation.push("EditEvent", { eventInfo: this.state.eventInfo })}></Button>,
+                deleteEventView: <Button
+                    style={styles.buttonRight}
+                    title="Delete"
+                    onPress={() => this.deleteEvent()}></Button>
             })
         }
     }
 
     render() {
         return (
-            <ScrollView>
+            <ScrollView style = {styles.container}>
                 <Card>
-                    <Card.Title style={styles.cardTitle}>{this.state.eventInfo.position}</Card.Title>
+                    <Card.Title style={styles.cardTitle}>{this.state.eventInfo.eventName}</Card.Title>
                     <Card.Divider></Card.Divider>
                     <View style={styles.containerView}>
                         <Text style={styles.title}>Event Name: </Text>
                         <Text style={styles.value}>{this.state.eventInfo.eventName}</Text>
                     </View>
-                    
+                    <View style={styles.containerView}>
+                        <Text style={styles.title}>Start Date: </Text>
+                        <Text style={styles.value}>{this.state.eventInfo.startDate}</Text>
+                    </View>
+                    <View style={styles.containerView}>
+                        <Text style={styles.title}>End Date: </Text>
+                        <Text style={styles.value}>{this.state.eventInfo.endDate}</Text>
+                    </View>
+                    <View style={styles.containerView}>
+                        <Text style={styles.title}>Details: </Text>
+                        <Text style={styles.value}>{this.state.eventInfo.details}</Text>
+                    </View>
+                    <View style={styles.containerView}>
+                        <Text style={styles.title}>Location: </Text>
+                        <Text style={styles.value}>{this.state.eventInfo.location}</Text>
+                    </View>
+                    <View style={styles.containerView}>
+                        <Text style={styles.title}>RSVP Code: </Text>
+                        <Text style={styles.value}>{this.state.eventInfo.rsvpCode}</Text>
+                    </View>
+                    <View style={styles.containerView}>
+                        <Text style={styles.title}>Co-Hosts: </Text>
+                        <Text style={styles.value}>{this.state.eventInfo.coHosts}</Text>
+                    </View>
+                    <View style={styles.containerView}>
+                        <Text style={styles.title}>Event Type: </Text>
+                        <Text style={styles.value}>{this.state.eventInfo.eventType}</Text>
+                    </View>
+
                     <View style={styles.buttonView}>
-                        <Button style={styles.buttonLeft}
+                        {/* <Button style={styles.buttonLeft}
                             title="Apply"
                             disabled={true}
-                            onPress={() => this.props.navigation.goBack()}></Button>
+                            onPress={() => this.props.navigation.goBack()}></Button> */}
+                        {this.state.deleteEventView}
                         {this.state.editButtonView}
                     </View>
                 </Card>
@@ -59,9 +119,14 @@ const styles = StyleSheet.create({
         width: '100%',
         marginBottom: '3%',
     },
-
+    container: {
+        backgroundColor: '#36485f',
+        flexDirection: 'column',
+        padding: 5,
+    },
     cardTitle: {
-        textAlign: 'left'
+        textAlign: 'center',
+        fontSize: 20,
     },
 
     title: {

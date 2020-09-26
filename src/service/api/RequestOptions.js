@@ -1,4 +1,4 @@
-const { POST, PUT, GET } = require("../../enums/RequestTypesEnum");
+const { POST, PUT, GET, DELETE } = require("../../enums/RequestTypesEnum");
 const MOCK_SERVICE_URL = require('../../enums/ApiConfigurationEnum').MOCK_SERVICE_URL;
 import UuidGenerator from '../../util/UuidGenerator';
 
@@ -32,7 +32,16 @@ class RequestOptions {
                     },
                     data: data
                 }
-            default: 
+            case DELETE:
+                return {
+                    method: PUT,
+                    url: MOCK_SERVICE_URL + apiPath,
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    data: JSON.stringify(data)
+                }
+            default:
                 return {
                     method: '',
                     url: MOCK_SERVICE_URL + apiPath,
@@ -41,7 +50,7 @@ class RequestOptions {
                 }
         }
     }
-    
+
     static async setUpRequestBody(collection, document, jobInfo) {
         return {
             collection: collection,
