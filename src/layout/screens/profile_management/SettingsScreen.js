@@ -35,6 +35,12 @@ class SettingsScreen extends Component {
 
   componentDidMount() {
     this.getUserInfo().catch((e) => console.log(e));
+    this.willFocusSubscription = this.props.navigation.addListener(
+      'focus',
+      () => {
+        this.getUserInfo();
+      }
+    );
   }
 
   async getUserInfo() {
@@ -44,6 +50,8 @@ class SettingsScreen extends Component {
     this.setState({ admin: userInfo.profile.admin });
     this.setState({ profileImageUrl: userInfo.profile.profileImageUrl });
     this.setState({ isLoading: false });
+    // console.log(user)
+    // console.log(this.state)
   }
 
   showAboutUs() {

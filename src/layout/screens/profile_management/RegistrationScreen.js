@@ -8,8 +8,8 @@ import {
   StyleSheet,
   Platform,
   Dimensions,
+  ScrollView
 } from "react-native";
-import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { CheckBox } from "react-native-elements";
 import { firebase } from "../../../../server/config/firebase/firebaseConfig";
 import icon from "../../../../assets/appLogo.png";
@@ -101,7 +101,7 @@ class RegistrationScreen extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <KeyboardAwareScrollView
+        <ScrollView
           style={{ flex: 1, width: "100%" }}
           keyboardShouldPersistTaps="always"
         >
@@ -200,7 +200,7 @@ class RegistrationScreen extends Component {
               </Text>
             </Text>
           </View>
-        </KeyboardAwareScrollView>
+        </ScrollView>
       </View>
     );
   }

@@ -6,8 +6,8 @@ import {
   TouchableOpacity,
   View,
   StyleSheet,
-  ScrollView,
-  Platform
+  Platform,
+  ScrollView
 } from "react-native";
 import { firebase } from "../../../../server/config/firebase/firebaseConfig";
 import icon from "../../../../assets/appLogo.png";

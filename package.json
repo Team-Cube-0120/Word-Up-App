@@ -59,8 +59,7 @@
     "react-navigation-material-bottom-tabs": "2.3.0",
     "react-router-dom": "^5.2.0",
     "uuid": "^8.3.0",
-    "uuidv4": "^6.2.3",
-    "expo-file-system": "~9.2.0"
+    "uuidv4": "^6.2.3"
   },
   "devDependencies": {
     "babel-preset-expo": "^8.3.0",

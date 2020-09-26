@@ -32,7 +32,6 @@ import DateTimePicker from "react-native-modal-datetime-picker";
 import SubmissionDialog from "../../../components/dialog/SubmissionDialog";
 import moment from "moment";
 import * as ImagePicker from "expo-image-picker";
-import * as FileSystem from "expo-file-system";
 
 const screenWidth = Math.round(Dimensions.get("window").width);
 
@@ -49,7 +48,10 @@ class SettingsScreen extends Component {
       dialogVisible: false,
       isUsername: true,
       isLoading: false,
+      isImgLoaded: false,
+      uploadedImage: false,
       toggleDialog: false,
+      selectedImage: false,
       title: "",
       userProfileResponse: " ",
       tmpData: {},
@@ -97,6 +99,7 @@ class SettingsScreen extends Component {
       }
     })().catch((e) => console.log(e));
   }
+  
 
   pickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
@@ -110,16 +113,26 @@ class SettingsScreen extends Component {
 
     if (!result.cancelled) {
       // console.log(this.state.profile)
+      this.setState({ selectedImage: true });
+      this.setState({uploadedImage: false})
       this.uploadImage(result.uri, "profileImage-" + this.state.profile.id)
         .then((response) => {
-          alert("Images has been successfully selected!")
+          alert("Images has been successfully selected!");
           let copyTmpData = { ...this.state.tmpData };
           copyTmpData["profileImageUrl"] = response;
           this.setState({ tmpData: copyTmpData });
+          this.setState({uploadedImage: true})
+          this.setState({ selectedImage: false });
         })
-        .catch((e) => alert("Error: File not uploaded "));
+        .catch((e) =>{
+          alert("Error: File not uploaded ")
+          this.setState({ uploadedImage: false})
+          this.setState({ selectedImage: false });
+        } );
     } else if (result.cancelled) {
-      alert("Image could not selected");
+      this.setState({uploadedImage: false})
+      this.setState({ selectedImage: false });
+      alert("Image could was not selected");
     }
   };
 
@@ -131,7 +144,7 @@ class SettingsScreen extends Component {
       .storage()
       .ref()
       .child("images/" + imageName);
-    const snapshot = await ref.put(blob)
+    const snapshot = await ref.put(blob);
     const remoteUri = await snapshot.ref.getDownloadURL();
 
     blob.close();
@@ -161,6 +174,7 @@ class SettingsScreen extends Component {
     let copyData = { ...this.state.profile };
     this.setState({ tmpData: copyData });
     this.setState({ isLoading: false });
+    this.setState({ isImgLoaded: true });
   }
 
   showSubmissionAlert() {
@@ -270,7 +284,10 @@ class SettingsScreen extends Component {
   }
 
   render() {
-    if (this.state.isLoading) {
+    // console.log("SelectedImage: " + this.state.selectedImage)
+    // console.log("UploadedImage: " +this.state.uploadedImage)
+    // console.log("ProfileImage: " +this.state.tmpData.profileImageUrl)
+    if (!this.state.isImgLoaded) {
       return (
         <View
           style={{
@@ -298,21 +315,25 @@ class SettingsScreen extends Component {
             />
             <View style={styles.userInfoSection}>
               <View style={{ flexDirection: "row", marginTop: 10 }}>
-                {(this.state.profile.profileImageUrl == "" ||
-                  this.state.profile.profileImageUrl === undefined) && (
-                  <Image
-                    source={profileImage}
-                    style={{ width: 100, height: 100, borderRadius: 100 / 2 }}
-                  />
-                )}
-
-                {this.state.profile.profileImageUrl != "" &&
-                  this.state.profile.profileImageUrl !== undefined && (
+                {(this.state.profile.profileImageUrl == "" && this.state.isImgLoaded) && (
                     <Image
+                      source={profileImage}
+                      style={{ width: 100, height: 100, borderRadius: 100 / 2 }}
+                    />
+                  )}
+
+                {( this.state.isImgLoaded &&
+                  this.state.profile.profileImageUrl !== "") && (
+                    <Image
+                      resizeMethod="auto"
                       source={{
                         uri: this.state.profile.profileImageUrl,
                       }}
-                      style={{ width: 100, height: 100, borderRadius: 100 / 2 }}
+                      style={{
+                        width: 100,
+                        height: 100,
+                        borderRadius: 100 / 2,
+                      }}
                     />
                   )}
               </View>
@@ -416,7 +437,11 @@ class SettingsScreen extends Component {
             <View>
               <View style={styles.userInfoSection}>
                 <View style={{ flexDirection: "row", marginTop: 18 }}>
-                  {this.state.tmpData.profileImageUrl == "" && (
+
+                  {(this.state.selectedImage && (!this.state.uploadedImage)) && (
+                        <ActivityIndicator size="large" color="#006400" />)}
+
+                  {(this.state.tmpData.profileImageUrl == "" && ((!this.state.selectedImage && (!this.state.uploadedImage)) || (!this.state.selectedImage && (this.state.uploadedImage)))) && (
                     <TouchableOpacity onPress={this.pickImage}>
                       <Image
                         source={profileImage}
@@ -429,7 +454,7 @@ class SettingsScreen extends Component {
                     </TouchableOpacity>
                   )}
 
-                  {this.state.tmpData.profileImageUrl != "" && (
+                  {(this.state.tmpData.profileImageUrl != "" && ((!this.state.selectedImage && (!this.state.uploadedImage)) || (!this.state.selectedImage && (this.state.uploadedImage)))) && (
                     <TouchableOpacity onPress={this.pickImage}>
                       <Image
                         resizeMethod="auto"
@@ -529,7 +554,7 @@ class SettingsScreen extends Component {
                     isVisible={this.state.open}
                     mode={"date"}
                     minimumDate={new Date(1900, 1, 1)}
-                    maximumDate={new Date(2009, 12, 31)}
+                    maximumDate={new Date(2009, 1, 1)}
                     display="default"
                     onConfirm={this.handleChangeDate}
                     onCancel={this.handleCloseDate}
