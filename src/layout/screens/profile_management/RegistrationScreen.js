@@ -9,12 +9,12 @@ import {
   Platform,
   Dimensions,
 } from "react-native";
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { CheckBox } from "react-native-elements";
 import { firebase } from "../../../../server/config/firebase/firebaseConfig";
 import icon from "../../../../assets/appLogo.png";
 import { storeData } from "../../../util/LocalStorage";
-import { USERINFO } from '../../../enums/StorageKeysEnum';
+import { USERINFO } from "../../../enums/StorageKeysEnum";
 
 const screenWidth = Math.round(Dimensions.get("window").width);
 
@@ -23,17 +23,17 @@ class RegistrationScreen extends Component {
     super(props);
     this.state = {
       birthday: "Select Your Birthday",
-      phoneNum:"Enter Your Mobile Number",
-      username:"Type a User Name",
-      bio:"Type Your Profile Bio",
-      location:"Type Your Location",
+      phoneNum: "Enter Your Mobile Number",
+      username: "Type a User Name",
+      bio: "Type Your Profile Bio",
+      location: "Type Your Location",
       gender: "Select Your Gender",
-      imageUrl:"",
+      imageUrl: "",
       name: "",
       email: "",
       password: "",
       confirmPassword: "",
-      checked: false
+      checked: false,
     };
     this.passInput = React.createRef();
     this.emailInput = React.createRef();
@@ -58,7 +58,7 @@ class RegistrationScreen extends Component {
             .then((s) => {
               const uid = response.user.uid;
               const data = {
-                profile:{
+                profile: {
                   profileImageUrl: this.state.imageUrl,
                   id: uid,
                   email: this.state.email,
@@ -68,8 +68,9 @@ class RegistrationScreen extends Component {
                   phoneNum: this.state.phoneNum,
                   username: this.state.username,
                   bio: this.state.bio,
-                  location:this.state.location,
-                  gender: this.state.gender}
+                  location: this.state.location,
+                  gender: this.state.gender,
+                },
               };
               const usersRef = firebase.firestore().collection("users");
               usersRef
