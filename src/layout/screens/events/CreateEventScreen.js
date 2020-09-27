@@ -2,7 +2,6 @@ import React, { useState, Component } from 'react';
 import { StyleSheet, Text, TextInput, Button, View, ScrollView, SafeAreaView, TouchableOpacity } from 'react-native';
 import { Card, Input } from 'react-native-elements';
 import PickerExample from './PickerExample';
-import DateandTime from './DateandTime';
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import moment from 'moment';
 import UuidGenerator from '../../../util/UuidGenerator';
