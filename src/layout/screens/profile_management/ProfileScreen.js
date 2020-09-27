@@ -709,24 +709,11 @@ class SettingsScreen extends Component {
                           Bio
                         </Dialog.Title>
                         <Dialog.Content>
-                          {this.state.isPlaceholderBio && (
-                            <TextInput
-                              style={{ fontSize: 18 }}
-                              value={this.state.profile.bio}
-                              multiline={true}
-                              onChangeText={(bio) => {
-                                let copyTmpData = { ...this.state.tmpData };
-                                copyTmpData["bio"] = bio;
-                                this.setState({ tmpData: copyTmpData });
-                                this.setState({ isPlaceholderBio: false });
-                              }}
-                            ></TextInput>
-                          )}
 
-                          {this.state.isPlaceholderBio == false && (
+                          {true && (
                             <TextInput
                               style={{ fontSize: 20, color: "black" }}
-                              value={this.state.tmpData.bio}
+                              defaultValue={this.state.tmpData.bio}
                               multiline={true}
                               onChangeText={(bio) => {
                                 let copyTmpData = { ...this.state.tmpData };
@@ -1032,8 +1019,8 @@ const styles = StyleSheet.create({
     color: "#C0C0C0",
   },
   button: {
-    backgroundColor: "#fff",
-    borderColor: "#000",
+    backgroundColor: "#70AF1A",
+    borderColor: "#006400",
     borderLeftWidth: 1,
     borderBottomWidth: 1,
     borderTopWidth: 1,
@@ -1091,12 +1078,12 @@ const styles = StyleSheet.create({
         elevation: 2,
       },
     }),
-    marginLeft: screenWidth / 3.3,
+    marginLeft: 45,
     marginRight: 30,
     marginTop: 10,
     marginBottom: 10,
-    height: 35,
-    width: "40%",
+    height: 40,
+    width: "75%",
     borderRadius: 5,
     alignItems: "center",
     justifyContent: "center",
@@ -1107,7 +1094,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
   buttonTitle: {
-    color: "#006400",
+    color: "#fff",
     fontSize: 16,
     fontWeight: "bold",
   },

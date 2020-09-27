@@ -19,6 +19,7 @@ export default function LoginScreen({ navigation }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const pass = useRef(null);
+  const emailRef = useRef(null)
 
   const onFooterLinkPress = () => {
     navigation.navigate("Registration");
@@ -66,6 +67,7 @@ export default function LoginScreen({ navigation }) {
 
         <TextInput
           style={styles.input}
+          ref={emailRef}
           placeholder="Email"
           returnKeyType={"next"}
           onSubmitEditing={() => {
