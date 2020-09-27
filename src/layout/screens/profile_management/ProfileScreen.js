@@ -99,7 +99,7 @@ class SettingsScreen extends Component {
       }
     })().catch((e) => console.log(e));
   }
-  
+
 
   pickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
@@ -114,23 +114,23 @@ class SettingsScreen extends Component {
     if (!result.cancelled) {
       // console.log(this.state.profile)
       this.setState({ selectedImage: true });
-      this.setState({uploadedImage: false})
+      this.setState({ uploadedImage: false })
       this.uploadImage(result.uri, "profileImage-" + this.state.profile.id)
         .then((response) => {
           alert("Images has been successfully selected!");
           let copyTmpData = { ...this.state.tmpData };
           copyTmpData["profileImageUrl"] = response;
           this.setState({ tmpData: copyTmpData });
-          this.setState({uploadedImage: true})
+          this.setState({ uploadedImage: true })
           this.setState({ selectedImage: false });
         })
-        .catch((e) =>{
+        .catch((e) => {
           alert("Error: File not uploaded ")
-          this.setState({ uploadedImage: false})
+          this.setState({ uploadedImage: false })
           this.setState({ selectedImage: false });
-        } );
+        });
     } else if (result.cancelled) {
-      this.setState({uploadedImage: false})
+      this.setState({ uploadedImage: false })
       this.setState({ selectedImage: false });
       alert("Image could was not selected");
     }
@@ -226,8 +226,8 @@ class SettingsScreen extends Component {
 
   async uploadData() {
     this.setState({ isLoading: true });
-    var data = { profile: this.state.profile };
-    await storeData(USERINFO, data);
+    let storeDataA = await getData(USERINFO);
+    storeDataA.profile = this.state.profile;
     const userID = firebase.auth().currentUser.uid;
     // console.log(userID)
     var db = firebase.firestore();
@@ -241,6 +241,12 @@ class SettingsScreen extends Component {
             "Profile information has been successfully updated!",
         })
       )
+      .then(async () => {
+        let storeDataA = await getData(USERINFO);
+        storeDataA.profile = this.state.profile; 
+        await storeData(USERINFO, storeDataA);
+        return
+      })
       .catch((error) =>
         this.setState({
           title: "Error!",
@@ -316,13 +322,13 @@ class SettingsScreen extends Component {
             <View style={styles.userInfoSection}>
               <View style={{ flexDirection: "row", marginTop: 10 }}>
                 {(this.state.profile.profileImageUrl == "" && this.state.isImgLoaded) && (
-                    <Image
-                      source={profileImage}
-                      style={{ width: 100, height: 100, borderRadius: 100 / 2 }}
-                    />
-                  )}
+                  <Image
+                    source={profileImage}
+                    style={{ width: 100, height: 100, borderRadius: 100 / 2 }}
+                  />
+                )}
 
-                {( this.state.isImgLoaded &&
+                {(this.state.isImgLoaded &&
                   this.state.profile.profileImageUrl !== "") && (
                     <Image
                       resizeMethod="auto"
@@ -439,7 +445,7 @@ class SettingsScreen extends Component {
                 <View style={{ flexDirection: "row", marginTop: 18 }}>
 
                   {(this.state.selectedImage && (!this.state.uploadedImage)) && (
-                        <ActivityIndicator size="large" color="#006400" />)}
+                    <ActivityIndicator size="large" color="#006400" />)}
 
                   {(this.state.tmpData.profileImageUrl == "" && ((!this.state.selectedImage && (!this.state.uploadedImage)) || (!this.state.selectedImage && (this.state.uploadedImage)))) && (
                     <TouchableOpacity onPress={this.pickImage}>
