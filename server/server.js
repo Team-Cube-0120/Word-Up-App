@@ -40,6 +40,14 @@ app.put('/data/update', (req, res) => {
         .then((message) => { res.send({ Status: 200, Message: message }) })
         .catch((error) => { res.send({ Status: 400, Message: error }) });
 });
+app.put('/data/delete', (req, res) => {
+    let collection = req.body.collection;
+    let document = req.body.document;
+    let data = req.body.data;
+    firebaseFirestore.delete(collection, document, data)
+        .then((message) => { res.send({ Status: 200, Message: message }) })
+        .catch((error) => { res.send({ Status: 400, Message: error }) });
+});
 
 app.get('/data/get', (req, res) => {
     let collection = req.query.collection;
@@ -49,12 +57,13 @@ app.get('/data/get', (req, res) => {
         .catch((error) => { res.send({ Status: 400, Message: error }) });
 });
 
-app.get('/data/jobs/getAll', (req, res) => {
+app.get('/data/getAll', (req, res) => {
     let collection = req.query.collection;
     firebaseFirestore.getAll(collection)
         .then((data) => { res.send({ Status: 200, data: data }) })
         .catch((error) => { res.send({ Status: 400, Message: error }) })
 })
+
 
 app.listen(PORT, async () => {
     console.log("Server listening on port: " + PORT);

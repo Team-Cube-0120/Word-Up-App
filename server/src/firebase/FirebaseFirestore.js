@@ -42,6 +42,17 @@ class FirebaseFirestore {
         });
     }
 
+    async delete(collection, document, data) {
+        return new Promise((resolve, reject) => {
+            this.database
+                .collection(collection)
+                .doc(document)
+                .delete()
+                .then(() => resolve("Data Deleted Succesfully"))
+                .catch((error) => reject("Error deleting document: " + error));
+        });
+    }
+
     async getAll(collection) {
         return new Promise((resolve, reject) => {
             this.database

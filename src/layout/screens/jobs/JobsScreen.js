@@ -22,7 +22,7 @@ class JobsScreen extends Component {
   }
 
   fetchAllJobs() {
-    ApiService.get('data/jobs/getAll?collection=jobs')
+    ApiService.get('data/getAll?collection=jobs')
       .then((jobs) => {
         this.setState({ isLoading: false, jobs: jobs, refreshing: false })
       })
@@ -41,8 +41,10 @@ class JobsScreen extends Component {
     let jobList =
       (this.state.jobs.length > 0) ?
         this.state.jobs.map((job, index) =>
-          <TouchableOpacity key={index}>
-            <JobCard title={job.position} data={job} />
+          <TouchableOpacity 
+            key={index}
+            onPress={() => this.props.navigation.push("ViewJob", {jobInfo: job})}>
+              <JobCard title={job.position} data={job} />
           </TouchableOpacity>)
         : <Text>Error Retrieving Data</Text>
 

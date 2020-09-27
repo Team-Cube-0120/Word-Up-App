@@ -14,9 +14,10 @@ class PickerExample extends Component {
                 <Picker selectedValue = {this.props.value} 
                         style = {styles.picker}
                         onValueChange={(itemValue, itemPosition) => this.props.onSelection(itemValue)}>
-                    <Picker.Item label="Meeting" value="Default" />
+                    <Picker.Item label="N/A" value="N/A" />
                     <Picker.Item label="Outdoor" value="Outdoor" />
                     <Picker.Item label="Party" value="Party" />
+                    <Picker.Item label="Meeting" value="Meeting" />
                     <Picker.Item label="Food" value="Food" />
                 </Picker>
             </View>

@@ -1,5 +1,5 @@
 const request = require('./Request');
-const { POST, PUT, GET } = require('../../enums/RequestTypesEnum');
+const { POST, PUT, GET, DELETE } = require('../../enums/RequestTypesEnum');
 
 class ApiService {
 
@@ -14,6 +14,13 @@ class ApiService {
     static async update(apiPath, data) {
         return new Promise((resolve, reject) => {
             request(PUT, apiPath, data)
+                .then((response) => resolve(response))
+                .catch((error) => reject(error));
+        });
+    }
+    static async delete(apiPath, data) {
+        return new Promise((resolve, reject) => {
+            request(DELETE, apiPath, data)
                 .then((response) => resolve(response))
                 .catch((error) => reject(error));
         });
