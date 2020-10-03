@@ -40,6 +40,7 @@ app.put('/data/update', (req, res) => {
         .then((message) => { res.send({ Status: 200, Message: message }) })
         .catch((error) => { res.send({ Status: 400, Message: error }) });
 });
+
 app.put('/data/delete', (req, res) => {
     let collection = req.body.collection;
     let document = req.body.document;

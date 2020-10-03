@@ -36,7 +36,7 @@ class EditJobScreen extends Component {
         this.setState({ isLoading: true});
         RequestOptions.setUpRequestBody("jobs", this.state.jobId, this.state)
             .then((body) => ApiService.update("data/update", body))
-            .then((response) => sleep(5000))
+            //.then((response) => sleep(5000))
             .then(() => {
                 this.closeDialog();
                 this.setState({ isLoading: false })
