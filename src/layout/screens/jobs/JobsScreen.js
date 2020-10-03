@@ -13,12 +13,14 @@ class JobsScreen extends Component {
     this.state = {
       isLoading: true,
       refreshing: false,
-      jobs: []
+      jobs: [],
+      users: new Map()
     }
   }
 
   componentDidMount() {
     this.fetchAllJobs();
+    this.fetchAllUsers();
   }
 
   fetchAllJobs() {
@@ -31,49 +33,61 @@ class JobsScreen extends Component {
       })
   }
 
+  fetchAllUsers() {
+    ApiService.get('data/getAll?collection=users')
+      .then(async (users) => {
+        let userMap = new Map();
+        users.forEach((user, index) => userMap.set(user.profile.id, user.profile));
+        this.setState({ users: userMap });
+        return;
+      })
+      .catch((error) => console.log("error retrieving data"))
+  }
+
   async onRefresh() {
     this.setState({ refreshing: true });
     this.fetchAllJobs();
+    this.fetchAllUsers();
   }
 
   render() {
     const navigation = this.props.navigation
     let jobList =
-      (this.state.jobs.length > 0) ?
-        this.state.jobs.map((job, index) =>
-          <TouchableOpacity 
+      (this.state.jobs.length > 0 && this.state.users.size > 0) ?
+        this.state.jobs.map((job, index) => 
+          <TouchableOpacity
             key={index}
-            onPress={() => this.props.navigation.push("ViewJob", {jobInfo: job})}>
-              <JobCard title={job.position} data={job} />
+            onPress={() => this.props.navigation.push("ViewJob", { jobInfo: job })}>
+            <JobCard title={job.position} data={job} userInfo={this.state.users.get(job.userId)} />
           </TouchableOpacity>)
         : <Text>Error Retrieving Data</Text>
 
-    if (this.state.isLoading) {
-      return (
-        <View style={styles.container}>
-          <ActivityIndicator animating={this.state.isLoading} />
-        </View>)
-    }
+if (this.state.isLoading) {
+  return (
+    <View style={styles.container}>
+      <ActivityIndicator animating={this.state.isLoading} />
+    </View>)
+}
 
-    return (
-      <View style={styles.container}>
-        <ScrollView
-          refreshControl={<RefreshControl refreshing={this.state.refreshing} onRefresh={() => this.onRefresh()} />}>
-          {jobList}
-        </ScrollView>
+return (
+  <View style={styles.container}>
+    <ScrollView
+      refreshControl={<RefreshControl refreshing={this.state.refreshing} onRefresh={() => this.onRefresh()} />}>
+      {jobList}
+    </ScrollView>
 
-        <View style={styles.addJobParentView}>
-          <TouchableOpacity
-            style={styles.touchableOpacityView}
-            onPress={() => navigation.navigate('CreateJobs')}>
-            <Image
-              style={styles.floatingButton}
-              source={plusIcon}
-            />
-          </TouchableOpacity>
-        </View>
-      </View>
-    );
+    <View style={styles.addJobParentView}>
+      <TouchableOpacity
+        style={styles.touchableOpacityView}
+        onPress={() => navigation.navigate('CreateJobs')}>
+        <Image
+          style={styles.floatingButton}
+          source={plusIcon}
+        />
+      </TouchableOpacity>
+    </View>
+  </View>
+);
   }
 }
 

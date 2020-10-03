@@ -3,6 +3,8 @@ import { View, Text, StyleSheet, TextInput, ScrollView, Button } from 'react-nat
 import { Card, Input } from 'react-native-elements';
 import { TouchableHighlight } from 'react-native-gesture-handler';
 import UuidGenerator from '../../../util/UuidGenerator';
+import { getData } from '../../../util/LocalStorage';
+import { USERINFO } from '../../../enums/StorageKeysEnum'
 
 class CreateJobScreen extends Component {
     constructor(props) {
@@ -20,7 +22,8 @@ class CreateJobScreen extends Component {
             state: 'N/A',
             zip: 'N/A',
             datePosted: new Date().toISOString().slice(0,10),
-            jobId: 'N/A'
+            jobId: 'N/A',
+            userId: 'N/A'
         }
     }
     render() {
@@ -115,6 +118,8 @@ class CreateJobScreen extends Component {
                                 title="Review"
                                 onPress={async () => {
                                     this.state.jobId = await UuidGenerator.generateUuid();
+                                    let userInfo = await getData(USERINFO);
+                                    this.state.userId = userInfo.profile.id;
                                     this.props.navigation.push('ReviewJobs', { jobInfo: this.state })
                                 }}
                             ></Button>

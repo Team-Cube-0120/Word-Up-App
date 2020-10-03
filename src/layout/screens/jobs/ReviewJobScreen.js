@@ -147,14 +147,13 @@ class ReviewJobScreen extends Component {
 const styles = StyleSheet.create({
     containerView: {
         width: '100%',
-        flexDirection: 'row',
         marginBottom: '3%',
         borderColor: 'gray',
         borderWidth: 1,
         borderRadius: 10,
-        alignItems: 'center',
-        paddingTop: '6%',
-        paddingBottom: '1%',
+        alignItems: 'baseline',
+        paddingTop: '3%',
+        paddingBottom: '3%',
         paddingLeft: '3%'
     },
 

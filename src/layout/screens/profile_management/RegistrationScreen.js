@@ -15,6 +15,7 @@ import { firebase } from "../../../../server/config/firebase/firebaseConfig";
 import icon from "../../../../assets/appLogo.png";
 import { storeData } from "../../../util/LocalStorage";
 import { USERINFO } from "../../../enums/StorageKeysEnum";
+import { DEFAULT_PROFILE_IMAGE } from '../../../enums/DefaultEnums';
 
 const screenWidth = Math.round(Dimensions.get("window").width);
 
@@ -28,7 +29,7 @@ class RegistrationScreen extends Component {
       bio: "Type Your Profile Bio",
       location: "Type Your Location",
       gender: "Select Your Gender",
-      imageUrl: "",
+      imageUrl: DEFAULT_PROFILE_IMAGE,
       name: "",
       email: "",
       password: "",

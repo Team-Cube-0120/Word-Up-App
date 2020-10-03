@@ -19,12 +19,24 @@ const styles = StyleSheet.create({
     },
 
     labels: {
-        fontWeight: 'bold',
-        marginRight: '3%'
+        marginRight: '2%'
     },
 
     cardTitle: {
-        textAlign: 'left'
+        textAlign: 'left',
+        flexDirection: 'row',
+        marginBottom: '5%'
+    },
+
+    userTitle: { 
+        marginLeft: '3%', 
+        marginTop: '2%' 
+    },
+
+    jobTitle: {
+        fontSize: 20,
+        fontWeight: '500',
+        marginBottom: '3%'
     }
 });
 
