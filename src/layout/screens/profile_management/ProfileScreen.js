@@ -88,6 +88,12 @@ class SettingsScreen extends Component {
 
   componentDidMount() {
     this.getUserInfo().catch((e) => console.log(e));
+    this.willFocusSubscription = this.props.navigation.addListener(
+      'focus',
+      () => {
+        this.getUserInfo().catch((e) => console.log(e));
+      }
+    );
     (async () => {
       if (Platform.OS !== "web") {
         const {
@@ -290,9 +296,6 @@ class SettingsScreen extends Component {
   }
 
   render() {
-    // console.log("SelectedImage: " + this.state.selectedImage)
-    // console.log("UploadedImage: " +this.state.uploadedImage)
-    // console.log("ProfileImage: " +this.state.tmpData.profileImageUrl)
     if (!this.state.isImgLoaded) {
       return (
         <View
@@ -758,7 +761,7 @@ class SettingsScreen extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
+    backgroundColor:"#FAFAFA"
   },
   boxName: {
     ...Platform.select({
