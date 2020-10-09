@@ -14,8 +14,7 @@ class BaseCard extends Component {
 
 const styles = StyleSheet.create({
     containerView: {
-        width: '100%',
-        flexDirection: 'row',
+        left: '1%'
     },
 
     labels: {
@@ -28,15 +27,36 @@ const styles = StyleSheet.create({
         marginBottom: '5%'
     },
 
-    userTitle: { 
-        marginLeft: '3%', 
-        marginTop: '2%' 
+    userTitle: {
+        marginLeft: '3%',
+        marginTop: '2%'
     },
 
     jobTitle: {
         fontSize: 20,
-        fontWeight: '500',
+        fontWeight: 'bold',
         marginBottom: '3%'
+    },
+
+    datePostedText: {
+        textAlign: 'right',
+        fontSize: 12,
+        fontStyle: 'italic',
+        marginTop: '5%'
+    },
+
+    companyInfo: {
+        fontSize: 16
+    },
+
+    companyImageView: {
+        marginBottom: '1%'
+    },
+
+    companyImage: {
+        height: 80,
+        width: 80,
+        borderRadius: 10
     }
 });
 

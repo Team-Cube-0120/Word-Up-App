@@ -57,7 +57,7 @@ class JobsScreen extends Component {
         this.state.jobs.map((job, index) => 
           <TouchableOpacity
             key={index}
-            onPress={() => this.props.navigation.push("ViewJob", { jobInfo: job })}>
+            onPress={() => this.props.navigation.push("ViewJob", { jobInfo: job, userInfo: this.state.users.get(job.userId)})}>
             <JobCard title={job.position} data={job} userInfo={this.state.users.get(job.userId)} />
           </TouchableOpacity>)
         : <Text>Error Retrieving Data</Text>

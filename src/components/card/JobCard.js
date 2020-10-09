@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Card, Avatar, ListItem } from 'react-native-elements';
 import BaseCard from './BaseCard';
-import { View, Text, StyleSheet, TextInput, ScrollView, Button } from 'react-native';
+import { View, Text, Image, StyleSheet, TextInput, ScrollView, Button } from 'react-native';
 import PropTypes from 'prop-types';
 import ApiService from '../../service/api/ApiService';
 import { DEFAULT_PROFILE_IMAGE } from '../../enums/DefaultEnums';
@@ -44,22 +44,28 @@ class JobCard extends BaseCard {
         return (
             <View>
                 <Text style={this.styles.jobTitle}>{this.props.title}</Text>
+                <View style={this.styles.companyImageView}>
+                    <Image
+                        style={this.styles.companyImage}
+                        source={{
+                            uri: 'https://reactjs.org/logo-og.png',
+                        }}
+                    />
+                </View>
                 <View style={this.styles.containerView}>
                     {/* <Text style={this.styles.labels}>Company</Text> */}
-                    <Text>{this.props.data.company}</Text>
+                    <Text style={this.styles.companyInfo}>{this.props.data.company}</Text>
                 </View>
                 <View style={this.styles.containerView}>
                     {/* <Text style={this.styles.labels}>Job Type</Text> */}
-                    <Text>{this.props.data.jobType}</Text>
+                    <Text style={this.styles.companyInfo}>{this.props.data.jobType}</Text>
                 </View>
                 <View style={this.styles.containerView}>
                     {/* <Text style={this.styles.labels}>Location</Text> */}
-                    <Text>{this.props.data.street}</Text>
+                    <Text style={this.styles.companyInfo}>{this.props.data.street}</Text>
                 </View>
-                <View style={this.styles.containerView}>
-                    <Text style={this.styles.labels}>Date Posted</Text>
-                    <Text>{this.props.data.datePosted}</Text>
-                </View>
+                <Text style={this.styles.datePostedText}>Posted {this.props.data.datePosted}</Text>
+
             </View>
         )
     }

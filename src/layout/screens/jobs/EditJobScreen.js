@@ -101,7 +101,7 @@ class EditJobScreen extends Component {
                         </View>
                         <Card.Divider />
                         <View style={styles.containerView}>
-                            <Text style={styles.title}>Job Application URL: </Text>
+                            <Text style={styles.title}>Job Application URL: *</Text>
                             <TextInput
                                 style={styles.value}
                                 value={this.state.jobAppUrl}
@@ -109,7 +109,7 @@ class EditJobScreen extends Component {
                         </View>
                         <Card.Divider />
                         <View style={styles.containerView}>
-                            <Text style={styles.title}>Email: </Text>
+                            <Text style={styles.title}>Email: *</Text>
                             <TextInput
                                 style={styles.value}
                                 value={this.state.email}
@@ -117,7 +117,7 @@ class EditJobScreen extends Component {
                         </View>
                         <Card.Divider />
                         <View style={styles.containerView}>
-                            <Text style={styles.title}>Phone Number: </Text>
+                            <Text style={styles.title}>Phone Number: *</Text>
                             <TextInput
                                 style={styles.value}
                                 value={this.state.phoneNumber}
@@ -125,7 +125,7 @@ class EditJobScreen extends Component {
                         </View>
                         <Card.Divider />
                         <View style={styles.containerView}>
-                            <Text style={styles.title}>Street: </Text>
+                            <Text style={styles.title}>Street: *</Text>
                             <TextInput
                                 style={styles.value}
                                 value={this.state.street}
@@ -133,7 +133,7 @@ class EditJobScreen extends Component {
                         </View>
                         <Card.Divider />
                         <View style={styles.containerView}>
-                            <Text style={styles.title}>City: </Text>
+                            <Text style={styles.title}>City: *</Text>
                             <TextInput
                                 style={styles.value}
                                 value={this.state.city}
@@ -141,7 +141,7 @@ class EditJobScreen extends Component {
                         </View>
                         <Card.Divider />
                         <View style={styles.containerView}>
-                            <Text style={styles.title}>State: </Text>
+                            <Text style={styles.title}>State: *</Text>
                             <TextInput
                                 style={styles.value}
                                 value={this.state.state}
@@ -149,7 +149,7 @@ class EditJobScreen extends Component {
                         </View>
                         <Card.Divider />
                         <View style={styles.containerView}>
-                            <Text style={styles.title}>Zip: </Text>
+                            <Text style={styles.title}>Zip: *</Text>
                             <TextInput
                                 style={styles.value}
                                 value={this.state.zip}

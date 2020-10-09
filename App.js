@@ -46,14 +46,14 @@ class App extends Component {
   }
 
   componentDidMount() {
-    // this.autoLogin();
+    this.autoLogin();
   }
 
   render() {
     return (
       <NavigationContainer>
         <Stack.Navigator>
-          <Stack.Screen name="LoginStackNavigator" component={LoginStackScreen} options={{ headerShown: false }} />
+          {/* <Stack.Screen name="LoginStackNavigator" component={LoginStackScreen} options={{ headerShown: false }} /> */}
           <Stack.Screen name="TabNavigator" component={TabNavigator} options={{ headerShown: false }} />
         </Stack.Navigator>
       </NavigationContainer>
