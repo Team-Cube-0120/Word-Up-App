@@ -59,7 +59,7 @@ class ViewJobScreen extends Component {
                             onPress={() => this.props.navigation.goBack()} />
                     </View>
                     <Card.Divider></Card.Divider>
-                    <Text style={styles.datePostedText}>Posted {this.state.jobInfo.datePosted}</Text>
+                    <Text style={styles.datePostedText}>Posted {this.state.jobInfo.datePosted.toString()}</Text>
                 </Card>
                 <Card>
                     <Card.Title style={styles.cardTitle}>Job Description</Card.Title>

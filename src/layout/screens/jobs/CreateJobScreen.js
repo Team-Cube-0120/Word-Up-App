@@ -21,7 +21,6 @@ class CreateJobScreen extends Component {
             city: 'N/A',
             state: 'N/A',
             zip: 'N/A',
-            datePosted: new Date().toISOString().slice(0,10),
             jobId: 'N/A',
             userId: 'N/A'
         }

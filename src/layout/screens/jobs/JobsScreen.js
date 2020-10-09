@@ -5,6 +5,8 @@ import plusIcon from '../../../../assets/plus-icon.png';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import JobCard from '../../../components/card/JobCard';
 import ApiService from '../../../service/api/ApiService';
+import FilterJobDialog from '../../../components/dialog/FilterJobDialog';
+import { ALL_TIME } from '../../../enums/FilterOptionsEnum';
 
 class JobsScreen extends Component {
 
@@ -14,16 +16,18 @@ class JobsScreen extends Component {
       isLoading: true,
       refreshing: false,
       jobs: [],
-      users: new Map()
+      users: new Map(),
+      isFilterDialogOpen: false,
+      filterOption: ALL_TIME
     }
   }
 
   componentDidMount() {
-    this.fetchAllJobs();
+    this.fetchJobs();
     this.fetchAllUsers();
   }
 
-  fetchAllJobs() {
+  fetchJobs() {
     ApiService.get('data/getAll?collection=jobs')
       .then((jobs) => {
         this.setState({ isLoading: false, jobs: jobs, refreshing: false })
@@ -46,48 +50,71 @@ class JobsScreen extends Component {
 
   async onRefresh() {
     this.setState({ refreshing: true });
-    this.fetchAllJobs();
+    this.fetchJobs();
     this.fetchAllUsers();
+  }
+
+  openFilterDialog() {
+    this.setState({ isFilterDialogOpen: true });
+  }
+
+  closeFilterDialog() {
+    this.setState({ isFilterDialogOpen: false });
   }
 
   render() {
     const navigation = this.props.navigation
     let jobList =
       (this.state.jobs.length > 0 && this.state.users.size > 0) ?
-        this.state.jobs.map((job, index) => 
+        this.state.jobs.map((job, index) =>
           <TouchableOpacity
             key={index}
-            onPress={() => this.props.navigation.push("ViewJob", { jobInfo: job, userInfo: this.state.users.get(job.userId)})}>
+            onPress={() => this.props.navigation.push("ViewJob", { jobInfo: job, userInfo: this.state.users.get(job.userId) })}>
             <JobCard title={job.position} data={job} userInfo={this.state.users.get(job.userId)} />
           </TouchableOpacity>)
         : <Text>Error Retrieving Data</Text>
 
-if (this.state.isLoading) {
-  return (
-    <View style={styles.container}>
-      <ActivityIndicator animating={this.state.isLoading} />
-    </View>)
-}
+    if (this.state.isLoading) {
+      return (
+        <View style={styles.container}>
+          <ActivityIndicator animating={this.state.isLoading} />
+        </View>)
+    }
 
-return (
-  <View style={styles.container}>
-    <ScrollView
-      refreshControl={<RefreshControl refreshing={this.state.refreshing} onRefresh={() => this.onRefresh()} />}>
-      {jobList}
-    </ScrollView>
+    return (
+      <View style={styles.container}>
+        <View styles={styles.filterIconView}>
+          <TouchableOpacity
+            onPress={() => this.openFilterDialog()}>
+            <Image
+              style={styles.filterIcon}
+              source={require('../../../../assets/filter_icon.png')} />
+          </TouchableOpacity>
+        </View>
 
-    <View style={styles.addJobParentView}>
-      <TouchableOpacity
-        style={styles.touchableOpacityView}
-        onPress={() => navigation.navigate('CreateJobs')}>
-        <Image
-          style={styles.floatingButton}
-          source={plusIcon}
-        />
-      </TouchableOpacity>
-    </View>
-  </View>
-);
+        <ScrollView
+          refreshControl={<RefreshControl refreshing={this.state.refreshing} onRefresh={() => this.onRefresh()} />}>
+          {jobList}
+        </ScrollView>
+
+        <View style={styles.addJobParentView}>
+          <TouchableOpacity
+            style={styles.touchableOpacityView}
+            onPress={() => navigation.navigate('CreateJobs')}>
+            <Image
+              style={styles.floatingButton}
+              source={plusIcon}
+            />
+          </TouchableOpacity>
+        </View>
+
+        <FilterJobDialog
+          onSubmit={() => console.log("submitted" + this.state.filterOption)}
+          onClose={() => this.closeFilterDialog()} 
+          filterOption={this.state.filterOption}
+          visible={this.state.isFilterDialogOpen}></FilterJobDialog>
+      </View>
+    );
   }
 }
 
@@ -106,6 +133,7 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     alignSelf: "center",
   },
+
   addJobParentView: {
     alignSelf: 'flex-end',
     marginRight: 20,
@@ -122,6 +150,17 @@ const styles = StyleSheet.create({
     width: 75,
     height: 75
   },
+
+  filterIcon: {
+    height: 40,
+    width: 40
+  },
+
+  filterIconView: {
+    alignSelf: 'flex-end',
+    height: 40,
+    width: 40
+  }
 });
 
 export default JobsScreen;

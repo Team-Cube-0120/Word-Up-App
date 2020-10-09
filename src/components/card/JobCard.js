@@ -64,7 +64,7 @@ class JobCard extends BaseCard {
                     {/* <Text style={this.styles.labels}>Location</Text> */}
                     <Text style={this.styles.companyInfo}>{this.props.data.street}</Text>
                 </View>
-                <Text style={this.styles.datePostedText}>Posted {this.props.data.datePosted}</Text>
+                <Text style={this.styles.datePostedText}>Posted {this.props.data.datePosted.toString()}</Text>
 
             </View>
         )

@@ -11,6 +11,8 @@ class FirebaseFirestore {
 
     async post(collection, document, data) {
         return new Promise(async (resolve, reject) => {
+            let currentDate = new Date().toISOString().slice(0,10); // YYY-MM-DD
+            data.datePosted = new Date(currentDate);  
             this.database
                 .collection(collection)
                 .doc(document)
@@ -39,6 +41,27 @@ class FirebaseFirestore {
                 .get()
                 .then((payload) => (payload.exists) ? resolve(payload.data()) : reject("Data does not exist in database"))
                 .catch((error) => reject("Error retrieving data: " + error));
+        });
+    }
+
+    async getFiltered(collection, filterOption) {
+        return new Promise((resolve, reject) => {
+            let filterOptionTime = new Date();
+            let currentDate = new Date(Date.now());
+            filterOptionTime.setDate(filterOptionTime.getDate() - filterOption);
+            this.database
+                .collection(collection)
+                .where('datePosted', '>', filterOptionTime)
+                .where('datePosted', '<', currentDate)
+                .get()
+                .then(payload => {
+                    let data = []
+                    payload.forEach((doc) => {
+                        data.push(doc.data());
+                    });
+                    resolve(data);
+                })
+                .catch((error) => reject("Error retrieving data: " + error));                
         });
     }
 
