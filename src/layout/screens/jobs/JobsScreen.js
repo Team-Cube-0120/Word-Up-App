@@ -7,6 +7,8 @@ import JobCard from '../../../components/card/JobCard';
 import ApiService from '../../../service/api/ApiService';
 import FilterJobDialog from '../../../components/dialog/FilterJobDialog';
 import { ALL_TIME } from '../../../enums/FilterOptionsEnum';
+import { formatFilterOption } from '../../../formatter/FilterJobsFormatter'
+import sleep from '../../../util/Thread'
 
 class JobsScreen extends Component {
 
@@ -28,13 +30,39 @@ class JobsScreen extends Component {
   }
 
   fetchJobs() {
+    if (this.state.filterOption == ALL_TIME) {
+      this.fetchAllJobs();
+    } else {
+      this.fetchFilteredJobs();
+    }
+  }
+
+  fetchAllJobs() {
     ApiService.get('data/getAll?collection=jobs')
       .then((jobs) => {
         this.setState({ isLoading: false, jobs: jobs, refreshing: false })
       })
       .catch((error) => {
-        this.setState({ jobs: <Text>Error Retrieving Data {error}</Text>, refreshing: false })
+        this.setState({ jobs: <Text>Error Retrieving Data {error}</Text>, isLoading: false, refreshing: false })
       })
+  }
+
+  async fetchFilteredJobs() {
+    let formattedFilterOption = await formatFilterOption(this.state.filterOption);
+    ApiService.get('data/filter/get?collection=jobs&filterOption=' + formattedFilterOption)
+      .then((jobs) => {
+        this.setState({ isLoading: false, jobs: jobs, refreshing: false })
+      })
+      .catch((error) => {
+        this.setState({ jobs: <Text>Error Retrieving Data {error}</Text>, isLoading: false, refreshing: false })
+      })
+  }
+
+  async filterJobs(selectedValue) {
+    this.setState({ filterOption: selectedValue, isLoading: true }, () => {
+      this.closeFilterDialog();
+      this.fetchJobs();
+    });
   }
 
   fetchAllUsers() {
@@ -75,46 +103,47 @@ class JobsScreen extends Component {
         : <Text>Error Retrieving Data</Text>
 
     if (this.state.isLoading) {
+      console.log("showing activity indicator" + this.state.isLoading);
+      return (
+        <View style={styles.activityIndicator}>
+          <ActivityIndicator size="large" color="#0000ff" animating={this.state.isLoading} />
+        </View>)
+    } else {
       return (
         <View style={styles.container}>
-          <ActivityIndicator animating={this.state.isLoading} />
-        </View>)
+          <View styles={styles.filterIconView}>
+            <TouchableOpacity
+              onPress={() => this.openFilterDialog()}>
+              <Image
+                style={styles.filterIcon}
+                source={require('../../../../assets/filter_icon.png')} />
+            </TouchableOpacity>
+          </View>
+
+          <ScrollView
+            refreshControl={<RefreshControl refreshing={this.state.refreshing} onRefresh={() => this.onRefresh()} />}>
+            {jobList}
+          </ScrollView>
+
+          <View style={styles.addJobParentView}>
+            <TouchableOpacity
+              style={styles.touchableOpacityView}
+              onPress={() => navigation.navigate('CreateJobs')}>
+              <Image
+                style={styles.floatingButton}
+                source={plusIcon}
+              />
+            </TouchableOpacity>
+          </View>
+
+          <FilterJobDialog
+            onSubmit={(selectedValue) => this.filterJobs(selectedValue)}
+            onClose={() => this.closeFilterDialog()}
+            filterOption={this.state.filterOption}
+            visible={this.state.isFilterDialogOpen}></FilterJobDialog>
+        </View>
+      );
     }
-
-    return (
-      <View style={styles.container}>
-        <View styles={styles.filterIconView}>
-          <TouchableOpacity
-            onPress={() => this.openFilterDialog()}>
-            <Image
-              style={styles.filterIcon}
-              source={require('../../../../assets/filter_icon.png')} />
-          </TouchableOpacity>
-        </View>
-
-        <ScrollView
-          refreshControl={<RefreshControl refreshing={this.state.refreshing} onRefresh={() => this.onRefresh()} />}>
-          {jobList}
-        </ScrollView>
-
-        <View style={styles.addJobParentView}>
-          <TouchableOpacity
-            style={styles.touchableOpacityView}
-            onPress={() => navigation.navigate('CreateJobs')}>
-            <Image
-              style={styles.floatingButton}
-              source={plusIcon}
-            />
-          </TouchableOpacity>
-        </View>
-
-        <FilterJobDialog
-          onSubmit={() => console.log("submitted" + this.state.filterOption)}
-          onClose={() => this.closeFilterDialog()} 
-          filterOption={this.state.filterOption}
-          visible={this.state.isFilterDialogOpen}></FilterJobDialog>
-      </View>
-    );
   }
 }
 
@@ -133,6 +162,11 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     alignSelf: "center",
   },
+
+  activityIndicator: {
+    flex: 1,
+    justifyContent: 'center'
+  }, 
 
   addJobParentView: {
     alignSelf: 'flex-end',

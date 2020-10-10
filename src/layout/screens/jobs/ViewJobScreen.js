@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import { View, ScrollView, Button, Image, Text, StyleSheet, ActivityIndicator } from 'react-native';
 import { Card, Avatar } from 'react-native-elements';
 import { USERINFO } from '../../../enums/StorageKeysEnum';
+import { formatToMMDDYYYY } from '../../../formatter/TimeFormatter';
 import { getData } from '../../../util/LocalStorage';
 
 class ViewJobScreen extends Component {
@@ -14,6 +15,7 @@ class ViewJobScreen extends Component {
             jobInfo: jobInfo,
             userInfo: userInfo,
             editButtonView: null,
+            datePosted: formatToMMDDYYYY(jobInfo.datePosted._seconds)
         }
     }
 
@@ -59,7 +61,7 @@ class ViewJobScreen extends Component {
                             onPress={() => this.props.navigation.goBack()} />
                     </View>
                     <Card.Divider></Card.Divider>
-                    <Text style={styles.datePostedText}>Posted {this.state.jobInfo.datePosted.toString()}</Text>
+                    <Text style={styles.datePostedText}>Posted {this.state.datePosted}</Text>
                 </Card>
                 <Card>
                     <Card.Title style={styles.cardTitle}>Job Description</Card.Title>

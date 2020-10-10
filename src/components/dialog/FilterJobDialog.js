@@ -24,6 +24,10 @@ class FilterJobDialog extends Component {
             {label: '1 month', value: ONE_MONTH},
             {label: 'All time', value: ALL_TIME}
         ];
+
+        this.state = {
+            selectedValue: this.props.filterOption
+        }
     }
 
     render() {
@@ -35,10 +39,10 @@ class FilterJobDialog extends Component {
                         <RadioForm
                             radio_props={this.radio_props}
                             initial={this.props.filterOption}
-                            onPress={(value) => console.log(value)} />
+                            onPress={(value) => this.setState({ selectedValue: value })} />
                     </View>
-                    <Dialog.Button label="Close" onPress={this.props.onClose}></Dialog.Button>
-                    <Dialog.Button label="Submit" onPress={this.props.onSubmit}></Dialog.Button>
+                    <Dialog.Button label="Close" onPress={() => this.props.onClose}></Dialog.Button>
+                    <Dialog.Button label="Submit" onPress={() => this.props.onSubmit(this.state.selectedValue)}></Dialog.Button>
                 </Dialog.Container>
             </View>
         )
