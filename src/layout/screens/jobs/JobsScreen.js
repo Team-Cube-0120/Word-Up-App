@@ -100,10 +100,12 @@ class JobsScreen extends Component {
             onPress={() => this.props.navigation.push("ViewJob", { jobInfo: job, userInfo: this.state.users.get(job.userId) })}>
             <JobCard title={job.position} data={job} userInfo={this.state.users.get(job.userId)} />
           </TouchableOpacity>)
-        : <Text>Error Retrieving Data</Text>
+        : 
+        <View style={styles.errorView}>
+          <Text style={styles.errorText}>No jobs available at this time</Text>
+        </View> 
 
     if (this.state.isLoading) {
-      console.log("showing activity indicator" + this.state.isLoading);
       return (
         <View style={styles.activityIndicator}>
           <ActivityIndicator size="large" color="#0000ff" animating={this.state.isLoading} />
@@ -166,7 +168,19 @@ const styles = StyleSheet.create({
   activityIndicator: {
     flex: 1,
     justifyContent: 'center'
-  }, 
+  },
+
+  errorView: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginTop: '50%'
+  },
+
+  errorText: {
+    fontSize: 16,
+    fontWeight: 'bold'
+  },
 
   addJobParentView: {
     alignSelf: 'flex-end',
