@@ -8,7 +8,6 @@ import {
   StyleSheet,
   Platform,
   ScrollView,
-  Button,
 } from "react-native";
 import Modal from "react-native-modal";
 import { firebase } from "../../../../server/config/firebase/firebaseConfig";
@@ -16,6 +15,7 @@ import icon from "../../../../assets/appLogo.png";
 import { storeData, getData } from "../../../util/LocalStorage";
 import { USERINFO } from "../../../enums/StorageKeysEnum";
 import MaterialCommunityIconsIcon from "react-native-vector-icons/MaterialCommunityIcons";
+import * as Google from "expo-google-app-auth";
 
 export default function LoginScreen({ navigation }) {
   const [email, setEmail] = useState("");
@@ -29,6 +29,141 @@ export default function LoginScreen({ navigation }) {
 
   const onFooterLinkPress = () => {
     navigation.navigate("Registration");
+  };
+
+  const signInWithGoogle = async () => {
+    try {
+      const result = await Google.logInAsync({
+        iosClientId:
+          "422334804938-2dbd1f4th6fv4e48e88q1oi39v64jqg2.apps.googleusercontent.com",
+        androidClientId:
+          "422334804938-uhb4dfa1n31otro4fj98de6fljlbv620.apps.googleusercontent.com",
+        scopes: ["profile", "email"],
+      });
+
+      if (result.type === "success") {
+        onSignIn(result);
+      } else {
+        alert("Login Unsuccessful!");
+      }
+    } catch (e) {
+      alert(e);
+    }
+  };
+
+  onSignIn = (googleUser) => {
+    var unsubscribe = firebase
+      .auth()
+      .onAuthStateChanged(function (firebaseUser) {
+        unsubscribe();
+        if (!isUserEqual(googleUser, firebaseUser)) {
+          var credential = firebase.auth.GoogleAuthProvider.credential(
+            googleUser.idToken,
+            googleUser.accessToken
+          );
+          firebase
+            .auth()
+            .signInWithCredential(credential)
+            .then(function (response) {
+              console.log("User signed in ");
+              const uid = response.user.uid;
+              if (response.additionalUserInfo.isNewUser) {
+                const data = {
+                  profile: {
+                    profileImageUrl: response.user.photoURL,
+                    id: uid,
+                    email: response.user.email,
+                    fullname: response.user.displayName,
+                    admin: false,
+                    birthday: "Select Your Birthday",
+                    phoneNum: "Enter Your Mobile Number",
+                    username: "Type a User Name",
+                    bio: "Type Your Profile Bio",
+                    location: "Type Your Location",
+                    gender: "Select Your Gender",
+                  },
+                  id: uid,
+                  email: response.user.email,
+                  fullname: response.user.displayName,
+                  admin: false,
+                  jobIds: [],
+                  eventIds: [],
+                  alertIds: [],
+                };
+                const usersRef = firebase.firestore().collection("users");
+                usersRef
+                  .doc(uid)
+                  .set(data)
+                  .then(async () => {
+                    await storeData(USERINFO, data);
+                  })
+                  .then(() => {
+                    const usersRef = firebase.firestore().collection("users");
+                    usersRef
+                      .doc(uid)
+                      .get()
+                      .then(async (firestoreDocument) => {
+                        if (!firestoreDocument.exists) {
+                          alert("User does not exist anymore.");
+                          return;
+                        } else {
+                          setEmail("");
+                          setPassword("");
+                          await storeData(USERINFO, firestoreDocument.data());
+                          navigation.navigate("TabNavigator");
+                        }
+                      })
+                      .catch((error) => {
+                        alert(error);
+                      });
+                  })
+                  .catch((error) => {
+                    alert(error);
+                  });
+              } else {
+                const usersRef = firebase.firestore().collection("users");
+                usersRef
+                  .doc(uid)
+                  .get()
+                  .then(async (firestoreDocument) => {
+                    if (!firestoreDocument.exists) {
+                      alert("User does not exist anymore.");
+                      return;
+                    } else {
+                      setEmail("");
+                      setPassword("");
+                      await storeData(USERINFO, firestoreDocument.data());
+                      navigation.navigate("TabNavigator");
+                    }
+                  })
+                  .catch((error) => {
+                    alert(error);
+                  });
+              }
+            })
+            .catch(function (error) {
+              alert(error.message);
+            });
+        } else {
+          console.log("User already signed-in Firebase.");
+        }
+      });
+  };
+
+  isUserEqual = (googleUser, firebaseUser) => {
+    if (firebaseUser) {
+      var providerData = firebaseUser.providerData;
+      for (var i = 0; i < providerData.length; i++) {
+        if (
+          providerData[i].providerId ===
+            firebase.auth.GoogleAuthProvider.PROVIDER_ID &&
+          providerData[i].uid === googleUser.getBasicProfile().getId()
+        ) {
+          return true;
+        }
+      }
+    }
+    return false;
   };
 
   const forgotPassword = (Email) => {
@@ -186,6 +321,19 @@ export default function LoginScreen({ navigation }) {
           <Text style={styles.buttonTitle}>Log in</Text>
         </TouchableOpacity>
 
+        <View style={{ flex: 1, alignItems: "center", marginTop: 5 }}>
+          <Text style={{ fontSize: 16, color: "gray" }}>or </Text>
+        </View>
+
+        <TouchableOpacity
+          style={styles.signButton}
+          onPress={() => signInWithGoogle()}
+        >
+          <Text style={{ fontSize: 16, color: "#70AF1A", fontWeight: "bold" }}>
+            Sign in with Google
+          </Text>
+        </TouchableOpacity>
+
         <View style={styles.footerView}>
           <Text style={styles.footerText}>
             Don't have an account?{" "}
@@ -207,7 +355,7 @@ const styles = StyleSheet.create({
   },
   submitStyle: {
     backgroundColor: "#006400",
-    borderRadius: 5,
+    borderRadius: 30,
     height: 25,
     width: 70,
     left: 78,
@@ -229,7 +377,7 @@ const styles = StyleSheet.create({
         shadowRadius: 2,
         elevation: 2,
       },
-    })
+    }),
   },
   logo: {
     flex: 1,
@@ -313,6 +461,34 @@ const styles = StyleSheet.create({
     fontSize: 90,
     marginTop: 20,
   },
+  signButton: {
+    backgroundColor: "#FAFAFA",
+    ...Platform.select({
+      ios: {
+        shadowColor: "#000",
+        shadowOffset: { width: 1, height: 1 },
+        shadowOpacity: 0.4,
+        shadowRadius: 2,
+      },
+      android: {
+        elevation: 2,
+      },
+      default: {
+        shadowColor: "#000",
+        shadowOffset: { width: 1, height: 1 },
+        shadowOpacity: 0.4,
+        shadowRadius: 2,
+        elevation: 2,
+      },
+    }),
+    marginLeft: 30,
+    marginRight: 30,
+    marginTop: 5,
+    height: 48,
+    borderRadius: 30,
+    alignItems: "center",
+    justifyContent: "center",
+  },
   button: {
     backgroundColor: "#70AF1A",
     ...Platform.select({
@@ -337,7 +513,7 @@ const styles = StyleSheet.create({
     marginRight: 30,
     marginTop: 15,
     height: 48,
-    borderRadius: 5,
+    borderRadius: 30,
     alignItems: "center",
     justifyContent: "center",
   },
