@@ -7,8 +7,7 @@ import {
   View,
   StyleSheet,
   Platform,
-  Dimensions,
-  ScrollView
+  Dimensions
 } from "react-native";
 import { CheckBox } from "react-native-elements";
 import { firebase } from "../../../../server/config/firebase/firebaseConfig";
@@ -16,6 +15,7 @@ import icon from "../../../../assets/appLogo.png";
 import { storeData } from "../../../util/LocalStorage";
 import { USERINFO } from "../../../enums/StorageKeysEnum";
 import { DEFAULT_PROFILE_IMAGE } from '../../../enums/DefaultEnums';
+import {KeyboardAwareScrollView} from "react-native-keyboard-aware-scroll-view"
 
 const screenWidth = Math.round(Dimensions.get("window").width);
 
@@ -108,17 +108,23 @@ class RegistrationScreen extends Component {
 
   render() {
     return (
-      <View style={styles.container}>
-        <ScrollView
-          style={{ flex: 1, width: "100%" }}
-          keyboardShouldPersistTaps="always"
-        >
+      <KeyboardAwareScrollView style={styles.container}>
           <Image style={styles.logo} source={icon} />
           <View style={styles.checkBoxContainer}>
             <Text
               style={{
                 top: 18,
-                marginLeft: screenWidth / 10,
+                ...Platform.select({
+                  ios: {
+                    marginLeft:42
+                  },
+                  android: {
+                    marginLeft:60
+                  },
+                  default: {
+                    marginLeft:48
+                  },
+                }),
                 fontWeight: "bold",
               }}
             >
@@ -208,8 +214,7 @@ class RegistrationScreen extends Component {
               </Text>
             </Text>
           </View>
-        </ScrollView>
-      </View>
+          </KeyboardAwareScrollView>
     );
   }
 }
@@ -217,8 +222,7 @@ class RegistrationScreen extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: "center",
-    backgroundColor: "#fff",
+    backgroundColor:"#FAFAFA"
   },
   checkBoxContainer: {
     flexDirection: "row",
@@ -328,7 +332,7 @@ const styles = StyleSheet.create({
     marginLeft: 30,
     marginRight: 30,
     height: 48,
-    borderRadius: 5,
+    borderRadius: 30,
     alignItems: "center",
     justifyContent: "center",
   },

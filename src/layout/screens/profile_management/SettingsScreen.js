@@ -157,7 +157,10 @@ class SettingsScreen extends Component {
               </TouchableOpacity>
 
               {/* Change Password Section */}
-              <View style={styles.infoBoxWrapper}>
+              <TouchableOpacity
+                style={styles.infoBoxWrapper}
+                onPress={() => this.props.navigation.navigate("Change Password")}
+              >
                 <MaterialCommunityIconsIcon
                   name="lock"
                   style={styles.icons}
@@ -169,7 +172,7 @@ class SettingsScreen extends Component {
                     style={styles.arrow}
                   ></MaterialCommunityIconsIcon>
                 </View>
-              </View>
+              </TouchableOpacity>
 
               {/* Notifications */}
               <View style={styles.infoBoxWrapper}>
@@ -190,7 +193,10 @@ class SettingsScreen extends Component {
               </View>
 
               {/* Get Feedback */}
-              <View style={styles.infoBoxWrapper}>
+              <TouchableOpacity
+                style={styles.infoBoxWrapper}
+                onPress={() => this.props.navigation.navigate("Feedback")}
+              >
                 <MaterialCommunityIconsIcon
                   name="transcribe"
                   style={styles.icons}
@@ -202,7 +208,7 @@ class SettingsScreen extends Component {
                     style={styles.arrow}
                   ></MaterialCommunityIconsIcon>
                 </View>
-              </View>
+              </TouchableOpacity>
 
               {/* About Us */}
               <TouchableOpacity
@@ -292,7 +298,10 @@ class SettingsScreen extends Component {
               </TouchableOpacity>
 
               {/* Change Password Section */}
-              <View style={styles.infoBoxWrapper}>
+              <TouchableOpacity
+                style={styles.infoBoxWrapper}
+                onPress={() => this.props.navigation.navigate("Change Password")}
+              >
                 <MaterialCommunityIconsIcon
                   name="lock"
                   style={styles.icons}
@@ -304,7 +313,7 @@ class SettingsScreen extends Component {
                     style={styles.arrow}
                   ></MaterialCommunityIconsIcon>
                 </View>
-              </View>
+              </TouchableOpacity>
 
               {/* Notifications */}
               <View style={styles.infoBoxWrapper}>
@@ -325,7 +334,10 @@ class SettingsScreen extends Component {
               </View>
 
               {/* Get Feedback */}
-              <View style={styles.infoBoxWrapper}>
+              <TouchableOpacity
+                style={styles.infoBoxWrapper}
+                onPress={() => this.props.navigation.navigate("Feedback")}
+              >
                 <MaterialCommunityIconsIcon
                   name="transcribe"
                   style={styles.icons}
@@ -337,7 +349,7 @@ class SettingsScreen extends Component {
                     style={styles.arrow}
                   ></MaterialCommunityIconsIcon>
                 </View>
-              </View>
+              </TouchableOpacity>
 
               {/* About Us */}
               <TouchableOpacity
