@@ -44,37 +44,37 @@ class ReviewEditJobDialog extends Component {
                                 <Text style={styles.value}>{this.props.data.jobDescription}</Text>
                             </View>
                             <Card.Divider />
-                            <View style={styles.containerView}>
+                            <View style={styles.containerViewMultiLine}>
                                 <Text style={styles.title}>Job Application URL: </Text>
                                 <Text style={styles.value}>{this.props.data.jobAppUrl}</Text>
                             </View>
                             <Card.Divider />
-                            <View style={styles.containerView}>
+                            <View style={styles.containerViewMultiLine}>
                                 <Text style={styles.title}>Email: </Text>
                                 <Text style={styles.value}>{this.props.data.email}</Text>
                             </View>
                             <Card.Divider />
-                            <View style={styles.containerView}>
+                            <View style={styles.containerViewMultiLine}>
                                 <Text style={styles.title}>Phone Number: </Text>
                                 <Text style={styles.value}>{this.props.data.phoneNumber}</Text>
                             </View>
                             <Card.Divider />
-                            <View style={styles.containerView}>
+                            <View style={styles.containerViewMultiLine}>
                                 <Text style={styles.title}>Street: </Text>
                                 <Text style={styles.value}>{this.props.data.street}</Text>
                             </View>
                             <Card.Divider />
-                            <View style={styles.containerView}>
+                            <View style={styles.containerViewMultiLine}>
                                 <Text style={styles.title}>City: </Text>
                                 <Text style={styles.value}>{this.props.data.city}</Text>
                             </View>
                             <Card.Divider />
-                            <View style={styles.containerView}>
+                            <View style={styles.containerViewMultiLine}>
                                 <Text style={styles.title}>State: </Text>
                                 <Text style={styles.value}>{this.props.data.state}</Text>
                             </View>
                             <Card.Divider />
-                            <View style={styles.containerView}>
+                            <View style={styles.containerViewMultiLine}>
                                 <Text style={styles.title}>Zip: </Text>
                                 <Text style={styles.value}>{this.props.data.zip}</Text>
                             </View>
