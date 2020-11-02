@@ -18,14 +18,6 @@ class AlertsScreen extends Component {
     }
   }
 
-  // componentDidMount() {
-  //   this.getUserInfo()
-  // }
-
-  // async getUserInfo() {
-  //   let userInfo = await getData(USERINFO)
-  //   this.setState({admin:userInfo.admin})
-  // }
 
   render() {
     const navigation = this.props.navigation
