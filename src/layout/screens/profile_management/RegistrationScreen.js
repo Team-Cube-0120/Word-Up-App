@@ -11,7 +11,7 @@ import {
 } from "react-native";
 import { CheckBox } from "react-native-elements";
 import { firebase } from "../../../../server/config/firebase/firebaseConfig";
-import icon from "../../../../assets/applogo.png";
+import icon from "../../../../assets/appLogo.png";
 import { storeData } from "../../../util/LocalStorage";
 import { USERINFO } from "../../../enums/StorageKeysEnum";
 import {KeyboardAwareScrollView} from "react-native-keyboard-aware-scroll-view"
