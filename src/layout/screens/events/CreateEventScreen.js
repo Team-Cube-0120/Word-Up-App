@@ -23,6 +23,7 @@ class CreateEventsScreen extends Component {
             endDate: 'N/A',
             start: false,
             end: false,
+            signedUp: false,
         }
     }
 

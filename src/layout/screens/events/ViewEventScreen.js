@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, ScrollView, Button, Text, StyleSheet, ActivityIndicator , Alert} from 'react-native';
+import { View, ScrollView, Button, Text, StyleSheet, ActivityIndicator, Alert } from 'react-native';
 import { Card } from 'react-native-elements';
 import { USERINFO } from '../../../enums/StorageKeysEnum';
 import { getData } from '../../../util/LocalStorage';
@@ -15,8 +15,11 @@ class ViewEventScreen extends Component {
             eventInfo: eventInfo,
             editButtonView: <View></View>,
             deleteEventView: <View></View>,
+            signUpButtonView: <View></View>,
+            unRegister: <View></View>,
             isLoading: false,
             toggleDialog: false,
+            signedUp : false,
         }
     }
 
@@ -45,6 +48,16 @@ class ViewEventScreen extends Component {
             })
     }
 
+    
+    async signUp() {
+        alert("Succesfully Signed Up!");
+        setTimeout( ()=> this.props.navigation.push("SignUp", { eventInfo: this.state.eventInfo }), 2000);
+    }
+
+    async unRegister() {
+        alert("Unregistered!");
+        setTimeout( ()=> this.props.navigation.push("SignUp", { eventInfo: this.state.eventInfo }), 2000);
+    }
     async isEditable() {
         let userInfo = await getData(USERINFO);
         if (userInfo.admin || userInfo.eventIds.includes(this.state.eventInfo.eventId)) {
@@ -59,11 +72,30 @@ class ViewEventScreen extends Component {
                     onPress={() => this.deleteEvent()}></Button>
             })
         }
+        if (!this.state.eventInfo.signedUp){
+            this.setState({
+                signUpButtonView: <Button
+                    style={styles.buttonRight}
+                    title="Sign Up / Register"
+                    onPress={() => this.signUp()}></Button>,
+            })
+            this.state.eventInfo.signedUp = true;
+        } else {
+            this.state.eventInfo.signedUp = false;
+            this.setState({
+                unRegister: <Button
+                    style={styles.buttonRight}
+                    title="Unregister"
+                    onPress={() => this.unRegister()}></Button>,
+            })
+            
+        }
+        
     }
 
     render() {
         return (
-            <ScrollView style = {styles.container}>
+            <ScrollView style={styles.container}>
                 <Card>
                     <Card.Title style={styles.cardTitle}>{this.state.eventInfo.eventName}</Card.Title>
                     <Card.Divider></Card.Divider>
@@ -105,6 +137,8 @@ class ViewEventScreen extends Component {
                             title="Apply"
                             disabled={true}
                             onPress={() => this.props.navigation.goBack()}></Button> */}
+                        {this.state.signUpButtonView}
+                        {this.state.unRegister}
                         {this.state.deleteEventView}
                         {this.state.editButtonView}
                     </View>
