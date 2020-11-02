@@ -12,7 +12,7 @@ import {
 } from "react-native";
 import Modal from "react-native-modal";
 import { firebase } from "../../../../server/config/firebase/firebaseConfig";
-import icon from "../../../../assets/applogo.png";
+import icon from "../../../../assets/appLogo.png";
 import { storeData, getData } from "../../../util/LocalStorage";
 import { USERINFO } from "../../../enums/StorageKeysEnum";
 import MaterialCommunityIconsIcon from "react-native-vector-icons/MaterialCommunityIcons";
