@@ -1,50 +1,77 @@
 import React, { Component } from 'react';
-import { View, Text, Image, Button, StyleSheet, TouchableOpacity, FlatList } from 'react-native';
+import { View, Text, Image, Button, StyleSheet, TouchableOpacity, ActivityIndicator, FlatList } from 'react-native';
 import { TextInput } from 'react-native-paper';
+import ApiService from "../../../service/api/ApiService";
+import RequestOptions from '../../../service/api/RequestOptions';
+import UuidGenerator from '../../../util/UuidGenerator';
+import { getData } from '../../../util/LocalStorage';
+import { USERINFO } from '../../../enums/StorageKeysEnum';
+import { ScrollView } from 'react-native-gesture-handler';
+import { SafeAreaView } from 'react-navigation';
 
 class EventComments extends Component {
     constructor(props) {
         super(props);
-        let eventInfo = this.props.route.params.eventInfo;
         this.state = {
+            eventInfo: this.props.route.params.eventInfo,
+            // errorView here
+            isLoading: false,
             commentValue: "",
-            data: [
-                { id: '1', name: "John Doe", image: "https://bootdey.com/img/Content/avatar/avatar1.png", comment: "Hello World" },
-                { id: '2', name: "Melissa Jenkins", image: "https://bootdey.com/img/Content/avatar/avatar1.png", comment: "Welcome to our test comment" },
-                { id: '3', name: "John Doe", image: "https://bootdey.com/img/Content/avatar/avatar1.png", comment: "Hello World" },
-                { id: '4', name: "Melissa Jenkins", image: "https://bootdey.com/img/Content/avatar/avatar1.png", comment: "Welcome to our test comment" },
-                { id: '5', name: "John Doe", image: "https://bootdey.com/img/Content/avatar/avatar1.png", comment: "Hello World" },
-                { id: '6', name: "Melissa Jenkins", image: "https://bootdey.com/img/Content/avatar/avatar1.png", comment: "Welcome to our test comment" },
-                { id: '7', name: "John Doe", image: "https://bootdey.com/img/Content/avatar/avatar1.png", comment: "Hello World" },
-                { id: '8', name: "Melissa Jenkins", image: "https://bootdey.com/img/Content/avatar/avatar1.png", comment: "Welcome to our test comment" },
-                { id: '9', name: "John Doe", image: "https://bootdey.com/img/Content/avatar/avatar1.png", comment: "Hello World" },
-                { id: '10', name: "Melissa Jenkins", image: "https://bootdey.com/img/Content/avatar/avatar1.png", comment: "Welcome to our test comment" },
-                { id: '11', name: "John Doe", image: "https://bootdey.com/img/Content/avatar/avatar1.png", comment: "Hello World" },
-                { id: '12', name: "Melissa Jenkins", image: "https://bootdey.com/img/Content/avatar/avatar1.png", comment: "Welcome to our test comment" },
-                { id: '13', name: "John Doe", image: "https://bootdey.com/img/Content/avatar/avatar1.png", comment: "Hello World" },
-                { id: '14', name: "Melissa Jenkins", image: "https://bootdey.com/img/Content/avatar/avatar1.png", comment: "Welcome to our test comment" },
-            ]
+            comments: []
         }
     }
 
-    addComment(id, name, image, comment) {
-        let newComment = {id: id, name: name, image: image, comment: comment};
-        let oldData = this.state.data;
-        oldData.push(newComment);
-        this.setState({data: oldData});
+    componentDidMount() {
+        this.fetchComments();
+    }
+
+    fetchComments() {
+        if (!this.state.isLoading) {
+            this.setState({ isLoading: true })
+        }
+        ApiService.get('data/comments/get?collection=events&document=' + this.state.eventInfo.eventId)
+            .then((comments) => {
+                this.setState({ comments: comments, isLoading: false, commentValue: "" });
+            })
+            .catch((error) => {
+                // have error view here when comments cannot be loaded
+            });
+    }
+
+    addComment(commentValue) {
+        this.setState({ isLoading: true }, () => {
+            this.constructNewComent(commentValue)
+                .then((newComment) => RequestOptions.setUpRequestBody("events", this.state.eventInfo.eventId, newComment))
+                .then((body) => ApiService.update('data/comments/add', body))
+                .then((response) => this.fetchComments())
+                .catch((error) => {
+                    console.log("error: " + JSON.stringify(error));
+                    // have error view here
+                })
+        })
+    }
+
+    async constructNewComent(commentValue) {
+        return new Promise(async (resolve) => {
+            let currentUser = await getData(USERINFO);
+            let newComment = {
+                id: await UuidGenerator.generateUuid(),
+                name: currentUser.profile.fullname,
+                image: currentUser.profile.profileImageUrl,
+                comment: commentValue
+            }
+            resolve(newComment);
+        })
     }
 
     render() {
         return (
             <View>
                 <View>
-                    <Text>Event Name</Text>
-                </View>
-                <View>
                     <FlatList
                         style={styles.root}
-                        data={this.state.data}
-                        ref={(ref)=> {this.flatListView = ref}}
+                        data={this.state.comments}
+                        ref={(ref) => { this.flatListView = ref }}
                         onContentSizeChange={() => this.flatListView.scrollToEnd({ animated: true })}
                         ItemSeparatorComponent={() => {
                             return (
@@ -66,8 +93,8 @@ class EventComments extends Component {
                                     </TouchableOpacity>
                                     <View style={styles.content}>
                                         <View style={styles.contentHeader}>
-                                            <Text>{item.item.name}</Text>
-                                            <Text>9:58 am</Text>
+                                            <Text style={{fontWeight: 'bold'}}>{item.item.name}</Text>
+                                            <Text style={{fontStyle: 'italic'}}>{item.item.datePosted}</Text>
                                         </View>
                                         <Text>{item.item.comment}</Text>
                                     </View>
@@ -75,22 +102,29 @@ class EventComments extends Component {
                             )
                         }}>
                     </FlatList>
+                    <ScrollView style={{height: 200}}>
+                        <TextInput
+                            style={styles.comment}
+                            multiline={true}
+                            value={this.state.commentValue}
+                            placeholder={"Enter comment here"}
+                            onChangeText={(comment) => this.setState({ commentValue: comment })}></TextInput>
+                        <View style={styles.commentButton}>
+                            <Button
+                                title="Comment"
+                                onPress={() => this.addComment(this.state.commentValue)}></Button>
+                            <Button title="Back" onPress={() => this.props.navigation.goBack()}></Button>
+                        </View>
+                        <View style={styles.activityContainer}>
+                                <ActivityIndicator
+                                    size="large"
+                                    color="#70AF1A"
+                                    animating={this.state.isLoading}
+                                />
+                        </View>
+                    </ScrollView>
                 </View>
-                <View>
-                    <TextInput
-                        style={styles.comment}
-                        multiline={true}
-                        placeholder={"Enter text here"}
-                        onChangeText={(comment) => this.setState({commentValue: comment})}></TextInput>
-                </View>
-                <View style={styles.commentButton}>
-                    <Button title="Back" onPress={() => this.props.navigation.goBack()}></Button>
-
-                    <Button 
-                        title="Comment" 
-                        onPress={() => this.addComment("15", "Test User", "https://bootdey.com/img/Content/avatar/avatar1.png", this.state.commentValue)}></Button>
-                </View>
-            </View >
+            </View>
         )
     }
 }
@@ -99,7 +133,7 @@ const styles = StyleSheet.create({
     root: {
         backgroundColor: '#ffffff',
         marginTop: 10,
-        height: '75%'
+        height: '67%'
     },
 
     comment: {
@@ -138,13 +172,20 @@ const styles = StyleSheet.create({
     },
 
     commentButton: {
-        flexDirection: 'row',
+        flexDirection: 'column',
         justifyContent: 'space-between',
-        marginLeft: '25%',
-        alignItems: 'center',
-        width: '50%',
+        marginLeft: '9%',
+        // alignItems: 'center',
+        height: 90,
+        width: '80%',
+        marginTop: '3%',
+    },
+
+    activityIndicator: {
+        flex: 1,
+        justifyContent: 'center',
         marginTop: '3%'
-    }
+    },
 
 });
 

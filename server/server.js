@@ -71,7 +71,24 @@ app.get('/data/getAll', (req, res) => {
     firebaseFirestore.getAll(collection)
         .then((data) => { res.send({ Status: 200, data: data }) })
         .catch((error) => { res.send({ Status: 400, Message: error }) })
-})
+});
+
+app.get('/data/comments/get', (req, res) => {
+    let collection = req.query.collection;
+    let document = req.query.document;
+    firebaseFirestore.getComments(collection, document)
+        .then((data) => res.send({ Status: 200, data: data }))
+        .catch((error) => res.send({ Status: 400, Message: error }));
+});
+
+app.put('/data/comments/add', (req, res) => {
+    let collection = req.body.collection;
+    let document = req.body.document;
+    let newComment = req.body.data;
+    firebaseFirestore.addComment(collection, document, newComment)
+        .then((message) => res.send({ Status: 200, Message: message }))
+        .catch((error) => res.send({ Status: 400, Message: error }))
+});
 
 
 app.listen(PORT, async () => {

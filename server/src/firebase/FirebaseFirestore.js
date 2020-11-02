@@ -11,8 +11,8 @@ class FirebaseFirestore {
 
     async post(collection, document, data) {
         return new Promise(async (resolve, reject) => {
-            let currentDate = new Date().toISOString().slice(0,10); // YYY-MM-DD
-            data.datePosted = new Date(currentDate);  
+            let currentDate = new Date().toISOString().slice(0, 10); // YYY-MM-DD
+            data.datePosted = new Date(currentDate);
             this.database
                 .collection(collection)
                 .doc(document)
@@ -44,6 +44,17 @@ class FirebaseFirestore {
         });
     }
 
+    async delete(collection, document, data) {
+        return new Promise((resolve, reject) => {
+            this.database
+                .collection(collection)
+                .doc(document)
+                .delete()
+                .then(() => resolve("Data Deleted Succesfully"))
+                .catch((error) => reject("Error deleting document: " + error));
+        });
+    }
+
     async getFiltered(collection, filterOption) {
         return new Promise((resolve, reject) => {
             let filterOptionTime = new Date();
@@ -61,18 +72,7 @@ class FirebaseFirestore {
                     });
                     resolve(data);
                 })
-                .catch((error) => reject("Error retrieving data: " + error));                
-        });
-    }
-
-    async delete(collection, document, data) {
-        return new Promise((resolve, reject) => {
-            this.database
-                .collection(collection)
-                .doc(document)
-                .delete()
-                .then(() => resolve("Data Deleted Succesfully"))
-                .catch((error) => reject("Error deleting document: " + error));
+                .catch((error) => reject("Error retrieving data: " + error));
         });
     }
 
@@ -91,6 +91,26 @@ class FirebaseFirestore {
                 .catch((error) => reject("Error retrieving data: " + error));
         })
     }
+
+    async getComments(collection, document) {
+        return new Promise((resolve, reject) => {
+            this.get(collection, document)
+                .then((data) => resolve(data.comments))
+                .catch((error) => reject(error));
+        });
+    }
+
+    async addComment(collection, document, newComment) {
+        return new Promise((resolve, reject) => {
+            let currentDate = new Date(Date.now()).toLocaleString(); // YYY-MM-DD
+            let dateList = currentDate.split(",");
+            newComment.datePosted = dateList[1] + " on " + dateList[0]; 
+            let updateArgs = { comments: admin.firestore.FieldValue.arrayUnion(newComment) };
+            this.update(collection, document, updateArgs)
+                .then((message) => resolve(message))
+                .catch((error) => reject(error));
+        });
+    } 
 }
 
 module.exports = FirebaseFirestore;
