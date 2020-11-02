@@ -11,10 +11,11 @@ import {
 } from "react-native";
 import { CheckBox } from "react-native-elements";
 import { firebase } from "../../../../server/config/firebase/firebaseConfig";
-import icon from "../../../../assets/appLogo.png";
+import icon from "../../../../assets/applogo.png";
 import { storeData } from "../../../util/LocalStorage";
 import { USERINFO } from "../../../enums/StorageKeysEnum";
 import {KeyboardAwareScrollView} from "react-native-keyboard-aware-scroll-view"
+import { DEFAULT_PROFILE_IMAGE } from '../../../enums/DefaultEnums';
 
 const screenWidth = Math.round(Dimensions.get("window").width);
 
@@ -28,7 +29,7 @@ class RegistrationScreen extends Component {
       bio: "Type Your Profile Bio",
       location: "Type Your Location",
       gender: "Select Your Gender",
-      imageUrl: "",
+      imageUrl: DEFAULT_PROFILE_IMAGE,
       name: "",
       email: "",
       password: "",
@@ -231,7 +232,7 @@ const styles = StyleSheet.create({
   logo: {
     flex: 1,
     height: 120,
-    width: 140,
+    width: 250,
     alignSelf: "center",
     ...Platform.select({
       ios: {

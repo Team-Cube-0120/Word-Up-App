@@ -31,6 +31,7 @@ import ModalSelector from "react-native-modal-selector";
 import DateTimePicker from "react-native-modal-datetime-picker";
 import SubmissionDialog from "../../../components/dialog/SubmissionDialog";
 import moment from "moment";
+import ApiService from '../../../service/api/ApiService';
 import * as ImagePicker from "expo-image-picker";
 
 const screenWidth = Math.round(Dimensions.get("window").width);
@@ -121,6 +122,8 @@ class SettingsScreen extends Component {
       // console.log(this.state.profile)
       this.setState({ selectedImage: true });
       this.setState({ uploadedImage: false })
+
+
       this.uploadImage(result.uri, "profileImage-" + this.state.profile.id)
         .then((response) => {
           alert("Images has been successfully selected!");
@@ -129,6 +132,21 @@ class SettingsScreen extends Component {
           this.setState({ tmpData: copyTmpData });
           this.setState({ uploadedImage: true })
           this.setState({ selectedImage: false });
+          this.setState({
+            profile: {
+              profileImageUrl: response,
+              fullname: this.state.profile.fullname,
+              email: this.state.profile.email,
+              birthday: this.state.profile.birthday,
+              phoneNum: this.state.profile.phoneNum,
+              username: this.state.profile.username,
+              bio: this.state.profile.bio,
+              location: this.state.profile.location,
+              gender: this.state.profile.gender,
+              admin: this.state.profile.admin,
+              id: this.state.profile.id,
+            }
+          })
         })
         .catch((e) => {
           alert("Error: File not uploaded ")
@@ -217,16 +235,17 @@ class SettingsScreen extends Component {
     this.setState({ isEditProfile: false });
     // console.log(this.state.tmpData);
     // console.log(this.state.profile);
-    var objNotSame =
-      JSON.stringify(this.state.profile) === JSON.stringify(this.state.tmpData);
+    // var objNotSame =
+    //   JSON.stringify(this.state.profile) === JSON.stringify(this.state.tmpData);
     // console.log(objNotSame);
-    if (objNotSame === false) {
-      const data = Object.assign(this.state.profile, this.state.tmpData);
-      this.setState({ profile: data });
-      this.uploadData().catch((e) => console.log(e));
-    } else {
-      alert("No changes were made. Profile information not updated.");
-    }
+    // if (objNotSame === false) {
+    const data = Object.assign(this.state.profile, this.state.tmpData);
+    this.setState({ profile: data });
+    this.uploadData().catch((e) => console.log(e));
+    //}
+    // else {
+    //   alert("No changes were made. Profile information not updated.");
+    // }
     // console.log(this.state.profile);
   }
 
@@ -249,7 +268,7 @@ class SettingsScreen extends Component {
       )
       .then(async () => {
         let storeDataA = await getData(USERINFO);
-        storeDataA.profile = this.state.profile; 
+        storeDataA.profile = this.state.profile;
         await storeData(USERINFO, storeDataA);
         return
       })

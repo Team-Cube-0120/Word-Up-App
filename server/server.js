@@ -40,6 +40,7 @@ app.put('/data/update', (req, res) => {
         .then((message) => { res.send({ Status: 200, Message: message }) })
         .catch((error) => { res.send({ Status: 400, Message: error }) });
 });
+
 app.put('/data/delete', (req, res) => {
     let collection = req.body.collection;
     let document = req.body.document;
@@ -53,6 +54,14 @@ app.get('/data/get', (req, res) => {
     let collection = req.query.collection;
     let document = req.query.document;
     firebaseFirestore.get(collection, document)
+        .then((data) => { res.send({ Status: 200, data: data }) })
+        .catch((error) => { res.send({ Status: 400, Message: error }) });
+});
+
+app.get('/data/filter/get', (req, res) => {
+    let collection = req.query.collection;
+    let filterOption = req.query.filterOption
+    firebaseFirestore.getFiltered(collection, filterOption)
         .then((data) => { res.send({ Status: 200, data: data }) })
         .catch((error) => { res.send({ Status: 400, Message: error }) });
 });

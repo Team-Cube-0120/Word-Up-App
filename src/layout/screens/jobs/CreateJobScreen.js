@@ -3,6 +3,8 @@ import { View, Text, StyleSheet, TextInput, ScrollView, Button } from 'react-nat
 import { Card, Input } from 'react-native-elements';
 import { TouchableHighlight } from 'react-native-gesture-handler';
 import UuidGenerator from '../../../util/UuidGenerator';
+import { getData } from '../../../util/LocalStorage';
+import { USERINFO } from '../../../enums/StorageKeysEnum'
 
 class CreateJobScreen extends Component {
     constructor(props) {
@@ -19,8 +21,8 @@ class CreateJobScreen extends Component {
             city: 'N/A',
             state: 'N/A',
             zip: 'N/A',
-            datePosted: new Date().toISOString().slice(0,10),
-            jobId: 'N/A'
+            jobId: 'N/A',
+            userId: 'N/A'
         }
     }
     render() {
@@ -61,21 +63,21 @@ class CreateJobScreen extends Component {
                             />
                         </View>
                         <View style={styles.viewItem}>
-                            <Text style={styles.text}>Job Application URL</Text>
+                            <Text style={styles.text}>Job Application URL *</Text>
                             <TextInput
                                 style={styles.textInput}
                                 placeholder="e.g. http://google.com/careers/<job-id>"
                                 onChangeText={(jobAppUrl) => this.setState({ jobAppUrl: jobAppUrl })} />
                         </View>
                         <View style={styles.viewItem}>
-                            <Text style={styles.text}>Email</Text>
+                            <Text style={styles.text}>Email *</Text>
                             <TextInput
                                 style={styles.textInput}
                                 placeholder="e.g. John.Doe@gmail.com"
                                 onChangeText={(email) => this.setState({ email: email })} />
                         </View>
                         <View style={styles.viewItem}>
-                            <Text style={styles.text}>Phone Number</Text>
+                            <Text style={styles.text}>Phone Number *</Text>
                             <TextInput
                                 style={styles.textInput}
                                 placeholder="e.g. 123-456-7890"
@@ -83,28 +85,28 @@ class CreateJobScreen extends Component {
                             />
                         </View>
                         <View style={styles.viewItem}>
-                            <Text style={styles.text}>Street</Text>
+                            <Text style={styles.text}>Street *</Text>
                             <TextInput
                                 style={styles.textInput}
                                 placeholder="e.g. 1234 Honeywell Lane"
                                 onChangeText={(street) => this.setState({ street: street })} />
                         </View>
                         <View style={styles.viewItem}>
-                            <Text style={styles.text}>City</Text>
+                            <Text style={styles.text}>City *</Text>
                             <TextInput
                                 style={styles.textInput}
                                 placeholder="e.g. Hampton"
                                 onChangeText={(city) => this.setState({ city: city })} />
                         </View>
                         <View style={styles.viewItem}>
-                            <Text style={styles.text}>State</Text>
+                            <Text style={styles.text}>State *</Text>
                             <TextInput
                                 style={styles.textInput}
                                 placeholder="e.g. Virginia"
                                 onChangeText={(state) => this.setState({ state: state })} />
                         </View>
                         <View style={styles.viewItem}>
-                            <Text style={styles.text}>Zip</Text>
+                            <Text style={styles.text}>Zip *</Text>
                             <TextInput
                                 style={styles.textInput}
                                 placeholder="e.g. 12345"
@@ -115,6 +117,8 @@ class CreateJobScreen extends Component {
                                 title="Review"
                                 onPress={async () => {
                                     this.state.jobId = await UuidGenerator.generateUuid();
+                                    let userInfo = await getData(USERINFO);
+                                    this.state.userId = userInfo.profile.id;
                                     this.props.navigation.push('ReviewJobs', { jobInfo: this.state })
                                 }}
                             ></Button>
