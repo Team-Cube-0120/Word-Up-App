@@ -1,4 +1,4 @@
-# WORD UP app
+# WORD UP App
 
 ---
 ## Table of Contents
