@@ -1,6 +1,7 @@
 import React from 'react';
 import {Button} from 'react-native';
 import EditEventScreen from '../../layout/screens/events/EditEventScreen';
+import EventComments from '../../layout/screens/events/EventComments';
 import ViewEventScreen from '../../layout/screens/events/ViewEventScreen';
 
 const { createStackNavigator } = require("@react-navigation/stack");
@@ -18,7 +19,7 @@ const EventsStackScreen = () => {
             <EventsStack.Screen name="ReviewEvents" component={ReviewEventScreen} options={{ title: 'Review Event' }}/>
             <EventsStack.Screen name="ViewEvent" component={ViewEventScreen} options={{ title: 'View Event' }}/>
             <EventsStack.Screen name="EditEvent" component={EditEventScreen} options={{ title: 'Edit Event' }}/>
-
+            <EventsStack.Screen name="EventComments" component={EventComments} options={{ headerLeft: null }}/>
         </EventsStack.Navigator>
     )
 }

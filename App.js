@@ -42,7 +42,7 @@ class App extends Component {
       })
       .catch((error) => {
         alert(error);
-      });
+    });
   }
 
   componentDidMount() {

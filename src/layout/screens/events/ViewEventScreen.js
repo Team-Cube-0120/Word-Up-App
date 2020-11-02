@@ -100,6 +100,11 @@ class ViewEventScreen extends Component {
                         <Text style={styles.value}>{this.state.eventInfo.eventType}</Text>
                     </View>
 
+                    <View>
+                        <Button 
+                            title="Comment"
+                            onPress={() => this.props.navigation.push("EventComments", { eventInfo: this.state.eventInfo })}/>
+                    </View>
                     <View style={styles.buttonView}>
                         {/* <Button style={styles.buttonLeft}
                             title="Apply"
