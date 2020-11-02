@@ -7,7 +7,7 @@ import { getData } from './src/util/LocalStorage'
 import { USERINFO } from './src/enums/StorageKeysEnum';
 
 const Stack = createStackNavigator();
-
+//login function is removed from app.js
 // async function isLoggedIn() {
 //   let userInfo = await getData(USERINFO);
 //   if (userInfo != null) {
