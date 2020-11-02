@@ -18,7 +18,7 @@ TODO- introduction to our app and purpose
 ---
 
 ## Architecture
-![Diagram](assets/snack-icon.png)
+[Diagram](assets/snack-icon.png)
 
 ---
 
