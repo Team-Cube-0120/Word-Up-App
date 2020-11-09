@@ -67,7 +67,7 @@ class CreateAlertsScreen extends Component {
         );
     }
 }
-
+//use this as reference for edit/confirm screens
 const styles = StyleSheet.create({
     container: {
         backgroundColor: '#36485f',
@@ -103,11 +103,7 @@ const styles = StyleSheet.create({
         paddingLeft: 10,
     },
     button: {
-        // alignSelf: 'stretch',
-        // alignItems: "center",
-        // padding: 20,
-        // backgroundColor: "#59cbbd",
-        // marginTop: 10,
+
     },
     btnText: {
         color: '#fff',

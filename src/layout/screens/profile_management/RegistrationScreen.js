@@ -232,7 +232,7 @@ const styles = StyleSheet.create({
   logo: {
     flex: 1,
     height: 120,
-    width: 140,
+    width: 250,
     alignSelf: "center",
     ...Platform.select({
       ios: {

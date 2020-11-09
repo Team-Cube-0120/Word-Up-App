@@ -1,14 +1,13 @@
-import React, {Component, useState} from 'react';
+import React, {useState} from 'react';
 import TabNavigator from './src/components/navigation/Navigator'
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import LoginStackScreen from './src/components/navigation/LoginStackNavigator';
-import { storeData, getData } from './src/util/LocalStorage'
-import { firebase } from "./server/config/firebase/firebaseConfig";
+import { getData } from './src/util/LocalStorage'
 import { USERINFO } from './src/enums/StorageKeysEnum';
 
 const Stack = createStackNavigator();
-
+//login function is removed from app.js
 // async function isLoggedIn() {
 //   let userInfo = await getData(USERINFO);
 //   if (userInfo != null) {
@@ -45,9 +44,9 @@ class App extends Component {
   //   });
   // }
 
-  componentDidMount() {
-    this.autoLogin();
-  }
+  // componentDidMount() {
+  //   this.autoLogin();
+  // }
 
   render() {
     return (

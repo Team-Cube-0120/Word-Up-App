@@ -600,7 +600,7 @@ class SettingsScreen extends Component {
                   {this.state.isDateChanged === false && (
                     <Text
                       onPress={this.handleOpenDate}
-                      style={{ fontSize: 20, color: "#C0C0C0" }}
+                      style={{ fontSize: 20, color: "#a6a6a6" }}
                     >
                       {this.state.profile.birthday}
                     </Text>
@@ -622,7 +622,6 @@ class SettingsScreen extends Component {
                     initValue={this.state.profile.gender}
                     supportedOrientations={["portrait"]}
                     accessible={true}
-                    style={{ backgroundColor: "#fff" }}
                     animationType="fade"
                     cancelText="Cancel"
                     supportedOrientations={["portrait"]}

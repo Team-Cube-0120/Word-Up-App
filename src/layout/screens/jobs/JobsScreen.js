@@ -1,8 +1,3 @@
-
-import React, { Component } from 'react';
-import FilterJobDialog from '../../../components/dialog/FilterJobDialog';
-import { ALL_TIME } from '../../../enums/FilterOptionsEnum';
-import { formatFilterOption } from '../../../formatter/FilterJobsFormatter'
 import {
   StyleSheet,
   Text,
@@ -12,12 +7,15 @@ import {
   ActivityIndicator,
   RefreshControl,
 } from "react-native";
-import plusIcon from "../../../../assets/plus-icon.png";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import JobCard from "../../../components/card/JobCard";
 import ApiService from "../../../service/api/ApiService";
 import profileImage from "../../../../assets/profile.png";
 import { FAB } from "react-native-paper";
+import React, { Component } from 'react';
+import FilterJobDialog from '../../../components/dialog/FilterJobDialog';
+import { ALL_TIME } from '../../../enums/FilterOptionsEnum';
+import { formatFilterOption } from '../../../formatter/FilterJobsFormatter'
 
 class JobsScreen extends Component {
   constructor(props) {
@@ -56,14 +54,22 @@ class JobsScreen extends Component {
   }
 
   async fetchFilteredJobs() {
-    let formattedFilterOption = await formatFilterOption(this.state.filterOption);
-    ApiService.get('data/filter/get?collection=jobs&filterOption=' + formattedFilterOption)
+    let formattedFilterOption = await formatFilterOption(
+      this.state.filterOption
+    );
+    ApiService.get(
+      "data/filter/get?collection=jobs&filterOption=" + formattedFilterOption
+    )
       .then((jobs) => {
-        this.setState({ isLoading: false, jobs: jobs, refreshing: false })
+        this.setState({ isLoading: false, jobs: jobs, refreshing: false });
       })
       .catch((error) => {
-        this.setState({ jobs: <Text>Error Retrieving Data {error}</Text>, isLoading: false, refreshing: false })
-      })
+        this.setState({
+          jobs: <Text>Error Retrieving Data {error}</Text>,
+          isLoading: false,
+          refreshing: false,
+        });
+      });
   }
 
   async filterJobs(selectedValue) {
@@ -74,14 +80,16 @@ class JobsScreen extends Component {
   }
 
   fetchAllUsers() {
-    ApiService.get('data/getAll?collection=users')
+    ApiService.get("data/getAll?collection=users")
       .then(async (users) => {
         let userMap = new Map();
-        users.forEach((user, index) => userMap.set(user.profile.id, user.profile));
+        users.forEach((user, index) =>
+          userMap.set(user.profile.id, user.profile)
+        );
         this.setState({ users: userMap });
         return;
       })
-      .catch((error) => console.log("error retrieving data"))
+      .catch((error) => console.log("error retrieving data"));
   }
 
   async onRefresh() {
@@ -130,12 +138,19 @@ class JobsScreen extends Component {
               onPress={() => this.openFilterDialog()}>
               <Image
                 style={styles.filterIcon}
-                source={require('../../../../assets/filter_icon.png')} />
+                source={require("../../../../assets/filter_icon.png")}
+              />
             </TouchableOpacity>
           </View> */}
 
           <ScrollView
-            refreshControl={<RefreshControl refreshing={this.state.refreshing} onRefresh={() => this.onRefresh()} />}>
+            refreshControl={
+              <RefreshControl
+                refreshing={this.state.refreshing}
+                onRefresh={() => this.onRefresh()}
+              />
+            }
+          >
             {jobList}
           </ScrollView>
 
@@ -173,7 +188,8 @@ class JobsScreen extends Component {
             onSubmit={(selectedValue) => this.filterJobs(selectedValue)}
             onClose={() => this.closeFilterDialog()}
             filterOption={this.state.filterOption}
-            visible={this.state.isFilterDialogOpen}></FilterJobDialog>
+            visible={this.state.isFilterDialogOpen}
+          ></FilterJobDialog>
         </View>
       );
     }
@@ -208,26 +224,25 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     alignSelf: "center",
   },
-
   activityIndicator: {
     flex: 1,
-    justifyContent: 'center'
+    justifyContent: "center",
   },
 
   errorView: {
     flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginTop: '50%'
+    alignItems: "center",
+    justifyContent: "center",
+    marginTop: "50%",
   },
 
   errorText: {
     fontSize: 16,
-    fontWeight: 'bold'
+    fontWeight: "bold",
   },
 
   addJobParentView: {
-    alignSelf: 'flex-end',
+    alignSelf: "flex-end",
     marginRight: 20,
     marginBottom: 20,
   },
@@ -238,9 +253,9 @@ const styles = StyleSheet.create({
   },
 
   floatingButton: {
-    position: 'absolute',
+    position: "absolute",
     width: 75,
-    height: 75
+    height: 75,
   },
 
   filter: {
@@ -252,11 +267,11 @@ const styles = StyleSheet.create({
 
   filterIcon: {
     height: 40,
-    width: 40
+    width: 40,
   },
 
   filterIconView: {
-    alignSelf: 'flex-end',
+    alignSelf: "flex-end",
     height: 40,
     width: 40
   }
