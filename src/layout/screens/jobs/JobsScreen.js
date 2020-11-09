@@ -108,10 +108,10 @@ class JobsScreen extends Component {
             onPress={() => this.props.navigation.push("ViewJob", { jobInfo: job, userInfo: this.state.users.get(job.userId) })}>
             <JobCard title={job.position} data={job} userInfo={this.state.users.get(job.userId)} />
           </TouchableOpacity>)
-        : 
+        :
         <View style={styles.errorView}>
           <Text style={styles.errorText}>No jobs available at this time</Text>
-        </View> 
+        </View>
 
     if (this.state.isLoading) {
       return (
@@ -125,14 +125,14 @@ class JobsScreen extends Component {
     } else {
       return (
         <View style={styles.container}>
-          <View styles={styles.filterIconView}>
+          {/* <View styles={styles.filterIconView}>
             <TouchableOpacity
               onPress={() => this.openFilterDialog()}>
               <Image
                 style={styles.filterIcon}
                 source={require('../../../../assets/filter_icon.png')} />
             </TouchableOpacity>
-          </View>
+          </View> */}
 
           <ScrollView
             refreshControl={<RefreshControl refreshing={this.state.refreshing} onRefresh={() => this.onRefresh()} />}>
@@ -150,6 +150,15 @@ class JobsScreen extends Component {
             </TouchableOpacity>
           </View> */}
 
+          <FAB
+            style={styles.filter}
+            medium
+            animated={true}
+            color="#fff"
+            icon="filter"
+            theme={{ colors: { accent: "#70AF1A" } }}
+            onPress={() => this.openFilterDialog()}
+          />
           <FAB
             style={styles.fab}
             medium
@@ -232,6 +241,13 @@ const styles = StyleSheet.create({
     position: 'absolute',
     width: 75,
     height: 75
+  },
+
+  filter: {
+    position: 'absolute',
+    margin: 16,
+    right: 0,
+    bottom: '10%',
   },
 
   filterIcon: {

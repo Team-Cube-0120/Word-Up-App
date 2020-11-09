@@ -102,7 +102,7 @@ const styles = StyleSheet.create({
   container: {
     position: "relative",
     flex: 1,
-    backgroundColor: "#36485f",
+    backgroundColor: 'white',
   },
   header: {
     fontSize: 24,

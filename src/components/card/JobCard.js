@@ -46,14 +46,14 @@ class JobCard extends BaseCard {
         return (
             <View>
                 <Text style={this.styles.jobTitle}>{this.props.title}</Text>
-                <View style={this.styles.companyImageView}>
+                {/* <View style={this.styles.companyImageView}>
                     <Image
                         style={this.styles.companyImage}
                         source={{
                             uri: 'https://reactjs.org/logo-og.png',
                         }}
                     />
-                </View>
+                </View> */}
                 <View style={this.styles.containerView}>
                     {/* <Text style={this.styles.labels}>Company</Text> */}
                     <Text style={this.styles.companyInfo}>{this.props.data.company}</Text>

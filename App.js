@@ -18,42 +18,42 @@ const Stack = createStackNavigator();
 
 class App extends Component {
 
-  // autoLogin() {
-  //   firebase
-  //     .auth()
-  //     .signInWithEmailAndPassword('test1@gmail.com', 'password')
-  //     .then((response) => {
-  //       const uid = response.user.uid;
-  //       const usersRef = firebase.firestore().collection("users");
-  //       usersRef
-  //         .doc(uid)
-  //         .get()
-  //         .then(async (firestoreDocument) => {
-  //           if (!firestoreDocument.exists) {
-  //             alert("User does not exist anymore.");
-  //             return;
-  //           } else {
-  //             await storeData(USERINFO, firestoreDocument.data());
-  //           }
-  //         })
-  //         .catch((error) => {
-  //           alert(error);
-  //         });
-  //     })
-  //     .catch((error) => {
-  //       alert(error);
-  //   });
-  // }
+  autoLogin() {
+    firebase
+      .auth()
+      .signInWithEmailAndPassword('test1@gmail.com', 'password')
+      .then((response) => {
+        const uid = response.user.uid;
+        const usersRef = firebase.firestore().collection("users");
+        usersRef
+          .doc(uid)
+          .get()
+          .then(async (firestoreDocument) => {
+            if (!firestoreDocument.exists) {
+              alert("User does not exist anymore.");
+              return;
+            } else {
+              await storeData(USERINFO, firestoreDocument.data());
+            }
+          })
+          .catch((error) => {
+            alert(error);
+          });
+      })
+      .catch((error) => {
+        alert(error);
+    });
+  }
 
-  // componentDidMount() {
-  //   this.autoLogin();
-  // }
+  componentDidMount() {
+    this.autoLogin();
+  }
 
   render() {
     return (
       <NavigationContainer>
         <Stack.Navigator>
-          <Stack.Screen name="LoginStackNavigator" component={LoginStackScreen} options={{ headerShown: false }} />
+          {/* <Stack.Screen name="LoginStackNavigator" component={LoginStackScreen} options={{ headerShown: false }} /> */}
           <Stack.Screen name="TabNavigator" component={TabNavigator} options={{ headerShown: false }} />
         </Stack.Navigator>
       </NavigationContainer>

@@ -4,6 +4,7 @@ import { StyleSheet, Text, TextInput, Button, ScrollView, TouchableOpacity } fro
 import { Card, Input } from 'react-native-elements';
 import UuidGenerator from '../../../util/UuidGenerator';
 import PickerExample from './PickerExample';
+import DropDownSeverityExample from './DropDownSeverityExample';
 
 
 class CreateAlertsScreen extends Component {
@@ -25,30 +26,32 @@ class CreateAlertsScreen extends Component {
                 <Card>
                     <Card.Title>Create Alert</Card.Title>
                     <Card.Divider />
-                    <Text style={styles.text}>Name</Text>
+                    <Text style={styles.text}>Name *</Text>
                     <TextInput
                         style={styles.textInput}
-                        placeholder="Alert Name:"
+                        placeholder="e.g. tropical storm"
                         onChangeText={(name) => this.setState({ name: name })}></TextInput>
-                    <Text style={styles.text}>Severity</Text>
+                    <Text style={styles.text}>Severity *</Text>
+                    {/* <TextInput
+                        style={styles.textInput}
+                        placeholder="High"
+                        onChangeText={(severity) => this.setState({ severity: severity })}></TextInput> */}
+                    <DropDownSeverityExample value={this.state.alertType}
+                        onSelection={(alertType) => this.setState({ alertType: alertType })} />
+                    <Text style={styles.text}>Details *</Text>
                     <TextInput
                         style={styles.textInput}
-                        placeholder="Severity:"
-                        onChangeText={(severity) => this.setState({ severity: severity })}></TextInput>
-                    <Text style={styles.text}>Details</Text>
-                    <TextInput
-                        style={styles.textInput}
-                        placeholder="Details:"
+                        placeholder="e.g. relevant details for this alert"
                         onChangeText={(details) => this.setState({ details: details })}></TextInput>
-                    <Text style={styles.text}>Location</Text>
+                    <Text style={styles.text}>Location *</Text>
                     <TextInput
                         style={styles.textInput}
-                        placeholder="Location:"
+                        placeholder="e.g. 1234 Cherry Lane, Hampton, VA 42039"
                         onChangeText={(location) => this.setState({ location: location })}></TextInput>
-                    <Text style={styles.text}>Choose an Alert Type</Text>
-                    <PickerExample 
+                    <Text style={styles.text}>Choose an Alert Type *</Text>
+                    <PickerExample
                         value={this.state.alertType}
-                        onSelection={(alertType) => this.setState({ alertType: alertType })}/>
+                        onSelection={(alertType) => this.setState({ alertType: alertType })} />
 
                     <TouchableOpacity style={styles.button}>
                         <Button

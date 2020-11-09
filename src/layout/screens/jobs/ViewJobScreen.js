@@ -57,7 +57,7 @@ class ViewJobScreen extends Component {
                     <View style={styles.buttonLeft}>
                         <Button
                             title="Apply"
-                            disabled={true}
+                            disabled={false}
                             onPress={() => this.props.navigation.goBack()} />
                     </View>
                     <Card.Divider></Card.Divider>

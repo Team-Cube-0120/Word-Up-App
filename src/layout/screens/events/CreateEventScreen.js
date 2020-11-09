@@ -19,8 +19,8 @@ class CreateEventsScreen extends Component {
             eventType: 'N/A',
             eventId: 'N/A',
             isVisible: false,
-            startDate: 'N/A',
-            endDate: 'N/A',
+            startDate: '-',
+            endDate: '-',
             start: false,
             end: false,
         }
@@ -76,8 +76,8 @@ class CreateEventsScreen extends Component {
                 <Card>
                     <Card.Title>Create Event</Card.Title>
                     <Card.Divider />
-                    <Text style={styles.text}>Event Name</Text>
-                    <TextInput style={styles.textInput} placeholder="Event Name:"
+                    <Text style={styles.text}>Event Name *</Text>
+                    <TextInput style={styles.textInput} placeholder="e.g. Harrison's birthday party"
                         onChangeText={(eventName) => this.setState({ eventName: eventName })}></TextInput>
                     <View>
                         <Button title="Select Start Date and Time" onPress={() => { this.startState(); this.showPicker(); }} />
@@ -109,20 +109,20 @@ class CreateEventsScreen extends Component {
                     <View> 
                         <Text> </Text>
                     </View>
-                    <Text style={styles.text}>Details</Text>
-                    <TextInput style={styles.textInput} placeholder="Details:"
+                    <Text style={styles.text}>Details *</Text>
+                    <TextInput style={styles.textInput} placeholder="e.g. relevant details to specific event"
                         onChangeText={(details) => this.setState({ details: details })}></TextInput>
-                    <Text style={styles.text}>Location</Text>
-                    <TextInput style={styles.textInput} placeholder="Location:"
+                    <Text style={styles.text}>Location *</Text>
+                    <TextInput style={styles.textInput} placeholder="e.g. 1234 Cherry Lane, Hampton, VA 42039"
                         onChangeText={(location) => this.setState({ location: location })}></TextInput>
-                    <Text style={styles.text}>RSVP Code</Text>
-                    <TextInput style={styles.textInput} placeholder="RSVP Code:"
+                    <Text style={styles.text}>RSVP Code *</Text>
+                    <TextInput style={styles.textInput} placeholder="e.g. 192837"
                         onChangeText={(rsvpCode) => this.setState({ rsvpCode: rsvpCode })}></TextInput>
-                    <Text style={styles.text}>Co-hosts</Text>
-                    <TextInput style={styles.textInput} placeholder="Co-hosts:"
+                    <Text style={styles.text}>Co-hosts *</Text>
+                    <TextInput style={styles.textInput} placeholder="e.g. Henry Lake, Bill Johnson"
                         onChangeText={(coHosts) => this.setState({ coHosts: coHosts })}></TextInput>
 
-                    <Text style={styles.text}>Choose an Event Type</Text>
+                    <Text style={styles.text}>Choose an Event Type *</Text>
                     <PickerExample value={this.state.eventType}
                         onSelection={(eventType) => this.setState({ eventType: eventType })} />
 
