@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, ScrollView, Button, Text, StyleSheet, ActivityIndicator , Alert} from 'react-native';
+import { View, ScrollView, Button, Text, StyleSheet, ActivityIndicator, Alert } from 'react-native';
 import { Card } from 'react-native-elements';
 import { USERINFO } from '../../../enums/StorageKeysEnum';
 import { getData } from '../../../util/LocalStorage';
@@ -63,7 +63,7 @@ class ViewEventScreen extends Component {
 
     render() {
         return (
-            <ScrollView style = {styles.container}>
+            <ScrollView style={styles.container}>
                 <Card>
                     <Card.Title style={styles.cardTitle}>{this.state.eventInfo.eventName}</Card.Title>
                     <Card.Divider></Card.Divider>
@@ -100,10 +100,13 @@ class ViewEventScreen extends Component {
                         <Text style={styles.value}>{this.state.eventInfo.eventType}</Text>
                     </View>
 
-                    <View>
-                        <Button 
+                    <View style={{flexDirection: 'column', justifyContent: 'space-evenly', height: 120}}>
+                        <Button
                             title="Comment"
-                            onPress={() => this.props.navigation.push("EventComments", { eventInfo: this.state.eventInfo })}/>
+                            onPress={() => this.props.navigation.push("EventComments", { eventInfo: this.state.eventInfo })} />
+                        <Button
+                            title="RSVP"
+                            onPress={() => this.props.navigation.push("EventComments", { eventInfo: this.state.eventInfo })} />
                     </View>
                     <View style={styles.buttonView}>
                         {/* <Button style={styles.buttonLeft}
