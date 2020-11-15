@@ -54,6 +54,7 @@
     "react-native-safe-area-context": "3.1.4",
     "react-native-screens": "~2.10.1",
     "react-native-simple-radio-button": "^2.7.4",
+    "react-native-snap-carousel": "^3.9.1",
     "react-native-svg": "12.1.0",
     "react-native-uuid": "^1.4.9",
     "react-native-uuid-generator": "^6.1.1",
