@@ -222,15 +222,11 @@ const styles = StyleSheet.create({
           shadowRadius: 2,
           bottom: 25
         },
-        android: {
-          elevation: 2,
-        },
         default: {
           shadowColor: "#000",
           shadowOffset: { width: 1, height: 1 },
           shadowOpacity: 0.4,
-          shadowRadius: 2,
-          elevation: 2,
+          shadowRadius: 2
         },
       }),
   }
