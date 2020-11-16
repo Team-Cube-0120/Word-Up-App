@@ -8,16 +8,18 @@ class DropDownSeverityExample extends Component {
         value: PropTypes.string,
         onSelection: PropTypes.func
     }
-    
+
     render() {
         return (
             <View>
                 <Picker selectedValue={this.props.value}
                     style={styles.picker}
                     onValueChange={(itemValue, itemPosition) => this.props.onSelection(itemValue)} >
-                        <Picker.Item label="Low" value="Low" />
-                        <Picker.Item label="Medium" value="Medium" />
-                        <Picker.Item label="High" value="Highs" />
+                    <Picker.Item label="N/A" value="N/A" />
+                    <Picker.Item label="Low" value="Low" />
+                    <Picker.Item label="Medium" value="Medium" />
+                    <Picker.Item label="High" value="High" />
+                    <Picker.Item label="Urgent" value="Urgent" />
                 </Picker>
             </View>
         )
