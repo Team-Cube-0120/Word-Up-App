@@ -7,15 +7,15 @@ import {
   View,
   StyleSheet,
   Platform,
-  Dimensions
+  Dimensions,
 } from "react-native";
 import { CheckBox } from "react-native-elements";
 import { firebase } from "../../../../server/config/firebase/firebaseConfig";
 import icon from "../../../../assets/appLogo.png";
 import { storeData } from "../../../util/LocalStorage";
 import { USERINFO } from "../../../enums/StorageKeysEnum";
-import { DEFAULT_PROFILE_IMAGE } from '../../../enums/DefaultEnums';
-import {KeyboardAwareScrollView} from "react-native-keyboard-aware-scroll-view"
+import { DEFAULT_PROFILE_IMAGE } from "../../../enums/DefaultEnums";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 const screenWidth = Math.round(Dimensions.get("window").width);
 
@@ -78,7 +78,7 @@ class RegistrationScreen extends Component {
                 admin: this.state.checked,
                 jobIds: [],
                 eventIds: [],
-                alertIds: []
+                alertIds: [],
               };
               const usersRef = firebase.firestore().collection("users");
               usersRef
@@ -108,113 +108,113 @@ class RegistrationScreen extends Component {
 
   render() {
     return (
-      <KeyboardAwareScrollView style={styles.container}>
-          <Image style={styles.logo} source={icon} />
-          <View style={styles.checkBoxContainer}>
-            <Text
-              style={{
-                top: 18,
-                ...Platform.select({
-                  ios: {
-                    marginLeft:42
-                  },
-                  android: {
-                    marginLeft:60
-                  },
-                  default: {
-                    marginLeft:48
-                  },
-                }),
-                fontWeight: "bold",
-              }}
-            >
-              Admin
-            </Text>
-            <CheckBox
-              checked={this.state.checked}
-              onPress={() => this.setState({ checked: !this.state.checked })}
-            ></CheckBox>
-          </View>
-          <TextInput
-            style={styles.topInput}
-            placeholder="Full Name"
-            placeholderTextColor="#aaaaaa"
-            returnKeyType={"next"}
-            onSubmitEditing={() => {
-              this.emailInput.current.focus();
+      <KeyboardAwareScrollView extraScrollHeight={25} style={styles.container}>
+        <Image style={styles.logo} source={icon} />
+        <View style={styles.checkBoxContainer}>
+          <Text
+            style={{
+              top: 18,
+              ...Platform.select({
+                ios: {
+                  marginLeft: 42,
+                },
+                android: {
+                  marginLeft: 60,
+                },
+                default: {
+                  marginLeft: 48,
+                },
+              }),
+              fontWeight: "bold",
             }}
-            onChangeText={(text) => this.setState({ name: text })}
-            value={this.state.name}
-            underlineColorAndroid="transparent"
-            autoCapitalize="none"
-            blurOnSubmit={false}
-          />
-
-          <TextInput
-            style={styles.input}
-            ref={this.emailInput}
-            returnKeyType={"next"}
-            onSubmitEditing={() => {
-              this.passInput.current.focus();
-            }}
-            placeholder="Email"
-            placeholderTextColor="#aaaaaa"
-            onChangeText={(text) => this.setState({ email: text })}
-            value={this.state.email}
-            underlineColorAndroid="transparent"
-            autoCapitalize="none"
-            blurOnSubmit={false}
-          />
-
-          <TextInput
-            style={styles.input}
-            ref={this.passInput}
-            returnKeyType={"next"}
-            onSubmitEditing={() => {
-              this.confirmInput.current.focus();
-            }}
-            placeholderTextColor="#aaaaaa"
-            secureTextEntry
-            placeholder="Password"
-            onChangeText={(text) => this.setState({ password: text })}
-            value={this.state.password}
-            underlineColorAndroid="transparent"
-            autoCapitalize="none"
-            blurOnSubmit={false}
-          />
-
-          <TextInput
-            style={styles.input}
-            ref={this.confirmInput}
-            returnKeyType={"done"}
-            placeholderTextColor="#aaaaaa"
-            secureTextEntry
-            placeholder="Confirm Password"
-            onChangeText={(text) => this.setState({ confirmPassword: text })}
-            value={this.state.confirmPassword}
-            underlineColorAndroid="transparent"
-            autoCapitalize="none"
-          />
-
-          <TouchableOpacity
-            style={styles.button}
-            onPress={() => this.onRegisterPress()}
           >
-            <Text style={styles.buttonTitle}>Create account</Text>
-          </TouchableOpacity>
+            Admin
+          </Text>
+          <CheckBox
+            checked={this.state.checked}
+            onPress={() => this.setState({ checked: !this.state.checked })}
+          ></CheckBox>
+        </View>
+        <TextInput
+          style={styles.topInput}
+          placeholder="Full Name"
+          placeholderTextColor="#aaaaaa"
+          returnKeyType={"next"}
+          onSubmitEditing={() => {
+            this.emailInput.current.focus();
+          }}
+          onChangeText={(text) => this.setState({ name: text })}
+          value={this.state.name}
+          underlineColorAndroid="transparent"
+          autoCapitalize="none"
+          blurOnSubmit={false}
+        />
 
-          <View style={styles.footerView}>
-            <Text style={styles.footerText}>
-              Already got an account?{" "}
-              <Text
-                onPress={() => this.props.navigation.navigate("Login")}
-                style={styles.footerLink}
-              >
-                Log in
-              </Text>
+        <TextInput
+          style={styles.input}
+          ref={this.emailInput}
+          returnKeyType={"next"}
+          onSubmitEditing={() => {
+            this.passInput.current.focus();
+          }}
+          placeholder="Email"
+          placeholderTextColor="#aaaaaa"
+          onChangeText={(text) => this.setState({ email: text })}
+          value={this.state.email}
+          underlineColorAndroid="transparent"
+          autoCapitalize="none"
+          blurOnSubmit={false}
+        />
+
+        <TextInput
+          style={styles.input}
+          ref={this.passInput}
+          returnKeyType={"next"}
+          onSubmitEditing={() => {
+            this.confirmInput.current.focus();
+          }}
+          placeholderTextColor="#aaaaaa"
+          secureTextEntry
+          placeholder="Password"
+          onChangeText={(text) => this.setState({ password: text })}
+          value={this.state.password}
+          underlineColorAndroid="transparent"
+          autoCapitalize="none"
+          blurOnSubmit={false}
+        />
+
+        <TextInput
+          style={styles.input}
+          ref={this.confirmInput}
+          returnKeyType={"done"}
+          placeholderTextColor="#aaaaaa"
+          secureTextEntry
+          placeholder="Confirm Password"
+          onChangeText={(text) => this.setState({ confirmPassword: text })}
+          value={this.state.confirmPassword}
+          underlineColorAndroid="transparent"
+          autoCapitalize="none"
+        />
+
+        <TouchableOpacity
+          style={styles.button}
+          onPress={() => this.onRegisterPress()}
+        >
+          <Text style={styles.buttonTitle}>Create account</Text>
+        </TouchableOpacity>
+
+        <View style={styles.footerView}>
+          <Text style={styles.footerText}>
+            Already got an account?{" "}
+            <Text
+              onPress={() => this.props.navigation.navigate("Login")}
+              style={styles.footerLink}
+            >
+              Log in
             </Text>
-          </View>
-          </KeyboardAwareScrollView>
+          </Text>
+        </View>
+      </KeyboardAwareScrollView>
     );
   }
 }
@@ -222,7 +222,7 @@ class RegistrationScreen extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor:"#FAFAFA"
+    backgroundColor: "#FAFAFA",
   },
   checkBoxContainer: {
     flexDirection: "row",

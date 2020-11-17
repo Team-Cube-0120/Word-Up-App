@@ -12,10 +12,10 @@ import JobCard from "../../../components/card/JobCard";
 import ApiService from "../../../service/api/ApiService";
 import profileImage from "../../../../assets/profile.png";
 import { FAB } from "react-native-paper";
-import React, { Component } from 'react';
-import FilterJobDialog from '../../../components/dialog/FilterJobDialog';
-import { ALL_TIME } from '../../../enums/FilterOptionsEnum';
-import { formatFilterOption } from '../../../formatter/FilterJobsFormatter'
+import React, { Component } from "react";
+import FilterJobDialog from "../../../components/dialog/FilterJobDialog";
+import { ALL_TIME } from "../../../enums/FilterOptionsEnum";
+import { formatFilterOption } from "../../../formatter/FilterJobsFormatter";
 
 class JobsScreen extends Component {
   constructor(props) {
@@ -26,13 +26,20 @@ class JobsScreen extends Component {
       jobs: [],
       users: new Map(),
       isFilterDialogOpen: false,
-      filterOption: ALL_TIME
-    }
+      filterOption: ALL_TIME,
+    };
   }
 
   componentDidMount() {
     this.fetchJobs();
     this.fetchAllUsers();
+    this.willFocusSubscription = this.props.navigation.addListener(
+      "focus",
+      () => {
+        this.fetchJobs();
+        this.fetchAllUsers();
+      }
+    );
   }
 
   fetchJobs() {
@@ -49,8 +56,12 @@ class JobsScreen extends Component {
         this.setState({ isLoading: false, jobs: jobs, refreshing: false });
       })
       .catch((error) => {
-        this.setState({ jobs: <Text>Error Retrieving Data {error}</Text>, isLoading: false, refreshing: false })
-      })
+        this.setState({
+          jobs: <Text>Error Retrieving Data {error}</Text>,
+          isLoading: false,
+          refreshing: false,
+        });
+      });
   }
 
   async fetchFilteredJobs() {
@@ -109,17 +120,30 @@ class JobsScreen extends Component {
   render() {
     const navigation = this.props.navigation;
     let jobList =
-      (this.state.jobs.length > 0 && this.state.users.size > 0) ?
-        this.state.jobs.map((job, index) =>
+      this.state.jobs.length > 0 && this.state.users.size > 0 ? (
+        this.state.jobs.map((job, index) => (
           <TouchableOpacity
+            style={styles.cardShadows}
             key={index}
-            onPress={() => this.props.navigation.push("ViewJob", { jobInfo: job, userInfo: this.state.users.get(job.userId) })}>
-            <JobCard title={job.position} data={job} userInfo={this.state.users.get(job.userId)} />
-          </TouchableOpacity>)
-        :
+            onPress={() =>
+              this.props.navigation.push("ViewJob", {
+                jobInfo: job,
+                userInfo: this.state.users.get(job.userId),
+              })
+            }
+          >
+            <JobCard
+              title={job.position}
+              data={job}
+              userInfo={this.state.users.get(job.userId)}
+            />
+          </TouchableOpacity>
+        ))
+      ) : (
         <View style={styles.errorView}>
           <Text style={styles.errorText}>No jobs available at this time</Text>
         </View>
+      );
 
     if (this.state.isLoading) {
       return (
@@ -129,7 +153,8 @@ class JobsScreen extends Component {
             color="#70AF1A"
             animating={this.state.isLoading}
           />
-        </View>)
+        </View>
+      );
     } else {
       return (
         <View style={styles.container}>
@@ -180,7 +205,7 @@ class JobsScreen extends Component {
             animated={true}
             color="#fff"
             icon="plus"
-            theme={{ colors: { accent: "#70AF1A" } }}
+            theme={{ colors: { accent: "#006400" } }}
             onPress={() => navigation.navigate("CreateJobs")}
           />
 
@@ -200,7 +225,7 @@ const styles = StyleSheet.create({
   container: {
     position: "relative",
     flex: 1,
-    backgroundColor: "white",
+    backgroundColor: "#FAFAFA",
   },
   fab: {
     position: "absolute",
@@ -259,22 +284,42 @@ const styles = StyleSheet.create({
   },
 
   filter: {
-    position: 'absolute',
+    position: "absolute",
     margin: 16,
     right: 0,
-    bottom: '10%',
+    ...Platform.select({
+      ios: {
+        bottom: "9.5%",
+      },
+      android: {
+        bottom: "11%",
+      },
+      default: {
+        bottom: "11%",
+      },
+    }),
   },
 
-  filterIcon: {
-    height: 40,
-    width: 40,
+  cardShadows: {
+    ...Platform.select({
+      ios: {
+        shadowColor: "#000",
+        shadowOffset: { width: 1, height: 1 },
+        shadowOpacity: 0.4,
+        shadowRadius: 2,
+      },
+      android: {
+        elevation: 2,
+      },
+      default: {
+        shadowColor: "#000",
+        shadowOffset: { width: 1, height: 1 },
+        shadowOpacity: 0.4,
+        shadowRadius: 2,
+        elevation: 2,
+      },
+    }),
   },
-
-  filterIconView: {
-    alignSelf: "flex-end",
-    height: 40,
-    width: 40
-  }
 });
 
 export default JobsScreen;

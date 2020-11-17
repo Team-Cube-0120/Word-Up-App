@@ -6,6 +6,7 @@ import {
   SafeAreaView,
   Dimensions,
   Image,
+  ActivityIndicator,
 } from "react-native";
 import Carousel from "react-native-snap-carousel";
 import icon from "../../../../assets/appLogo.png";
@@ -28,6 +29,7 @@ class HomeScreen extends Component {
     super(props);
     this.state = {
       fullname: "",
+      loading: true,
       activeIndex: 0,
       carouselItems: [
         {
@@ -56,7 +58,11 @@ class HomeScreen extends Component {
   }
 
   componentDidMount() {
-    this.getUserInfo().catch((e) => console.log(e));
+    this.getUserInfo()
+      .then(() => {
+        this.setState({ loading: false });
+      })
+      .catch((e) => console.log(e));
   }
 
   async getUserInfo() {
@@ -89,41 +95,52 @@ class HomeScreen extends Component {
   }
 
   render() {
-    return (
-      <SafeAreaView
-        style={{ flex: 1, backgroundColor: "#FAFAFA"}}
-      >
-        <View style={{ alignItems: "center" }}>
-          <Image
-            source={icon}
-            style={styles.logo}
-          ></Image>
-          <View style={styles.welcomeCard}>
-            <Text style={{ fontSize: 20, top: 10, left: 5 }}>
-              Good {this.getGreetingTime(moment())}, {this.state.fullname}
-            </Text>
-          </View>
-        </View>
+    if (this.state.loading) {
+      return (
         <View
-          style={{ flex: 1, flexDirection: "row", justifyContent: "center" }}
+          style={{
+            flex: 1,
+            justifyContent: "center",
+            flexDirection: "row",
+            justifyContent: "space-around",
+            padding: 10,
+          }}
         >
-          <Carousel
-            layout={"default"}
-            ref={(ref) => (this.carousel = ref)}
-            data={this.state.carouselItems}
-            layout={"tinder"}
-            sliderWidth={screenWidth}
-            itemWidth={screenWidth}
-            autoplay={true}
-            loop={true}
-            autoplayDelay={3000}
-            autoplayInterval={5000}
-            renderItem={this._renderItem}
-            onSnapToItem={(index) => this.setState({ activeIndex: index })}
-          />
+          <ActivityIndicator size="large" color="#70AF1A" />
         </View>
-      </SafeAreaView>
-    );
+      );
+    } else {
+      return (
+        <SafeAreaView style={{ flex: 1, backgroundColor: "#FAFAFA" }}>
+          <View style={{ alignItems: "center" }}>
+            <Image source={icon} style={styles.logo}></Image>
+            <View style={styles.welcomeCard}>
+              <Text style={{ fontSize: 20, top: 10, left: 5 }}>
+                Good {this.getGreetingTime(moment())}, {this.state.fullname}
+              </Text>
+            </View>
+          </View>
+          <View
+            style={{ flex: 1, flexDirection: "row", justifyContent: "center" }}
+          >
+            <Carousel
+              layout={"default"}
+              ref={(ref) => (this.carousel = ref)}
+              data={this.state.carouselItems}
+              layout={"tinder"}
+              sliderWidth={screenWidth}
+              itemWidth={screenWidth}
+              autoplay={true}
+              loop={true}
+              autoplayDelay={3000}
+              autoplayInterval={5000}
+              renderItem={this._renderItem}
+              onSnapToItem={(index) => this.setState({ activeIndex: index })}
+            />
+          </View>
+        </SafeAreaView>
+      );
+    }
   }
 
   getGreetingTime(m) {
@@ -211,25 +228,25 @@ const styles = StyleSheet.create({
     }),
   },
   logo: {
-    width: 100, 
-    height: 100, 
+    width: 100,
+    height: 100,
     alignContent: "center",
     ...Platform.select({
-        ios: {
-          shadowColor: "#000",
-          shadowOffset: { width: 1, height: 1 },
-          shadowOpacity: 0.4,
-          shadowRadius: 2,
-          bottom: 25
-        },
-        default: {
-          shadowColor: "#000",
-          shadowOffset: { width: 1, height: 1 },
-          shadowOpacity: 0.4,
-          shadowRadius: 2
-        },
-      }),
-  }
+      ios: {
+        shadowColor: "#000",
+        shadowOffset: { width: 1, height: 1 },
+        shadowOpacity: 0.4,
+        shadowRadius: 2,
+        bottom: 25,
+      },
+      default: {
+        shadowColor: "#000",
+        shadowOffset: { width: 1, height: 1 },
+        shadowOpacity: 0.4,
+        shadowRadius: 2,
+      },
+    }),
+  },
 });
 
 export default HomeScreen;

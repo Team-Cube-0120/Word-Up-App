@@ -9,22 +9,21 @@ import {
   Alert,
 } from "react-native";
 import { firebase } from "../../../../server/config/firebase/firebaseConfig";
-import {KeyboardAwareScrollView} from "react-native-keyboard-aware-scroll-view";
-import { AirbnbRating } from 'react-native-ratings';
-
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import { AirbnbRating } from "react-native-ratings";
 
 export default function FeedbackScreen({ navigation }) {
   const [name, setName] = useState("");
   const [feedback, setfeedback] = useState("");
   const [ratings, setRatings] = useState("");
 
-  const giveFeedback= async () => {
-    alert("Thank you for your feedback!")
+  const giveFeedback = async () => {
+    alert("Thank you for your feedback!");
     const data = {
-        rating: ratings,
-        name: name,
-        feedback: feedback
-    }
+      rating: ratings,
+      name: name,
+      feedback: feedback,
+    };
     const uid = firebase.auth().currentUser.uid;
     const usersRef = firebase.firestore().collection("feedback");
     usersRef
@@ -36,62 +35,58 @@ export default function FeedbackScreen({ navigation }) {
       .catch((error) => {
         alert(error);
       });
-  }
-
+  };
 
   return (
     // <View>
-      <KeyboardAwareScrollView
-      style={styles.container}>
+    <KeyboardAwareScrollView extraScrollHeight={25} style={styles.container}>
+      <Text style={styles.changePassText}>We want to hear from you!</Text>
 
-        <Text style={styles.changePassText}>
-          We want to hear from you!
-        </Text>
+      <AirbnbRating
+        count={5}
+        reviews={["Terrible", "Bad", "OK", "Good", "Amazing"]}
+        defaultRating={4}
+        showRating
+        onFinishRating={(rating) => setRatings(rating)}
+        size={40}
+      />
 
-        <AirbnbRating
-            count={5}
-            reviews={["Terrible", "Bad", "OK", "Good", "Amazing"]}
-            defaultRating={4}
-            showRating
-            onFinishRating={(rating) => setRatings(rating)}
-            size={40}
-            />
+      <TextInput
+        style={styles.input}
+        placeholderTextColor="#aaaaaa"
+        placeholder="Enter your name"
+        onChangeText={(text) => setName(text)}
+        value={name}
+        underlineColorAndroid="transparent"
+        returnKeyType={"done"}
+      />
 
-        <TextInput
-          style={styles.input}
-          placeholderTextColor="#aaaaaa"
-          placeholder="Enter your name"
-          onChangeText={(text) => setName(text)}
-          value={name}
-          underlineColorAndroid="transparent"
-          returnKeyType={"done"}
-        />
+      <TextInput
+        style={styles.inputLast}
+        placeholderTextColor="#aaaaaa"
+        multiline={true}
+        placeholder="Tell us about your experience"
+        onChangeText={(text) => setfeedback(text)}
+        value={feedback}
+        underlineColorAndroid="transparent"
+        returnKeyType={"done"}
+      />
 
-        <TextInput
-          style={styles.inputLast}
-          placeholderTextColor="#aaaaaa"
-          multiline={true}
-          placeholder="Tell us about your experience"
-          onChangeText={(text) => setfeedback(text)}
-          value={feedback}
-          underlineColorAndroid="transparent"
-          returnKeyType={"done"}
-        />
-
-        <TouchableOpacity style={styles.button} onPress={() => {
+      <TouchableOpacity
+        style={styles.button}
+        onPress={() => {
           if (feedback.length == 0) {
-            alert("Feedback is empty! Please enter your feedback")
+            alert("Feedback is empty! Please enter your feedback");
           } else if (name.length == 0) {
-            alert("Name is empty! Please enter your name")
+            alert("Name is empty! Please enter your name");
+          } else {
+            giveFeedback();
           }
-          else {
-            giveFeedback()
-          }
-          }}>
-          <Text style={styles.buttonTitle}>Submit Feedback</Text>
-        </TouchableOpacity>
-        </KeyboardAwareScrollView>
-        
+        }}
+      >
+        <Text style={styles.buttonTitle}>Submit Feedback</Text>
+      </TouchableOpacity>
+    </KeyboardAwareScrollView>
   );
 }
 
@@ -100,18 +95,18 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#FAFAFA",
   },
-  changePassInput:{
-    fontSize:140, 
-    marginTop:35,
+  changePassInput: {
+    fontSize: 140,
+    marginTop: 35,
     ...Platform.select({
       ios: {
-        marginLeft:115
+        marginLeft: 115,
       },
       android: {
-        marginLeft:135
+        marginLeft: 135,
       },
       default: {
-        marginLeft:125
+        marginLeft: 125,
       },
     }),
   },
@@ -137,18 +132,18 @@ const styles = StyleSheet.create({
       },
     }),
   },
-  changePassText:{
-    fontSize:28,
-    marginTop:30,
+  changePassText: {
+    fontSize: 28,
+    marginTop: 30,
     ...Platform.select({
       ios: {
-        marginLeft:36
+        marginLeft: 36,
       },
       android: {
-        marginLeft:42
+        marginLeft: 42,
       },
       default: {
-        marginLeft:39
+        marginLeft: 39,
       },
     }),
   },
@@ -270,6 +265,5 @@ const styles = StyleSheet.create({
     color: "white",
     fontSize: 16,
     fontWeight: "bold",
-  }
+  },
 });
-

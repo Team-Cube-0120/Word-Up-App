@@ -31,7 +31,7 @@ import ModalSelector from "react-native-modal-selector";
 import DateTimePicker from "react-native-modal-datetime-picker";
 import SubmissionDialog from "../../../components/dialog/SubmissionDialog";
 import moment from "moment";
-import ApiService from '../../../service/api/ApiService';
+import ApiService from "../../../service/api/ApiService";
 import * as ImagePicker from "expo-image-picker";
 
 const screenWidth = Math.round(Dimensions.get("window").width);
@@ -90,7 +90,7 @@ class SettingsScreen extends Component {
   componentDidMount() {
     this.getUserInfo().catch((e) => console.log(e));
     this.willFocusSubscription = this.props.navigation.addListener(
-      'focus',
+      "focus",
       () => {
         this.getUserInfo().catch((e) => console.log(e));
       }
@@ -107,7 +107,6 @@ class SettingsScreen extends Component {
     })().catch((e) => console.log(e));
   }
 
-
   pickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: "Images",
@@ -121,8 +120,7 @@ class SettingsScreen extends Component {
     if (!result.cancelled) {
       // console.log(this.state.profile)
       this.setState({ selectedImage: true });
-      this.setState({ uploadedImage: false })
-
+      this.setState({ uploadedImage: false });
 
       this.uploadImage(result.uri, "profileImage-" + this.state.profile.id)
         .then((response) => {
@@ -130,7 +128,7 @@ class SettingsScreen extends Component {
           let copyTmpData = { ...this.state.tmpData };
           copyTmpData["profileImageUrl"] = response;
           this.setState({ tmpData: copyTmpData });
-          this.setState({ uploadedImage: true })
+          this.setState({ uploadedImage: true });
           this.setState({ selectedImage: false });
           this.setState({
             profile: {
@@ -145,16 +143,16 @@ class SettingsScreen extends Component {
               gender: this.state.profile.gender,
               admin: this.state.profile.admin,
               id: this.state.profile.id,
-            }
-          })
+            },
+          });
         })
         .catch((e) => {
-          alert("Error: File not uploaded ")
-          this.setState({ uploadedImage: false })
+          alert("Error: File not uploaded ");
+          this.setState({ uploadedImage: false });
           this.setState({ selectedImage: false });
         });
     } else if (result.cancelled) {
-      this.setState({ uploadedImage: false })
+      this.setState({ uploadedImage: false });
       this.setState({ selectedImage: false });
       alert("Image could was not selected");
     }
@@ -270,7 +268,7 @@ class SettingsScreen extends Component {
         let storeDataA = await getData(USERINFO);
         storeDataA.profile = this.state.profile;
         await storeData(USERINFO, storeDataA);
-        return
+        return;
       })
       .catch((error) =>
         this.setState({
@@ -343,15 +341,16 @@ class SettingsScreen extends Component {
             />
             <View style={styles.userInfoSection}>
               <View style={{ flexDirection: "row", marginTop: 10 }}>
-                {(this.state.profile.profileImageUrl == "" && this.state.isImgLoaded) && (
-                  <Image
-                    source={profileImage}
-                    style={{ width: 100, height: 100, borderRadius: 100 / 2 }}
-                  />
-                )}
+                {this.state.profile.profileImageUrl == "" &&
+                  this.state.isImgLoaded && (
+                    <Image
+                      source={profileImage}
+                      style={{ width: 100, height: 100, borderRadius: 100 / 2 }}
+                    />
+                  )}
 
-                {(this.state.isImgLoaded &&
-                  this.state.profile.profileImageUrl !== "") && (
+                {this.state.isImgLoaded &&
+                  this.state.profile.profileImageUrl !== "" && (
                     <Image
                       resizeMethod="auto"
                       source={{
@@ -461,42 +460,51 @@ class SettingsScreen extends Component {
         );
       } else if (this.state.isEditProfile) {
         return (
-          <KeyboardAwareScrollView style={styles.container}>
+          <KeyboardAwareScrollView
+            extraScrollHeight={25}
+            style={styles.container}
+          >
             <View>
               <View style={styles.userInfoSection}>
                 <View style={{ flexDirection: "row", marginTop: 18 }}>
-
-                  {(this.state.selectedImage && (!this.state.uploadedImage)) && (
-                    <ActivityIndicator size="large" color="#006400" />)}
-
-                  {(this.state.tmpData.profileImageUrl == "" && ((!this.state.selectedImage && (!this.state.uploadedImage)) || (!this.state.selectedImage && (this.state.uploadedImage)))) && (
-                    <TouchableOpacity onPress={this.pickImage}>
-                      <Image
-                        source={profileImage}
-                        style={{
-                          width: 100,
-                          height: 100,
-                          borderRadius: 100 / 2,
-                        }}
-                      />
-                    </TouchableOpacity>
+                  {this.state.selectedImage && !this.state.uploadedImage && (
+                    <ActivityIndicator size="large" color="#006400" />
                   )}
 
-                  {(this.state.tmpData.profileImageUrl != "" && ((!this.state.selectedImage && (!this.state.uploadedImage)) || (!this.state.selectedImage && (this.state.uploadedImage)))) && (
-                    <TouchableOpacity onPress={this.pickImage}>
-                      <Image
-                        resizeMethod="auto"
-                        source={{
-                          uri: this.state.tmpData.profileImageUrl,
-                        }}
-                        style={{
-                          width: 100,
-                          height: 100,
-                          borderRadius: 100 / 2,
-                        }}
-                      />
-                    </TouchableOpacity>
-                  )}
+                  {this.state.tmpData.profileImageUrl == "" &&
+                    ((!this.state.selectedImage && !this.state.uploadedImage) ||
+                      (!this.state.selectedImage &&
+                        this.state.uploadedImage)) && (
+                      <TouchableOpacity onPress={this.pickImage}>
+                        <Image
+                          source={profileImage}
+                          style={{
+                            width: 100,
+                            height: 100,
+                            borderRadius: 100 / 2,
+                          }}
+                        />
+                      </TouchableOpacity>
+                    )}
+
+                  {this.state.tmpData.profileImageUrl != "" &&
+                    ((!this.state.selectedImage && !this.state.uploadedImage) ||
+                      (!this.state.selectedImage &&
+                        this.state.uploadedImage)) && (
+                      <TouchableOpacity onPress={this.pickImage}>
+                        <Image
+                          resizeMethod="auto"
+                          source={{
+                            uri: this.state.tmpData.profileImageUrl,
+                          }}
+                          style={{
+                            width: 100,
+                            height: 100,
+                            borderRadius: 100 / 2,
+                          }}
+                        />
+                      </TouchableOpacity>
+                    )}
                 </View>
                 <View style={styles.CircleShapeView}>
                   <MaterialCommunityIconsIcon
@@ -736,7 +744,6 @@ class SettingsScreen extends Component {
                           Bio
                         </Dialog.Title>
                         <Dialog.Content>
-
                           {true && (
                             <TextInput
                               style={{ fontSize: 20, color: "black" }}
@@ -779,7 +786,7 @@ class SettingsScreen extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor:"#FAFAFA"
+    backgroundColor: "#FAFAFA",
   },
   boxName: {
     ...Platform.select({

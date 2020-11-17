@@ -8,7 +8,7 @@ import {
   StyleSheet,
   Platform,
   ScrollView,
-  ActivityIndicator
+  ActivityIndicator,
 } from "react-native";
 import Modal from "react-native-modal";
 import { firebase } from "../../../../server/config/firebase/firebaseConfig";
@@ -23,7 +23,7 @@ export default function LoginScreen({ navigation }) {
   const [password, setPassword] = useState("");
   const [resetPass, setResetPass] = useState("");
   const [visible, setVisible] = useState(false);
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(false);
   const pass = useRef(null);
   const emailRef = useRef(null);
 
@@ -34,9 +34,9 @@ export default function LoginScreen({ navigation }) {
   };
 
   useEffect(() => {
-    setLoading(true)
-    const usersRef = firebase.firestore().collection('users');
-    firebase.auth().onAuthStateChanged(user => {
+    setLoading(true);
+    const usersRef = firebase.firestore().collection("users");
+    firebase.auth().onAuthStateChanged((user) => {
       if (user) {
         usersRef
           .doc(user.uid)
@@ -56,7 +56,7 @@ export default function LoginScreen({ navigation }) {
             alert(error);
           });
       } else {
-        setLoading(false)
+        setLoading(false);
       }
     });
   }, []);
@@ -256,11 +256,12 @@ export default function LoginScreen({ navigation }) {
     return (
       <View style={styles.container}>
         <ScrollView
+          extraScrollHeight={25}
           style={{ flex: 1, width: "100%" }}
           keyboardShouldPersistTaps="always"
         >
           <Image style={styles.logo} source={icon} />
-  
+
           <TouchableOpacity
             hitSlop={{ top: 15, left: 10, right: 10 }}
             style={styles.passwordReset}
@@ -268,7 +269,7 @@ export default function LoginScreen({ navigation }) {
           >
             <Text style={styles.resetText}>Forgot Password</Text>
           </TouchableOpacity>
-  
+
           <View style={{ flex: 1 }}>
             <Modal
               isVisible={visible}
@@ -332,7 +333,7 @@ export default function LoginScreen({ navigation }) {
               </View>
             </Modal>
           </View>
-  
+
           <TextInput
             style={styles.input}
             ref={emailRef}
@@ -348,7 +349,7 @@ export default function LoginScreen({ navigation }) {
             autoCapitalize="none"
             blurOnSubmit={false}
           />
-  
+
           <TextInput
             style={styles.input}
             ref={pass}
@@ -361,24 +362,29 @@ export default function LoginScreen({ navigation }) {
             autoCapitalize="none"
             returnKeyType={"done"}
           />
-  
-          <TouchableOpacity style={styles.button} onPress={() => onLoginPress()}>
+
+          <TouchableOpacity
+            style={styles.button}
+            onPress={() => onLoginPress()}
+          >
             <Text style={styles.buttonTitle}>Log in</Text>
           </TouchableOpacity>
-  
+
           <View style={{ flex: 1, alignItems: "center", marginTop: 5 }}>
             <Text style={{ fontSize: 16, color: "gray" }}>or </Text>
           </View>
-  
+
           <TouchableOpacity
             style={styles.signButton}
             onPress={() => signInWithGoogle()}
           >
-            <Text style={{ fontSize: 16, color: "#70AF1A", fontWeight: "bold" }}>
+            <Text
+              style={{ fontSize: 16, color: "#70AF1A", fontWeight: "bold" }}
+            >
               Sign in with Google
             </Text>
           </TouchableOpacity>
-  
+
           <View style={styles.footerView}>
             <Text style={styles.footerText}>
               Don't have an account?{" "}
@@ -391,9 +397,7 @@ export default function LoginScreen({ navigation }) {
       </View>
     );
   }
-
-  }
-
+}
 
 const styles = StyleSheet.create({
   container: {
