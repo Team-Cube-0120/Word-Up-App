@@ -11,11 +11,11 @@ import {
 } from "react-native";
 import { Card } from "react-native-elements";
 import DeleteDialog from '../../../components/dialog/DeleteDialog';
-import { USERINFO } from "../../../enums/StorageKeysEnum";
-import { getData } from "../../../util/LocalStorage";
 import { FAB } from "react-native-paper";
 import ApiService from "../../../service/api/ApiService";
 import RequestOptions from "../../../service/api/RequestOptions";
+import { getData, storeData, updateUserInfo } from '../../../util/LocalStorage';
+import { USERINFO } from '../../../enums/StorageKeysEnum';
 
 class ViewEventScreen extends Component {
   constructor(props) {
@@ -50,7 +50,8 @@ class ViewEventScreen extends Component {
     let itemId = this.state.eventInfo.eventId;
     this.setState({ deleteLoading: true });
     ApiService.delete('data/events/delete?collection=events&document=' + itemId + "&userId=" + this.state.eventInfo.userId)
-      .then((response) => {
+    .then((response) => updateUserInfo(this.state.eventInfo.userId))
+    .then((response) => {
         this.closeDialog();
         Alert.alert(
           'Notice',

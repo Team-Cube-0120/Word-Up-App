@@ -12,10 +12,10 @@ import {
 } from "react-native";
 import DeleteDialog from '../../../components/dialog/DeleteDialog'
 import { Card, Avatar } from "react-native-elements";
-import { USERINFO } from "../../../enums/StorageKeysEnum";
 import { formatToMMDDYYYY } from "../../../formatter/TimeFormatter";
-import { getData } from "../../../util/LocalStorage";
 import ApiService from "../../../service/api/ApiService";
+import { getData, storeData, updateUserInfo } from '../../../util/LocalStorage';
+import { USERINFO } from '../../../enums/StorageKeysEnum';
 
 class ViewJobScreen extends Component {
   constructor(props) {
@@ -67,11 +67,12 @@ class ViewJobScreen extends Component {
     let itemId = this.state.jobInfo.jobId;
     this.setState({ deleteLoading: true });
     ApiService.delete('data/jobs/delete?collection=jobs&document=' + itemId + "&userId=" + this.state.jobInfo.userId)
+      .then((response) => updateUserInfo(this.state.jobInfo.userId))
       .then((response) => {
         this.closeDialog();
         Alert.alert(
-          'Notice', 
-          'Your job has been deleted', 
+          'Notice',
+          'Your job has been deleted',
           [{
             text: 'Return',
             onPress: () => this.props.navigation.navigate("Jobs")
