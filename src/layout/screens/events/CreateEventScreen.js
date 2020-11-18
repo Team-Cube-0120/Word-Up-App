@@ -5,7 +5,8 @@ import PickerExample from './PickerExample';
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import moment from 'moment';
 import UuidGenerator from '../../../util/UuidGenerator';
-
+import { getData, storeData, updateUserInfo } from '../../../util/LocalStorage';
+import { USERINFO } from '../../../enums/StorageKeysEnum';
 
 class CreateEventsScreen extends Component {
     constructor(props) {
@@ -18,6 +19,7 @@ class CreateEventsScreen extends Component {
             coHosts: 'N/A',
             eventType: 'N/A',
             eventId: 'N/A',
+            userId: 'N/A',
             isVisible: false,
             startDate: '-',
             endDate: '-',
@@ -133,6 +135,8 @@ class CreateEventsScreen extends Component {
                             title="Create Event"
                             onPress={async () => {
                                 this.state.eventId = await UuidGenerator.generateUuid();
+                                let userInfo = await getData(USERINFO);
+                                this.state.userId = userInfo.profile.id;
                                 this.props.navigation.push('ReviewEvents', { eventInfo: this.state })
                             }}
                         ></Button>

@@ -7,6 +7,7 @@ import {
   Image,
   Text,
   StyleSheet,
+  Alert,
   ActivityIndicator,
 } from "react-native";
 import DeleteDialog from '../../../components/dialog/DeleteDialog'
@@ -27,6 +28,7 @@ class ViewJobScreen extends Component {
       editButtonView: null,
       deleteButtonView: null,
       deleteDialogVisible: false,
+      deleteLoading: false,
       datePosted: formatToMMDDYYYY(jobInfo.datePosted._seconds),
     };
   }
@@ -36,8 +38,8 @@ class ViewJobScreen extends Component {
   }
 
   async isJobCreator() {
-    let userInfo = await getData(USERINFO);
-    if (userInfo.admin || userInfo.jobIds.includes(this.state.jobInfo.jobId)) {
+    let loggedInUser = await getData(USERINFO);
+    if (loggedInUser.admin || loggedInUser.jobIds.includes(this.state.jobInfo.jobId)) {
       this.setState({
         editButtonView: (
           <Button
@@ -61,8 +63,31 @@ class ViewJobScreen extends Component {
     }
   }
 
-  deleteJob() {
-    // ApiService.
+  async deleteJob() {
+    let itemId = this.state.jobInfo.jobId;
+    this.setState({ deleteLoading: true });
+    ApiService.delete('data/jobs/delete?collection=jobs&document=' + itemId + "&userId=" + this.state.jobInfo.userId)
+      .then((response) => {
+        this.closeDialog();
+        Alert.alert(
+          'Notice', 
+          'Your job has been deleted', 
+          [{
+            text: 'Return',
+            onPress: () => this.props.navigation.navigate("Jobs")
+          }])
+      })
+      .catch((error) => {
+        this.closeDialog();
+        Alert.alert(
+          'Error',
+          'There was a problem deleting this job. Please try again.',
+          [{
+            text: 'Close',
+            onPress: () => this.closeDialog()
+          }]
+        )
+      })
   }
 
   openDialog() {
@@ -70,7 +95,7 @@ class ViewJobScreen extends Component {
   }
 
   closeDialog() {
-    this.setState({ deleteDialogVisible: false })
+    this.setState({ deleteDialogVisible: false, deleteLoading: false });
   }
 
   render() {
@@ -98,7 +123,8 @@ class ViewJobScreen extends Component {
           <DeleteDialog
             visible={this.state.deleteDialogVisible}
             onClose={() => this.closeDialog()}
-            onSubmit={() => this.deleteJob()}></DeleteDialog>
+            onSubmit={() => this.deleteJob()}
+            isSubmitting={this.state.deleteLoading}></DeleteDialog>
           <View style={styles.buttonLeft}>
             <Button
               color="#70AF1A"

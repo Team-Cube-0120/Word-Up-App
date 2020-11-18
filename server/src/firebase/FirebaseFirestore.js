@@ -1,3 +1,4 @@
+const { firestore } = require('firebase-admin');
 const admin = require('firebase-admin');
 const serviceAccount = require('../../config/firebase/service-account-credentials.json');
 
@@ -19,6 +20,32 @@ class FirebaseFirestore {
                 .set(data)
                 .then(() => resolve("Data successfully posted"))
                 .catch((error) => reject("Error posting data: " + error));
+        });
+    }
+
+    async postJob(collection, document, data) {
+        return new Promise((resolve, reject) => {
+            try {
+                this.updateUserItemId(data.userId, { jobIds: firestore.FieldValue.arrayUnion(data.jobId) })
+                    .then((response) => this.post(collection, document, data))
+                    .then((response) => resolve(response))
+                    .then((error) => reject(error))
+            } catch (e) {
+                reject(e);
+            }
+        });
+    }
+
+    async postEvent(collection, document, data) {
+        return new Promise((resolve, reject) => {
+            try {
+                this.updateUserItemId(data.userId, { eventIds: firestore.FieldValue.arrayUnion(data.eventId) })
+                    .then((response) => this.post(collection, document, data))
+                    .then((response) => resolve(response))
+                    .then((error) => reject(error))
+            } catch (e) {
+                reject(e);
+            }
         });
     }
 
@@ -44,7 +71,7 @@ class FirebaseFirestore {
         });
     }
 
-    async delete(collection, document, data) {
+    async delete(collection, document) {
         return new Promise((resolve, reject) => {
             this.database
                 .collection(collection)
@@ -53,6 +80,46 @@ class FirebaseFirestore {
                 .then(() => resolve("Data Deleted Succesfully"))
                 .catch((error) => reject("Error deleting document: " + error));
         });
+    }
+
+    async deleteJob(collection, document, userId) {
+        return new Promise(async (resolve, reject) => {
+            try {
+                this.updateUserItemId(userId, { jobIds: firestore.FieldValue.arrayRemove(document) })
+                    .then((response) => this.delete(collection, document))
+                    .then((response) => resolve(response))
+                    .catch((error) => reject(error));
+            } catch (e) {
+                reject(e);
+            }
+        });
+    }
+
+    async deleteEvent(collection, document, userId) {
+        return new Promise(async (resolve, reject) => {
+            try {
+                this.updateUserItemId(userId, { eventIds: firestore.FieldValue.arrayRemove(document) })
+                    .then((response) => this.delete(collection, document))
+                    .then((response) => resolve(response))
+                    .catch((error) => reject(error));
+            } catch (e) {
+                reject(e);
+            }
+        });
+    }
+
+    /**
+     * updates the job, event, or alert id in the user account
+     */
+    async updateUserItemId(userId, updatedIdListObject) {
+        return new Promise((resolve, reject) => {
+            this.database
+                .collection("users")
+                .doc(userId)
+                .update(updatedIdListObject)
+                .then((response) => resolve("Data successfully updated"))
+                .catch((error) => reject("Error updating document: " + error))
+        })
     }
 
     async filterByOther(collection, filterOption) {

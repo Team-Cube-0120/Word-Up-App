@@ -10,6 +10,7 @@ import {
   TouchableOpacity,
 } from "react-native";
 import { Card } from "react-native-elements";
+import DeleteDialog from '../../../components/dialog/DeleteDialog';
 import { USERINFO } from "../../../enums/StorageKeysEnum";
 import { getData } from "../../../util/LocalStorage";
 import { FAB } from "react-native-paper";
@@ -27,7 +28,8 @@ class ViewEventScreen extends Component {
       signUpButtonView: <View></View>,
       unRegister: <View></View>,
       isLoading: false,
-      toggleDialog: false,
+      toggleEventDeleteDialog: false,
+      deleteLoading: false,
       signedUp: false,
     };
   }
@@ -37,34 +39,38 @@ class ViewEventScreen extends Component {
   }
 
   closeDialog() {
-    this.setState({ toggleDialog: false });
+    this.setState({ toggleEventDeleteDialog: false, deleteLoading: false });
   }
 
   openDialog() {
-    this.setState({ toggleDialog: true });
+    this.setState({ toggleEventDeleteDialog: true });
   }
 
-  deleteEvent() {
-    this.setState({ isLoading: true });
-    RequestOptions.setUpRequestBody(
-      "events",
-      this.state.eventInfo.eventId,
-      this.state
-    )
-      .then((body) => ApiService.delete("data/delete", body))
-      .then(() => {
-        this.props.navigation.navigate("Events");
+  async deleteEvent() {
+    let itemId = this.state.eventInfo.eventId;
+    this.setState({ deleteLoading: true });
+    ApiService.delete('data/events/delete?collection=events&document=' + itemId + "&userId=" + this.state.eventInfo.userId)
+      .then((response) => {
+        this.closeDialog();
         Alert.alert(
-          "Congratulations!",
-          "Your event has been successfully deleted!"
-        );
+          'Notice',
+          'Your event has been deleted',
+          [{
+            text: 'Return',
+            onPress: () => this.props.navigation.navigate("Events")
+          }])
       })
       .catch((error) => {
+        this.closeDialog();
         Alert.alert(
-          "Error",
-          "There was a problem deleting your event. Please try again."
-        );
-      });
+          'Error',
+          'There was a problem deleting this event. Please try again.',
+          [{
+            text: 'Close',
+            onPress: () => this.closeDialog()
+          }]
+        )
+      })
   }
 
   async signUp() {
@@ -110,7 +116,7 @@ class ViewEventScreen extends Component {
           <Button
             style={styles.buttonRight}
             title="Delete"
-            onPress={() => this.deleteEvent()}
+            onPress={() => this.openDialog()}
           ></Button>
         ),
       });
@@ -199,6 +205,12 @@ class ViewEventScreen extends Component {
             {this.state.unRegister}
             {this.state.deleteEventView}
             {this.state.editButtonView}
+
+            <DeleteDialog
+              visible={this.state.toggleEventDeleteDialog}
+              onSubmit={() => this.deleteEvent()}
+              onClose={() => this.closeDialog()}
+              isSubmitting={this.state.deleteLoading}></DeleteDialog>
           </View>
 
           <View

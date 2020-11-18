@@ -4,7 +4,7 @@ import { Card } from 'react-native-elements';
 import ApiService from '../../../service/api/ApiService';
 import RequestOptions from '../../../service/api/RequestOptions';
 import SubmissionDialog from '../../../components/dialog/SubmissionDialog';
-import { getData, storeData } from '../../../util/LocalStorage';
+import { getData, storeData, updateUserInfo } from '../../../util/LocalStorage';
 import { USERINFO } from '../../../enums/StorageKeysEnum';
 const sleep = require('../../../util/Thread');
 
@@ -22,36 +22,21 @@ class ReviewJobScreen extends Component {
         };
     }
 
-    async updateEventInfo() {
-        return new Promise(async (resolve, reject) => {
-            try {
-                let userInfo = await getData(USERINFO);
-                userInfo.eventIds.push(this.eventInfo.eventId);
-                let body = await RequestOptions.setUpRequestBody("users", userInfo.id, userInfo);
-                await ApiService.update('data/update', body);
-                await storeData(USERINFO, userInfo);
-                resolve();
-            } catch (error) {
-                console.log("error: " + error);
-                reject(error);
-            }  
-        })
-    }
-
-
     async addEvent() {
         this.setState({ isLoading: true });
         RequestOptions.setUpRequestBody("events", this.eventInfo.eventId, this.eventInfo)
-            .then((body) => ApiService.post('data/add', body))
-            .then((response) => this.updateEventInfo())
+            .then((body) => ApiService.post('data/events/add', body))
+            .then((response) => updateUserInfo(this.eventInfo.userId))
             .then((response) => this.setState({
                 title: 'Congratulations',
-                addEventResponse: 'Your event has been successfully posted!'
+                addEventResponse: 'Your event has been successfully posted!',
+                isLoading: false
             }))
             .catch((error) => this.setState({
                 isResponseError: true,
                 title: 'Oops!',
-                addEventResponse: 'There was a problem adding your event information. Please try again.'
+                addEventResponse: 'There was a problem adding your event information. Please try again.',
+                isLoading: false
             }))
             .then(() => this.openDialog())
     }

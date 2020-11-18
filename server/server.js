@@ -32,6 +32,24 @@ app.post('/data/add', (req, res) => {
         .catch((error) => { res.send({ Status: 400, Message: error }) });
 });
 
+app.post('/data/jobs/add', (req, res) => {
+    let collection = req.body.collection;
+    let document = req.body.document;
+    let data = req.body.data;
+    firebaseFirestore.postJob(collection, document, data)
+        .then((message) => { res.send({ Status: 200, Message: message }) })
+        .catch((error) => { res.send({ Status: 400, Message: error }) });
+});
+
+app.post('/data/events/add', (req, res) => {
+    let collection = req.body.collection;
+    let document = req.body.document;
+    let data = req.body.data;
+    firebaseFirestore.postEvent(collection, document, data)
+        .then((message) => { res.send({ Status: 200, Message: message }) })
+        .catch((error) => { res.send({ Status: 400, Message: error }) });
+});
+
 app.put('/data/update', (req, res) => {
     let collection = req.body.collection;
     let document = req.body.document;
@@ -44,8 +62,25 @@ app.put('/data/update', (req, res) => {
 app.put('/data/delete', (req, res) => {
     let collection = req.body.collection;
     let document = req.body.document;
-    let data = req.body.data;
-    firebaseFirestore.delete(collection, document, data)
+    firebaseFirestore.delete(collection, document)
+        .then((message) => { res.send({ Status: 200, Message: message }) })
+        .catch((error) => { res.send({ Status: 400, Message: error }) });
+});
+
+app.put('/data/jobs/delete', (req, res) => {
+    let collection = req.query.collection;
+    let document = req.query.document;
+    let userId = req.query.userId;
+    firebaseFirestore.deleteJob(collection, document, userId)
+        .then((message) => { res.send({ Status: 200, Message: message }) })
+        .catch((error) => { res.send({ Status: 400, Message: error }) });
+});
+
+app.put('/data/events/delete', (req, res) => {
+    let collection = req.query.collection;
+    let document = req.query.document;
+    let userId = req.query.userId;
+    firebaseFirestore.deleteEvent(collection, document, userId)
         .then((message) => { res.send({ Status: 200, Message: message }) })
         .catch((error) => { res.send({ Status: 400, Message: error }) });
 });
