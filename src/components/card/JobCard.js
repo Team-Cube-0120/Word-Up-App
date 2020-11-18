@@ -78,7 +78,7 @@ class JobCard extends BaseCard {
           <Text style={this.styles.companyInfo}>{this.props.data.street}</Text>
         </View>
         <Text style={this.styles.datePostedText}>
-          Posted {this.state.datePosted} days ago
+          {this.state.datePosted}
         </Text>
       </View>
     );

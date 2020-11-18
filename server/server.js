@@ -58,10 +58,20 @@ app.get('/data/get', (req, res) => {
         .catch((error) => { res.send({ Status: 400, Message: error }) });
 });
 
-app.get('/data/filter/get', (req, res) => {
+app.get('/data/filter/date/get', (req, res) => {
     let collection = req.query.collection;
+    let filterType = req.query.filterType;
     let filterOption = req.query.filterOption
-    firebaseFirestore.getFiltered(collection, filterOption)
+    firebaseFirestore.filterByDate(collection, filterOption)
+        .then((data) => { res.send({ Status: 200, data: data }) })
+        .catch((error) => { res.send({ Status: 400, Message: error }) });
+});
+
+app.get('/data/filter/other/get', (req, res) => {
+    let collection = req.query.collection;
+    let filterType = req.query.filterType;
+    let filterOption = req.query.filterOption
+    firebaseFirestore.filterByOther(collection, filterOption)
         .then((data) => { res.send({ Status: 200, data: data }) })
         .catch((error) => { res.send({ Status: 400, Message: error }) });
 });

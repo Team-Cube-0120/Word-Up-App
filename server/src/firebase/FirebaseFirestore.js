@@ -55,7 +55,24 @@ class FirebaseFirestore {
         });
     }
 
-    async getFiltered(collection, filterOption) {
+    async filterByOther(collection, filterOption) {
+        return new Promise((resolve, reject) => {
+            this.database
+                .collection(collection)
+                .where('userId', '==', filterOption)
+                .get()
+                .then(payload => {
+                    let data = [];
+                    payload.forEach((doc) => {
+                        data.push(doc.data());
+                    })
+                    resolve(data);
+                })
+                .catch((error) => reject("Error retrieving data: " + error));
+        });
+    }
+
+    async filterByDate(collection, filterOption) {
         return new Promise((resolve, reject) => {
             let filterOptionTime = new Date();
             let currentDate = new Date(Date.now());
@@ -80,6 +97,7 @@ class FirebaseFirestore {
         return new Promise((resolve, reject) => {
             this.database
                 .collection(collection)
+                .orderBy('datePosted', 'desc')
                 .get()
                 .then((payload) => {
                     let data = [];
@@ -104,13 +122,13 @@ class FirebaseFirestore {
         return new Promise((resolve, reject) => {
             let currentDate = new Date(Date.now()).toLocaleString(); // YYY-MM-DD
             let dateList = currentDate.split(",");
-            newComment.datePosted = dateList[1] + " on " + dateList[0]; 
+            newComment.datePosted = dateList[1] + " on " + dateList[0];
             let updateArgs = { comments: admin.firestore.FieldValue.arrayUnion(newComment) };
             this.update(collection, document, updateArgs)
                 .then((message) => resolve(message))
                 .catch((error) => reject(error));
         });
-    } 
+    }
 }
 
 module.exports = FirebaseFirestore;

@@ -7,7 +7,7 @@ const { TODAY, ONE_WEEK, TWO_WEEKS, ONE_MONTH } = require("../enums/FilterOption
 const formatFilterOption = async (value) => {
     switch(value) {
         case TODAY:
-            return 1;
+            return 2;
         case ONE_WEEK:
             return 7;
         case TWO_WEEKS:

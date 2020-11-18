@@ -6,10 +6,14 @@ const calculateDaysPassed = (timestamp) => {
     let date = new Date(timestamp * 1000);
     let currentDate = new Date(Date.now());
     let difference = Math.trunc((currentDate.getTime() - date.getTime()) / (1000 * 60 * 60 * 24));
-    if (difference < 30) {
-        return difference;
+    if (difference >= 0 && difference <= 1) {
+        return "Posted Today";
+    } else if (difference < 30) {
+        return "Posted " + difference + " days ago";
+    } else if (difference >= 30) {
+        return "Posted +30 days ago";
     } else {
-        return "+30";
+        return "Date N/A";
     }
 }
 

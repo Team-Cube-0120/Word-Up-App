@@ -119,6 +119,7 @@ export default function LoginScreen({ navigation }) {
                   jobIds: [],
                   eventIds: [],
                   alertIds: [],
+                  datePosted: new Date()
                 };
                 const usersRef = firebase.firestore().collection("users");
                 usersRef

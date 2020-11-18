@@ -14,8 +14,10 @@ import profileImage from "../../../../assets/profile.png";
 import { FAB } from "react-native-paper";
 import React, { Component } from "react";
 import FilterJobDialog from "../../../components/dialog/FilterJobDialog";
-import { ALL_TIME } from "../../../enums/FilterOptionsEnum";
+import { getData } from "../../../util/LocalStorage";
+import { ALL_TIME, MY_JOBS } from "../../../enums/FilterOptionsEnum";
 import { formatFilterOption } from "../../../formatter/FilterJobsFormatter";
+import { USERINFO } from "../../../enums/StorageKeysEnum";
 
 class JobsScreen extends Component {
   constructor(props) {
@@ -65,12 +67,34 @@ class JobsScreen extends Component {
   }
 
   async fetchFilteredJobs() {
-    let formattedFilterOption = await formatFilterOption(
-      this.state.filterOption
-    );
-    ApiService.get(
-      "data/filter/get?collection=jobs&filterOption=" + formattedFilterOption
-    )
+    if (this.state.filterOption == MY_JOBS) {
+      this.filterByOther();
+    } else {
+      this.filterByDate();
+    }
+  }
+
+  async filterByOther() {
+    let userInfo = await getData(USERINFO);
+    let formattedFilterOption = userInfo.id;
+    ApiService
+      .get("data/filter/other/get?collection=jobs&filterOption=" + formattedFilterOption)
+      .then((jobs) => {
+        this.setState({ isLoading: false, jobs: jobs, refreshing: false });
+      })
+      .catch((error) => {
+        this.setState({
+          jobs: <Text>Error Retrieving Data {error}</Text>,
+          isLoading: false,
+          refreshing: false,
+        });
+      });
+  }
+
+  async filterByDate() {
+    let formattedFilterOption = await formatFilterOption(this.state.filterOption);
+    ApiService
+      .get("data/filter/date/get?collection=jobs&filterOption=" + formattedFilterOption)
       .then((jobs) => {
         this.setState({ isLoading: false, jobs: jobs, refreshing: false });
       })
@@ -84,8 +108,7 @@ class JobsScreen extends Component {
   }
 
   async filterJobs(selectedValue) {
-    this.setState({ filterOption: selectedValue, isLoading: true }, () => {
-      this.closeFilterDialog();
+    this.setState({ filterOption: selectedValue, isLoading: true, isFilterDialogOpen: false }, () => {
       this.fetchJobs();
     });
   }
@@ -125,11 +148,11 @@ class JobsScreen extends Component {
           <TouchableOpacity
             style={styles.cardShadows}
             key={index}
-            onPress={() =>
+            onPress={() =>{
               this.props.navigation.push("ViewJob", {
                 jobInfo: job,
                 userInfo: this.state.users.get(job.userId),
-              })
+              })}
             }
           >
             <JobCard
@@ -140,10 +163,10 @@ class JobsScreen extends Component {
           </TouchableOpacity>
         ))
       ) : (
-        <View style={styles.errorView}>
-          <Text style={styles.errorText}>No jobs available at this time</Text>
-        </View>
-      );
+          <View style={styles.errorView}>
+            <Text style={styles.errorText}>No jobs available at this time {this.state.jobs.length} {this.state.users.size}</Text>
+          </View>
+        );
 
     if (this.state.isLoading) {
       return (
@@ -158,15 +181,6 @@ class JobsScreen extends Component {
     } else {
       return (
         <View style={styles.container}>
-          {/* <View styles={styles.filterIconView}>
-            <TouchableOpacity
-              onPress={() => this.openFilterDialog()}>
-              <Image
-                style={styles.filterIcon}
-                source={require("../../../../assets/filter_icon.png")}
-              />
-            </TouchableOpacity>
-          </View> */}
 
           <ScrollView
             refreshControl={
@@ -178,17 +192,6 @@ class JobsScreen extends Component {
           >
             {jobList}
           </ScrollView>
-
-          {/* <View style={styles.addJobParentView}>
-            <TouchableOpacity
-              style={styles.touchableOpacityView}
-              onPress={() => navigation.navigate('CreateJobs')}>
-              <Image
-                style={styles.floatingButton}
-                source={plusIcon}
-              />
-            </TouchableOpacity>
-          </View> */}
 
           <FAB
             style={styles.filter}

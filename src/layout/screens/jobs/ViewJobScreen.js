@@ -9,10 +9,12 @@ import {
   StyleSheet,
   ActivityIndicator,
 } from "react-native";
+import DeleteDialog from '../../../components/dialog/DeleteDialog'
 import { Card, Avatar } from "react-native-elements";
 import { USERINFO } from "../../../enums/StorageKeysEnum";
 import { formatToMMDDYYYY } from "../../../formatter/TimeFormatter";
 import { getData } from "../../../util/LocalStorage";
+import ApiService from "../../../service/api/ApiService";
 
 class ViewJobScreen extends Component {
   constructor(props) {
@@ -23,15 +25,17 @@ class ViewJobScreen extends Component {
       jobInfo: jobInfo,
       userInfo: userInfo,
       editButtonView: null,
+      deleteButtonView: null,
+      deleteDialogVisible: false,
       datePosted: formatToMMDDYYYY(jobInfo.datePosted._seconds),
     };
   }
 
   componentDidMount() {
-    this.isEditable();
+    this.isJobCreator();
   }
 
-  async isEditable() {
+  async isJobCreator() {
     let userInfo = await getData(USERINFO);
     if (userInfo.admin || userInfo.jobIds.includes(this.state.jobInfo.jobId)) {
       this.setState({
@@ -46,8 +50,27 @@ class ViewJobScreen extends Component {
             }
           ></Button>
         ),
+        deleteButtonView: (
+          <Button
+            style={styles.buttonRight}
+            title="Delete"
+            onPress={() => this.openDialog()}>
+          </Button>
+        )
       });
     }
+  }
+
+  deleteJob() {
+    // ApiService.
+  }
+
+  openDialog() {
+    this.setState({ deleteDialogVisible: true })
+  }
+
+  closeDialog() {
+    this.setState({ deleteDialogVisible: false })
   }
 
   render() {
@@ -71,6 +94,11 @@ class ViewJobScreen extends Component {
             </Text>
           </View>
           <View style={styles.buttonRight}>{this.state.editButtonView}</View>
+          <View style={styles.buttonRight}>{this.state.deleteButtonView}</View>
+          <DeleteDialog
+            visible={this.state.deleteDialogVisible}
+            onClose={() => this.closeDialog()}
+            onSubmit={() => this.deleteJob()}></DeleteDialog>
           <View style={styles.buttonLeft}>
             <Button
               color="#70AF1A"
@@ -134,57 +162,6 @@ class ViewJobScreen extends Component {
           </View>
         </Card>
         <View style={styles.adjustBottomMargin}></View>
-        {/* <Card>
-                    <Card.Title style={styles.cardTitle}>{this.state.jobInfo.position}</Card.Title>
-                    <Card.Divider></Card.Divider>
-                    <View style={styles.containerView}>
-                        <Text style={styles.title}>Job Type: </Text>
-                        <Text style={styles.value}>{this.state.jobInfo.jobType}</Text>
-                    </View>
-                    <View style={styles.containerView}>
-                        <Text style={styles.title}>Company: </Text>
-                        <Text style={styles.value}>{this.state.jobInfo.company}</Text>
-                    </View>
-                    <View style={styles.containerView}>
-                        <Text style={styles.title}>Job Description: </Text>
-                        <Text style={styles.value}>{this.state.jobInfo.jobDescription}</Text>
-                    </View>
-                    <View style={styles.containerView}>
-                        <Text style={styles.title}>Job Application URL: </Text>
-                        <Text style={styles.value}>{this.state.jobInfo.jobAppUrl}</Text>
-                    </View>
-                    <View style={styles.containerView}>
-                        <Text style={styles.title}>Email: </Text>
-                        <Text style={styles.value}>{this.state.jobInfo.email}</Text>
-                    </View>
-                    <View style={styles.containerView}>
-                        <Text style={styles.title}>Phone Number: </Text>
-                        <Text style={styles.value}>{this.state.jobInfo.phoneNumber}</Text>
-                    </View>
-                    <View style={styles.containerView}>
-                        <Text style={styles.title}>Street: </Text>
-                        <Text style={styles.value}>{this.state.jobInfo.street}</Text>
-                    </View>
-                    <View style={styles.containerView}>
-                        <Text style={styles.title}>City: </Text>
-                        <Text style={styles.value}>{this.state.jobInfo.city}</Text>
-                    </View>
-                    <View style={styles.containerView}>
-                        <Text style={styles.title}>State: </Text>
-                        <Text style={styles.value}>{this.state.jobInfo.state}</Text>
-                    </View>
-                    <View style={styles.containerView}>
-                        <Text style={styles.title}>Zip: </Text>
-                        <Text style={styles.value}>{this.state.jobInfo.zip}</Text>
-                    </View>
-                    <View style={styles.buttonView}>
-                        <Button style={styles.buttonLeft}
-                            title="Apply"
-                            disabled={true}
-                            onPress={() => this.props.navigation.goBack()}></Button>
-                        {this.state.editButtonView}
-                    </View>
-                </Card> */}
       </ScrollView>
     );
   }

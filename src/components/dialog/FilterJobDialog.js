@@ -4,8 +4,8 @@ import { Card, Input } from 'react-native-elements';
 import Dialog from 'react-native-dialog';
 import PropTypes from 'prop-types';
 import { ScrollView } from 'react-native-gesture-handler';
-import RadioForm, {RadioButton, RadioButtonInput, RadioButtonLabel } from 'react-native-simple-radio-button';
-import { ALL_TIME, ONE_MONTH, ONE_WEEK, TODAY, TWO_WEEKS } from '../../enums/FilterOptionsEnum';
+import RadioForm, { RadioButton, RadioButtonInput, RadioButtonLabel } from 'react-native-simple-radio-button';
+import { ALL_TIME, ONE_MONTH, ONE_WEEK, TODAY, TWO_WEEKS, MY_JOBS } from '../../enums/FilterOptionsEnum';
 
 class FilterJobDialog extends Component {
     static propTypes = {
@@ -17,12 +17,13 @@ class FilterJobDialog extends Component {
 
     constructor(props) {
         super(props);
-        this.radio_props = [
-            {label: 'Today', value: TODAY},
-            {label: '1 week', value: ONE_WEEK},
-            {label: '2 weeks', value: TWO_WEEKS},
-            {label: '1 month', value: ONE_MONTH},
-            {label: 'All time', value: ALL_TIME}
+        this.radio_props_date = [
+            { label: 'Today', value: TODAY },
+            { label: '1 week', value: ONE_WEEK },
+            { label: '2 weeks', value: TWO_WEEKS },
+            { label: '1 month', value: ONE_MONTH },
+            { label: 'All time', value: ALL_TIME },
+            { label: 'My Jobs', value: MY_JOBS}
         ];
 
         this.state = {
@@ -34,13 +35,21 @@ class FilterJobDialog extends Component {
         return (
             <View>
                 <Dialog.Container visible={this.props.visible}>
-                    <Dialog.Title style={styles.dialogTitle}>Confirm Edited Information</Dialog.Title>
-                    <View>
-                        <RadioForm
-                            radio_props={this.radio_props}
-                            initial={this.props.filterOption}
-                            onPress={(value) => this.setState({ selectedValue: value })} />
-                    </View>
+                    <Dialog.Title style={styles.dialogTitle}>Filter Job Listings</Dialog.Title>
+
+                    <Card>
+                        <View>
+                            <Text style={styles.dialogSubTitle}>Date</Text>
+                            <Card.Divider></Card.Divider>
+                            <RadioForm
+                                radio_props={this.radio_props_date}
+                                initial={this.props.filterOption}
+                                animation={true}
+                                accessible={true}
+                                buttonSize={20}
+                                onPress={(value) => this.setState({ selectedValue: value })} />
+                        </View>
+                    </Card>
                     <Dialog.Button label="Close" onPress={() => this.props.onClose()}></Dialog.Button>
                     <Dialog.Button label="Submit" onPress={() => this.props.onSubmit(this.state.selectedValue)}></Dialog.Button>
                 </Dialog.Container>
@@ -52,6 +61,12 @@ class FilterJobDialog extends Component {
 const styles = StyleSheet.create({
     cardView: {
         width: '100%'
+    },
+
+    dialogSubTitle: {
+        fontSize: 18,
+        fontWeight: 'bold',
+        marginBottom: '5%'
     },
 
     dialogTitle: {

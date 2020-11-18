@@ -34,6 +34,7 @@ class RegistrationScreen extends Component {
       email: "",
       password: "",
       confirmPassword: "",
+      datePosted: new Date(),
       checked: false,
     };
     this.passInput = React.createRef();
@@ -79,6 +80,7 @@ class RegistrationScreen extends Component {
                 jobIds: [],
                 eventIds: [],
                 alertIds: [],
+                datePosted: this.state.datePosted
               };
               const usersRef = firebase.firestore().collection("users");
               usersRef
