@@ -12,8 +12,7 @@ class FirebaseFirestore {
 
     async post(collection, document, data) {
         return new Promise(async (resolve, reject) => {
-            let currentDate = new Date().toISOString().slice(0, 10); // YYY-MM-DD
-            data.datePosted = new Date(currentDate);
+            data.datePosted = new Date();
             this.database
                 .collection(collection)
                 .doc(document)
