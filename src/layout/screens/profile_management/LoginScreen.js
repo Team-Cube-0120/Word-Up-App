@@ -43,7 +43,11 @@ export default function LoginScreen({ navigation }) {
           .get()
           .then(async (firestoreDocument) => {
             if (!firestoreDocument.exists) {
-              alert("User does not exist anymore.");
+              alert("user does not exist")
+              firebase.auth().signOut().then(function() {
+              }, function(error) {
+                  alert(error)
+              });
               return;
             } else {
               setEmail("");
@@ -119,6 +123,7 @@ export default function LoginScreen({ navigation }) {
                   jobIds: [],
                   eventIds: [],
                   alertIds: [],
+                  signedUpEvents:[],
                   datePosted: new Date()
                 };
                 const usersRef = firebase.firestore().collection("users");
