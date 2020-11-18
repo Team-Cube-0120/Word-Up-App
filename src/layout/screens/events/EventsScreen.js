@@ -11,6 +11,7 @@ import {
 import { TouchableOpacity } from "react-native-gesture-handler";
 import EventCard from "../../../components/card/EventCard";
 import ApiService from "../../../service/api/ApiService";
+import { FAB } from "react-native-paper";
 
 class EventsScreen extends Component {
   constructor(props) {
@@ -24,6 +25,12 @@ class EventsScreen extends Component {
 
   componentDidMount() {
     this.fetchAllEvents();
+    this.willFocusSubscription = this.props.navigation.addListener(
+      "focus",
+      () => {
+        this.fetchAllEvents();
+      }
+    );
   }
 
   fetchAllEvents() {
@@ -87,12 +94,23 @@ class EventsScreen extends Component {
           {eventList}
         </ScrollView>
 
-        <TouchableOpacity
+        <FAB
+          style={styles.fab}
+          medium
+          animated={true}
+          color="#fff"
+          icon="plus"
+          label={"Create Event"}
+          theme={{ colors: { accent: "#70AF1A" } }}
+          onPress={() => navigation.navigate("CreateEvent")}
+        />
+
+        {/* <TouchableOpacity
           style={styles.button}
           onPress={() => navigation.navigate("CreateEvent")}
         >
           <Text style={styles.btnText}>Create Event</Text>
-        </TouchableOpacity>
+        </TouchableOpacity> */}
       </View>
     );
   }
@@ -142,6 +160,31 @@ const styles = StyleSheet.create({
     alignSelf: "flex-end",
     marginRight: 20,
     marginBottom: 20,
+  },
+  fab: {
+    position: "absolute",
+    width: 170,
+    margin: 16,
+    alignSelf: "center",
+    bottom: -3,
+    ...Platform.select({
+      ios: {
+        shadowColor: "#000",
+        shadowOffset: { width: 1, height: 1 },
+        shadowOpacity: 0.4,
+        shadowRadius: 2,
+      },
+      android: {
+        elevation: 3,
+      },
+      default: {
+        shadowColor: "#000",
+        shadowOffset: { width: 1, height: 1 },
+        shadowOpacity: 0.4,
+        shadowRadius: 2,
+        elevation: 2,
+      },
+    }),
   },
 });
 

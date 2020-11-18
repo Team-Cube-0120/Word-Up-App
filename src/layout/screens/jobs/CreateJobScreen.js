@@ -35,6 +35,17 @@ class CreateJobScreen extends Component {
       jobId: "N/A",
       userId: "N/A",
     };
+    this.positionInput = React.createRef();
+    this.jobTypeInput = React.createRef();
+    this.companyInput = React.createRef();
+    this.jobDescriptionInput = React.createRef();
+    this.jobAppUrlInput = React.createRef();
+    this.emailInput = React.createRef();
+    this.phoneNumberInput = React.createRef();
+    this.streetInput = React.createRef();
+    this.cityInput = React.createRef();
+    this.stateInput = React.createRef();
+    this.zipInput = React.createRef();
   }
 
   isInputEmpty() {
@@ -290,7 +301,6 @@ const styles = StyleSheet.create({
     height: 50,
     marginLeft: 5,
     marginRight: 5,
-    borderRadius: 30,
     alignItems: "center",
     justifyContent: "center",
   },

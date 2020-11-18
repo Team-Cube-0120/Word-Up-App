@@ -44,6 +44,10 @@ export default function LoginScreen({ navigation }) {
           .then(async (firestoreDocument) => {
             if (!firestoreDocument.exists) {
               alert("User does not exist anymore.");
+              firebase.auth().signOut().then(function() {
+              }, function(error) {
+                  alert(error)
+              });
               return;
             } else {
               setEmail("");

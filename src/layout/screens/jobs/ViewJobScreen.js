@@ -55,6 +55,7 @@ class ViewJobScreen extends Component {
         deleteButtonView: (
           <Button
             style={styles.buttonRight}
+            color={"red"}
             title="Delete"
             onPress={() => this.openDialog()}>
           </Button>

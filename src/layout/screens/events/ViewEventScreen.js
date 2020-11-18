@@ -8,14 +8,16 @@ import {
   ActivityIndicator,
   Alert,
   TouchableOpacity,
+  LogBox
 } from "react-native";
 import { Card } from "react-native-elements";
-import DeleteDialog from '../../../components/dialog/DeleteDialog';
-import { FAB } from "react-native-paper";
+import DeleteDialog from "../../../components/dialog/DeleteDialog";
 import ApiService from "../../../service/api/ApiService";
 import RequestOptions from "../../../service/api/RequestOptions";
-import { getData, storeData, updateUserInfo } from '../../../util/LocalStorage';
-import { USERINFO } from '../../../enums/StorageKeysEnum';
+import { getData, storeData, updateUserInfo } from "../../../util/LocalStorage";
+import { USERINFO } from "../../../enums/StorageKeysEnum";
+import { FAB, Portal, Provider } from "react-native-paper";
+LogBox.ignoreLogs(['Animated: `useNativeDriver` was not specified. This is a required option and must be explicitly set to `true` or `false`']);
 
 class ViewEventScreen extends Component {
   constructor(props) {
@@ -31,6 +33,7 @@ class ViewEventScreen extends Component {
       toggleEventDeleteDialog: false,
       deleteLoading: false,
       signedUp: false,
+      isOpen: false,
     };
   }
 
@@ -49,29 +52,35 @@ class ViewEventScreen extends Component {
   async deleteEvent() {
     let itemId = this.state.eventInfo.eventId;
     this.setState({ deleteLoading: true });
-    ApiService.delete('data/events/delete?collection=events&document=' + itemId + "&userId=" + this.state.eventInfo.userId)
-    .then((response) => updateUserInfo(this.state.eventInfo.userId))
-    .then((response) => {
+    ApiService.delete(
+      "data/events/delete?collection=events&document=" +
+        itemId +
+        "&userId=" +
+        this.state.eventInfo.userId
+    )
+      .then((response) => updateUserInfo(this.state.eventInfo.userId))
+      .then((response) => {
         this.closeDialog();
-        Alert.alert(
-          'Notice',
-          'Your event has been deleted',
-          [{
-            text: 'Return',
-            onPress: () => this.props.navigation.navigate("Events")
-          }])
+        Alert.alert("Notice", "Your event has been deleted", [
+          {
+            text: "Return",
+            onPress: () => this.props.navigation.navigate("Events"),
+          },
+        ]);
       })
       .catch((error) => {
         this.closeDialog();
         Alert.alert(
-          'Error',
-          'There was a problem deleting this event. Please try again.',
-          [{
-            text: 'Close',
-            onPress: () => this.closeDialog()
-          }]
-        )
-      })
+          "Error",
+          "There was a problem deleting this event. Please try again.",
+          [
+            {
+              text: "Close",
+              onPress: () => this.closeDialog(),
+            },
+          ]
+        );
+      });
   }
 
   async signUp() {
@@ -115,6 +124,7 @@ class ViewEventScreen extends Component {
         ),
         deleteEventView: (
           <Button
+            color={"red"}
             style={styles.buttonRight}
             title="Delete"
             onPress={() => this.openDialog()}
@@ -159,62 +169,64 @@ class ViewEventScreen extends Component {
 
   render() {
     return (
-      <ScrollView style={styles.container}>
-        <Card containerStyle={styles.cardShadows}>
-          <Card.Title style={styles.cardTitle}>
-            {this.state.eventInfo.eventName}
-          </Card.Title>
-          <Card.Divider></Card.Divider>
-          <View style={styles.containerView}>
-            <Text style={styles.title}>Event Name: </Text>
-            <Text style={styles.value}>{this.state.eventInfo.eventName}</Text>
-          </View>
-          <View style={styles.containerView}>
-            <Text style={styles.title}>Start Date: </Text>
-            <Text style={styles.value}>{this.state.eventInfo.startDate}</Text>
-          </View>
-          <View style={styles.containerView}>
-            <Text style={styles.title}>End Date: </Text>
-            <Text style={styles.value}>{this.state.eventInfo.endDate}</Text>
-          </View>
-          <View style={styles.containerView}>
-            <Text style={styles.title}>Details: </Text>
-            <Text style={styles.value}>{this.state.eventInfo.details}</Text>
-          </View>
-          <View style={styles.containerView}>
-            <Text style={styles.title}>Location: </Text>
-            <Text style={styles.value}>{this.state.eventInfo.location}</Text>
-          </View>
-          <View style={styles.containerView}>
-            <Text style={styles.title}>RSVP Code: </Text>
-            <Text style={styles.value}>{this.state.eventInfo.rsvpCode}</Text>
-          </View>
-          <View style={styles.containerView}>
-            <Text style={styles.title}>Co-Hosts: </Text>
-            <Text style={styles.value}>{this.state.eventInfo.coHosts}</Text>
-          </View>
-          <View style={styles.containerView}>
-            <Text style={styles.title}>Event Type: </Text>
-            <Text style={styles.value}>{this.state.eventInfo.eventType}</Text>
-          </View>
-          <View style={styles.buttonView}>
-            {/* <Button style={styles.buttonLeft}
+      <View style={styles.container}>
+        <ScrollView>
+          <Card containerStyle={styles.cardShadows}>
+            <Card.Title style={styles.cardTitle}>
+              {this.state.eventInfo.eventName}
+            </Card.Title>
+            <Card.Divider></Card.Divider>
+            <View style={styles.containerView}>
+              <Text style={styles.title}>Event Name: </Text>
+              <Text style={styles.value}>{this.state.eventInfo.eventName}</Text>
+            </View>
+            <View style={styles.containerView}>
+              <Text style={styles.title}>Start Date: </Text>
+              <Text style={styles.value}>{this.state.eventInfo.startDate}</Text>
+            </View>
+            <View style={styles.containerView}>
+              <Text style={styles.title}>End Date: </Text>
+              <Text style={styles.value}>{this.state.eventInfo.endDate}</Text>
+            </View>
+            <View style={styles.containerView}>
+              <Text style={styles.title}>Details: </Text>
+              <Text style={styles.value}>{this.state.eventInfo.details}</Text>
+            </View>
+            <View style={styles.containerView}>
+              <Text style={styles.title}>Location: </Text>
+              <Text style={styles.value}>{this.state.eventInfo.location}</Text>
+            </View>
+            <View style={styles.containerView}>
+              <Text style={styles.title}>RSVP Code: </Text>
+              <Text style={styles.value}>{this.state.eventInfo.rsvpCode}</Text>
+            </View>
+            <View style={styles.containerView}>
+              <Text style={styles.title}>Co-Hosts: </Text>
+              <Text style={styles.value}>{this.state.eventInfo.coHosts}</Text>
+            </View>
+            <View style={styles.containerView}>
+              <Text style={styles.title}>Event Type: </Text>
+              <Text style={styles.value}>{this.state.eventInfo.eventType}</Text>
+            </View>
+            {/* <View style={styles.buttonView}> */}
+              {/* <Button style={styles.buttonLeft}
                             title="Apply"
                             disabled={true}
                             onPress={() => this.props.navigation.goBack()}></Button> */}
-            {this.state.signUpButtonView}
-            {this.state.unRegister}
-            {this.state.deleteEventView}
-            {this.state.editButtonView}
+              {/* {this.state.signUpButtonView}
+              {this.state.unRegister}
+              {this.state.deleteEventView}
+              {this.state.editButtonView} */}
 
-            <DeleteDialog
-              visible={this.state.toggleEventDeleteDialog}
-              onSubmit={() => this.deleteEvent()}
-              onClose={() => this.closeDialog()}
-              isSubmitting={this.state.deleteLoading}></DeleteDialog>
-          </View>
+              {/* <DeleteDialog
+                visible={this.state.toggleEventDeleteDialog}
+                onSubmit={() => this.deleteEvent()}
+                onClose={() => this.closeDialog()}
+                isSubmitting={this.state.deleteLoading}
+              ></DeleteDialog> */}
+            {/* </View> */}
 
-          <View
+            {/* <View
             style={{ flexDirection: "column", justifyContent: "space-evenly" }}
           >
             <TouchableOpacity
@@ -231,9 +243,48 @@ class ViewEventScreen extends Component {
                 Comment
               </Text>
             </TouchableOpacity>
-          </View>
-        </Card>
-      </ScrollView>
+          </View> */}
+          </Card>
+        </ScrollView>
+        <Provider>
+          <Portal>
+            <FAB.Group
+              style={{
+                position: "absolute",
+                margin: 16,
+                bottom: -5
+              }}
+              fabStyle = {{backgroundColor: "#006400"}}
+              open={this.state.isOpen}
+              icon={this.state.isOpen ? "close" : "plus"}
+              color="white"
+              actions={[
+                {
+                  icon: "star",
+                  label: "Star",
+                  onPress: () => console.log("Pressed star"),
+                },
+                {
+                  icon: "email",
+                  label: "Email",
+                  onPress: () => console.log("Pressed email"),
+                },
+                {
+                  icon: "bell",
+                  label: "Remind",
+                  onPress: () => console.log("Pressed notifications"),
+                },
+              ]}
+              onStateChange={({ open }) => this.setState({ isOpen: open })}
+              onPress={() => {
+                if (this.state.isOpen) {
+                  // alert(this.state.deleteEventView);
+                }
+              }}
+            />
+          </Portal>
+        </Provider>
+      </View>
     );
   }
 }
@@ -264,14 +315,13 @@ const styles = StyleSheet.create({
 
   buttonView: {
     flexDirection: "column",
-    height: 105,
+    height: 70,
     width: "100%",
     justifyContent: "space-evenly",
   },
 
   buttonRegister: {
     backgroundColor: "#70AF1A",
-    bottom: 0,
     ...Platform.select({
       ios: {
         shadowColor: "#000",
@@ -291,14 +341,12 @@ const styles = StyleSheet.create({
       },
     }),
     height: 50,
-    borderRadius: 30,
     alignItems: "center",
     justifyContent: "center",
   },
 
   buttonUnRegister: {
     backgroundColor: "#006400",
-    top: 0,
     ...Platform.select({
       ios: {
         shadowColor: "#000",
@@ -318,7 +366,6 @@ const styles = StyleSheet.create({
       },
     }),
     height: 50,
-    borderRadius: 30,
     alignItems: "center",
     justifyContent: "center",
   },
@@ -344,7 +391,6 @@ const styles = StyleSheet.create({
       },
     }),
     height: 50,
-    borderRadius: 30,
     alignItems: "center",
     justifyContent: "center",
   },

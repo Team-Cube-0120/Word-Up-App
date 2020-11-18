@@ -42,6 +42,18 @@ class EditJobScreen extends Component {
     };
   }
 
+  isInputEmpty() {
+    var empty = false;
+    for (var key in this.state) {
+      if (key != "userId" && key != "jobId") {
+        if (this.state[key] === "") {
+          empty = true;
+        }
+      }
+    }
+    return empty;
+  }
+
   editJob() {
     this.setState({ isLoading: true });
     RequestOptions.setUpRequestBody("jobs", this.state.jobId, this.state)
@@ -83,12 +95,14 @@ class EditJobScreen extends Component {
               Edit Job Information
             </Card.Title>
             <Text style={styles.instructions}>
-              Please carefully change the fields below. Fields marked with (*)
-              must not be left empty.
+              Please carefully change the fields below. Fields marked with (
+              <Text style={{ color: "red" }}>*</Text>) must not be left empty.
             </Text>
             <Card.Divider />
             <View style={styles.containerView}>
-              <Text style={styles.title}>Position: *</Text>
+              <Text style={styles.title}>
+                Position: <Text style={{ color: "red" }}>*</Text>
+              </Text>
               <TextInput
                 style={styles.value}
                 value={this.state.position}
@@ -99,7 +113,9 @@ class EditJobScreen extends Component {
             </View>
             <Card.Divider />
             <View style={styles.containerView}>
-              <Text style={styles.title}>Job Type: *</Text>
+              <Text style={styles.title}>
+                Job Type: <Text style={{ color: "red" }}>*</Text>
+              </Text>
               <TextInput
                 style={styles.value}
                 value={this.state.jobType}
@@ -108,7 +124,9 @@ class EditJobScreen extends Component {
             </View>
             <Card.Divider />
             <View style={styles.containerView}>
-              <Text style={styles.title}>Company: *</Text>
+              <Text style={styles.title}>
+                Company: <Text style={{ color: "red" }}>*</Text>
+              </Text>
               <TextInput
                 style={styles.value}
                 value={this.state.company}
@@ -117,7 +135,9 @@ class EditJobScreen extends Component {
             </View>
             <Card.Divider />
             <View style={styles.containerView}>
-              <Text style={styles.title}>Job Description: *</Text>
+              <Text style={styles.title}>
+                Job Description: <Text style={{ color: "red" }}>*</Text>
+              </Text>
               <TextInput
                 style={styles.textInputMultipleLine}
                 multiline={true}
@@ -129,7 +149,9 @@ class EditJobScreen extends Component {
             </View>
             <Card.Divider />
             <View style={styles.containerView}>
-              <Text style={styles.title}>Job Application URL: *</Text>
+              <Text style={styles.title}>
+                Job Application URL: <Text style={{ color: "red" }}>*</Text>
+              </Text>
               <TextInput
                 style={styles.value}
                 value={this.state.jobAppUrl}
@@ -140,7 +162,9 @@ class EditJobScreen extends Component {
             </View>
             <Card.Divider />
             <View style={styles.containerView}>
-              <Text style={styles.title}>Email: *</Text>
+              <Text style={styles.title}>
+                Email: <Text style={{ color: "red" }}>*</Text>
+              </Text>
               <TextInput
                 style={styles.value}
                 value={this.state.email}
@@ -149,7 +173,9 @@ class EditJobScreen extends Component {
             </View>
             <Card.Divider />
             <View style={styles.containerView}>
-              <Text style={styles.title}>Phone Number: *</Text>
+              <Text style={styles.title}>
+                Phone Number: <Text style={{ color: "red" }}>*</Text>
+              </Text>
               <TextInput
                 style={styles.value}
                 value={this.state.phoneNumber}
@@ -160,7 +186,9 @@ class EditJobScreen extends Component {
             </View>
             <Card.Divider />
             <View style={styles.containerView}>
-              <Text style={styles.title}>Street: *</Text>
+              <Text style={styles.title}>
+                Street: <Text style={{ color: "red" }}>*</Text>
+              </Text>
               <TextInput
                 style={styles.value}
                 value={this.state.street}
@@ -169,7 +197,9 @@ class EditJobScreen extends Component {
             </View>
             <Card.Divider />
             <View style={styles.containerView}>
-              <Text style={styles.title}>City: *</Text>
+              <Text style={styles.title}>
+                City: <Text style={{ color: "red" }}>*</Text>
+              </Text>
               <TextInput
                 style={styles.value}
                 value={this.state.city}
@@ -178,7 +208,9 @@ class EditJobScreen extends Component {
             </View>
             <Card.Divider />
             <View style={styles.containerView}>
-              <Text style={styles.title}>State: *</Text>
+              <Text style={styles.title}>
+                State: <Text style={{ color: "red" }}>*</Text>
+              </Text>
               <TextInput
                 style={styles.value}
                 value={this.state.state}
@@ -187,7 +219,9 @@ class EditJobScreen extends Component {
             </View>
             <Card.Divider />
             <View style={styles.containerView}>
-              <Text style={styles.title}>Zip: *</Text>
+              <Text style={styles.title}>
+                Zipcode: <Text style={{ color: "red" }}>*</Text>
+              </Text>
               <TextInput
                 style={styles.value}
                 value={this.state.zip}
@@ -300,7 +334,6 @@ const styles = StyleSheet.create({
     height: 45,
     marginLeft: 15,
     marginRight: 15,
-    borderRadius: 30,
     alignItems: "center",
     justifyContent: "center",
   },
