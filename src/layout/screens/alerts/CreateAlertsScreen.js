@@ -32,22 +32,19 @@ class CreateAlertsScreen extends Component {
                         placeholder="e.g. tropical storm"
                         onChangeText={(name) => this.setState({ name: name })}></TextInput>
                     <Text style={styles.text}>Severity *</Text>
-                    {/* <TextInput
-                        style={styles.textInput}
-                        placeholder="High"
-                        onChangeText={(severity) => this.setState({ severity: severity })}></TextInput> */}
-                    <DropDownSeverityExample value={this.state.alertType}
-                        onSelection={(alertType) => this.setState({ alertType: alertType })} />
-                    <Text style={styles.text}>Details *</Text>
-                    <TextInput
-                        style={styles.textInput}
-                        placeholder="e.g. relevant details for this alert"
-                        onChangeText={(details) => this.setState({ details: details })}></TextInput>
+                    <DropDownSeverityExample value={this.state.severity}
+                        onSelection={(severity) => this.setState({ severity: severity })} />
                     <Text style={styles.text}>Location *</Text>
                     <TextInput
                         style={styles.textInput}
                         placeholder="e.g. 1234 Cherry Lane, Hampton, VA 42039"
                         onChangeText={(location) => this.setState({ location: location })}></TextInput>
+                    <Text style={styles.text}>Details *</Text>
+                    <TextInput
+                        style={styles.textInputMultipleLine}
+                        placeholder="e.g. relevant details for this alert"
+                        onChangeText={(details) => this.setState({ details: details })}></TextInput>
+                    
                     <Text style={styles.text}>Choose an Alert Type *</Text>
                     <PickerExample
                         value={this.state.alertType}
@@ -102,8 +99,16 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         paddingLeft: 10,
     },
-    button: {
-
+    textInputMultipleLine: {
+        borderColor: 'gray',
+        borderWidth: 1,
+        borderRadius: 10,
+        paddingLeft: 10,
+        height: 100,
+        textAlignVertical: 'top',
+        paddingTop: 10,
+        paddingBottom: 10,
+        marginBottom: 20,
     },
     btnText: {
         color: '#fff',
