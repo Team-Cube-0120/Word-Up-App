@@ -37,24 +37,16 @@ export default function LoginScreen({ navigation }) {
     setLoading(true);
     const usersRef = firebase.firestore().collection("users");
     firebase.auth().onAuthStateChanged((user) => {
+      console.log(user)
       if (user) {
         usersRef
           .doc(user.uid)
           .get()
           .then(async (firestoreDocument) => {
-            if (!firestoreDocument.exists) {
-              alert("user does not exist")
-              firebase.auth().signOut().then(function() {
-              }, function(error) {
-                  alert(error)
-              });
-              return;
-            } else {
               setEmail("");
               setPassword("");
               await storeData(USERINFO, firestoreDocument.data());
               navigation.navigate("TabNavigator");
-            }
           })
           .catch((error) => {
             alert(error);
