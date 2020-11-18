@@ -11,6 +11,8 @@ import {
 import { TouchableOpacity } from "react-native-gesture-handler";
 import EventCard from "../../../components/card/EventCard";
 import ApiService from "../../../service/api/ApiService";
+import { FAB } from "react-native-paper";
+import FilterEventDialog from '../../../components/dialog/FilterEventDialog';
 
 class EventsScreen extends Component {
   constructor(props) {
@@ -19,11 +21,21 @@ class EventsScreen extends Component {
       isLoading: true,
       refreshing: false,
       events: [],
+      isFilterDialogOpen: false,
+      filterOption: 'All'
     };
   }
 
   componentDidMount() {
-    this.fetchAllEvents();
+    this.fetchEvents()
+  }
+
+  fetchEvents() {
+    if (this.state.filterOption == 'All') {
+      this.fetchAllEvents();
+    } else {
+      this.fetchFilteredEvents();
+    }
   }
 
   fetchAllEvents() {
@@ -39,9 +51,40 @@ class EventsScreen extends Component {
       });
   }
 
+  async fetchFilteredEvents() {
+    ApiService.get(
+      "data/filterEvents/get?collection=events&filterOption=" + this.state.filterOption
+    )
+      .then((events) => {
+        this.setState({ isLoading: false, events: events, refreshing: false });
+      })
+      .catch((error) => {
+        this.setState({
+          events: <Text>Error Retrieving Data {error}</Text>,
+          isLoading: false,
+          refreshing: false,
+        });
+      });
+  }
+
+  async filterEvents(selectedValue) {
+    this.setState({ filterOption: selectedValue, isLoading: true }, () => {
+      this.closeFilterDialog();
+      this.fetchEvents();
+    });
+  }
+
   async onRefresh() {
     this.setState({ refreshing: true });
     this.fetchAllEvents();
+  }
+
+  openFilterDialog() {
+    this.setState({ isFilterDialogOpen: true });
+  }
+
+  closeFilterDialog() {
+    this.setState({ isFilterDialogOpen: false });
   }
 
   render() {
@@ -86,6 +129,22 @@ class EventsScreen extends Component {
         >
           {eventList}
         </ScrollView>
+        <FAB
+            style={styles.filter}
+            medium
+            animated={true}
+            color="#fff"
+            icon="filter"
+            theme={{ colors: { accent: "#70AF1A" } }}
+            onPress={() => this.openFilterDialog()}
+          />
+
+        <FilterEventDialog
+            onSubmit={(selectedValue) => this.filterEvents(selectedValue)}
+            onClose={() => this.closeFilterDialog()}
+            filterOption={this.state.filterOption}
+            visible={this.state.isFilterDialogOpen}
+          ></FilterEventDialog>
 
         <TouchableOpacity
           style={styles.button}
