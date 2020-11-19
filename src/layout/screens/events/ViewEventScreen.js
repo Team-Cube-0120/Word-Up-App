@@ -8,7 +8,7 @@ import {
   ActivityIndicator,
   Alert,
   TouchableOpacity,
-  LogBox
+  LogBox,
 } from "react-native";
 import { Card } from "react-native-elements";
 import DeleteDialog from "../../../components/dialog/DeleteDialog";
@@ -17,7 +17,9 @@ import RequestOptions from "../../../service/api/RequestOptions";
 import { getData, storeData, updateUserInfo } from "../../../util/LocalStorage";
 import { USERINFO } from "../../../enums/StorageKeysEnum";
 import { FAB, Portal, Provider } from "react-native-paper";
-LogBox.ignoreLogs(['Animated: `useNativeDriver` was not specified. This is a required option and must be explicitly set to `true` or `false`']);
+LogBox.ignoreLogs([
+  "Animated: `useNativeDriver` was not specified. This is a required option and must be explicitly set to `true` or `false`",
+]);
 
 class ViewEventScreen extends Component {
   constructor(props) {
@@ -112,23 +114,32 @@ class ViewEventScreen extends Component {
     ) {
       this.setState({
         editButtonView: (
-          <Button
-            style={styles.buttonRight}
-            title="Edit"
+          <TouchableOpacity
+            style={styles.buttonEdit}
             onPress={() =>
               this.props.navigation.push("EditEvent", {
                 eventInfo: this.state.eventInfo,
               })
             }
-          ></Button>
+          >
+            <Text
+              style={{ fontSize: 16, color: "white", alignItems: "center" }}
+            >
+              Edit
+            </Text>
+          </TouchableOpacity>
         ),
         deleteEventView: (
-          <Button
-            color={"red"}
-            style={styles.buttonRight}
-            title="Delete"
+          <TouchableOpacity
+            style={styles.buttonDelete}
             onPress={() => this.openDialog()}
-          ></Button>
+          >
+            <Text
+              style={{ fontSize: 16, color: "white", alignItems: "center" }}
+            >
+              Delete
+            </Text>
+          </TouchableOpacity>
         ),
       });
     }
@@ -208,82 +219,39 @@ class ViewEventScreen extends Component {
               <Text style={styles.title}>Event Type: </Text>
               <Text style={styles.value}>{this.state.eventInfo.eventType}</Text>
             </View>
-            {/* <View style={styles.buttonView}> */}
-              {/* <Button style={styles.buttonLeft}
-                            title="Apply"
-                            disabled={true}
-                            onPress={() => this.props.navigation.goBack()}></Button> */}
-              {/* {this.state.signUpButtonView}
-              {this.state.unRegister}
-              {this.state.deleteEventView}
-              {this.state.editButtonView} */}
 
-              {/* <DeleteDialog
+            <View style={{ flexDirection: "row" }}>
+              {this.state.editButtonView}
+              {this.state.deleteEventView}
+            </View>
+
+            <View style={styles.buttonView}>
+              {this.state.signUpButtonView}
+              {this.state.unRegister}
+              <TouchableOpacity
+                style={styles.buttonComment}
+                onPress={() =>
+                  this.props.navigation.push("EventComments", {
+                    eventInfo: this.state.eventInfo,
+                  })
+                }
+              >
+                <Text
+                  style={{ fontSize: 18, color: "#fff", alignItems: "center" }}
+                >
+                  Comment
+                </Text>
+              </TouchableOpacity>
+
+              <DeleteDialog
                 visible={this.state.toggleEventDeleteDialog}
                 onSubmit={() => this.deleteEvent()}
                 onClose={() => this.closeDialog()}
                 isSubmitting={this.state.deleteLoading}
-              ></DeleteDialog> */}
-            {/* </View> */}
-
-            {/* <View
-            style={{ flexDirection: "column", justifyContent: "space-evenly" }}
-          >
-            <TouchableOpacity
-              style={styles.buttonComment}
-              onPress={() =>
-                this.props.navigation.push("EventComments", {
-                  eventInfo: this.state.eventInfo,
-                })
-              }
-            >
-              <Text
-                style={{ fontSize: 18, color: "#fff", alignItems: "center" }}
-              >
-                Comment
-              </Text>
-            </TouchableOpacity>
-          </View> */}
+              ></DeleteDialog>
+            </View>
           </Card>
         </ScrollView>
-        <Provider>
-          <Portal>
-            <FAB.Group
-              style={{
-                position: "absolute",
-                margin: 16,
-                bottom: -5
-              }}
-              fabStyle = {{backgroundColor: "#006400"}}
-              open={this.state.isOpen}
-              icon={this.state.isOpen ? "close" : "plus"}
-              color="white"
-              actions={[
-                {
-                  icon: "star",
-                  label: "Star",
-                  onPress: () => console.log("Pressed star"),
-                },
-                {
-                  icon: "email",
-                  label: "Email",
-                  onPress: () => console.log("Pressed email"),
-                },
-                {
-                  icon: "bell",
-                  label: "Remind",
-                  onPress: () => console.log("Pressed notifications"),
-                },
-              ]}
-              onStateChange={({ open }) => this.setState({ isOpen: open })}
-              onPress={() => {
-                if (this.state.isOpen) {
-                  // alert(this.state.deleteEventView);
-                }
-              }}
-            />
-          </Portal>
-        </Provider>
       </View>
     );
   }
@@ -315,37 +283,13 @@ const styles = StyleSheet.create({
 
   buttonView: {
     flexDirection: "column",
-    height: 70,
+    height: 150,
     width: "100%",
     justifyContent: "space-evenly",
   },
 
   buttonRegister: {
-    backgroundColor: "#70AF1A",
-    ...Platform.select({
-      ios: {
-        shadowColor: "#000",
-        shadowOffset: { width: 1, height: 1 },
-        shadowOpacity: 0.4,
-        shadowRadius: 2,
-      },
-      android: {
-        elevation: 2,
-      },
-      default: {
-        shadowColor: "#000",
-        shadowOffset: { width: 1, height: 1 },
-        shadowOpacity: 0.4,
-        shadowRadius: 2,
-        elevation: 2,
-      },
-    }),
-    height: 50,
-    alignItems: "center",
-    justifyContent: "center",
-  },
-
-  buttonUnRegister: {
+    top: 0,
     backgroundColor: "#006400",
     ...Platform.select({
       ios: {
@@ -365,13 +309,39 @@ const styles = StyleSheet.create({
         elevation: 2,
       },
     }),
-    height: 50,
+    height: 40,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+
+  buttonUnRegister: {
+    top: 0,
+    backgroundColor: "#006400",
+    ...Platform.select({
+      ios: {
+        shadowColor: "#000",
+        shadowOffset: { width: 1, height: 1 },
+        shadowOpacity: 0.4,
+        shadowRadius: 2,
+      },
+      android: {
+        elevation: 2,
+      },
+      default: {
+        shadowColor: "#000",
+        shadowOffset: { width: 1, height: 1 },
+        shadowOpacity: 0.4,
+        shadowRadius: 2,
+        elevation: 2,
+      },
+    }),
+    height: 40,
     alignItems: "center",
     justifyContent: "center",
   },
 
   buttonComment: {
-    backgroundColor: "#39f077",
+    backgroundColor: "#70AF1A",
     ...Platform.select({
       ios: {
         shadowColor: "#000",
@@ -390,7 +360,62 @@ const styles = StyleSheet.create({
         elevation: 3,
       },
     }),
-    height: 50,
+    height: 40,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+
+  buttonEdit: {
+    width: "45%",
+    marginBottom: 5,
+    marginRight: "10%",
+    backgroundColor: "#3299eb",
+    ...Platform.select({
+      ios: {
+        shadowColor: "#000",
+        shadowOffset: { width: 1, height: 1 },
+        shadowOpacity: 4,
+        shadowRadius: 2,
+      },
+      android: {
+        elevation: 3,
+      },
+      default: {
+        shadowColor: "#000",
+        shadowOffset: { width: 1, height: 1 },
+        shadowOpacity: 4,
+        shadowRadius: 2,
+        elevation: 3,
+      },
+    }),
+    height: 40,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+
+  buttonDelete: {
+    width: "45%",
+    marginBottom: 5,
+    backgroundColor: "red",
+    ...Platform.select({
+      ios: {
+        shadowColor: "#000",
+        shadowOffset: { width: 1, height: 1 },
+        shadowOpacity: 4,
+        shadowRadius: 2,
+      },
+      android: {
+        elevation: 3,
+      },
+      default: {
+        shadowColor: "#000",
+        shadowOffset: { width: 1, height: 1 },
+        shadowOpacity: 4,
+        shadowRadius: 2,
+        elevation: 3,
+      },
+    }),
+    height: 40,
     alignItems: "center",
     justifyContent: "center",
   },

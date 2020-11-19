@@ -21,17 +21,25 @@ class EventsScreen extends Component {
       refreshing: false,
       events: [],
     };
+    this.willFocusSubscription = this.props.navigation.addListener(
+      "focus",
+      () => {
+        this.onRefresh();
+      }
+    );
   }
 
   componentDidMount() {
     this.fetchAllEvents();
-    this.willFocusSubscription = this.props.navigation.addListener(
-      "focus",
-      () => {
-        this.fetchAllEvents();
-      }
-    );
   }
+
+  // componentDidUpdate() {
+  //   this.fetchAllEvents();
+  // }
+
+  // componentWillUnmount() {
+  //   this.fetchAllEvents();
+  // }
 
   fetchAllEvents() {
     ApiService.get("data/getAll?collection=events")
@@ -101,16 +109,9 @@ class EventsScreen extends Component {
           color="#fff"
           icon="plus"
           label={"Create Event"}
-          theme={{ colors: { accent: "#70AF1A" } }}
+          theme={{ colors: { accent: "#006400" } }}
           onPress={() => navigation.navigate("CreateEvent")}
         />
-
-        {/* <TouchableOpacity
-          style={styles.button}
-          onPress={() => navigation.navigate("CreateEvent")}
-        >
-          <Text style={styles.btnText}>Create Event</Text>
-        </TouchableOpacity> */}
       </View>
     );
   }

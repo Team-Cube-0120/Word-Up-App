@@ -11,7 +11,35 @@ const Nav = createBottomTabNavigator();
 
 function TabNavigator() {
   return (
-    <Nav.Navigator>
+    <Nav.Navigator
+      tabBarOptions={{
+        activeTintColor: "#006400",
+        inactiveTintColor: "gray",
+        style: {
+          borderTopColor: "#000",
+          borderTopWidth: 0.5,
+          width: "100%",
+          backgroundColor: "white",
+          shadowColor: "rgba(0, 0, 0, 0.19)",
+          shadowOffset: {
+            width: 0,
+            height: 6,
+          },
+          shadowRadius: 30,
+          elevation: 5,
+          shadowOpacity: 1,
+          height: 55,
+        },
+        tabStyle: {
+          alignItems: "center",
+          justifyContent: "center",
+          paddingVertical: 4,
+          backgroundColor: "white",
+          borderTopLeftRadius: 30,
+          borderTopRightRadius: 30,
+        },
+      }}
+    >
       <Nav.Screen
         name="Home"
         component={HomeScreen}

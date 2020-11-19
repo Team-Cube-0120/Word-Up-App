@@ -231,7 +231,7 @@ const styles = StyleSheet.create({
     paddingLeft: 16,
   },
   button: {
-    backgroundColor: "#70AF1A",
+    backgroundColor: "#006400",
     ...Platform.select({
       ios: {
         shadowColor: "#000",

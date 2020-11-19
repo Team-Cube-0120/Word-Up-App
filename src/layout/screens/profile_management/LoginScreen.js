@@ -42,19 +42,10 @@ export default function LoginScreen({ navigation }) {
           .doc(user.uid)
           .get()
           .then(async (firestoreDocument) => {
-            if (!firestoreDocument.exists) {
-              alert("User does not exist anymore.");
-              firebase.auth().signOut().then(function() {
-              }, function(error) {
-                  alert(error)
-              });
-              return;
-            } else {
-              setEmail("");
-              setPassword("");
-              await storeData(USERINFO, firestoreDocument.data());
-              navigation.navigate("TabNavigator");
-            }
+            setEmail("");
+            setPassword("");
+            await storeData(USERINFO, firestoreDocument.data());
+            navigation.navigate("TabNavigator");
           })
           .catch((error) => {
             alert(error);
@@ -123,7 +114,7 @@ export default function LoginScreen({ navigation }) {
                   jobIds: [],
                   eventIds: [],
                   alertIds: [],
-                  datePosted: new Date()
+                  datePosted: new Date(),
                 };
                 const usersRef = firebase.firestore().collection("users");
                 usersRef

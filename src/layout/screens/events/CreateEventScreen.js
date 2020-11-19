@@ -38,6 +38,12 @@ class CreateEventsScreen extends Component {
       end: false,
       signedUp: false,
     };
+    this.eventNameInput = React.createRef();
+    this.detailsInput = React.createRef();
+    this.locationInput = React.createRef();
+    this.rsvpInput = React.createRef();
+    this.coHostsInput = React.createRef();
+    this.eventTypeInput = React.createRef();
   }
 
   startState = () => {
@@ -97,7 +103,7 @@ class CreateEventsScreen extends Component {
 
   render() {
     return (
-      <ScrollView keyboardShouldPersistTaps ={true} style={styles.container}>
+      <ScrollView keyboardShouldPersistTaps={true} style={styles.container}>
         <Card containerStyle={styles.cardShadows}>
           <Card.Title>Create Event</Card.Title>
           <Card.Divider />
@@ -106,6 +112,12 @@ class CreateEventsScreen extends Component {
           </Text>
           <TextInput
             style={styles.textInput}
+            ref={this.eventNameInput}
+            returnKeyType={"next"}
+            onSubmitEditing={() => {
+              this.detailsInput.current.focus();
+            }}
+            blurOnSubmit={false}
             placeholder="e.g. Harrison's birthday party"
             onChangeText={(eventName) =>
               this.setState({ eventName: eventName })
@@ -175,6 +187,12 @@ class CreateEventsScreen extends Component {
           </Text>
           <TextInput
             style={styles.textInput}
+            ref={this.detailsInput}
+            returnKeyType={"next"}
+            onSubmitEditing={() => {
+              this.locationInput.current.focus();
+            }}
+            blurOnSubmit={false}
             placeholder="e.g. relevant details to specific event"
             onChangeText={(details) => this.setState({ details: details })}
           ></TextInput>
@@ -183,6 +201,12 @@ class CreateEventsScreen extends Component {
           </Text>
           <TextInput
             style={styles.textInput}
+            ref={this.locationInput}
+            returnKeyType={"next"}
+            onSubmitEditing={() => {
+              this.rsvpInput.current.focus();
+            }}
+            blurOnSubmit={false}
             placeholder="e.g. 1234 Cherry Lane, Hampton, VA 42039"
             onChangeText={(location) => this.setState({ location: location })}
           ></TextInput>
@@ -191,6 +215,12 @@ class CreateEventsScreen extends Component {
           </Text>
           <TextInput
             style={styles.textInput}
+            ref={this.rsvpInput}
+            returnKeyType={"next"}
+            onSubmitEditing={() => {
+              this.coHostsInput.current.focus();
+            }}
+            blurOnSubmit={false}
             placeholder="e.g. 192837"
             onChangeText={(rsvpCode) => this.setState({ rsvpCode: rsvpCode })}
           ></TextInput>
@@ -199,6 +229,9 @@ class CreateEventsScreen extends Component {
           </Text>
           <TextInput
             style={styles.textInput}
+            ref={this.coHostsInput}
+            returnKeyType={"done"}
+            blurOnSubmit={false}
             placeholder="e.g. Henry Lake, Bill Johnson"
             onChangeText={(coHosts) => this.setState({ coHosts: coHosts })}
           ></TextInput>
@@ -292,18 +325,6 @@ class CreateEventsScreen extends Component {
               Create Event
             </Text>
           </TouchableOpacity>
-
-          {/* <TouchableOpacity>
-                        <Button
-                            title="Create Event"
-                            onPress={async () => {
-                                this.state.eventId = await UuidGenerator.generateUuid();
-                                let userInfo = await getData(USERINFO);
-                                this.state.userId = userInfo.profile.id;
-                                this.props.navigation.push('ReviewEvents', { eventInfo: this.state })
-                            }}
-                        ></Button>
-                    </TouchableOpacity> */}
         </Card>
       </ScrollView>
     );
@@ -391,7 +412,7 @@ const styles = StyleSheet.create({
         elevation: 3,
       },
     }),
-    height: 45,
+    height: 40,
     marginLeft: 5,
     marginRight: 5,
     alignItems: "center",

@@ -31,16 +31,16 @@ class SettingsScreen extends Component {
       profileImageUrl: "",
       notifications: "",
     };
-  }
-
-  componentDidMount() {
-    this.getUserInfo().catch((e) => console.log(e));
     this.willFocusSubscription = this.props.navigation.addListener(
-      'focus',
+      "focus",
       () => {
         this.getUserInfo();
       }
     );
+  }
+
+  componentDidMount() {
+    this.getUserInfo().catch((e) => console.log(e));
   }
 
   async getUserInfo() {
@@ -98,31 +98,30 @@ class SettingsScreen extends Component {
         return (
           <View style={styles.container}>
             <View style={styles.userInfoSection}>
-              <View style={{ flexDirection: "row", marginTop: 10 }}>
-              {this.state.profileImageUrl == "" && (
-                      <Image
-                        source={profileImage}
-                        style={{
-                          width: 100,
-                          height: 100,
-                          borderRadius: 100 / 2,
-                        }}
-                      />
-                  )}
+              <View style={{ flexDirection: "row", marginTop: 15 }}>
+                {this.state.profileImageUrl == "" && (
+                  <Image
+                    source={profileImage}
+                    style={{
+                      width: 100,
+                      height: 100,
+                      borderRadius: 100 / 2,
+                    }}
+                  />
+                )}
 
-                  {this.state.profileImageUrl != "" && (
-                      <Image
-                        source={{
-                          uri:
-                            this.state.profileImageUrl,
-                        }}
-                        style={{
-                          width: 100,
-                          height: 100,
-                          borderRadius: 100 / 2,
-                        }}
-                      />
-                  )}
+                {this.state.profileImageUrl != "" && (
+                  <Image
+                    source={{
+                      uri: this.state.profileImageUrl,
+                    }}
+                    style={{
+                      width: 100,
+                      height: 100,
+                      borderRadius: 100 / 2,
+                    }}
+                  />
+                )}
               </View>
               <View>
                 <Title style={styles.title}>
@@ -159,7 +158,9 @@ class SettingsScreen extends Component {
               {/* Change Password Section */}
               <TouchableOpacity
                 style={styles.infoBoxWrapper}
-                onPress={() => this.props.navigation.navigate("Change Password")}
+                onPress={() =>
+                  this.props.navigation.navigate("Change Password")
+                }
               >
                 <MaterialCommunityIconsIcon
                   name="lock"
@@ -241,31 +242,30 @@ class SettingsScreen extends Component {
         return (
           <View style={styles.container}>
             <View style={styles.userInfoSection}>
-              <View style={{ flexDirection: "row", marginTop: 10 }}>
-              {this.state.profileImageUrl == "" && (
-                      <Image
-                        source={profileImage}
-                        style={{
-                          width: 100,
-                          height: 100,
-                          borderRadius: 100 / 2,
-                        }}
-                      />
-                  )}
+              <View style={{ flexDirection: "row", marginTop: 15 }}>
+                {this.state.profileImageUrl == "" && (
+                  <Image
+                    source={profileImage}
+                    style={{
+                      width: 100,
+                      height: 100,
+                      borderRadius: 100 / 2,
+                    }}
+                  />
+                )}
 
-                  {this.state.profileImageUrl != "" && (
-                      <Image
-                        source={{
-                          uri:
-                           this.state.profileImageUrl,
-                        }}
-                        style={{
-                          width: 100,
-                          height: 100,
-                          borderRadius: 100 / 2,
-                        }}
-                      />
-                  )}
+                {this.state.profileImageUrl != "" && (
+                  <Image
+                    source={{
+                      uri: this.state.profileImageUrl,
+                    }}
+                    style={{
+                      width: 100,
+                      height: 100,
+                      borderRadius: 100 / 2,
+                    }}
+                  />
+                )}
               </View>
               <View>
                 <Title style={styles.title}>{this.state.fullname}</Title>
@@ -300,7 +300,9 @@ class SettingsScreen extends Component {
               {/* Change Password Section */}
               <TouchableOpacity
                 style={styles.infoBoxWrapper}
-                onPress={() => this.props.navigation.navigate("Change Password")}
+                onPress={() =>
+                  this.props.navigation.navigate("Change Password")
+                }
               >
                 <MaterialCommunityIconsIcon
                   name="lock"

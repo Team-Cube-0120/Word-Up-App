@@ -40,6 +40,17 @@ class EditJobScreen extends Component {
       toggleDialog: false,
       isLoading: false,
     };
+    this.positionInput = React.createRef();
+    this.jobTypeInput = React.createRef();
+    this.companyInput = React.createRef();
+    this.jobDescriptionInput = React.createRef();
+    this.jobAppUrlInput = React.createRef();
+    this.emailInput = React.createRef();
+    this.phoneNumberInput = React.createRef();
+    this.streetInput = React.createRef();
+    this.cityInput = React.createRef();
+    this.stateInput = React.createRef();
+    this.zipInput = React.createRef();
   }
 
   isInputEmpty() {
@@ -109,6 +120,12 @@ class EditJobScreen extends Component {
                 onChangeText={(position) =>
                   this.setState({ position: position })
                 }
+                ref={this.positionInput}
+                returnKeyType={"next"}
+                onSubmitEditing={() => {
+                  this.jobTypeInput.current.focus();
+                }}
+                blurOnSubmit={false}
               />
             </View>
             <Card.Divider />
@@ -120,6 +137,12 @@ class EditJobScreen extends Component {
                 style={styles.value}
                 value={this.state.jobType}
                 onChangeText={(jobType) => this.setState({ jobType: jobType })}
+                ref={this.jobTypeInput}
+                returnKeyType={"next"}
+                onSubmitEditing={() => {
+                  this.companyInput.current.focus();
+                }}
+                blurOnSubmit={false}
               />
             </View>
             <Card.Divider />
@@ -131,6 +154,12 @@ class EditJobScreen extends Component {
                 style={styles.value}
                 value={this.state.company}
                 onChangeText={(company) => this.setState({ company: company })}
+                ref={this.companyInput}
+                returnKeyType={"next"}
+                onSubmitEditing={() => {
+                  this.jobDescriptionInput.current.focus();
+                }}
+                blurOnSubmit={false}
               />
             </View>
             <Card.Divider />
@@ -145,6 +174,9 @@ class EditJobScreen extends Component {
                 onChangeText={(jobDescription) =>
                   this.setState({ jobDescription: jobDescription })
                 }
+                ref={this.jobDescriptionInput}
+                returnKeyType={"done"}
+                blurOnSubmit={false}
               />
             </View>
             <Card.Divider />
@@ -158,6 +190,12 @@ class EditJobScreen extends Component {
                 onChangeText={(jobAppUrl) =>
                   this.setState({ jobAppUrl: jobAppUrl })
                 }
+                ref={this.jobAppUrlInput}
+                returnKeyType={"next"}
+                onSubmitEditing={() => {
+                  this.emailInput.current.focus();
+                }}
+                blurOnSubmit={false}
               />
             </View>
             <Card.Divider />
@@ -169,6 +207,12 @@ class EditJobScreen extends Component {
                 style={styles.value}
                 value={this.state.email}
                 onChangeText={(email) => this.setState({ email: email })}
+                ref={this.emailInput}
+                returnKeyType={"next"}
+                onSubmitEditing={() => {
+                  this.phoneNumberInput.current.focus();
+                }}
+                blurOnSubmit={false}
               />
             </View>
             <Card.Divider />
@@ -182,6 +226,12 @@ class EditJobScreen extends Component {
                 onChangeText={(phoneNumber) =>
                   this.setState({ phoneNumber: phoneNumber })
                 }
+                ref={this.phoneNumberInput}
+                returnKeyType={"next"}
+                onSubmitEditing={() => {
+                  this.streetInput.current.focus();
+                }}
+                blurOnSubmit={false}
               />
             </View>
             <Card.Divider />
@@ -193,6 +243,12 @@ class EditJobScreen extends Component {
                 style={styles.value}
                 value={this.state.street}
                 onChangeText={(street) => this.setState({ street: street })}
+                ref={this.streetInput}
+                returnKeyType={"next"}
+                onSubmitEditing={() => {
+                  this.cityInput.current.focus();
+                }}
+                blurOnSubmit={false}
               />
             </View>
             <Card.Divider />
@@ -204,6 +260,12 @@ class EditJobScreen extends Component {
                 style={styles.value}
                 value={this.state.city}
                 onChangeText={(city) => this.setState({ city: city })}
+                ref={this.cityInput}
+                returnKeyType={"next"}
+                onSubmitEditing={() => {
+                  this.stateInput.current.focus();
+                }}
+                blurOnSubmit={false}
               />
             </View>
             <Card.Divider />
@@ -215,6 +277,12 @@ class EditJobScreen extends Component {
                 style={styles.value}
                 value={this.state.state}
                 onChangeText={(state) => this.setState({ state: state })}
+                ref={this.stateInput}
+                returnKeyType={"next"}
+                onSubmitEditing={() => {
+                  this.zipInput.current.focus();
+                }}
+                blurOnSubmit={false}
               />
             </View>
             <Card.Divider />
@@ -224,8 +292,11 @@ class EditJobScreen extends Component {
               </Text>
               <TextInput
                 style={styles.value}
+                ref={this.zipInput}
+                returnKeyType={"done"}
                 value={this.state.zip}
                 onChangeText={(zip) => this.setState({ zip: zip })}
+                blurOnSubmit={false}
               />
             </View>
             <Card.Divider />

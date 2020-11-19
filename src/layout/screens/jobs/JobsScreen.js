@@ -30,19 +30,23 @@ class JobsScreen extends Component {
       isFilterDialogOpen: false,
       filterOption: ALL_TIME,
     };
+    this.willFocusSubscription = this.props.navigation.addListener(
+      "focus",
+      () => {
+        this.onRefresh();
+      }
+    );
   }
 
   componentDidMount() {
     this.fetchJobs();
     this.fetchAllUsers();
-    this.willFocusSubscription = this.props.navigation.addListener(
-      "focus",
-      () => {
-        this.fetchJobs();
-        this.fetchAllUsers();
-      }
-    );
   }
+
+  // componentDidUpdate(){
+  //   this.fetchJobs();
+  //   this.fetchAllUsers();
+  // }
 
   fetchJobs() {
     if (this.state.filterOption == ALL_TIME) {
@@ -77,8 +81,10 @@ class JobsScreen extends Component {
   async filterByOther() {
     let userInfo = await getData(USERINFO);
     let formattedFilterOption = userInfo.id;
-    ApiService
-      .get("data/filter/other/get?collection=jobs&filterOption=" + formattedFilterOption)
+    ApiService.get(
+      "data/filter/other/get?collection=jobs&filterOption=" +
+        formattedFilterOption
+    )
       .then((jobs) => {
         this.setState({ isLoading: false, jobs: jobs, refreshing: false });
       })
@@ -92,9 +98,13 @@ class JobsScreen extends Component {
   }
 
   async filterByDate() {
-    let formattedFilterOption = await formatFilterOption(this.state.filterOption);
-    ApiService
-      .get("data/filter/date/get?collection=jobs&filterOption=" + formattedFilterOption)
+    let formattedFilterOption = await formatFilterOption(
+      this.state.filterOption
+    );
+    ApiService.get(
+      "data/filter/date/get?collection=jobs&filterOption=" +
+        formattedFilterOption
+    )
       .then((jobs) => {
         this.setState({ isLoading: false, jobs: jobs, refreshing: false });
       })
@@ -108,9 +118,16 @@ class JobsScreen extends Component {
   }
 
   async filterJobs(selectedValue) {
-    this.setState({ filterOption: selectedValue, isLoading: true, isFilterDialogOpen: false }, () => {
-      this.fetchJobs();
-    });
+    this.setState(
+      {
+        filterOption: selectedValue,
+        isLoading: true,
+        isFilterDialogOpen: false,
+      },
+      () => {
+        this.fetchJobs();
+      }
+    );
   }
 
   fetchAllUsers() {
@@ -148,12 +165,12 @@ class JobsScreen extends Component {
           <TouchableOpacity
             style={styles.cardShadows}
             key={index}
-            onPress={() =>{
+            onPress={() => {
               this.props.navigation.push("ViewJob", {
                 jobInfo: job,
                 userInfo: this.state.users.get(job.userId),
-              })}
-            }
+              });
+            }}
           >
             <JobCard
               title={job.position}
@@ -163,10 +180,10 @@ class JobsScreen extends Component {
           </TouchableOpacity>
         ))
       ) : (
-          <View style={styles.errorView}>
-            <Text style={styles.errorText}>No jobs available at this time</Text>
-          </View>
-        );
+        <View style={styles.errorView}>
+          <Text style={styles.errorText}>No jobs available at this time</Text>
+        </View>
+      );
 
     if (this.state.isLoading) {
       return (
@@ -181,7 +198,6 @@ class JobsScreen extends Component {
     } else {
       return (
         <View style={styles.container}>
-
           <ScrollView
             refreshControl={
               <RefreshControl
