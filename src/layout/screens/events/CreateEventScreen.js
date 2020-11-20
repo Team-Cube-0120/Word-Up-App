@@ -211,7 +211,7 @@ class CreateEventsScreen extends Component {
             onChangeText={(location) => this.setState({ location: location })}
           ></TextInput>
           <Text style={styles.text}>
-            RSVP Code <Text style={{ color: "red" }}>*</Text>
+            RSVP Code
           </Text>
           <TextInput
             style={styles.textInput}

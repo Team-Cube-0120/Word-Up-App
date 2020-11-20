@@ -37,7 +37,6 @@ export default function LoginScreen({ navigation }) {
     setLoading(true);
     const usersRef = firebase.firestore().collection("users");
     firebase.auth().onAuthStateChanged((user) => {
-      console.log(user)
       if (user) {
         usersRef
           .doc(user.uid)

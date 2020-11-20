@@ -1,11 +1,14 @@
 import React, { Component } from 'react';
-import { View, ScrollView, Button, Text, StyleSheet, ActivityIndicator, Alert } from 'react-native';
+import { View, ScrollView, Button, Text, StyleSheet, ActivityIndicator, Alert, LogBox } from 'react-native';
 import { Card } from 'react-native-elements';
 import { USERINFO } from '../../../enums/StorageKeysEnum';
 import { getData } from '../../../util/LocalStorage';
 
 import ApiService from '../../../service/api/ApiService';
 import RequestOptions from '../../../service/api/RequestOptions';
+LogBox.ignoreLogs([
+    "Warning: Cannot update a component from inside the function body of a different component.",
+]);
 
 class ViewAlertScreen extends Component {
     constructor(props) {
@@ -22,6 +25,9 @@ class ViewAlertScreen extends Component {
 
     componentDidMount() {
         this.isEditable();
+        this.props.navigation.setOptions({
+            title: "Alert Information",
+        });
     }
 
     closeDialog() {
@@ -56,6 +62,7 @@ class ViewAlertScreen extends Component {
                     onPress={() => this.props.navigation.push("EditAlert", { alertInfo: this.state.alertInfo })}></Button>,
                 deleteAlertView: <Button
                     style={styles.buttonRight}
+                    color={"red"}
                     title="Delete"
                     onPress={() => this.deleteAlert()}></Button>
             })
@@ -66,7 +73,7 @@ class ViewAlertScreen extends Component {
     render() {
         return (
             <ScrollView style={styles.container}>
-                <Card>
+                <Card style={styles.cardShadows}>
                     <Card.Title style={styles.cardTitle}>{this.state.alertInfo.name}</Card.Title>
                     <Card.Divider></Card.Divider>
                     <View style={styles.containerView}>
@@ -81,8 +88,8 @@ class ViewAlertScreen extends Component {
                         <Text style={styles.title}>Location: </Text>
                         <Text style={styles.value}>{this.state.alertInfo.location}</Text>
                     </View>
-                    <View style={styles.containerView}>
-                        <Text style={styles.title}>Details: </Text>
+                    <View style={styles.containerViewDetail}>
+                        <Text style={styles.titleDetail}>Details: </Text>
                         <Text style={styles.value}>{this.state.alertInfo.details}</Text>
                     </View>
                     <View style={styles.containerView}>
@@ -91,8 +98,8 @@ class ViewAlertScreen extends Component {
                     </View>
 
                     <View style={styles.buttonView}>
-                        {this.state.deleteAlertView}
                         {this.state.editButtonView}
+                        {this.state.deleteAlertView}
                     </View>
                 </Card>
             </ScrollView>
@@ -106,9 +113,8 @@ const styles = StyleSheet.create({
         marginBottom: '3%',
     },
     container: {
-        backgroundColor: '#36485f',
+        backgroundColor: '#FAFAFA',
         flexDirection: 'column',
-        padding: 5,
     },
     cardTitle: {
         textAlign: 'center',
@@ -121,6 +127,22 @@ const styles = StyleSheet.create({
         fontSize: 16
     },
 
+    titleDetail: {
+        fontWeight: "bold",
+        marginRight: "1%",
+        fontSize: 16,
+        alignSelf: "flex-start",
+      },
+    
+      containerViewDetail: {
+        width: "100%",
+        marginBottom: "3%",
+        marginRight: "3%",
+        paddingTop: "3%",
+        paddingBottom: "3%",
+        paddingRight: "3%",
+      },
+
     value: {
         fontSize: 16
     },
@@ -128,13 +150,30 @@ const styles = StyleSheet.create({
     buttonView: {
         flexDirection: 'column',
         width: '100%',
-        height: 150, // might be a problem for other screens
+        height: 120, // might be a problem for other screens
         justifyContent: 'space-evenly'
     },
 
-    buttonLeft: {
-
-    },
+    cardShadows: {
+        ...Platform.select({
+          ios: {
+            shadowColor: "#000",
+            shadowOffset: { width: 1, height: 1 },
+            shadowOpacity: 0.4,
+            shadowRadius: 2,
+          },
+          android: {
+            elevation: 2,
+          },
+          default: {
+            shadowColor: "#000",
+            shadowOffset: { width: 1, height: 1 },
+            shadowOpacity: 0.4,
+            shadowRadius: 2,
+            elevation: 2,
+          },
+        }),
+      },
 
     buttonRight: {
         alignSelf: 'stretch',

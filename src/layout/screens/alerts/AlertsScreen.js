@@ -15,6 +15,7 @@ import AlertCard from "../../../components/card/AlertCard";
 import ApiService from "../../../service/api/ApiService";
 import { FAB } from "react-native-paper";
 import { Icon } from "react-native-elements";
+import moment from "moment";
 LogBox.ignoreLogs([
   "Warning: Cannot update a component from inside the function body of a different component.",
 ]);
@@ -30,6 +31,7 @@ class AlertsScreen extends Component {
   }
 
   componentDidMount() {
+    // console.log(new Date().getTime())
     this.fetchAllalerts();
     this.props.navigation.setOptions({
       headerRight: () => (

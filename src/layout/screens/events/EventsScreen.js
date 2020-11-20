@@ -158,15 +158,6 @@ class EventsScreen extends Component {
         >
           {eventList}
         </ScrollView>
-        {/* <FAB
-            style={styles.filter}
-            medium
-            animated={true}
-            color="#fff"
-            icon="filter"
-            theme={{ colors: { accent: "#70AF1A" } }}
-            onPress={() => this.openFilterDialog()}
-          /> */}
 
         <FilterEventDialog
           onSubmit={(selectedValue) => this.filterEvents(selectedValue)}

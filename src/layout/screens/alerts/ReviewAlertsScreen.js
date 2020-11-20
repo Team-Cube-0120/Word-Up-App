@@ -19,6 +19,7 @@ class ReviewAlertsScreen extends Component {
   constructor(props) {
     super(props);
     this.alertInfo = this.props.route.params.alertInfo;
+    console.log(this.alertInfo.datePosted)
     this.state = {
       isLoading: false,
       toggleDialog: false,
@@ -91,10 +92,10 @@ class ReviewAlertsScreen extends Component {
     return (
       <View>
         <ScrollView>
-          <Card>
+          <Card style={styles.cardShadows}>
             <Card.Title>Review Alerts Information</Card.Title>
             <Card.Divider></Card.Divider>
-            <View style={styles.containerView}>
+            <View style={styles.containerViewDetail}>
               <Text style={styles.title}>Name: </Text>
               <Text style={styles.value}>{this.alertInfo.name}</Text>
             </View>
@@ -106,8 +107,8 @@ class ReviewAlertsScreen extends Component {
               <Text style={styles.titleDetail}>Details: </Text>
               <Text style={styles.value}>{this.alertInfo.details}</Text>
             </View>
-            <View style={styles.containerView}>
-              <Text style={styles.title}>Location: </Text>
+            <View style={styles.containerViewDetail}>
+              <Text style={styles.titleDetail}>Location: </Text>
               <Text style={styles.value}>{this.alertInfo.location}</Text>
             </View>
             <View style={styles.containerView}>
@@ -172,6 +173,27 @@ const styles = StyleSheet.create({
     backgroundColor: "#FAFAFA",
   },
 
+  cardShadows: {
+    ...Platform.select({
+      ios: {
+        shadowColor: "#000",
+        shadowOffset: { width: 1, height: 1 },
+        shadowOpacity: 0.4,
+        shadowRadius: 2,
+      },
+      android: {
+        elevation: 2,
+      },
+      default: {
+        shadowColor: "#000",
+        shadowOffset: { width: 1, height: 1 },
+        shadowOpacity: 0.4,
+        shadowRadius: 2,
+        elevation: 2,
+      },
+    }),
+  },
+
   title: {
     fontWeight: "bold",
     marginRight: "1%",
@@ -185,7 +207,7 @@ const styles = StyleSheet.create({
   buttonView: {
     flexDirection: "column",
     width: "100%",
-    height: 150, // might be a problem for other screens
+    height: 80, // might be a problem for other screens
     justifyContent: "space-evenly",
   },
 

@@ -77,16 +77,16 @@ class ReviewJobScreen extends Component {
           <Card>
             <Card.Title>Review Event Information</Card.Title>
             <Card.Divider></Card.Divider>
-            <View style={styles.containerView}>
-              <Text style={styles.title}>Event Name: </Text>
+            <View style={styles.containerViewDetail}>
+              <Text style={styles.titleDetail}>Event Name: </Text>
               <Text style={styles.value}>{this.eventInfo.eventName}</Text>
             </View>
             <View style={styles.containerViewDetail}>
               <Text style={styles.titleDetail}>Details: </Text>
               <Text style={styles.value}>{this.eventInfo.details}</Text>
             </View>
-            <View style={styles.containerView}>
-              <Text style={styles.title}>Locations: </Text>
+            <View style={styles.containerViewDetail}>
+              <Text style={styles.titleDetail}>Locations: </Text>
               <Text style={styles.value}>{this.eventInfo.location}</Text>
             </View>
             <View style={styles.containerView}>

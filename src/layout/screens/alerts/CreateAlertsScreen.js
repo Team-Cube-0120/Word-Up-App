@@ -12,6 +12,9 @@ import UuidGenerator from "../../../util/UuidGenerator";
 import PickerExample from "./PickerExample";
 import DropDownSeverityExample from "./DropDownSeverityExample";
 import ModalSelector from "react-native-modal-selector";
+import { USERINFO } from '../../../enums/StorageKeysEnum';
+import { getData } from '../../../util/LocalStorage';
+import moment from 'moment'
 
 class CreateAlertsScreen extends Component {
   constructor(props) {
@@ -23,6 +26,10 @@ class CreateAlertsScreen extends Component {
       location: "N/A",
       alertType: "N/A",
       alertId: "N/A",
+      userId: "N/A",
+      profileImage: "N/A",
+      fullname : "N/A",
+      datePosted: "N/A"
     };
   }
 
@@ -42,11 +49,11 @@ class CreateAlertsScreen extends Component {
 
         <ModalSelector
             data={[
-              { key: 0, label: "Low" },
-              { key: 1, label: "Medium" },
-              { key: 2, label: "High" },
-              { key: 3, label: "Urgent" },
-              { key: 4, label: "Other" },
+              { key: 0, label: "None" },
+              { key: 1, label: "Low" },
+              { key: 2, label: "Medium" },
+              { key: 3, label: "High" },
+              { key: 4, label: "Urgent" },
             ]}
             initValue={"N/A"}
             supportedOrientations={["portrait"]}
@@ -194,7 +201,13 @@ class CreateAlertsScreen extends Component {
               title="Review"
               color={"#70AF1A"}
               onPress={async () => {
+                let userInfo = await getData(USERINFO);
+                var time = new Date().getTime()
                 this.state.alertId = await UuidGenerator.generateUuid();
+                this.state.fullname = userInfo.fullname;
+                this.state.datePosted = time;
+                this.state.profileImage = userInfo.profile.profileImageUrl;
+                this.state.userId = userInfo.profile.id;
                 this.props.navigation.navigate("ReviewAlerts", {
                   alertInfo: this.state,
                 });
