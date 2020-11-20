@@ -111,6 +111,14 @@ app.get('/data/filter/other/get', (req, res) => {
         .catch((error) => { res.send({ Status: 400, Message: error }) });
 });
 
+app.get('/data/filterEvents/get', (req, res) => {
+    let collection = req.query.collection;
+    let filterOption = req.query.filterOption
+    firebaseFirestore.getFilteredEvents(collection, filterOption)
+        .then((data) => { res.send({ Status: 200, data: data }) })
+        .catch((error) => { res.send({ Status: 400, Message: error }) });
+});
+
 app.get('/data/getAll', (req, res) => {
     let collection = req.query.collection;
     firebaseFirestore.getAll(collection)

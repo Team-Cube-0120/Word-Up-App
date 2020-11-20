@@ -1,88 +1,145 @@
+import React, { Component } from "react";
+import {
+  StyleSheet,
+  Text,
+  View,
+  Image,
+  ScrollView,
+  ActivityIndicator,
+  RefreshControl,
+} from "react-native";
+import { TouchableOpacity } from "react-native-gesture-handler";
+import AlertCard from "../../../components/card/AlertCard";
+import ApiService from "../../../service/api/ApiService";
 
-import React, { Component } from 'react';
-import { StyleSheet, Text, View, Image, ScrollView } from 'react-native';
-import myIcon from '../../../../assets/snack-icon.png';
-import { TouchableOpacity } from 'react-native-gesture-handler';
-import AsyncStorage from '@react-native-community/async-storage';
-import ApiService from '../../../service/api/ApiService';
-import { firebase } from "../../../../server/config/firebase/firebaseConfig";
-import { firestore } from 'firebase';
-import { getData } from "../../../util/LocalStorage";
-import { USERINFO } from '../../../enums/StorageKeysEnum';
+
 
 class AlertsScreen extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      admin:false
-    }
+      isLoading: true,
+      refreshing: false,
+      alerts: [],
+    };
   }
 
+  componentDidMount() {
+    this.fetchAllalerts();
+  }
+
+  fetchAllalerts() {
+    ApiService.get("data/getAll?collection=alerts")
+      .then((alerts) => {
+        this.setState({ isLoading: false, alerts: alerts, refreshing: false });
+      })
+      .catch((error) => {
+        this.setState({
+          alerts: <Text>Error Retrieving Data {error}</Text>,
+          refreshing: false,
+        });
+      });
+  }
+
+  async onRefresh() {
+    this.setState({ refreshing: true });
+    this.fetchAllalerts();
+  }
 
   render() {
-    const navigation = this.props.navigation
-      return (
-        <ScrollView style={styles.container}>
-          <Text style={styles.header}>Alert Screen</Text>
-            <TouchableOpacity style = {styles.button}
-              onPress={() => navigation.navigate('CreateAlerts')}>
-              <Text style = {styles.btnText}>Create Alert</Text>
-            </TouchableOpacity>
-        </ScrollView>
+    const navigation = this.props.navigation;
+    let alertList =
+      this.state.alerts.length > 0 ? (
+        this.state.alerts.map((alert, index) => (
+          <TouchableOpacity
+            key={index}
+            onPress={() =>
+              this.props.navigation.push("ViewAlert", { alertInfo: alert })
+            }
+          >
+            <AlertCard title={alert.name} data={alert} />
+          </TouchableOpacity>
+        ))
+      ) : (
+        <Text>Error Retrieving Data</Text>
       );
+
+    if (this.state.isLoading) {
+      return (
+        <View style={styles.activityContainer}>
+          <ActivityIndicator
+            size="large"
+            color="#70AF1A"
+            animating={this.state.isLoading}
+          />
+        </View>
+      );
+    }
+
+    return (
+      <View style={styles.container}>
+        <ScrollView
+          refreshControl={
+            <RefreshControl
+              refreshing={this.state.refreshing}
+              onRefresh={() => this.onRefresh()}
+            />
+          }
+        >
+          {alertList}
+        </ScrollView>
+
+        <TouchableOpacity
+          style={styles.button}
+          onPress={() => navigation.navigate("CreateAlerts")}
+        >
+          <Text style={styles.btnText}>Create Alert</Text>
+        </TouchableOpacity>
+      </View>
+    );
   }
 }
 
 const styles = StyleSheet.create({
   container: {
-    flexDirection: 'column',
+    position: "relative",
+    flex: 1,
     backgroundColor: 'white',
-    padding:20
   },
   header: {
     fontSize: 24,
-    color: '#36485f',
+    color: "#36485f",
     paddingBottom: 10,
-    marginBottom:20,
-    borderBottomColor: '#36485f',
+    marginBottom: 20,
+    borderBottomColor: "#36485f",
     borderBottomWidth: 1,
     alignSelf: "center",
-    },
+  },
   text: {
-    position: 'relative'
+    position: "relative",
   },
   button: {
-    alignItems:"center",
+    alignItems: "center",
     padding: 20,
     backgroundColor: "#59cbbd",
     marginTop: 10,
   },
   btnText: {
-    color: '#fff',
-    fontWeight: "bold"
+    fontWeight: "bold",
   },
-
-  addJobView: {
-    position: 'absolute',
-    left: 330,
-    top: 620
+  activityContainer: {
+    flex: 1,
+    justifyContent: "center",
+    flexDirection: "row",
+    justifyContent: "space-around",
+    padding: 10,
   },
-
-  addJob: {
-    width: 50,
-    height: 50,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-
   floatingButton: {
-    resizeMode: 'contain',
+    resizeMode: "contain",
     width: 50,
     height: 50,
-    backgroundColor:'black'
+    backgroundColor: "black",
   },
-
-
 });
 
 export default AlertsScreen;

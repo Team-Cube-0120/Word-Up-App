@@ -13,8 +13,7 @@ import {
 import PropTypes from "prop-types";
 import ApiService from "../../service/api/ApiService";
 import { DEFAULT_PROFILE_IMAGE } from "../../enums/DefaultEnums";
-const calculateDaysPassed = require("../../formatter/TimeFormatter")
-  .calculateDaysPassed;
+const calculateDaysPassed = require("../../formatter/TimeFormatter").calculateDaysPassed;
 
 class JobCard extends BaseCard {
   static propTypes = {

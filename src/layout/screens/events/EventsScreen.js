@@ -7,11 +7,20 @@ import {
   ScrollView,
   ActivityIndicator,
   RefreshControl,
+  Button,
+  TouchableHighlight,
+  LogBox,
 } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import EventCard from "../../../components/card/EventCard";
 import ApiService from "../../../service/api/ApiService";
 import { FAB } from "react-native-paper";
+import FilterEventDialog from "../../../components/dialog/FilterEventDialog";
+import { Icon } from "react-native-elements";
+
+LogBox.ignoreLogs([
+  "Warning: Cannot update a component from inside the function body of a different component.",
+]);
 
 class EventsScreen extends Component {
   constructor(props) {
@@ -20,17 +29,33 @@ class EventsScreen extends Component {
       isLoading: true,
       refreshing: false,
       events: [],
+      isFilterDialogOpen: false,
+      filterOption: "All",
     };
-    this.willFocusSubscription = this.props.navigation.addListener(
-      "focus",
-      () => {
-        this.onRefresh();
-      }
-    );
   }
 
   componentDidMount() {
-    this.fetchAllEvents();
+    this.fetchEvents();
+    this.props.navigation.setOptions({
+      headerRight: () => (
+        <TouchableHighlight
+          style={{ backgroundColor: "#70AF1A", marginRight: 15 }}
+          onPress={() => this.openFilterDialog()}
+        >
+          <View style={{ backgroundColor: "#70AF1A" }}>
+            <Icon name="filter-list" size={34} color="white" />
+          </View>
+        </TouchableHighlight>
+      ),
+    });
+  }
+
+  fetchEvents() {
+    if (this.state.filterOption == "All") {
+      this.fetchAllEvents();
+    } else {
+      this.fetchFilteredEvents();
+    }
   }
 
   // componentDidUpdate() {
@@ -54,9 +79,41 @@ class EventsScreen extends Component {
       });
   }
 
+  async fetchFilteredEvents() {
+    ApiService.get(
+      "data/filterEvents/get?collection=events&filterOption=" +
+        this.state.filterOption
+    )
+      .then((events) => {
+        this.setState({ isLoading: false, events: events, refreshing: false });
+      })
+      .catch((error) => {
+        this.setState({
+          events: <Text>Error Retrieving Data {error}</Text>,
+          isLoading: false,
+          refreshing: false,
+        });
+      });
+  }
+
+  async filterEvents(selectedValue) {
+    this.setState({ filterOption: selectedValue, isLoading: true }, () => {
+      this.closeFilterDialog();
+      this.fetchEvents();
+    });
+  }
+
   async onRefresh() {
     this.setState({ refreshing: true });
     this.fetchAllEvents();
+  }
+
+  openFilterDialog() {
+    this.setState({ isFilterDialogOpen: true });
+  }
+
+  closeFilterDialog() {
+    this.setState({ isFilterDialogOpen: false });
   }
 
   render() {
@@ -101,6 +158,22 @@ class EventsScreen extends Component {
         >
           {eventList}
         </ScrollView>
+        {/* <FAB
+            style={styles.filter}
+            medium
+            animated={true}
+            color="#fff"
+            icon="filter"
+            theme={{ colors: { accent: "#70AF1A" } }}
+            onPress={() => this.openFilterDialog()}
+          /> */}
+
+        <FilterEventDialog
+          onSubmit={(selectedValue) => this.filterEvents(selectedValue)}
+          onClose={() => this.closeFilterDialog()}
+          filterOption={this.state.filterOption}
+          visible={this.state.isFilterDialogOpen}
+        ></FilterEventDialog>
 
         <FAB
           style={styles.fab}
@@ -122,6 +195,11 @@ const styles = StyleSheet.create({
     position: "relative",
     flex: 1,
     backgroundColor: "#FAFAFA",
+  },
+  iconContainer: {
+    flexDirection: "row",
+    justifyContent: "space-evenly",
+    width: 120,
   },
   header: {
     fontSize: 24,
@@ -186,6 +264,12 @@ const styles = StyleSheet.create({
         elevation: 2,
       },
     }),
+  },
+  filter: {
+    position: "absolute",
+    margin: 16,
+    right: 0,
+    bottom: 0,
   },
 });
 

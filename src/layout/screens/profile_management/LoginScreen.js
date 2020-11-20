@@ -37,15 +37,16 @@ export default function LoginScreen({ navigation }) {
     setLoading(true);
     const usersRef = firebase.firestore().collection("users");
     firebase.auth().onAuthStateChanged((user) => {
+      console.log(user)
       if (user) {
         usersRef
           .doc(user.uid)
           .get()
           .then(async (firestoreDocument) => {
-            setEmail("");
-            setPassword("");
-            await storeData(USERINFO, firestoreDocument.data());
-            navigation.navigate("TabNavigator");
+              setEmail("");
+              setPassword("");
+              await storeData(USERINFO, firestoreDocument.data());
+              navigation.navigate("TabNavigator");
           })
           .catch((error) => {
             alert(error);
@@ -114,7 +115,8 @@ export default function LoginScreen({ navigation }) {
                   jobIds: [],
                   eventIds: [],
                   alertIds: [],
-                  datePosted: new Date(),
+                  signedUpEvents:[],
+                  datePosted: new Date()
                 };
                 const usersRef = firebase.firestore().collection("users");
                 usersRef

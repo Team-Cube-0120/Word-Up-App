@@ -79,6 +79,7 @@ class RegistrationScreen extends Component {
                 admin: this.state.checked,
                 jobIds: [],
                 eventIds: [],
+                signedUpEvents: [],
                 alertIds: [],
                 datePosted: this.state.datePosted
               };

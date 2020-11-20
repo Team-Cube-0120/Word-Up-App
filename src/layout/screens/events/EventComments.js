@@ -40,7 +40,7 @@ class EventComments extends Component {
     }
     ApiService.get(
       "data/comments/get?collection=events&document=" +
-        this.state.eventInfo.eventId
+      this.state.eventInfo.eventId
     )
       .then((comments) => {
         this.setState({
@@ -93,6 +93,7 @@ class EventComments extends Component {
           <FlatList
             style={styles.root}
             data={this.state.comments}
+            keyboardShouldPersistTaps={true}
             ref={(ref) => {
               this.flatListView = ref;
             }}
@@ -108,7 +109,7 @@ class EventComments extends Component {
             renderItem={(item) => {
               return (
                 <View style={styles.container}>
-                  <TouchableOpacity onPress={() => {}}>
+                  <TouchableOpacity onPress={() => { }}>
                     <Image
                       style={styles.image}
                       source={{ uri: item.item.image }}
@@ -129,7 +130,8 @@ class EventComments extends Component {
               );
             }}
           ></FlatList>
-          <ScrollView style={{ height: 200 }}>
+          <ScrollView keyboardShouldPersistTaps={true}
+            style={{ height: 200 }}>
             <TextInput
               style={styles.comment}
               multiline={true}

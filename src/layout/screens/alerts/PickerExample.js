@@ -8,15 +8,17 @@ class PickerExample extends Component {
         value: PropTypes.string,
         onSelection: PropTypes.func
     }
-    
+
     render() {
         return (
             <View>
                 <Picker selectedValue={this.props.value}
                     style={styles.picker}
                     onValueChange={(itemValue, itemPosition) => this.props.onSelection(itemValue)} >
-                        <Picker.Item label="Weather" value="Weather" />
-                        <Picker.Item label="Emergency" value="Emergency" />
+                    <Picker.Item label="N/A" value="N/A" />
+                    <Picker.Item label="Weather" value="Weather" />
+                    <Picker.Item label="Emergency" value="Emergency" />
+                    <Picker.Item label="Community Alert" value="Community Alert" />
                 </Picker>
             </View>
         )

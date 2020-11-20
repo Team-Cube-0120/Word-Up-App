@@ -1,5 +1,4 @@
 import React from "react";
-import ReviewAlertsScreen from "../../layout/screens/alerts/ReviewAlertsScreen";
 const { createStackNavigator } = require("@react-navigation/stack");
 const {
   default: AlertsScreen,
@@ -7,6 +6,11 @@ const {
 const {
   default: CreateAlertsScreen,
 } = require("../../layout/screens/alerts/CreateAlertsScreen");
+import ViewAlertScreen from "../../layout/screens/alerts/ViewAlertScreen";
+import EditAlertScreen from "../../layout/screens/alerts/EditAlertScreen";
+const {
+  default: ReviewAlertsScreen,
+} = require("../../layout/screens/alerts/ReviewAlertsScreen");
 
 const AlertsStack = createStackNavigator();
 
@@ -19,7 +23,10 @@ const AlertsStackScreen = () => {
         options={{
           headerLeft: null,
           headerStyle: {
-            backgroundColor: "#FAFAFA",
+            backgroundColor: "#70AF1A",
+          },
+          headerTitleStyle: {
+            color: "white",
           },
         }}
       />
@@ -29,7 +36,10 @@ const AlertsStackScreen = () => {
         options={{
           title: "New Alert",
           headerStyle: {
-            backgroundColor: "#FAFAFA",
+            backgroundColor: "#70AF1A",
+          },
+          headerTitleStyle: {
+            color: "white",
           },
         }}
       />
@@ -39,7 +49,36 @@ const AlertsStackScreen = () => {
         options={{
           title: "Review",
           headerStyle: {
-            backgroundColor: "#FAFAFA",
+            backgroundColor: "#70AF1A",
+          },
+          headerTitleStyle: {
+            color: "white",
+          },
+        }}
+      />
+      <AlertsStack.Screen
+        name="ViewAlert"
+        component={ViewAlertScreen}
+        options={{
+          title: "Back",
+          headerStyle: {
+            backgroundColor: "#70AF1A",
+          },
+          headerTitleStyle: {
+            color: "white",
+          },
+        }}
+      />
+      <AlertsStack.Screen
+        name="EditAlert"
+        component={EditAlertScreen}
+        options={{
+          title: "Edit Alert",
+          headerStyle: {
+            backgroundColor: "#70AF1A",
+          },
+          headerTitleStyle: {
+            color: "white",
           },
         }}
       />

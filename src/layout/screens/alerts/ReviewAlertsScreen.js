@@ -4,6 +4,8 @@ import { Card } from 'react-native-elements';
 import ApiService from '../../../service/api/ApiService';
 import RequestOptions from '../../../service/api/RequestOptions';
 import SubmissionDialog from '../../../components/dialog/SubmissionDialog';
+import { getData, storeData } from '../../../util/LocalStorage';
+import { USERINFO } from '../../../enums/StorageKeysEnum';
 const sleep = require('../../../util/Thread');
 
 class ReviewAlertsScreen extends Component {
@@ -19,10 +21,27 @@ class ReviewAlertsScreen extends Component {
         };
     }
 
+    async updateAlertInfo() {
+        return new Promise(async (resolve, reject) => {
+            try {
+                let userInfo = await getData(USERINFO);
+                userInfo.alertIds.push(this.alertInfo.alertId);
+                let body = await RequestOptions.setUpRequestBody("users", userInfo.id, userInfo);
+                await ApiService.update('data/update', body);
+                await storeData(USERINFO, userInfo);
+                resolve();
+            } catch (error) {
+                console.log("error: " + error);
+                reject(error);
+            }  
+        })
+    }
+
     async addAlert() {
         this.setState({ isLoading: true });
         RequestOptions.setUpRequestBody("alerts", this.alertInfo.alertId, this.alertInfo)
             .then((body) => ApiService.post('data/add', body))
+            .then((response) => this.updateAlertInfo())
             .then((response) => this.setState({
                 title: 'Congratulations',
                 addAlertResponse: 'Your alert has been successfully posted!'
@@ -32,7 +51,6 @@ class ReviewAlertsScreen extends Component {
                 title: 'Oops!',
                 addAlertResponse: 'There was a problem adding your alert information. Please try again.'
             }))
-            .then(() => sleep(5000))
             .then(() => this.openDialog())
     }
 
