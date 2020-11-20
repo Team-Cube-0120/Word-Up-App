@@ -35,14 +35,12 @@ class JobsScreen extends Component {
   componentDidMount() {
     this.fetchJobs();
     this.fetchAllUsers();
-    this.willFocusSubscription = this.props.navigation.addListener(
-      "focus",
-      () => {
-        this.fetchJobs();
-        this.fetchAllUsers();
-      }
-    );
   }
+  
+  // componentDidUpdate(){
+  //   this.fetchJobs();
+  //   this.fetchAllUsers();
+  // }
 
   fetchJobs() {
     if (this.state.filterOption == ALL_TIME) {

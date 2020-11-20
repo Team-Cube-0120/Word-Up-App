@@ -49,6 +49,22 @@ app.post('/data/events/add', (req, res) => {
         .then((message) => { res.send({ Status: 200, Message: message }) })
         .catch((error) => { res.send({ Status: 400, Message: error }) });
 });
+app.post('/data/signup/add', (req, res) => {
+    let collection = req.body.collection;
+    let document = req.body.document;
+    let data = req.body.data;
+    firebaseFirestore.postSignedUpEvent(collection, document, data)
+        .then((message) => { res.send({ Status: 200, Message: message }) })
+        .catch((error) => { res.send({ Status: 400, Message: error }) });
+});
+app.post('/data/unregister/delete', (req, res) => {
+    let collection = req.body.collection;
+    let document = req.body.document;
+    let data = req.body.data;
+    firebaseFirestore.unRegister(collection, document, data)
+        .then((message) => { res.send({ Status: 200, Message: message }) })
+        .catch((error) => { res.send({ Status: 400, Message: error }) });
+});
 
 app.put('/data/update', (req, res) => {
     let collection = req.body.collection;

@@ -31,6 +31,8 @@ class ViewEventScreen extends Component {
       toggleEventDeleteDialog: false,
       deleteLoading: false,
       signedUp: false,
+      title: '',
+      addEventResponse: '',
     };
   }
 
@@ -72,29 +74,81 @@ class ViewEventScreen extends Component {
           }]
         )
       })
+      this.unRegister();
   }
+
 
   async signUp() {
-    alert("Succesfully Signed Up!");
-    setTimeout(
-      () =>
-        this.props.navigation.push("SignUp", {
-          eventInfo: this.state.eventInfo,
-        }),
-      2000
-    );
+    let itemId = this.state.eventInfo.eventId;
+    this.setState({ deleteLoading: true });
+    RequestOptions.setUpRequestBody("events", this.state.eventInfo.eventId, this.state.eventInfo)
+    .then((body) => ApiService.post("data/signup/add", body))
+    .then((response) => updateUserInfo(this.state.eventInfo.userId))
+    .then((response) => {
+        this.closeDialog();
+        Alert.alert(
+          'Notice',
+          'Your event has been signed up',
+          [{
+            text: 'Return',
+            onPress: () => this.props.navigation.navigate("Events")
+          }])
+      })
+      .catch((error) => {
+        this.closeDialog();
+        Alert.alert(
+          'Error',
+          'There was a problem registering this event. Please try again.',
+          [{
+            text: 'Close',
+            onPress: () => this.closeDialog()
+          }]
+        )
+      })
   }
 
+
+
   async unRegister() {
-    alert("Unregistered!");
-    setTimeout(
-      () =>
-        this.props.navigation.push("SignUp", {
-          eventInfo: this.state.eventInfo,
-        }),
-      2000
-    );
+    let itemId = this.state.eventInfo.eventId;
+    this.setState({ deleteLoading: true });
+    RequestOptions.setUpRequestBody("events", this.state.eventInfo.eventId, this.state.eventInfo)
+    .then((body) => ApiService.post("data/unregister/delete", body))
+    .then((response) => updateUserInfo(this.state.eventInfo.userId))
+    .then((response) => {
+        this.closeDialog();
+        Alert.alert(
+          'Notice',
+          'Your have successfully unregistered',
+          [{
+            text: 'Return',
+            onPress: () => this.props.navigation.navigate("Events")
+          }])
+      })
+      .catch((error) => {
+        this.closeDialog();
+        Alert.alert(
+          'Error',
+          'There was a problem unregistering this event. Please try again.',
+          [{
+            text: 'Close',
+            onPress: () => this.closeDialog()
+          }]
+        )
+      })
   }
+
+
+  // async unRegister() {
+  //   alert("Unregistered!");
+  //   setTimeout(
+  //     () =>
+  //       this.props.navigation.push("SignUp", {
+  //         eventInfo: this.state.eventInfo,
+  //       }),
+  //     2000
+  //   );
+  // }
   async isEditable() {
     let userInfo = await getData(USERINFO);
     if (
@@ -122,7 +176,7 @@ class ViewEventScreen extends Component {
         ),
       });
     }
-    if (!this.state.eventInfo.signedUp) {
+    if (!userInfo.signedUpEvents.includes(this.state.eventInfo.eventId)) {
       this.setState({
         signUpButtonView: (
           <TouchableOpacity
@@ -198,10 +252,6 @@ class ViewEventScreen extends Component {
             <Text style={styles.value}>{this.state.eventInfo.eventType}</Text>
           </View>
           <View style={styles.buttonView}>
-            {/* <Button style={styles.buttonLeft}
-                            title="Apply"
-                            disabled={true}
-                            onPress={() => this.props.navigation.goBack()}></Button> */}
             {this.state.signUpButtonView}
             {this.state.unRegister}
             {this.state.deleteEventView}

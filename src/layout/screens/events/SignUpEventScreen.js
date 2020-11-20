@@ -11,47 +11,97 @@ import {
 import { TouchableOpacity } from "react-native-gesture-handler";
 import EventCard from "../../../components/card/EventCard";
 import ApiService from "../../../service/api/ApiService";
+import { FAB } from "react-native-paper";
+import FilterEventDialog from '../../../components/dialog/FilterEventDialog';
+import { USERINFO } from "../../../enums/StorageKeysEnum";
 
 class SignUpEventScreen extends Component {
     constructor(props) {
         super(props);
-        let eventInfo = this.props.route.params.eventInfo;
         this.state = {
-            eventInfo: eventInfo,
-            editButtonView: <View></View>,
-            deleteEventView: <View></View>,
-            signUpButtonView: <View></View>,
-            isLoading: false,
-            toggleDialog: false,
-        }
+            isLoading: true,
+            refreshing: false,
+            events: [],
+            users: new Map(),
+            isFilterDialogOpen: false,
+            filterOption: 'All'
+        };
     }
 
+    componentDidMount() {
+        this.fetchedSignedEvents()
+    }
+
+    fetchedSignedEvents() {
+        ApiService.get("data/getAll?collection=events")
+            .then((events) => {
+                this.setState({ isLoading: false, events: events, refreshing: false });
+            })
+            .catch((error) => {
+                this.setState({
+                    events: <Text>Error Retrieving Data {error}</Text>,
+                    refreshing: false,
+                });
+            });
+    }
+
+    async onRefresh() {
+        this.setState({ refreshing: true });
+        this.fetchedSignedEvents();
+    }
+
+    openFilterDialog() {
+        this.setState({ isFilterDialogOpen: true });
+    }
+
+    closeFilterDialog() {
+        this.setState({ isFilterDialogOpen: false });
+    }
 
     render() {
-        if (this.state.eventInfo.signedUp) {
+        const navigation = this.props.navigation;
+        let eventList =
+            this.state.events.length > 0 ? (
+                this.state.events.map((event, index) => (
+                    <TouchableOpacity
+                        key={index}
+                        onPress={() =>
+                            this.props.navigation.push("ViewEvent", { eventInfo: event })
+                        }
+                    >
+                        <EventCard title={event.eventName} data={event} />
+                    </TouchableOpacity>
+                ))
+            ) : (
+                    <Text>Error Retrieving Data</Text>
+                );
+
+        if (this.state.isLoading) {
             return (
-                <View style={styles.container}>
-                    <ScrollView>
-                        <TouchableOpacity
-                            onPress={() =>
-                                this.props.navigation.push("ViewEvent", { eventInfo: this.state.eventInfo })
-                            }
-                        >
-                            <EventCard title={this.state.eventInfo.eventName} data={this.state.eventInfo} />
-                        </TouchableOpacity>
-                    </ScrollView>
-                </View>
-            );
-        } else {
-            return (
-                <View style={styles.container}>
-                    <ScrollView>
-                        
-                    </ScrollView>
+                <View style={styles.activityContainer}>
+                    <ActivityIndicator
+                        size="large"
+                        color="#70AF1A"
+                        animating={this.state.isLoading}
+                    />
                 </View>
             );
         }
-
+        return (
+            <View style={styles.container}>
+                <ScrollView
+                    refreshControl={
+                        <RefreshControl
+                            refreshing={this.state.refreshing}
+                            onRefresh={() => this.onRefresh()}
+                        />
+                    }
+                >
+                    {eventList}
+                </ScrollView>
+                
+            </View>
+        );
     }
 }
 

@@ -23,6 +23,8 @@ class FilterEventDialog extends Component {
             {label: 'Outdoor', value: 'Outdoor'},
             {label: 'Food', value: 'Food'},
             {label: 'All', value: 'All'},
+            {label: 'My Events', value: 'My Events'},
+
 
            
         ];

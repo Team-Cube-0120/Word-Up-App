@@ -48,6 +48,30 @@ class FirebaseFirestore {
         });
     }
 
+    async postSignedUpEvent(collection, document, data) {
+        return new Promise((resolve, reject) => {
+            try {
+                this.updateUserItemId(data.userId, { signedUpEvents: firestore.FieldValue.arrayUnion(data.eventId) })
+                    .then((response) => resolve(response))
+                    .then((error) => reject(error))
+            } catch (e) {
+                reject(e);
+            }
+        });
+    }
+
+    async unRegister(collection, document, data) {
+        return new Promise((resolve, reject) => {
+            try {
+                this.updateUserItemId(data.userId, { signedUpEvents: firestore.FieldValue.arrayRemove(data.eventId) })
+                    .then((response) => resolve(response))
+                    .then((error) => reject(error))
+            } catch (e) {
+                reject(e);
+            }
+        });
+    }
+
     async update(collection, document, data) {
         return new Promise((resolve, reject) => {
             this.database
@@ -98,6 +122,7 @@ class FirebaseFirestore {
         return new Promise(async (resolve, reject) => {
             try {
                 this.updateUserItemId(userId, { eventIds: firestore.FieldValue.arrayRemove(document) })
+                .then()
                     .then((response) => this.delete(collection, document))
                     .then((response) => resolve(response))
                     .catch((error) => reject(error));
@@ -106,6 +131,8 @@ class FirebaseFirestore {
             }
         });
     }
+
+
 
     /**
      * updates the job, event, or alert id in the user account
