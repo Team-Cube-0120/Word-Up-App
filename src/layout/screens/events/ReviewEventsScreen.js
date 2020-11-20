@@ -148,15 +148,17 @@ const styles = StyleSheet.create({
   },
 
   containerViewDetail: {
+    flex: 1,
     width: "100%",
     marginBottom: "5%",
     borderColor: "gray",
     borderWidth: 1,
     borderRadius: 10,
-    alignItems: "center",
     paddingTop: "3%",
     paddingBottom: "3%",
     paddingLeft: "3%",
+    alignSelf: "flex-start",
+    paddingRight: "3%",
     backgroundColor: "#FAFAFA",
   },
 

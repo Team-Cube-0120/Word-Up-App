@@ -11,7 +11,7 @@ import {
   LogBox,
   TouchableHighlight,
 } from "react-native";
-import { Card } from "react-native-elements";
+import { Card, Avatar } from "react-native-elements";
 import DeleteDialog from "../../../components/dialog/DeleteDialog";
 import ApiService from "../../../service/api/ApiService";
 import RequestOptions from "../../../service/api/RequestOptions";
@@ -28,6 +28,7 @@ class ViewEventScreen extends Component {
     let eventInfo = this.props.route.params.eventInfo;
     this.state = {
       eventInfo: eventInfo,
+      userInfo: <View></View>,
       editButtonView: <View></View>,
       deleteEventView: <View></View>,
       signUpButtonView: <View></View>,
@@ -42,6 +43,22 @@ class ViewEventScreen extends Component {
 
   componentDidMount() {
     this.isEditable();
+    this.setState({ userInfo: (
+      <Card style={styles.lastCard}>
+      <Card.Title style={styles.cardTitle}>Event Poster</Card.Title>
+      <View style={styles.profileImage}>
+        <Avatar
+          rounded
+          source={{
+            uri: this.state.eventInfo.profileImage,
+          }}
+        />
+        <Text style={styles.profileTitle}>
+          {this.state.eventInfo.fullname}
+        </Text>
+      </View>
+    </Card>
+    )})
     this.props.navigation.setOptions({
       title: "Event Information",
       headerRight: () => (
@@ -255,6 +272,7 @@ class ViewEventScreen extends Component {
               isSubmitting={this.state.deleteLoading}
             ></DeleteDialog>
           </Card>
+          {this.state.userInfo}
         </ScrollView>
       </View>
     );
@@ -279,6 +297,17 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     marginRight: "1%",
     fontSize: 16,
+  },
+
+  profileImage: {
+    textAlign: "left",
+    flexDirection: "row",
+    marginBottom: "5%",
+  },
+
+  profileTitle: {
+    marginLeft: "3%",
+    marginTop: "2%",
   },
 
   value: {

@@ -30,6 +30,8 @@ class CreateEventsScreen extends Component {
       eventType: "N/A",
       eventId: "N/A",
       userId: "N/A",
+      profileImage: "N/A",
+      fullname: "",
       isVisible: false,
       isMenuVisible: false,
       startDate: "-",
@@ -113,10 +115,7 @@ class CreateEventsScreen extends Component {
           <TextInput
             style={styles.textInput}
             ref={this.eventNameInput}
-            returnKeyType={"next"}
-            onSubmitEditing={() => {
-              this.detailsInput.current.focus();
-            }}
+            returnKeyType={"done"}
             blurOnSubmit={false}
             placeholder="e.g. Harrison's birthday party"
             onChangeText={(eventName) =>
@@ -186,9 +185,10 @@ class CreateEventsScreen extends Component {
             Details <Text style={{ color: "red" }}>*</Text>
           </Text>
           <TextInput
-            style={styles.textInput}
+            style={styles.textInputMultipleLine}
             ref={this.detailsInput}
             returnKeyType={"next"}
+            multiline = {true}
             onSubmitEditing={() => {
               this.locationInput.current.focus();
             }}
@@ -309,6 +309,8 @@ class CreateEventsScreen extends Component {
             onPress={async () => {
               this.state.eventId = await UuidGenerator.generateUuid();
               let userInfo = await getData(USERINFO);
+              this.state.fullname = userInfo.fullname;
+              this.state.profileImage = userInfo.profile.profileImageUrl;
               this.state.userId = userInfo.profile.id;
               this.props.navigation.push("ReviewEvents", {
                 eventInfo: this.state,
@@ -379,6 +381,17 @@ const styles = StyleSheet.create({
     color: "black",
     borderWidth: 1,
     paddingLeft: 10,
+  },
+  textInputMultipleLine: {
+    borderColor: "gray",
+    borderWidth: 1,
+    borderRadius: 10,
+    paddingLeft: 10,
+    height: 100,
+    textAlignVertical: "top",
+    paddingTop: 10,
+    paddingBottom: 10,
+    marginBottom: 20,
   },
   button: {
     alignSelf: "stretch",

@@ -7,12 +7,17 @@ import {
   ScrollView,
   ActivityIndicator,
   RefreshControl,
+  LogBox,
+  TouchableHighlight
 } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import AlertCard from "../../../components/card/AlertCard";
 import ApiService from "../../../service/api/ApiService";
-
-
+import { FAB } from "react-native-paper";
+import { Icon } from "react-native-elements";
+LogBox.ignoreLogs([
+  "Warning: Cannot update a component from inside the function body of a different component.",
+]);
 
 class AlertsScreen extends Component {
   constructor(props) {
@@ -26,6 +31,18 @@ class AlertsScreen extends Component {
 
   componentDidMount() {
     this.fetchAllalerts();
+    this.props.navigation.setOptions({
+      headerRight: () => (
+        <TouchableHighlight
+          style={{ backgroundColor: "#70AF1A", marginRight: 15 }}
+          onPress={() => cosole.log("filter-alerts")}
+        >
+          <View style={{ backgroundColor: "#70AF1A" }}>
+            <Icon name="filter-list" size={34} color="white" />
+          </View>
+        </TouchableHighlight>
+      ),
+    });
   }
 
   fetchAllalerts() {
@@ -89,12 +106,15 @@ class AlertsScreen extends Component {
           {alertList}
         </ScrollView>
 
-        <TouchableOpacity
-          style={styles.button}
-          onPress={() => navigation.navigate("CreateAlerts")}
-        >
-          <Text style={styles.btnText}>Create Alert</Text>
-        </TouchableOpacity>
+        <FAB
+            style={styles.fab}
+            medium
+            animated={true}
+            color="#fff"
+            icon="plus"
+            theme={{ colors: { accent: "#006400" } }}
+            onPress={() => navigation.navigate("CreateAlerts")}
+          />
       </View>
     );
   }
@@ -126,6 +146,12 @@ const styles = StyleSheet.create({
   },
   btnText: {
     fontWeight: "bold",
+  },
+  fab: {
+    position: "absolute",
+    margin: 16,
+    right: 0,
+    bottom: 0,
   },
   activityContainer: {
     flex: 1,
