@@ -9,13 +9,17 @@ import {
   StyleSheet,
   Alert,
   ActivityIndicator,
+  LogBox
 } from "react-native";
-import DeleteDialog from '../../../components/dialog/DeleteDialog'
+import DeleteDialog from "../../../components/dialog/DeleteDialog";
 import { Card, Avatar } from "react-native-elements";
 import { formatToMMDDYYYY } from "../../../formatter/TimeFormatter";
 import ApiService from "../../../service/api/ApiService";
-import { getData, storeData, updateUserInfo } from '../../../util/LocalStorage';
-import { USERINFO } from '../../../enums/StorageKeysEnum';
+import { getData, storeData, updateUserInfo } from "../../../util/LocalStorage";
+import { USERINFO } from "../../../enums/StorageKeysEnum";
+LogBox.ignoreLogs([
+  "Warning: Cannot update a component from inside the function body of a different component.",
+]);
 
 class ViewJobScreen extends Component {
   constructor(props) {
@@ -35,11 +39,17 @@ class ViewJobScreen extends Component {
 
   componentDidMount() {
     this.isJobCreator();
+    this.props.navigation.setOptions({
+      title: "View Job",
+    });
   }
 
   async isJobCreator() {
     let loggedInUser = await getData(USERINFO);
-    if (loggedInUser.admin || loggedInUser.jobIds.includes(this.state.jobInfo.jobId)) {
+    if (
+      loggedInUser.admin ||
+      loggedInUser.jobIds.includes(this.state.jobInfo.jobId)
+    ) {
       this.setState({
         editButtonView: (
           <Button
@@ -57,9 +67,9 @@ class ViewJobScreen extends Component {
             style={styles.buttonRight}
             color={"red"}
             title="Delete"
-            onPress={() => this.openDialog()}>
-          </Button>
-        )
+            onPress={() => this.openDialog()}
+          ></Button>
+        ),
       });
     }
   }
@@ -67,33 +77,39 @@ class ViewJobScreen extends Component {
   async deleteJob() {
     let itemId = this.state.jobInfo.jobId;
     this.setState({ deleteLoading: true });
-    ApiService.delete('data/jobs/delete?collection=jobs&document=' + itemId + "&userId=" + this.state.jobInfo.userId)
+    ApiService.delete(
+      "data/jobs/delete?collection=jobs&document=" +
+        itemId +
+        "&userId=" +
+        this.state.jobInfo.userId
+    )
       .then((response) => updateUserInfo(this.state.jobInfo.userId))
       .then((response) => {
         this.closeDialog();
-        Alert.alert(
-          'Notice',
-          'Your job has been deleted',
-          [{
-            text: 'Return',
-            onPress: () => this.props.navigation.navigate("Jobs")
-          }])
+        Alert.alert("Notice", "Your job has been deleted", [
+          {
+            text: "Return",
+            onPress: () => this.props.navigation.navigate("Jobs"),
+          },
+        ]);
       })
       .catch((error) => {
         this.closeDialog();
         Alert.alert(
-          'Error',
-          'There was a problem deleting this job. Please try again.',
-          [{
-            text: 'Close',
-            onPress: () => this.closeDialog()
-          }]
-        )
-      })
+          "Error",
+          "There was a problem deleting this job. Please try again.",
+          [
+            {
+              text: "Close",
+              onPress: () => this.closeDialog(),
+            },
+          ]
+        );
+      });
   }
 
   openDialog() {
-    this.setState({ deleteDialogVisible: true })
+    this.setState({ deleteDialogVisible: true });
   }
 
   closeDialog() {
@@ -126,7 +142,8 @@ class ViewJobScreen extends Component {
             visible={this.state.deleteDialogVisible}
             onClose={() => this.closeDialog()}
             onSubmit={() => this.deleteJob()}
-            isSubmitting={this.state.deleteLoading}></DeleteDialog>
+            isSubmitting={this.state.deleteLoading}
+          ></DeleteDialog>
           <View style={styles.buttonLeft}>
             <Button
               color="#70AF1A"

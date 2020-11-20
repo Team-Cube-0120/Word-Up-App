@@ -339,7 +339,7 @@ const styles = StyleSheet.create({
   },
 
   buttonReview: {
-    backgroundColor: "#70AF1A",
+    backgroundColor: "#006400",
     ...Platform.select({
       ios: {
         shadowColor: "#000",
@@ -358,7 +358,7 @@ const styles = StyleSheet.create({
         elevation: 3,
       },
     }),
-    height: 50,
+    height: 45,
     marginLeft: 5,
     marginRight: 5,
     alignItems: "center",

@@ -81,8 +81,8 @@ class ReviewJobScreen extends Component {
               <Text style={styles.title}>Event Name: </Text>
               <Text style={styles.value}>{this.eventInfo.eventName}</Text>
             </View>
-            <View style={styles.containerView}>
-              <Text style={styles.title}>Details: </Text>
+            <View style={styles.containerViewDetail}>
+              <Text style={styles.titleDetail}>Details: </Text>
               <Text style={styles.value}>{this.eventInfo.details}</Text>
             </View>
             <View style={styles.containerView}>
@@ -136,13 +136,26 @@ const styles = StyleSheet.create({
   containerView: {
     width: "100%",
     flexDirection: "row",
-    marginBottom: "3%",
+    marginBottom: "5%",
     borderColor: "gray",
     borderWidth: 1,
     borderRadius: 10,
     alignItems: "center",
-    paddingTop: "6%",
-    paddingBottom: "1%",
+    paddingTop: "3%",
+    paddingBottom: "3%",
+    paddingLeft: "3%",
+    backgroundColor: "#FAFAFA",
+  },
+
+  containerViewDetail: {
+    width: "100%",
+    marginBottom: "5%",
+    borderColor: "gray",
+    borderWidth: 1,
+    borderRadius: 10,
+    alignItems: "center",
+    paddingTop: "3%",
+    paddingBottom: "3%",
     paddingLeft: "3%",
     backgroundColor: "#FAFAFA",
   },
@@ -151,6 +164,13 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     marginRight: "1%",
     fontSize: 16,
+  },
+
+  titleDetail: {
+    fontWeight: "bold",
+    marginRight: "1%",
+    fontSize: 16,
+    alignSelf: "flex-start",
   },
 
   buttonSubmit: {

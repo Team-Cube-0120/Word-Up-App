@@ -28,7 +28,6 @@ function TabNavigator() {
           shadowRadius: 30,
           elevation: 5,
           shadowOpacity: 1,
-          height: 55,
         },
         tabStyle: {
           alignItems: "center",

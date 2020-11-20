@@ -51,11 +51,11 @@ class ReviewEditAlertDialog extends Component {
                             </View>
                         </Card>
                     </ScrollView>
-                    <Button title="Close" onPress={this.props.onClose}></Button>
+                    <Button title="Close" color="#006400" onPress={this.props.onClose}></Button>
                     <View>
                         <Text></Text>
                     </View>
-                    <Button title="Submit" onPress={this.props.onSubmit}></Button>
+                    <Button title="Submit" color="#006400" onPress={this.props.onSubmit}></Button>
                     <ActivityIndicator animating={this.props.data.isLoading} />
                 </Dialog.Container>
             </View>

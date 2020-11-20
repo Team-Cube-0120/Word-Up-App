@@ -9,6 +9,7 @@ import {
   Alert,
   TouchableOpacity,
   LogBox,
+  TouchableHighlight,
 } from "react-native";
 import { Card } from "react-native-elements";
 import DeleteDialog from "../../../components/dialog/DeleteDialog";
@@ -16,9 +17,9 @@ import ApiService from "../../../service/api/ApiService";
 import RequestOptions from "../../../service/api/RequestOptions";
 import { getData, storeData, updateUserInfo } from "../../../util/LocalStorage";
 import { USERINFO } from "../../../enums/StorageKeysEnum";
-import { FAB, Portal, Provider } from "react-native-paper";
+import { Icon } from "react-native-elements";
 LogBox.ignoreLogs([
-  "Animated: `useNativeDriver` was not specified. This is a required option and must be explicitly set to `true` or `false`",
+  "Warning: Cannot update a component from inside the function body of a different component.",
 ]);
 
 class ViewEventScreen extends Component {
@@ -41,6 +42,26 @@ class ViewEventScreen extends Component {
 
   componentDidMount() {
     this.isEditable();
+    this.props.navigation.setOptions({
+      title: "Event Information",
+      headerRight: () => (
+        <View style={{ flexDirection: "row" }}>
+          <TouchableHighlight
+            style={{ backgroundColor: "#70AF1A", marginRight: 15 }}
+            onPress={() =>
+              this.props.navigation.push("EventComments", {
+                eventInfo: this.state.eventInfo,
+              })
+            }
+          >
+            <View style={{ backgroundColor: "#70AF1A" }}>
+              <Icon name="comment" size={32} color="white" />
+            </View>
+          </TouchableHighlight>
+          {this.state.editButtonView}
+        </View>
+      ),
+    });
   }
 
   closeDialog() {
@@ -114,32 +135,32 @@ class ViewEventScreen extends Component {
     ) {
       this.setState({
         editButtonView: (
-          <TouchableOpacity
-            style={styles.buttonEdit}
+          <TouchableHighlight
+            style={{ backgroundColor: "#70AF1A", marginRight: 15 }}
             onPress={() =>
               this.props.navigation.push("EditEvent", {
                 eventInfo: this.state.eventInfo,
               })
             }
           >
-            <Text
-              style={{ fontSize: 16, color: "white", alignItems: "center" }}
-            >
-              Edit
-            </Text>
-          </TouchableOpacity>
+            <View style={{ backgroundColor: "#70AF1A" }}>
+              <Icon name="edit" size={32} color="white" />
+            </View>
+          </TouchableHighlight>
         ),
         deleteEventView: (
-          <TouchableOpacity
-            style={styles.buttonDelete}
-            onPress={() => this.openDialog()}
-          >
-            <Text
-              style={{ fontSize: 16, color: "white", alignItems: "center" }}
+          <View style={styles.buttonDeleteView}>
+            <TouchableOpacity
+              style={styles.buttonDelete}
+              onPress={() => this.openDialog()}
             >
-              Delete
-            </Text>
-          </TouchableOpacity>
+              <Text
+                style={{ fontSize: 16, color: "white", alignItems: "center" }}
+              >
+                Delete
+              </Text>
+            </TouchableOpacity>
+          </View>
         ),
       });
     }
@@ -220,36 +241,19 @@ class ViewEventScreen extends Component {
               <Text style={styles.value}>{this.state.eventInfo.eventType}</Text>
             </View>
 
-            <View style={{ flexDirection: "row" }}>
-              {this.state.editButtonView}
-              {this.state.deleteEventView}
-            </View>
-
             <View style={styles.buttonView}>
               {this.state.signUpButtonView}
               {this.state.unRegister}
-              <TouchableOpacity
-                style={styles.buttonComment}
-                onPress={() =>
-                  this.props.navigation.push("EventComments", {
-                    eventInfo: this.state.eventInfo,
-                  })
-                }
-              >
-                <Text
-                  style={{ fontSize: 18, color: "#fff", alignItems: "center" }}
-                >
-                  Comment
-                </Text>
-              </TouchableOpacity>
-
-              <DeleteDialog
-                visible={this.state.toggleEventDeleteDialog}
-                onSubmit={() => this.deleteEvent()}
-                onClose={() => this.closeDialog()}
-                isSubmitting={this.state.deleteLoading}
-              ></DeleteDialog>
             </View>
+
+            {this.state.deleteEventView}
+
+            <DeleteDialog
+              visible={this.state.toggleEventDeleteDialog}
+              onSubmit={() => this.deleteEvent()}
+              onClose={() => this.closeDialog()}
+              isSubmitting={this.state.deleteLoading}
+            ></DeleteDialog>
           </Card>
         </ScrollView>
       </View>
@@ -283,7 +287,15 @@ const styles = StyleSheet.create({
 
   buttonView: {
     flexDirection: "column",
-    height: 150,
+    height: 50,
+    width: "100%",
+    justifyContent: "space-evenly",
+  },
+
+  buttonDeleteView: {
+    flexDirection: "column",
+    top: 5,
+    height: 50,
     width: "100%",
     justifyContent: "space-evenly",
   },
@@ -365,37 +377,9 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
 
-  buttonEdit: {
-    width: "45%",
-    marginBottom: 5,
-    marginRight: "10%",
-    backgroundColor: "#3299eb",
-    ...Platform.select({
-      ios: {
-        shadowColor: "#000",
-        shadowOffset: { width: 1, height: 1 },
-        shadowOpacity: 4,
-        shadowRadius: 2,
-      },
-      android: {
-        elevation: 3,
-      },
-      default: {
-        shadowColor: "#000",
-        shadowOffset: { width: 1, height: 1 },
-        shadowOpacity: 4,
-        shadowRadius: 2,
-        elevation: 3,
-      },
-    }),
-    height: 40,
-    alignItems: "center",
-    justifyContent: "center",
-  },
-
   buttonDelete: {
-    width: "45%",
-    marginBottom: 5,
+    width: "100%",
+    marginTop: 10,
     backgroundColor: "red",
     ...Platform.select({
       ios: {

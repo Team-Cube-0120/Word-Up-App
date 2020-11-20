@@ -97,7 +97,7 @@ class ReviewEditJobDialog extends Component {
             </Card>
           </ScrollView>
           <Dialog.Button
-            color="gray"
+            color="#006400"
             label="Close"
             onPress={this.props.onClose}
           ></Dialog.Button>
