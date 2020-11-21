@@ -50,7 +50,7 @@ class EditJobScreen extends Component {
       .then(() => {
         this.closeDialog();
         this.setState({ isLoading: false });
-        this.props.navigation.navigate("Jobs");
+        this.props.navigation.navigate("Jobs", { isJobCreated: true });
         Alert.alert(
           "Congratulations!",
           "Your job information has been successfully edited!"
