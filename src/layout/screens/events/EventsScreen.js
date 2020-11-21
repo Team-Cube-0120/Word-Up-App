@@ -196,7 +196,7 @@ class EventsScreen extends Component {
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.button}
-          onPress={() => navigation.navigate("SignUp")}
+          onPress={() => navigation.navigate("Feedback")}
         >
           <Text style={styles.btnText}>Signed Up Events</Text>
         </TouchableOpacity>

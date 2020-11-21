@@ -254,6 +254,22 @@ class FirebaseFirestore {
         })
     }
 
+    async getAllFeedback(collection) {
+        return new Promise((resolve, reject) => {
+            this.database
+                .collection(collection)
+                .get()
+                .then((payload) => {
+                    let data = [];
+                    payload.forEach((doc) => {
+                        data.push(doc.data());
+                    })
+                    resolve(data);
+                })
+                .catch((error) => reject("Error retrieving data: " + error));
+        })
+    }
+
     async getComments(collection, document) {
         return new Promise((resolve, reject) => {
             this.get(collection, document)

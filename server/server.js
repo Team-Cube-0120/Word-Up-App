@@ -159,6 +159,13 @@ app.get('/data/getAll', (req, res) => {
         .catch((error) => { res.send({ Status: 400, Message: error }) })
 });
 
+app.get('/data/getAllFeedback', (req, res) => {
+    let collection = req.query.collection;
+    firebaseFirestore.getAllFeedback(collection)
+        .then((data) => { res.send({ Status: 200, data: data }) })
+        .catch((error) => { res.send({ Status: 400, Message: error }) })
+});
+
 app.get('/data/comments/get', (req, res) => {
     let collection = req.query.collection;
     let document = req.query.document;

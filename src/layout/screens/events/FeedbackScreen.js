@@ -9,37 +9,31 @@ import {
     RefreshControl,
 } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
-import EventCard from "../../../components/card/EventCard";
+import FilterCard from "../../../components/card/FilterCard";
 import ApiService from "../../../service/api/ApiService";
-import { FAB } from "react-native-paper";
-import FilterEventDialog from '../../../components/dialog/FilterEventDialog';
-import { USERINFO } from "../../../enums/StorageKeysEnum";
 
-class SignUpEventScreen extends Component {
+class FeedbackScreen extends Component {
     constructor(props) {
         super(props);
         this.state = {
             isLoading: true,
             refreshing: false,
-            events: [],
-            users: new Map(),
-            isFilterDialogOpen: false,
-            filterOption: 'All'
+            feedback: [],
         };
     }
 
     componentDidMount() {
-        this.fetchedSignedEvents()
+        this.fetchFeedback();
     }
 
-    fetchedSignedEvents() {
-        ApiService.get("data/getAll?collection=events")
-            .then((events) => {
-                this.setState({ isLoading: false, events: events, refreshing: false });
+    fetchFeedback() {
+        ApiService.get("data/getAllFeedback?collection=feedback")
+            .then((feedback) => {
+                this.setState({ isLoading: false, feedback: feedback, refreshing: false });
             })
             .catch((error) => {
                 this.setState({
-                    events: <Text>Error Retrieving Data {error}</Text>,
+                    feedback: <Text>Error Retrieving Data {error}</Text>,
                     refreshing: false,
                 });
             });
@@ -47,7 +41,7 @@ class SignUpEventScreen extends Component {
 
     async onRefresh() {
         this.setState({ refreshing: true });
-        this.fetchedSignedEvents();
+        this.fetchFeedback();
     }
 
     openFilterDialog() {
@@ -60,16 +54,13 @@ class SignUpEventScreen extends Component {
 
     render() {
         const navigation = this.props.navigation;
-        let eventList =
-            this.state.events.length > 0 ? (
-                this.state.events.map((event, index) => (
+        let feedbacklist =
+            this.state.feedback.length > 0 ? (
+                this.state.feedback.map((feedback, index) => (
                     <TouchableOpacity
                         key={index}
-                        onPress={() =>
-                            this.props.navigation.push("ViewEvent", { eventInfo: event })
-                        }
                     >
-                        <EventCard title={event.eventName} data={event} />
+                        <FilterCard title={feedback.name} data={feedback} />
                     </TouchableOpacity>
                 ))
             ) : (
@@ -97,7 +88,7 @@ class SignUpEventScreen extends Component {
                         />
                     }
                 >
-                    {eventList}
+                    {feedbacklist}
                 </ScrollView>
                 
             </View>
@@ -152,4 +143,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default SignUpEventScreen;
+export default FeedbackScreen;
