@@ -61,7 +61,7 @@ class ReviewJobScreen extends Component {
   closeDialog() {
     this.setState({ toggleDialog: false });
     if (!this.state.isResponseError) {
-      this.props.navigation.navigate("Jobs");
+      this.props.navigation.navigate("Jobs", { isJobCreated: true });
     }
     this.setState({ isResponseError: false });
   }

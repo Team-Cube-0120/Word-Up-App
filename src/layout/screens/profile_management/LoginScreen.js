@@ -46,10 +46,17 @@ export default function LoginScreen({ navigation }) {
               alert("User does not exist anymore.");
               return;
             } else {
-              setEmail("");
-              setPassword("");
-              await storeData(USERINFO, firestoreDocument.data());
-              navigation.navigate("TabNavigator");
+              let user = firestoreDocument.data();
+              if (user.isDisabled) {
+                alert("This account has been disabled");
+                await firebase.auth().signOut();
+                navigation.navigate("Login");
+              } else {
+                setEmail("");
+                setPassword("");
+                await storeData(USERINFO, user);
+                navigation.navigate("TabNavigator");
+              }
             }
           })
           .catch((error) => {
@@ -118,7 +125,7 @@ export default function LoginScreen({ navigation }) {
                   jobIds: [],
                   eventIds: [],
                   alertIds: [],
-                  isDisabled: false, 
+                  isDisabled: false,
                   datePosted: new Date()
                 };
                 const usersRef = firebase.firestore().collection("users");
@@ -161,10 +168,15 @@ export default function LoginScreen({ navigation }) {
                       alert("User does not exist anymore.");
                       return;
                     } else {
-                      setEmail("");
-                      setPassword("");
-                      await storeData(USERINFO, firestoreDocument.data());
-                      navigation.navigate("TabNavigator");
+                      let user = firestoreDocument.data();
+                      if (user.isDisabled) {
+                        alert("This account has been disabled");
+                      } else {
+                        setEmail("");
+                        setPassword("");
+                        await storeData(USERINFO, user);
+                        navigation.navigate("TabNavigator");
+                      }
                     }
                   })
                   .catch((error) => {
@@ -187,7 +199,7 @@ export default function LoginScreen({ navigation }) {
       for (var i = 0; i < providerData.length; i++) {
         if (
           providerData[i].providerId ===
-            firebase.auth.GoogleAuthProvider.PROVIDER_ID &&
+          firebase.auth.GoogleAuthProvider.PROVIDER_ID &&
           providerData[i].uid === googleUser.getBasicProfile().getId()
         ) {
           return true;
@@ -224,10 +236,16 @@ export default function LoginScreen({ navigation }) {
               alert("User does not exist anymore.");
               return;
             } else {
-              setEmail("");
-              setPassword("");
-              await storeData(USERINFO, firestoreDocument.data());
-              navigation.navigate("TabNavigator");
+              let user = firestoreDocument.data();
+              if (user.isDisabled) {
+                alert("This account has been disabled");
+              } else {
+                console.log("isDisabled: " + user.isDisabled);
+                setEmail("");
+                setPassword("");
+                await storeData(USERINFO, user);
+                navigation.navigate("TabNavigator");
+              }
             }
           })
           .catch((error) => {

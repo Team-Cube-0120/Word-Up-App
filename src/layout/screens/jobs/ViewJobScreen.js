@@ -9,6 +9,7 @@ import {
   StyleSheet,
   Alert,
   ActivityIndicator,
+  Linking,
 } from "react-native";
 import DeleteDialog from '../../../components/dialog/DeleteDialog'
 import { Card, Avatar } from "react-native-elements";
@@ -91,6 +92,18 @@ class ViewJobScreen extends Component {
       })
   }
 
+  applyToJob() {
+    Linking.canOpenURL(this.state.jobInfo.jobAppUrl)
+      .then((supported) => {
+        if (supported) {
+          Linking.openURL(this.state.jobInfo.jobAppUrl);
+        } else {
+          alert("Unable to apply to this job. Check the application link to "
+            + "see if it is still valid or in the proper format (example: http://google.com)");
+        }
+      });
+  }
+
   openDialog() {
     this.setState({ deleteDialogVisible: true })
   }
@@ -103,10 +116,10 @@ class ViewJobScreen extends Component {
     return (
       <ScrollView>
         <Card containerStyle={styles.cardShadows}>
-          <Image
+          {/* <Image
             source={{ uri: "https://reactjs.org/logo-og.png" }}
             style={styles.companyImage}
-          />
+          /> */}
           <Text style={styles.jobTitle}>{this.state.jobInfo.position}</Text>
           <Text style={styles.companyTitle}>{this.state.jobInfo.company}</Text>
           <Text style={styles.jobTypeText}>{this.state.jobInfo.jobType}</Text>
@@ -131,7 +144,7 @@ class ViewJobScreen extends Component {
               color="#70AF1A"
               title="Apply"
               disabled={false}
-              onPress={() => this.props.navigation.goBack()}
+              onPress={() => this.applyToJob()}
             />
           </View>
           <Card.Divider></Card.Divider>

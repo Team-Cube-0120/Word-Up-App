@@ -7,11 +7,11 @@ import {
     ActivityIndicator,
     RefreshControl,
 } from "react-native";
-import { TouchableOpacity } from "react-native-gesture-handler";
+import { FlatList, TouchableOpacity } from "react-native-gesture-handler";
 import AccountCard from "../../../components/card/AccountCard";
 import ApiService from "../../../service/api/ApiService";
 import profileImage from "../../../../assets/profile.png";
-import { FAB } from "react-native-paper";
+import { FAB, TextInput } from "react-native-paper";
 import React, { Component } from "react";
 import AccountOptionsDialog from "../../../components/dialog/AccountOptionsDialog";
 import { getData } from "../../../util/LocalStorage";
@@ -19,17 +19,20 @@ import RequestOptions from "../../../service/api/RequestOptions";
 import { ALL_TIME, MY_JOBS } from "../../../enums/FilterOptionsEnum";
 import { formatFilterOption } from "../../../formatter/FilterJobsFormatter";
 import { USERINFO } from "../../../enums/StorageKeysEnum";
+import { Input, SearchBar } from "react-native-elements";
 
 
 class ManageAccountsScreen extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            didUpdate: false,
             isLoading: true,
             refreshing: false,
             selectedUser: null,
             isSubmitting: false,
             users: [],
+            copyUsers: [],
             isAccountDialogOpen: false,
             dialogLabels: {
                 adminButtonLabel: "N/A",
@@ -38,6 +41,8 @@ class ManageAccountsScreen extends Component {
                 isDisabled: "N/A"
             }
         };
+
+        this.filterResults = [];
     }
 
     componentDidMount() {
@@ -45,17 +50,23 @@ class ManageAccountsScreen extends Component {
     }
 
     componentDidUpdate(prevProps, prevState) {
-        if (prevState.selectedUser !== this.state.selectedUser) {
+        if (this.state.didUpdate) {
             this.fetchAllUsers();
+            this.state['didUpdate'] = false;
         }
     }
 
     fetchAllUsers() {
         ApiService.get("data/getAll?collection=users")
-            .then((users) => {
-                this.setState({ users: users, isLoading: false, refreshing: false });
+            .then(async (users) => {
+                let loggedInUser = await getData(USERINFO);
+                users = users.filter((user) => {
+                    return user.fullname != loggedInUser.fullname;
+                })
+                this.setState({ users: users, copyUsers: users, isLoading: false, refreshing: false });
+                this.filterResults = users;
             })
-            .catch((error) => console.log("error retrieving data"));
+            .catch((error) => console.log("error retrieving data" + error));
     }
 
     changeAdminStatus(user) {
@@ -64,9 +75,9 @@ class ManageAccountsScreen extends Component {
             .then((body) => ApiService.update('data/update', body))
             .then((response) => {
                 // user.admin = !user.admin;
-                this.setState({ isAccountDialogOpen: false, isSubmitting: false }, () => {
+                this.setState({ didUpdate: true, isAccountDialogOpen: false, isSubmitting: false }, () => {
                     alert("Admin status changed successfully");
-                    this.fetchAllUsers();
+                    // this.fetchAllUsers();
                 });
             }).catch(() => {
                 this.setState({ isSubmitting: false }, () => {
@@ -80,8 +91,9 @@ class ManageAccountsScreen extends Component {
         RequestOptions.setUpRequestBody('users', user.id, { isDisabled: !user.isDisabled })
             .then((body) => ApiService.update('data/update', body))
             .then((response) => {
-                this.setState({ isAccountDialogOpen: false, isSubmitting: false }, () => {
+                this.setState({ didUpdate: true, isAccountDialogOpen: false, isSubmitting: false }, () => {
                     alert("Account status changed successfully");
+                    // this.fetchAllUsers();
                 });
             }).catch(() => {
                 this.setState({ isSubmitting: false }, () => {
@@ -93,6 +105,33 @@ class ManageAccountsScreen extends Component {
     async onRefresh() {
         this.setState({ refreshing: true });
         this.fetchAllUsers();
+    }
+
+    searchFilter = text => {
+        if (text.length == 0) {
+            this.setState({ users: this.state.copyUsers });
+        } else {
+            const filterData = this.filterResults.filter((user) => {
+                let itemData = user.fullname.toUpperCase();
+                const textData = text.toUpperCase();
+                return itemData.includes(textData);
+            });
+            if (filterData.length == 0) {
+                this.setState({ users: this.state.copyUsers });
+            } else {
+                this.setState({ users: filterData });
+            }
+        }
+    }
+
+    renderHeader = () => {
+        return (
+            <TextInput
+                placeholder="Search account name"
+                onChangeText={text => this.searchFilter(text)}
+                autoCorrect={false}>
+            </TextInput>
+        );
     }
 
     openAccountDetailsDialog(user) {
@@ -109,19 +148,40 @@ class ManageAccountsScreen extends Component {
 
     render() {
         let userList =
-            this.state.users.length > 0 ? (
-                this.state.users.map((user, index) => (
-                    <TouchableOpacity
-                        style={styles.cardShadows}
-                        key={index}
-                        onPress={() => this.openAccountDetailsDialog(user)}
-                    >
-                        <AccountCard
-                            userInfo={user}
-                        />
-                    </TouchableOpacity>
-                ))
-            ) : (
+            this.state.users.length > 0 ?
+                (
+                    // this.state.users.map((user, index) => (
+                    //     <TouchableOpacity
+                    //         style={styles.cardShadows}
+                    //         key={index}
+                    //         onPress={() => this.openAccountDetailsDialog(user)}
+                    //     >
+                    //         <AccountCard
+                    //             userInfo={user}
+                    //         />
+                    //     </TouchableOpacity>
+                    // ))
+                    <FlatList
+                        data={this.state.users}
+                        refreshControl={
+                            <RefreshControl
+                                refreshing={this.state.refreshing}
+                                onRefresh={() => this.onRefresh()}
+                            />}
+                        renderItem={({ item }, index) => (
+                            <TouchableOpacity
+                                style={styles.cardShadows}
+                                key={index}
+                                onPress={() => this.openAccountDetailsDialog(item)}
+                            >
+                                <AccountCard
+                                    userInfo={item}
+                                />
+                            </TouchableOpacity>
+                        )}
+                        keyExtractor={item => item.id}
+                        ListHeaderComponent={this.renderHeader}></FlatList>
+                ) : (
                     <View style={styles.errorView}>
                         <Text style={styles.errorText}>No users available at this time</Text>
                     </View>
@@ -140,7 +200,24 @@ class ManageAccountsScreen extends Component {
         } else {
             return (
                 <View style={styles.container}>
-                    <ScrollView
+                    {userList}
+                    {/* <FlatList
+                        data={this.state.filterResults}
+                        renderItem={({ user }, index) => (
+                            <TouchableOpacity
+                                style={styles.cardShadows}
+                                key={index}
+                                onPress={() => this.openAccountDetailsDialog(user)}
+                            >
+                                <AccountCard
+                                    userInfo={user}
+                                />
+                            </TouchableOpacity>
+                        )}
+                        keyExtractor={user => user.fullname}
+                        ListHeaderComponent={this.renderHeader}></FlatList> */}
+                    {/* <ScrollView
+                    
                         refreshControl={
                             <RefreshControl
                                 refreshing={this.state.refreshing}
@@ -149,7 +226,7 @@ class ManageAccountsScreen extends Component {
                         }
                     >
                         {userList}
-                    </ScrollView>
+                    </ScrollView> */}
 
                     <AccountOptionsDialog
                         onAdminSubmit={() => this.changeAdminStatus(this.state.selectedUser)}
