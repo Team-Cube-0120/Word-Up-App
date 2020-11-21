@@ -8,12 +8,14 @@ import {
   ActivityIndicator,
   RefreshControl,
   LogBox,
-  TouchableHighlight
+  TouchableHighlight,
 } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import AlertCard from "../../../components/card/AlertCard";
 import ApiService from "../../../service/api/ApiService";
 import { FAB } from "react-native-paper";
+import { USERINFO } from "../../../enums/StorageKeysEnum";
+import { getData, storeData } from "../../../util/LocalStorage";
 import { Icon } from "react-native-elements";
 import moment from "moment";
 LogBox.ignoreLogs([
@@ -27,11 +29,11 @@ class AlertsScreen extends Component {
       isLoading: true,
       refreshing: false,
       alerts: [],
+      data: "",
     };
   }
 
   componentDidMount() {
-    // console.log(new Date().getTime())
     this.fetchAllalerts();
     this.props.navigation.setOptions({
       headerRight: () => (
@@ -73,7 +75,10 @@ class AlertsScreen extends Component {
           <TouchableOpacity
             key={index}
             onPress={() =>
-              this.props.navigation.push("ViewAlert", { alertInfo: alert })
+              this.props.navigation.push("ViewAlert", {
+                alertInfo: alert,
+                index: index,
+              })
             }
           >
             <AlertCard title={alert.name} data={alert} />
@@ -109,14 +114,14 @@ class AlertsScreen extends Component {
         </ScrollView>
 
         <FAB
-            style={styles.fab}
-            medium
-            animated={true}
-            color="#fff"
-            icon="plus"
-            theme={{ colors: { accent: "#006400" } }}
-            onPress={() => navigation.navigate("CreateAlerts")}
-          />
+          style={styles.fab}
+          medium
+          animated={true}
+          color="#fff"
+          icon="plus"
+          theme={{ colors: { accent: "#006400" } }}
+          onPress={() => navigation.navigate("CreateAlerts")}
+        />
       </View>
     );
   }
@@ -126,7 +131,7 @@ const styles = StyleSheet.create({
   container: {
     position: "relative",
     flex: 1,
-    backgroundColor: '#FAFAFA',
+    backgroundColor: "#FAFAFA",
   },
   header: {
     fontSize: 24,
@@ -171,4 +176,3 @@ const styles = StyleSheet.create({
 });
 
 export default AlertsScreen;
-

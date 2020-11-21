@@ -12,9 +12,9 @@ import UuidGenerator from "../../../util/UuidGenerator";
 import PickerExample from "./PickerExample";
 import DropDownSeverityExample from "./DropDownSeverityExample";
 import ModalSelector from "react-native-modal-selector";
-import { USERINFO } from '../../../enums/StorageKeysEnum';
-import { getData } from '../../../util/LocalStorage';
-import moment from 'moment'
+import { USERINFO } from "../../../enums/StorageKeysEnum";
+import { getData, storeData } from "../../../util/LocalStorage";
+import moment from "moment";
 
 class CreateAlertsScreen extends Component {
   constructor(props) {
@@ -28,8 +28,8 @@ class CreateAlertsScreen extends Component {
       alertId: "N/A",
       userId: "N/A",
       profileImage: "N/A",
-      fullname : "N/A",
-      datePosted: "N/A"
+      fullname: "N/A",
+      postedTime: "N/A",
     };
   }
 
@@ -39,15 +39,19 @@ class CreateAlertsScreen extends Component {
         <Card containerStyle={styles.cardShadows}>
           <Card.Title>Create Alert</Card.Title>
           <Card.Divider />
-          <Text style={styles.text}>Name <Text style={{ color: "red" }}>*</Text></Text>
+          <Text style={styles.text}>
+            Name <Text style={{ color: "red" }}>*</Text>
+          </Text>
           <TextInput
             style={styles.textInput}
             placeholder="e.g. tropical storm"
             onChangeText={(name) => this.setState({ name: name })}
           ></TextInput>
-          <Text style={styles.text}>Severity <Text style={{ color: "red" }}>*</Text></Text>
+          <Text style={styles.text}>
+            Severity <Text style={{ color: "red" }}>*</Text>
+          </Text>
 
-        <ModalSelector
+          <ModalSelector
             data={[
               { key: 0, label: "None" },
               { key: 1, label: "Low" },
@@ -113,13 +117,17 @@ class CreateAlertsScreen extends Component {
             )}
           </ModalSelector>
 
-          <Text style={styles.text}>Location <Text style={{ color: "red" }}>*</Text></Text>
+          <Text style={styles.text}>
+            Location <Text style={{ color: "red" }}>*</Text>
+          </Text>
           <TextInput
             style={styles.textInput}
             placeholder="e.g. 1234 Cherry Lane, Hampton, VA 42039"
             onChangeText={(location) => this.setState({ location: location })}
           ></TextInput>
-          <Text style={styles.text}>Details <Text style={{ color: "red" }}>*</Text></Text>
+          <Text style={styles.text}>
+            Details <Text style={{ color: "red" }}>*</Text>
+          </Text>
           <TextInput
             style={styles.textInputMultipleLine}
             placeholder="e.g. relevant details for this alert"
@@ -127,7 +135,9 @@ class CreateAlertsScreen extends Component {
             onChangeText={(details) => this.setState({ details: details })}
           ></TextInput>
 
-          <Text style={styles.text}>Choose an Alert Type <Text style={{ color: "red" }}>*</Text></Text>
+          <Text style={styles.text}>
+            Choose an Alert Type <Text style={{ color: "red" }}>*</Text>
+          </Text>
 
           <ModalSelector
             data={[
@@ -202,10 +212,9 @@ class CreateAlertsScreen extends Component {
               color={"#70AF1A"}
               onPress={async () => {
                 let userInfo = await getData(USERINFO);
-                var time = new Date().getTime()
                 this.state.alertId = await UuidGenerator.generateUuid();
+                this.setState({ postedTime: new Date().getTime() });
                 this.state.fullname = userInfo.fullname;
-                this.state.datePosted = time;
                 this.state.profileImage = userInfo.profile.profileImageUrl;
                 this.state.userId = userInfo.profile.id;
                 this.props.navigation.navigate("ReviewAlerts", {

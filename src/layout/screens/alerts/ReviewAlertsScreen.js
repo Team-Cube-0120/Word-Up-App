@@ -19,7 +19,6 @@ class ReviewAlertsScreen extends Component {
   constructor(props) {
     super(props);
     this.alertInfo = this.props.route.params.alertInfo;
-    console.log(this.alertInfo.datePosted)
     this.state = {
       isLoading: false,
       toggleDialog: false,

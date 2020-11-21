@@ -36,6 +36,7 @@ let updateUserInfo = async (userId) => {
     })
 }
 
+
 exports.storeData = storeData;
 exports.getData = getData;
 exports.updateUserInfo = updateUserInfo;

@@ -34,6 +34,7 @@ class CreateJobScreen extends Component {
       zip: "N/A",
       jobId: "N/A",
       userId: "N/A",
+      postedTime: "N/A",
     };
     this.positionInput = React.createRef();
     this.jobTypeInput = React.createRef();
@@ -265,6 +266,7 @@ class CreateJobScreen extends Component {
               onPress={async () => {
                 this.state.jobId = await UuidGenerator.generateUuid();
                 let userInfo = await getData(USERINFO);
+                this.setState({ postedTime: new Date().getTime() });
                 this.state.userId = userInfo.profile.id;
                 if (this.isInputEmpty()) {
                   alert(
@@ -315,6 +317,8 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     paddingLeft: 10,
     height: 150,
+    marginRight: "3%",
+    paddingRight: "3%",
     textAlignVertical: "top",
     paddingTop: 10,
     paddingBottom: 10,

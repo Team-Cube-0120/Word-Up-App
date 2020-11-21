@@ -225,7 +225,7 @@ class CreateEventsScreen extends Component {
             onChangeText={(rsvpCode) => this.setState({ rsvpCode: rsvpCode })}
           ></TextInput>
           <Text style={styles.text}>
-            Co-hosts <Text style={{ color: "red" }}>*</Text>
+            Co-hosts
           </Text>
           <TextInput
             style={styles.textInput}

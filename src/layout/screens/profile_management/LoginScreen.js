@@ -42,10 +42,10 @@ export default function LoginScreen({ navigation }) {
           .doc(user.uid)
           .get()
           .then(async (firestoreDocument) => {
-              setEmail("");
-              setPassword("");
-              await storeData(USERINFO, firestoreDocument.data());
-              navigation.navigate("TabNavigator");
+            setEmail("");
+            setPassword("");
+            await storeData(USERINFO, firestoreDocument.data());
+            navigation.navigate("TabNavigator");
           })
           .catch((error) => {
             alert(error);
@@ -114,8 +114,9 @@ export default function LoginScreen({ navigation }) {
                   jobIds: [],
                   eventIds: [],
                   alertIds: [],
-                  signedUpEvents:[],
-                  datePosted: new Date()
+                  signedUpEvents: [],
+                  datePosted: new Date(),
+                  isDisabled: false,
                 };
                 const usersRef = firebase.firestore().collection("users");
                 usersRef
