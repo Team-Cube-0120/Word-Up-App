@@ -23,17 +23,17 @@ class RegistrationScreen extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      birthday: "Select Your Birthday",
-      phoneNum: "Enter Your Mobile Number",
-      username: "Type a User Name",
-      bio: "Type Your Profile Bio",
-      location: "Type Your Location",
-      gender: "Select Your Gender",
+      birthday: "N/A",
+      phoneNum: "N/A",
+      username: "N/A",
+      bio: "N/A",
+      location: "N/A",
+      gender: "N/A",
       imageUrl: DEFAULT_PROFILE_IMAGE,
-      name: "",
-      email: "",
-      password: "",
-      confirmPassword: "",
+      name: "N/A",
+      email: "N/A",
+      password: "N/A",
+      confirmPassword: "N/A",
       datePosted: new Date(),
       checked: false,
     };
@@ -65,7 +65,6 @@ class RegistrationScreen extends Component {
                   id: uid,
                   email: this.state.email,
                   fullname: this.state.name,
-                  admin: this.state.checked,
                   birthday: this.state.birthday,
                   phoneNum: this.state.phoneNum,
                   username: this.state.username,
@@ -80,6 +79,7 @@ class RegistrationScreen extends Component {
                 jobIds: [],
                 eventIds: [],
                 alertIds: [],
+                isDisabled: false, 
                 datePosted: this.state.datePosted
               };
               const usersRef = firebase.firestore().collection("users");

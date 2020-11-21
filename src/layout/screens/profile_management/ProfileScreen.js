@@ -141,7 +141,6 @@ class SettingsScreen extends Component {
               bio: this.state.profile.bio,
               location: this.state.profile.location,
               gender: this.state.profile.gender,
-              admin: this.state.profile.admin,
               id: this.state.profile.id,
             },
           });
@@ -188,7 +187,6 @@ class SettingsScreen extends Component {
         bio: userInfo.profile.bio,
         location: userInfo.profile.location,
         gender: userInfo.profile.gender,
-        admin: userInfo.profile.admin,
         id: userInfo.profile.id,
       },
     });

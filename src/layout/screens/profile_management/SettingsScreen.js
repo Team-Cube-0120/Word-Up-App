@@ -47,7 +47,7 @@ class SettingsScreen extends Component {
     let userInfo = await getData(USERINFO);
     this.setState({ fullname: userInfo.profile.fullname });
     this.setState({ email: userInfo.profile.email });
-    this.setState({ admin: userInfo.profile.admin });
+    this.setState({ admin: userInfo.admin });
     this.setState({ profileImageUrl: userInfo.profile.profileImageUrl });
     this.setState({ isLoading: false });
     // console.log(user)
@@ -99,34 +99,34 @@ class SettingsScreen extends Component {
           <View style={styles.container}>
             <View style={styles.userInfoSection}>
               <View style={{ flexDirection: "row", marginTop: 10 }}>
-              {this.state.profileImageUrl == "" && (
-                      <Image
-                        source={profileImage}
-                        style={{
-                          width: 100,
-                          height: 100,
-                          borderRadius: 100 / 2,
-                        }}
-                      />
-                  )}
+                {this.state.profileImageUrl == "" && (
+                  <Image
+                    source={profileImage}
+                    style={{
+                      width: 100,
+                      height: 100,
+                      borderRadius: 100 / 2,
+                    }}
+                  />
+                )}
 
-                  {this.state.profileImageUrl != "" && (
-                      <Image
-                        source={{
-                          uri:
-                            this.state.profileImageUrl,
-                        }}
-                        style={{
-                          width: 100,
-                          height: 100,
-                          borderRadius: 100 / 2,
-                        }}
-                      />
-                  )}
+                {this.state.profileImageUrl != "" && (
+                  <Image
+                    source={{
+                      uri:
+                        this.state.profileImageUrl,
+                    }}
+                    style={{
+                      width: 100,
+                      height: 100,
+                      borderRadius: 100 / 2,
+                    }}
+                  />
+                )}
               </View>
               <View>
                 <Title style={styles.title}>
-                  {this.state.fullname + "(Admin)"}
+                  {this.state.fullname + " (Admin)"}
                 </Title>
               </View>
               <View>
@@ -138,6 +138,25 @@ class SettingsScreen extends Component {
             <View style={styles.divider}></View>
 
             <ScrollView style={styles.container}>
+
+              <TouchableOpacity
+                style={styles.infoBoxWrapper}
+                onPress={() => this.props.navigation.navigate("AdminPortal")}
+              >
+                <MaterialCommunityIconsIcon
+                  name="receipt"
+                  style={styles.icons}
+                ></MaterialCommunityIconsIcon>
+                <View>
+                  <Title style={styles.menuTitleM}>Admin Portal</Title>
+                  <MaterialCommunityIconsIcon
+                    name="arrow-right"
+                    style={styles.arrow}
+                  ></MaterialCommunityIconsIcon>
+                </View>
+              </TouchableOpacity>
+
+
               {/* Edit/View Profile Section */}
               <TouchableOpacity
                 style={styles.infoBoxWrapper}
@@ -242,30 +261,30 @@ class SettingsScreen extends Component {
           <View style={styles.container}>
             <View style={styles.userInfoSection}>
               <View style={{ flexDirection: "row", marginTop: 10 }}>
-              {this.state.profileImageUrl == "" && (
-                      <Image
-                        source={profileImage}
-                        style={{
-                          width: 100,
-                          height: 100,
-                          borderRadius: 100 / 2,
-                        }}
-                      />
-                  )}
+                {this.state.profileImageUrl == "" && (
+                  <Image
+                    source={profileImage}
+                    style={{
+                      width: 100,
+                      height: 100,
+                      borderRadius: 100 / 2,
+                    }}
+                  />
+                )}
 
-                  {this.state.profileImageUrl != "" && (
-                      <Image
-                        source={{
-                          uri:
-                           this.state.profileImageUrl,
-                        }}
-                        style={{
-                          width: 100,
-                          height: 100,
-                          borderRadius: 100 / 2,
-                        }}
-                      />
-                  )}
+                {this.state.profileImageUrl != "" && (
+                  <Image
+                    source={{
+                      uri:
+                        this.state.profileImageUrl,
+                    }}
+                    style={{
+                      width: 100,
+                      height: 100,
+                      borderRadius: 100 / 2,
+                    }}
+                  />
+                )}
               </View>
               <View>
                 <Title style={styles.title}>{this.state.fullname}</Title>

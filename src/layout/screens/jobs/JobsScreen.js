@@ -164,7 +164,7 @@ class JobsScreen extends Component {
         ))
       ) : (
           <View style={styles.errorView}>
-            <Text style={styles.errorText}>No jobs available at this time {this.state.jobs.length} {this.state.users.size}</Text>
+            <Text style={styles.errorText}>No jobs available at this time</Text>
           </View>
         );
 

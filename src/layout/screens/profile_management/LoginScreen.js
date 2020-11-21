@@ -104,13 +104,12 @@ export default function LoginScreen({ navigation }) {
                     id: uid,
                     email: response.user.email,
                     fullname: response.user.displayName,
-                    admin: false,
-                    birthday: "Select Your Birthday",
-                    phoneNum: "Enter Your Mobile Number",
-                    username: "Type a User Name",
-                    bio: "Type Your Profile Bio",
-                    location: "Type Your Location",
-                    gender: "Select Your Gender",
+                    birthday: "N/A",
+                    phoneNum: "N/A",
+                    username: "N/A",
+                    bio: "N/A",
+                    location: "N/A",
+                    gender: "N/A",
                   },
                   id: uid,
                   email: response.user.email,
@@ -119,6 +118,7 @@ export default function LoginScreen({ navigation }) {
                   jobIds: [],
                   eventIds: [],
                   alertIds: [],
+                  isDisabled: false, 
                   datePosted: new Date()
                 };
                 const usersRef = firebase.firestore().collection("users");
