@@ -3,11 +3,9 @@ import { Text, View, StyleSheet, ActivityIndicator } from 'react-native';
 import { Card, Input } from 'react-native-elements';
 import Dialog from 'react-native-dialog';
 import PropTypes from 'prop-types';
-import { ScrollView } from 'react-native-gesture-handler';
 import RadioForm, {RadioButton, RadioButtonInput, RadioButtonLabel } from 'react-native-simple-radio-button';
-import { ALL_TIME, ONE_MONTH, ONE_WEEK, TODAY, TWO_WEEKS } from '../../enums/FilterOptionsEnum';
 
-class FilterEventDialog extends Component {
+class FilterAlertDialog extends Component {
     static propTypes = {
         onSubmit: PropTypes.func,
         onClose: PropTypes.func,
@@ -18,13 +16,10 @@ class FilterEventDialog extends Component {
     constructor(props) {
         super(props);
         this.radio_props = [
-            {label: 'Meeting', value: 'Meeting'},
-            {label: 'Party', value: 'Party'},
-            {label: 'Outdoor', value: 'Outdoor'},
-            {label: 'Food', value: 'Food'},
-            {label: 'All', value: 'All'},
-            {label: 'My Events', value: 'My Events'},
-            {label: 'Signed Up Events', value: 'Signed Up Events'},
+            {label: 'Weather', value: 'Weather'},
+            {label: 'Emergency', value: 'Emergency'},
+            {label: 'Community Alert', value: 'Community Alert'},
+            {label: 'My Alerts', value: 'My Alerts'},
 
 
 
@@ -106,4 +101,4 @@ const styles = StyleSheet.create({
 });
 
 
-export default FilterEventDialog;
+export default FilterAlertDialog;

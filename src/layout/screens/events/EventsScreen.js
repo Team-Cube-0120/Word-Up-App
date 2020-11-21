@@ -17,7 +17,6 @@ import { USERINFO } from "../../../enums/StorageKeysEnum";
 import { getData } from "../../../util/LocalStorage";
 
 
-
 class EventsScreen extends Component {
   constructor(props) {
     super(props);
@@ -35,26 +34,19 @@ class EventsScreen extends Component {
     this.fetchEvents()
   }
 
-  // componentDidUpdate(){
-  //   this.fetchEvents()
-  // }
 
   fetchEvents() {    
     if(this.state.filterOption == 'All'){
       this.fetchAllEvents();
-    } else {
-      this.fetchFilter();
-    }
-  }
-  
-  async fetchFilter() {
-    if (this.state.filterOption == 'My Events') {
-      alert(this.state.filterOption);
+    } else if (this.state.filterOption == 'My Events'){
       this.filterByOther();
+    } else if (this.state.filterOption == 'Signed Up Events'){
+      this.filterBySigned();
     } else {
       this.fetchFilteredEvents();
     }
   }
+  
 
   fetchAllEvents() {
     ApiService.get("data/getAll?collection=events")
@@ -78,7 +70,23 @@ class EventsScreen extends Component {
       })
       .catch((error) => {
         this.setState({
-          events: <Text>Error Retrieving Data {error}</Text>,
+          events: <Text>You have created no Events yet!{error}</Text>,
+          isLoading: false,
+          refreshing: false,
+        });
+      });
+  }
+
+  async filterBySigned() {
+    let userInfo = await getData(USERINFO);
+    let formattedFilterOption = userInfo.id;
+    ApiService.get("data/filter/signed/get?collection=events&filterOption=" + formattedFilterOption)
+      .then((events) => {
+        this.setState({ isLoading: false, events: events, refreshing: false });
+      })
+      .catch((error) => {
+        this.setState({
+          events: <Text>You have created no Events yet!{error}</Text>,
           isLoading: false,
           refreshing: false,
         });

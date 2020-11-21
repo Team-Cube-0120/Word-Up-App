@@ -127,10 +127,27 @@ app.get('/data/filter/other/get', (req, res) => {
         .catch((error) => { res.send({ Status: 400, Message: error }) });
 });
 
+app.get('/data/filter/signed/get', (req, res) => {
+    let collection = req.query.collection;
+    let filterType = req.query.filterType;
+    let filterOption = req.query.filterOption
+    firebaseFirestore.filterBySigned(collection, filterOption)
+        .then((data) => { res.send({ Status: 200, data: data }) })
+        .catch((error) => { res.send({ Status: 400, Message: error }) });
+});
+
 app.get('/data/filterEvents/get', (req, res) => {
     let collection = req.query.collection;
     let filterOption = req.query.filterOption
     firebaseFirestore.getFilteredEvents(collection, filterOption)
+        .then((data) => { res.send({ Status: 200, data: data }) })
+        .catch((error) => { res.send({ Status: 400, Message: error }) });
+});
+
+app.get('/data/filterAlerts/get', (req, res) => {
+    let collection = req.query.collection;
+    let filterOption = req.query.filterOption
+    firebaseFirestore.getFilteredAlerts(collection, filterOption)
         .then((data) => { res.send({ Status: 200, data: data }) })
         .catch((error) => { res.send({ Status: 400, Message: error }) });
 });

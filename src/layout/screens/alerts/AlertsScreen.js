@@ -11,7 +11,10 @@ import {
 import { TouchableOpacity } from "react-native-gesture-handler";
 import AlertCard from "../../../components/card/AlertCard";
 import ApiService from "../../../service/api/ApiService";
-
+import { FAB } from "react-native-paper";
+import FilterAlertDialog from '../../../components/dialog/FilterAlertDialog';
+import { USERINFO } from "../../../enums/StorageKeysEnum";
+import { getData } from "../../../util/LocalStorage";
 
 
 class AlertsScreen extends Component {
@@ -21,11 +24,25 @@ class AlertsScreen extends Component {
       isLoading: true,
       refreshing: false,
       alerts: [],
+      users: new Map(),
+      isFilterDialogOpen: false,
+      filterOption: 'All'
     };
   }
 
   componentDidMount() {
-    this.fetchAllalerts();
+    this.fetchAlerts();
+  }
+
+
+  fetchAlerts() {    
+    if(this.state.filterOption == 'All'){
+      this.fetchAllalerts();
+    } else if (this.state.filterOption == 'My Alerts'){
+      this.filterByOther();
+    } else {
+      this.fetchFilteredAlerts();
+    }
   }
 
   fetchAllalerts() {
@@ -41,10 +58,59 @@ class AlertsScreen extends Component {
       });
   }
 
+  async filterByOther() {
+    let userInfo = await getData(USERINFO);
+    let formattedFilterOption = userInfo.id;
+    ApiService.get("data/filter/other/get?collection=alerts&filterOption=" + formattedFilterOption)
+      .then((alerts) => {
+        this.setState({ isLoading: false, alerts: alerts, refreshing: false });
+      })
+      .catch((error) => {
+        this.setState({
+          alerts: <Text>You have created no Alerts yet!{error}</Text>,
+          isLoading: false,
+          refreshing: false,
+        });
+      });
+  }
+
+  async fetchFilteredAlerts() {
+    ApiService.get(
+      "data/filterAlerts/get?collection=alerts&filterOption=" + this.state.filterOption
+    )
+      .then((alerts) => {
+        this.setState({ isLoading: false, alerts: alerts, refreshing: false });
+      })
+      .catch((error) => {
+        this.setState({
+          alerts: <Text>Error Retrieving Data {error}</Text>,
+          isLoading: false,
+          refreshing: false,
+        });
+      });
+  }
+
+  
+  async filterEvents(selectedValue) {
+    this.setState({ filterOption: selectedValue, isLoading: true }, () => {
+      this.closeFilterDialog();
+      this.fetchAlerts();
+    });
+  }
+
   async onRefresh() {
     this.setState({ refreshing: true });
     this.fetchAllalerts();
   }
+
+  openFilterDialog() {
+    this.setState({ isFilterDialogOpen: true });
+  }
+
+  closeFilterDialog() {
+    this.setState({ isFilterDialogOpen: false });
+  }
+
 
   render() {
     const navigation = this.props.navigation;
@@ -88,6 +154,21 @@ class AlertsScreen extends Component {
         >
           {alertList}
         </ScrollView>
+        <FAB
+          style={styles.filter}
+          medium
+          animated={true}
+          color="#fff"
+          icon="filter"
+          theme={{ colors: { accent: "#70AF1A" } }}
+          onPress={() => this.openFilterDialog()}
+        />
+        <FilterAlertDialog
+          onSubmit={(selectedValue) => this.filterEvents(selectedValue)}
+          onClose={() => this.closeFilterDialog()}
+          filterOption={this.state.filterOption}
+          visible={this.state.isFilterDialogOpen}
+        ></FilterAlertDialog>
 
         <TouchableOpacity
           style={styles.button}

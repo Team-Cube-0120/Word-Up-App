@@ -165,6 +165,25 @@ class FirebaseFirestore {
         });
     }
 
+    //TODO
+
+    async filterBySigned(collection, filterOption) {
+        return new Promise((resolve, reject) => {
+            this.database
+                .collection(collection)
+                .where('userId', '==', filterOption)
+                .get()
+                .then(payload => {
+                    let data = [];
+                    payload.forEach((doc) => {
+                        data.push(doc.data());
+                    })
+                    resolve(data);
+                })
+                .catch((error) => reject("Error retrieving data: " + error));
+        });
+    }
+
     async filterByDate(collection, filterOption) {
         return new Promise((resolve, reject) => {
             let filterOptionTime = new Date();
@@ -190,6 +209,22 @@ class FirebaseFirestore {
         return new Promise((resolve, reject) => {
             this.database
                 .collection(collection).where('eventType', '==', filterOption)
+                .get()
+                .then(payload => {
+                    let data = []
+                    payload.forEach((doc) => {
+                        data.push(doc.data());
+                    });
+                    resolve(data);
+                })
+                .catch((error) => reject("Error retrieving data: " + error));
+        });
+    }
+
+    async getFilteredAlerts(collection, filterOption) {
+        return new Promise((resolve, reject) => {
+            this.database
+                .collection(collection).where('alertType', '==', filterOption)
                 .get()
                 .then(payload => {
                     let data = []
