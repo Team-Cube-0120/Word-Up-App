@@ -20,6 +20,7 @@ import PickerExample from "./PickerExample";
 const sleep = require("../../../util/Thread");
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import moment from "moment";
+import ModalSelector from "react-native-modal-selector";
 
 class editEventScreen extends Component {
   constructor(props) {
@@ -41,6 +42,12 @@ class editEventScreen extends Component {
       start: false,
       end: false,
     };
+    this.eventNameInput = React.createRef();
+    this.detailsInput = React.createRef();
+    this.locationInput = React.createRef();
+    this.rsvpInput = React.createRef();
+    this.coHostsInput = React.createRef();
+    this.eventTypeInput = React.createRef();
   }
 
   editEvent() {
@@ -87,6 +94,7 @@ class editEventScreen extends Component {
     });
   };
   handlePicker = (datetime) => {
+    this.hidePicker;
     if (this.state.start) {
       this.setState({
         isVisible: false,
@@ -118,13 +126,19 @@ class editEventScreen extends Component {
 
   render() {
     return (
-      <ScrollView style={styles.container}>
+      <ScrollView keyboardShouldPersistTaps={true} style={styles.container}>
         <Card containerStyle={styles.cardShadows}>
           <Card.Title>Edit Event Information</Card.Title>
           <Card.Divider />
           <Text style={styles.text}>Event Name *</Text>
           <TextInput
             style={styles.textInput}
+            ref={this.eventNameInput}
+            returnKeyType={"next"}
+            onSubmitEditing={() => {
+              this.detailsInput.current.focus();
+            }}
+            blurOnSubmit={false}
             value={this.state.eventName}
             onChangeText={(eventName) =>
               this.setState({ eventName: eventName })
@@ -134,6 +148,7 @@ class editEventScreen extends Component {
           <View>
             <Button
               title="Edit Start Date and Time"
+              color="#70AF1A"
               onPress={() => {
                 this.startState();
                 this.showPicker();
@@ -153,7 +168,8 @@ class editEventScreen extends Component {
 
           <View>
             <Button
-              title="Select End Date and End Time"
+              title="Edit End Date and Time"
+              color="#70AF1A"
               onPress={() => {
                 this.endState();
                 this.showPicker();
@@ -173,44 +189,123 @@ class editEventScreen extends Component {
           <View>
             <Text> </Text>
           </View>
-          <Text style={styles.text}>Details</Text>
+          <Text style={styles.text}>Details *</Text>
           <TextInput
             style={styles.textInput}
+            ref={this.detailsInput}
+            returnKeyType={"next"}
+            onSubmitEditing={() => {
+              this.locationInput.current.focus();
+            }}
+            blurOnSubmit={false}
             value={this.state.details}
             onChangeText={(details) => this.setState({ details: details })}
           />
           <Text style={styles.text}>Location *</Text>
           <TextInput
             style={styles.textInput}
+            ref={this.locationInput}
+            returnKeyType={"next"}
+            onSubmitEditing={() => {
+              this.rsvpInput.current.focus();
+            }}
+            blurOnSubmit={false}
             value={this.state.location}
             onChangeText={(location) => this.setState({ location: location })}
           ></TextInput>
           <Text style={styles.text}>RSVP Code</Text>
           <TextInput
             style={styles.textInput}
+            ref={this.rsvpInput}
+            returnKeyType={"next"}
+            onSubmitEditing={() => {
+              this.coHostsInput.current.focus();
+            }}
+            blurOnSubmit={false}
             value={this.state.rsvpCode}
             onChangeText={(rsvpCode) => this.setState({ rsvpCode: rsvpCode })}
           ></TextInput>
           <Text style={styles.text}>Co-hosts</Text>
           <TextInput
             style={styles.textInput}
+            ref={this.coHostsInput}
+            returnKeyType={"done"}
+            blurOnSubmit={false}
             value={this.state.coHosts}
             onChangeText={(coHosts) => this.setState({ coHosts: coHosts })}
           ></TextInput>
 
           <Text style={styles.text}>Event Type *</Text>
-          <PickerExample
-            value={this.state.eventType}
-            onSelection={(eventType) => this.setState({ eventType: eventType })}
-          />
+
+          <ModalSelector
+            data={[
+              { key: 0, label: "Outdoor" },
+              { key: 1, label: "Meeting" },
+              { key: 2, label: "Party" },
+              { key: 3, label: "Food" },
+              { key: 4, label: "Other" },
+            ]}
+            initValue={"N/A"}
+            supportedOrientations={["portrait"]}
+            accessible={true}
+            animationType="fade"
+            cancelText="Cancel"
+            supportedOrientations={["portrait"]}
+            optionContainerStyle={{
+              backgroundColor: "#fff",
+              borderColor: "#006400",
+              flexDirection: "row",
+              borderLeftWidth: 1,
+              borderRightWidth: 1,
+              borderTopWidth: 1,
+              borderBottomWidth: 1,
+            }}
+            optionTextStyle={{
+              color: "#70AF1A",
+              alignItems: "center",
+              fontWeight: "bold",
+            }}
+            cancelTextStyle={{ color: "red", fontWeight: "bold" }}
+            cancelContainerStyle={{
+              backgroundColor: "#fff",
+              borderColor: "#006400",
+              borderLeftWidth: 1,
+              borderRightWidth: 1,
+              borderTopWidth: 1,
+              borderBottomWidth: 1,
+            }}
+            overlayStyle={{
+              flex: 1,
+              padding: "5%",
+              justifyContent: "center",
+              backgroundColor: "rgba(0,0,0,0.3)",
+            }}
+            scrollViewAccessibilityLabel={"Scrollable options"}
+            cancelButtonAccessibilityLabel={"Cancel Button"}
+            onChange={(eventType) => {
+              this.setState({ eventType: eventType.label });
+            }}
+          >
+            {this.state.eventType == "N/A" && (
+              <TextInput
+                style={styles.textInput}
+                editable={false}
+                value={this.state.eventType}
+              ></TextInput>
+            )}
+
+            {this.state.eventType != "N/A" && (
+              <TextInput
+                style={styles.textInputOther}
+                editable={false}
+                value={this.state.eventType}
+              ></TextInput>
+            )}
+          </ModalSelector>
 
           <View style={styles.buttonView}>
             <Button
-              style={styles.buttonLeft}
-              title="Go Back"
-              onPress={() => this.props.navigation.goBack()}
-            ></Button>
-            <Button
+              color="#70AF1A"
               style={styles.buttonRight}
               title="Review"
               onPress={() => this.openDialog()}
@@ -238,7 +333,6 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: "#FAFAFA",
     flexDirection: "column",
-    padding: 5,
   },
   cardTitle: {
     textAlign: "left",
@@ -295,8 +389,26 @@ const styles = StyleSheet.create({
   buttonView: {
     flexDirection: "column",
     width: "100%",
-    height: 150, // might be a problem for other screens
+    height: 50, // might be a problem for other screens
     justifyContent: "space-evenly",
+  },
+
+  textInput: {
+    alignSelf: "stretch",
+    height: 40,
+    marginBottom: 30,
+    borderColor: "gray",
+    borderWidth: 1,
+    paddingLeft: 10,
+  },
+  textInputOther: {
+    alignSelf: "stretch",
+    height: 40,
+    marginBottom: 30,
+    borderColor: "black",
+    color: "black",
+    borderWidth: 1,
+    paddingLeft: 10,
   },
 
   buttonRight: {

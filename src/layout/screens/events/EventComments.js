@@ -229,7 +229,7 @@ const styles = StyleSheet.create({
   },
 
   buttonComment: {
-    backgroundColor: "#39f077",
+    backgroundColor: "#006400",
     marginTop: 10,
     ...Platform.select({
       ios: {
@@ -252,7 +252,6 @@ const styles = StyleSheet.create({
     height: 50,
     marginLeft: 15,
     marginRight: 15,
-    borderRadius: 30,
     alignItems: "center",
     justifyContent: "center",
   },
@@ -281,7 +280,6 @@ const styles = StyleSheet.create({
     height: 50,
     marginLeft: 15,
     marginRight: 15,
-    borderRadius: 30,
     alignItems: "center",
     justifyContent: "center",
   },

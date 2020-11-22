@@ -40,6 +40,29 @@ class EditJobScreen extends Component {
       toggleDialog: false,
       isLoading: false,
     };
+    this.positionInput = React.createRef();
+    this.jobTypeInput = React.createRef();
+    this.companyInput = React.createRef();
+    this.jobDescriptionInput = React.createRef();
+    this.jobAppUrlInput = React.createRef();
+    this.emailInput = React.createRef();
+    this.phoneNumberInput = React.createRef();
+    this.streetInput = React.createRef();
+    this.cityInput = React.createRef();
+    this.stateInput = React.createRef();
+    this.zipInput = React.createRef();
+  }
+
+  isInputEmpty() {
+    var empty = false;
+    for (var key in this.state) {
+      if (key != "userId" && key != "jobId") {
+        if (this.state[key] === "") {
+          empty = true;
+        }
+      }
+    }
+    return empty;
   }
 
   editJob() {
@@ -83,41 +106,67 @@ class EditJobScreen extends Component {
               Edit Job Information
             </Card.Title>
             <Text style={styles.instructions}>
-              Please carefully change the fields below. Fields marked with (*)
-              must not be left empty.
+              Please carefully change the fields below. Fields marked with (
+              <Text style={{ color: "red" }}>*</Text>) must not be left empty.
             </Text>
             <Card.Divider />
             <View style={styles.containerView}>
-              <Text style={styles.title}>Position: *</Text>
+              <Text style={styles.title}>
+                Position: <Text style={{ color: "red" }}>*</Text>
+              </Text>
               <TextInput
                 style={styles.value}
                 value={this.state.position}
                 onChangeText={(position) =>
                   this.setState({ position: position })
                 }
+                ref={this.positionInput}
+                returnKeyType={"next"}
+                onSubmitEditing={() => {
+                  this.jobTypeInput.current.focus();
+                }}
+                blurOnSubmit={false}
               />
             </View>
             <Card.Divider />
             <View style={styles.containerView}>
-              <Text style={styles.title}>Job Type: *</Text>
+              <Text style={styles.title}>
+                Job Type: <Text style={{ color: "red" }}>*</Text>
+              </Text>
               <TextInput
                 style={styles.value}
                 value={this.state.jobType}
                 onChangeText={(jobType) => this.setState({ jobType: jobType })}
+                ref={this.jobTypeInput}
+                returnKeyType={"next"}
+                onSubmitEditing={() => {
+                  this.companyInput.current.focus();
+                }}
+                blurOnSubmit={false}
               />
             </View>
             <Card.Divider />
             <View style={styles.containerView}>
-              <Text style={styles.title}>Company: *</Text>
+              <Text style={styles.title}>
+                Company: <Text style={{ color: "red" }}>*</Text>
+              </Text>
               <TextInput
                 style={styles.value}
                 value={this.state.company}
                 onChangeText={(company) => this.setState({ company: company })}
+                ref={this.companyInput}
+                returnKeyType={"next"}
+                onSubmitEditing={() => {
+                  this.jobDescriptionInput.current.focus();
+                }}
+                blurOnSubmit={false}
               />
             </View>
             <Card.Divider />
             <View style={styles.containerView}>
-              <Text style={styles.title}>Job Description: *</Text>
+              <Text style={styles.title}>
+                Job Description: <Text style={{ color: "red" }}>*</Text>
+              </Text>
               <TextInput
                 style={styles.textInputMultipleLine}
                 multiline={true}
@@ -125,73 +174,129 @@ class EditJobScreen extends Component {
                 onChangeText={(jobDescription) =>
                   this.setState({ jobDescription: jobDescription })
                 }
+                ref={this.jobDescriptionInput}
+                returnKeyType={"done"}
+                blurOnSubmit={false}
               />
             </View>
             <Card.Divider />
             <View style={styles.containerView}>
-              <Text style={styles.title}>Job Application URL: *</Text>
+              <Text style={styles.title}>
+                Job Application URL: <Text style={{ color: "red" }}>*</Text>
+              </Text>
               <TextInput
                 style={styles.value}
                 value={this.state.jobAppUrl}
                 onChangeText={(jobAppUrl) =>
                   this.setState({ jobAppUrl: jobAppUrl })
                 }
+                ref={this.jobAppUrlInput}
+                returnKeyType={"next"}
+                onSubmitEditing={() => {
+                  this.emailInput.current.focus();
+                }}
+                blurOnSubmit={false}
               />
             </View>
             <Card.Divider />
             <View style={styles.containerView}>
-              <Text style={styles.title}>Email: *</Text>
+              <Text style={styles.title}>
+                Email: <Text style={{ color: "red" }}>*</Text>
+              </Text>
               <TextInput
                 style={styles.value}
                 value={this.state.email}
                 onChangeText={(email) => this.setState({ email: email })}
+                ref={this.emailInput}
+                returnKeyType={"next"}
+                onSubmitEditing={() => {
+                  this.phoneNumberInput.current.focus();
+                }}
+                blurOnSubmit={false}
               />
             </View>
             <Card.Divider />
             <View style={styles.containerView}>
-              <Text style={styles.title}>Phone Number: *</Text>
+              <Text style={styles.title}>
+                Phone Number: <Text style={{ color: "red" }}>*</Text>
+              </Text>
               <TextInput
                 style={styles.value}
                 value={this.state.phoneNumber}
                 onChangeText={(phoneNumber) =>
                   this.setState({ phoneNumber: phoneNumber })
                 }
+                ref={this.phoneNumberInput}
+                returnKeyType={"next"}
+                onSubmitEditing={() => {
+                  this.streetInput.current.focus();
+                }}
+                blurOnSubmit={false}
               />
             </View>
             <Card.Divider />
             <View style={styles.containerView}>
-              <Text style={styles.title}>Street: *</Text>
+              <Text style={styles.title}>
+                Street: <Text style={{ color: "red" }}>*</Text>
+              </Text>
               <TextInput
                 style={styles.value}
                 value={this.state.street}
                 onChangeText={(street) => this.setState({ street: street })}
+                ref={this.streetInput}
+                returnKeyType={"next"}
+                onSubmitEditing={() => {
+                  this.cityInput.current.focus();
+                }}
+                blurOnSubmit={false}
               />
             </View>
             <Card.Divider />
             <View style={styles.containerView}>
-              <Text style={styles.title}>City: *</Text>
+              <Text style={styles.title}>
+                City: <Text style={{ color: "red" }}>*</Text>
+              </Text>
               <TextInput
                 style={styles.value}
                 value={this.state.city}
                 onChangeText={(city) => this.setState({ city: city })}
+                ref={this.cityInput}
+                returnKeyType={"next"}
+                onSubmitEditing={() => {
+                  this.stateInput.current.focus();
+                }}
+                blurOnSubmit={false}
               />
             </View>
             <Card.Divider />
             <View style={styles.containerView}>
-              <Text style={styles.title}>State: *</Text>
+              <Text style={styles.title}>
+                State: <Text style={{ color: "red" }}>*</Text>
+              </Text>
               <TextInput
                 style={styles.value}
                 value={this.state.state}
                 onChangeText={(state) => this.setState({ state: state })}
+                ref={this.stateInput}
+                returnKeyType={"next"}
+                onSubmitEditing={() => {
+                  this.zipInput.current.focus();
+                }}
+                blurOnSubmit={false}
               />
             </View>
             <Card.Divider />
             <View style={styles.containerView}>
-              <Text style={styles.title}>Zip: *</Text>
+              <Text style={styles.title}>
+                Zipcode: <Text style={{ color: "red" }}>*</Text>
+              </Text>
               <TextInput
                 style={styles.value}
+                ref={this.zipInput}
+                returnKeyType={"done"}
                 value={this.state.zip}
                 onChangeText={(zip) => this.setState({ zip: zip })}
+                blurOnSubmit={false}
               />
             </View>
             <Card.Divider />
@@ -278,7 +383,7 @@ const styles = StyleSheet.create({
   },
 
   buttonRight: {
-    backgroundColor: "#70AF1A",
+    backgroundColor: "#006400",
     ...Platform.select({
       ios: {
         shadowColor: "#000",
@@ -300,7 +405,6 @@ const styles = StyleSheet.create({
     height: 45,
     marginLeft: 15,
     marginRight: 15,
-    borderRadius: 30,
     alignItems: "center",
     justifyContent: "center",
   },

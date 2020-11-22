@@ -8,14 +8,19 @@ import {
   ActivityIndicator,
   Alert,
   TouchableOpacity,
+  LogBox,
+  TouchableHighlight,
 } from "react-native";
-import { Card } from "react-native-elements";
-import DeleteDialog from '../../../components/dialog/DeleteDialog';
-import { FAB } from "react-native-paper";
+import { Card, Avatar } from "react-native-elements";
+import DeleteDialog from "../../../components/dialog/DeleteDialog";
 import ApiService from "../../../service/api/ApiService";
 import RequestOptions from "../../../service/api/RequestOptions";
-import { getData, storeData, updateUserInfo } from '../../../util/LocalStorage';
-import { USERINFO } from '../../../enums/StorageKeysEnum';
+import { getData, storeData, updateUserInfo } from "../../../util/LocalStorage";
+import { USERINFO } from "../../../enums/StorageKeysEnum";
+import { Icon } from "react-native-elements";
+LogBox.ignoreLogs([
+  "Warning: Cannot update a component from inside the function body of a different component.",
+]);
 
 class ViewEventScreen extends Component {
   constructor(props) {
@@ -23,6 +28,7 @@ class ViewEventScreen extends Component {
     let eventInfo = this.props.route.params.eventInfo;
     this.state = {
       eventInfo: eventInfo,
+      userInfo: <View></View>,
       editButtonView: <View></View>,
       deleteEventView: <View></View>,
       signUpButtonView: <View></View>,
@@ -33,11 +39,48 @@ class ViewEventScreen extends Component {
       signedUp: false,
       title: '',
       addEventResponse: '',
+      isOpen: false,
     };
   }
 
   componentDidMount() {
     this.isEditable();
+    this.setState({ userInfo: (
+      <Card style={styles.lastCard}>
+      <Card.Title style={styles.cardTitle}>Event Poster</Card.Title>
+      <View style={styles.profileImage}>
+        <Avatar
+          rounded
+          source={{
+            uri: this.state.eventInfo.profileImage,
+          }}
+        />
+        <Text style={styles.profileTitle}>
+          {this.state.eventInfo.fullname}
+        </Text>
+      </View>
+    </Card>
+    )})
+    this.props.navigation.setOptions({
+      title: "Event Information",
+      headerRight: () => (
+        <View style={{ flexDirection: "row" }}>
+          <TouchableHighlight
+            style={{ backgroundColor: "#70AF1A", marginRight: 15 }}
+            onPress={() =>
+              this.props.navigation.push("EventComments", {
+                eventInfo: this.state.eventInfo,
+              })
+            }
+          >
+            <View style={{ backgroundColor: "#70AF1A" }}>
+              <Icon name="comment" size={32} color="white" />
+            </View>
+          </TouchableHighlight>
+          {this.state.editButtonView}
+        </View>
+      ),
+    });
   }
 
   closeDialog() {
@@ -51,17 +94,21 @@ class ViewEventScreen extends Component {
   async deleteEvent() {
     let itemId = this.state.eventInfo.eventId;
     this.setState({ deleteLoading: true });
-    ApiService.delete('data/events/delete?collection=events&document=' + itemId + "&userId=" + this.state.eventInfo.userId)
-    .then((response) => updateUserInfo(this.state.eventInfo.userId))
-    .then((response) => {
+    ApiService.delete(
+      "data/events/delete?collection=events&document=" +
+        itemId +
+        "&userId=" +
+        this.state.eventInfo.userId
+    )
+      .then((response) => updateUserInfo(this.state.eventInfo.userId))
+      .then((response) => {
         this.closeDialog();
-        Alert.alert(
-          'Notice',
-          'Your event has been deleted',
-          [{
-            text: 'Return',
-            onPress: () => this.props.navigation.navigate("Events")
-          }])
+        Alert.alert("Notice", "Your event has been deleted", [
+          {
+            text: "Return",
+            onPress: () => this.props.navigation.navigate("Events"),
+          },
+        ]);
       })
       .catch((error) => {
         this.closeDialog();
@@ -157,22 +204,32 @@ class ViewEventScreen extends Component {
     ) {
       this.setState({
         editButtonView: (
-          <Button
-            style={styles.buttonRight}
-            title="Edit"
+          <TouchableHighlight
+            style={{ backgroundColor: "#70AF1A", marginRight: 15 }}
             onPress={() =>
               this.props.navigation.push("EditEvent", {
                 eventInfo: this.state.eventInfo,
               })
             }
-          ></Button>
+          >
+            <View style={{ backgroundColor: "#70AF1A" }}>
+              <Icon name="edit" size={32} color="white" />
+            </View>
+          </TouchableHighlight>
         ),
         deleteEventView: (
-          <Button
-            style={styles.buttonRight}
-            title="Delete"
-            onPress={() => this.openDialog()}
-          ></Button>
+          <View style={styles.buttonDeleteView}>
+            <TouchableOpacity
+              style={styles.buttonDelete}
+              onPress={() => this.openDialog()}
+            >
+              <Text
+                style={{ fontSize: 16, color: "white", alignItems: "center" }}
+              >
+                Delete
+              </Text>
+            </TouchableOpacity>
+          </View>
         ),
       });
     }
@@ -213,77 +270,63 @@ class ViewEventScreen extends Component {
 
   render() {
     return (
-      <ScrollView style={styles.container}>
-        <Card containerStyle={styles.cardShadows}>
-          <Card.Title style={styles.cardTitle}>
-            {this.state.eventInfo.eventName}
-          </Card.Title>
-          <Card.Divider></Card.Divider>
-          <View style={styles.containerView}>
-            <Text style={styles.title}>Event Name: </Text>
-            <Text style={styles.value}>{this.state.eventInfo.eventName}</Text>
-          </View>
-          <View style={styles.containerView}>
-            <Text style={styles.title}>Start Date: </Text>
-            <Text style={styles.value}>{this.state.eventInfo.startDate}</Text>
-          </View>
-          <View style={styles.containerView}>
-            <Text style={styles.title}>End Date: </Text>
-            <Text style={styles.value}>{this.state.eventInfo.endDate}</Text>
-          </View>
-          <View style={styles.containerView}>
-            <Text style={styles.title}>Details: </Text>
-            <Text style={styles.value}>{this.state.eventInfo.details}</Text>
-          </View>
-          <View style={styles.containerView}>
-            <Text style={styles.title}>Location: </Text>
-            <Text style={styles.value}>{this.state.eventInfo.location}</Text>
-          </View>
-          <View style={styles.containerView}>
-            <Text style={styles.title}>RSVP Code: </Text>
-            <Text style={styles.value}>{this.state.eventInfo.rsvpCode}</Text>
-          </View>
-          <View style={styles.containerView}>
-            <Text style={styles.title}>Co-Hosts: </Text>
-            <Text style={styles.value}>{this.state.eventInfo.coHosts}</Text>
-          </View>
-          <View style={styles.containerView}>
-            <Text style={styles.title}>Event Type: </Text>
-            <Text style={styles.value}>{this.state.eventInfo.eventType}</Text>
-          </View>
-          <View style={styles.buttonView}>
-            {this.state.signUpButtonView}
-            {this.state.unRegister}
+      <View style={styles.container}>
+        <ScrollView>
+          <Card containerStyle={styles.cardShadows}>
+            <Card.Title style={styles.cardTitle}>
+              {this.state.eventInfo.eventName}
+            </Card.Title>
+            <Card.Divider></Card.Divider>
+            <View style={styles.containerView}>
+              <Text style={styles.title}>Event Name: </Text>
+              <Text style={styles.value}>{this.state.eventInfo.eventName}</Text>
+            </View>
+            <View style={styles.containerView}>
+              <Text style={styles.title}>Start Date: </Text>
+              <Text style={styles.value}>{this.state.eventInfo.startDate}</Text>
+            </View>
+            <View style={styles.containerView}>
+              <Text style={styles.title}>End Date: </Text>
+              <Text style={styles.value}>{this.state.eventInfo.endDate}</Text>
+            </View>
+            <View style={styles.containerView}>
+              <Text style={styles.title}>Details: </Text>
+              <Text style={styles.value}>{this.state.eventInfo.details}</Text>
+            </View>
+            <View style={styles.containerView}>
+              <Text style={styles.title}>Location: </Text>
+              <Text style={styles.value}>{this.state.eventInfo.location}</Text>
+            </View>
+            <View style={styles.containerView}>
+              <Text style={styles.title}>RSVP Code: </Text>
+              <Text style={styles.value}>{this.state.eventInfo.rsvpCode}</Text>
+            </View>
+            <View style={styles.containerView}>
+              <Text style={styles.title}>Co-Hosts: </Text>
+              <Text style={styles.value}>{this.state.eventInfo.coHosts}</Text>
+            </View>
+            <View style={styles.containerView}>
+              <Text style={styles.title}>Event Type: </Text>
+              <Text style={styles.value}>{this.state.eventInfo.eventType}</Text>
+            </View>
+
+            <View style={styles.buttonView}>
+              {this.state.signUpButtonView}
+              {this.state.unRegister}
+            </View>
+
             {this.state.deleteEventView}
-            {this.state.editButtonView}
 
             <DeleteDialog
               visible={this.state.toggleEventDeleteDialog}
               onSubmit={() => this.deleteEvent()}
               onClose={() => this.closeDialog()}
-              isSubmitting={this.state.deleteLoading}></DeleteDialog>
-          </View>
-
-          <View
-            style={{ flexDirection: "column", justifyContent: "space-evenly" }}
-          >
-            <TouchableOpacity
-              style={styles.buttonComment}
-              onPress={() =>
-                this.props.navigation.push("EventComments", {
-                  eventInfo: this.state.eventInfo,
-                })
-              }
-            >
-              <Text
-                style={{ fontSize: 18, color: "#fff", alignItems: "center" }}
-              >
-                Comment
-              </Text>
-            </TouchableOpacity>
-          </View>
-        </Card>
-      </ScrollView>
+              isSubmitting={this.state.deleteLoading}
+            ></DeleteDialog>
+          </Card>
+          {this.state.userInfo}
+        </ScrollView>
+      </View>
     );
   }
 }
@@ -308,20 +351,39 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
 
+  profileImage: {
+    textAlign: "left",
+    flexDirection: "row",
+    marginBottom: "5%",
+  },
+
+  profileTitle: {
+    marginLeft: "3%",
+    marginTop: "2%",
+  },
+
   value: {
     fontSize: 16,
   },
 
   buttonView: {
     flexDirection: "column",
-    height: 105,
+    height: 50,
+    width: "100%",
+    justifyContent: "space-evenly",
+  },
+
+  buttonDeleteView: {
+    flexDirection: "column",
+    top: 5,
+    height: 50,
     width: "100%",
     justifyContent: "space-evenly",
   },
 
   buttonRegister: {
-    backgroundColor: "#70AF1A",
-    bottom: 0,
+    top: 0,
+    backgroundColor: "#006400",
     ...Platform.select({
       ios: {
         shadowColor: "#000",
@@ -340,15 +402,14 @@ const styles = StyleSheet.create({
         elevation: 2,
       },
     }),
-    height: 50,
-    borderRadius: 30,
+    height: 40,
     alignItems: "center",
     justifyContent: "center",
   },
 
   buttonUnRegister: {
-    backgroundColor: "#006400",
     top: 0,
+    backgroundColor: "#006400",
     ...Platform.select({
       ios: {
         shadowColor: "#000",
@@ -367,14 +428,13 @@ const styles = StyleSheet.create({
         elevation: 2,
       },
     }),
-    height: 50,
-    borderRadius: 30,
+    height: 40,
     alignItems: "center",
     justifyContent: "center",
   },
 
   buttonComment: {
-    backgroundColor: "#39f077",
+    backgroundColor: "#70AF1A",
     ...Platform.select({
       ios: {
         shadowColor: "#000",
@@ -393,8 +453,34 @@ const styles = StyleSheet.create({
         elevation: 3,
       },
     }),
-    height: 50,
-    borderRadius: 30,
+    height: 40,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+
+  buttonDelete: {
+    width: "100%",
+    marginTop: 10,
+    backgroundColor: "red",
+    ...Platform.select({
+      ios: {
+        shadowColor: "#000",
+        shadowOffset: { width: 1, height: 1 },
+        shadowOpacity: 4,
+        shadowRadius: 2,
+      },
+      android: {
+        elevation: 3,
+      },
+      default: {
+        shadowColor: "#000",
+        shadowOffset: { width: 1, height: 1 },
+        shadowOpacity: 4,
+        shadowRadius: 2,
+        elevation: 3,
+      },
+    }),
+    height: 40,
     alignItems: "center",
     justifyContent: "center",
   },

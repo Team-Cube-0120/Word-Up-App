@@ -47,8 +47,8 @@ class FilterEventDialog extends Component {
                             initial={this.props.filterOption}
                             onPress={(value) => this.setState({ selectedValue: value })} />
                     </View>
-                    <Dialog.Button label="Close" onPress={() => this.props.onClose()}></Dialog.Button>
-                    <Dialog.Button label="Submit" onPress={() => this.props.onSubmit(this.state.selectedValue)}></Dialog.Button>
+                    <Dialog.Button label="Close" color="#006400" onPress={() => this.props.onClose()}></Dialog.Button>
+                    <Dialog.Button label="Submit" color="#006400" onPress={() => this.props.onSubmit(this.state.selectedValue)}></Dialog.Button>
                 </Dialog.Container>
             </View>
         )

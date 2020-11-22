@@ -13,8 +13,7 @@ import {
 import PropTypes from "prop-types";
 import ApiService from "../../service/api/ApiService";
 import { DEFAULT_PROFILE_IMAGE } from "../../enums/DefaultEnums";
-const calculateDaysPassed = require("../../formatter/TimeFormatter")
-  .calculateDaysPassed;
+import moment from "moment";
 
 class JobCard extends BaseCard {
   static propTypes = {
@@ -28,7 +27,6 @@ class JobCard extends BaseCard {
     this.state = {
       userProfileImageUrl: DEFAULT_PROFILE_IMAGE,
       userFullName: "N/A",
-      datePosted: calculateDaysPassed(this.props.data.datePosted._seconds),
     };
   }
 
@@ -78,7 +76,7 @@ class JobCard extends BaseCard {
           <Text style={this.styles.companyInfo}>{this.props.data.street}</Text>
         </View>
         <Text style={this.styles.datePostedText}>
-          {calculateDaysPassed(this.props.data.datePosted._seconds)}
+          {moment(this.props.data.postedTime).fromNow()}
         </Text>
       </View>
     );
@@ -87,6 +85,7 @@ class JobCard extends BaseCard {
 
 const styles = StyleSheet.create({
   cardShadows: {
+    borderBottomColor: "gray",
     ...Platform.select({
       ios: {
         shadowColor: "#000",

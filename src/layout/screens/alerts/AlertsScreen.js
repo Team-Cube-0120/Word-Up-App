@@ -7,6 +7,8 @@ import {
   ScrollView,
   ActivityIndicator,
   RefreshControl,
+  LogBox,
+  TouchableHighlight,
 } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import AlertCard from "../../../components/card/AlertCard";
@@ -14,8 +16,12 @@ import ApiService from "../../../service/api/ApiService";
 import { FAB } from "react-native-paper";
 import FilterAlertDialog from '../../../components/dialog/FilterAlertDialog';
 import { USERINFO } from "../../../enums/StorageKeysEnum";
-import { getData } from "../../../util/LocalStorage";
-
+import { getData, storeData } from "../../../util/LocalStorage";
+import { Icon } from "react-native-elements";
+import moment from "moment";
+LogBox.ignoreLogs([
+  "Warning: Cannot update a component from inside the function body of a different component.",
+]);
 
 class AlertsScreen extends Component {
   constructor(props) {
@@ -26,12 +32,25 @@ class AlertsScreen extends Component {
       alerts: [],
       users: new Map(),
       isFilterDialogOpen: false,
-      filterOption: 'All'
+      filterOption: 'All',
+      data: "",
     };
   }
 
   componentDidMount() {
     this.fetchAlerts();
+    this.props.navigation.setOptions({
+      headerRight: () => (
+        <TouchableHighlight
+          style={{ backgroundColor: "#70AF1A", marginRight: 15 }}
+          onPress={() => this.openFilterDialog()}
+        >
+          <View style={{ backgroundColor: "#70AF1A" }}>
+            <Icon name="filter-list" size={34} color="white" />
+          </View>
+        </TouchableHighlight>
+      ),
+    });
   }
 
 
@@ -43,6 +62,7 @@ class AlertsScreen extends Component {
     } else {
       this.fetchFilteredAlerts();
     }
+    
   }
 
   fetchAllalerts() {
@@ -120,7 +140,10 @@ class AlertsScreen extends Component {
           <TouchableOpacity
             key={index}
             onPress={() =>
-              this.props.navigation.push("ViewAlert", { alertInfo: alert })
+              this.props.navigation.push("ViewAlert", {
+                alertInfo: alert,
+                index: index,
+              })
             }
           >
             <AlertCard title={alert.name} data={alert} />
@@ -170,12 +193,15 @@ class AlertsScreen extends Component {
           visible={this.state.isFilterDialogOpen}
         ></FilterAlertDialog>
 
-        <TouchableOpacity
-          style={styles.button}
+        <FAB
+          style={styles.fab}
+          medium
+          animated={true}
+          color="#fff"
+          icon="plus"
+          theme={{ colors: { accent: "#006400" } }}
           onPress={() => navigation.navigate("CreateAlerts")}
-        >
-          <Text style={styles.btnText}>Create Alert</Text>
-        </TouchableOpacity>
+        />
       </View>
     );
   }
@@ -185,7 +211,7 @@ const styles = StyleSheet.create({
   container: {
     position: "relative",
     flex: 1,
-    backgroundColor: 'white',
+    backgroundColor: "#FAFAFA",
   },
   header: {
     fontSize: 24,
@@ -208,6 +234,12 @@ const styles = StyleSheet.create({
   btnText: {
     fontWeight: "bold",
   },
+  fab: {
+    position: "absolute",
+    margin: 16,
+    right: 0,
+    bottom: 0,
+  },
   activityContainer: {
     flex: 1,
     justifyContent: "center",
@@ -224,4 +256,3 @@ const styles = StyleSheet.create({
 });
 
 export default AlertsScreen;
-

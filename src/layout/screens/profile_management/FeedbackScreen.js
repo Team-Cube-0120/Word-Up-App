@@ -1,4 +1,3 @@
-import { Container } from "@material-ui/core";
 import React, { Component, useState, useRef, useEffect } from "react";
 import {
   Text,
@@ -7,22 +6,41 @@ import {
   StyleSheet,
   Platform,
   Alert,
+  View,
 } from "react-native";
 import { firebase } from "../../../../server/config/firebase/firebaseConfig";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
-import { AirbnbRating } from "react-native-ratings";
+import { Rating } from "react-native-rating-element";
+import { getData, storeData } from "../../../util/LocalStorage";
+import { USERINFO } from "../../../enums/StorageKeysEnum";
 
 export default function FeedbackScreen({ navigation }) {
   const [name, setName] = useState("");
   const [feedback, setfeedback] = useState("");
   const [ratings, setRatings] = useState("");
+  const [profileImg, setProfileImg] = useState("");
+  const [userID, setUserID] = useState("");
+  const [count, setCount] = useState(5);
+
+  useEffect(() => {
+    getUserInfo().catch((e) => alert(e));
+  });
+
+  const getUserInfo = async () => {
+    let userInfo = await getData(USERINFO);
+    setName(userInfo.fullname);
+    setProfileImg(userInfo.profile.profileImageUrl);
+    setUserID(userInfo.id);
+  };
 
   const giveFeedback = async () => {
     alert("Thank you for your feedback!");
     const data = {
-      rating: ratings,
+      rating: count,
       name: name,
       feedback: feedback,
+      profileImg: profileImg,
+      userId: userID,
     };
     const uid = firebase.auth().currentUser.uid;
     const usersRef = firebase.firestore().collection("feedback");
@@ -42,21 +60,21 @@ export default function FeedbackScreen({ navigation }) {
     <KeyboardAwareScrollView extraScrollHeight={25} style={styles.container}>
       <Text style={styles.changePassText}>We want to hear from you!</Text>
 
-      <AirbnbRating
-        count={5}
-        reviews={["Terrible", "Bad", "OK", "Good", "Amazing"]}
-        defaultRating={4}
-        showRating
-        onFinishRating={(rating) => setRatings(rating)}
-        size={40}
+      <Rating
+        rated={count}
+        totalCount={5}
+        ratingColor="#f1c644"
+        ratingBackgroundColor="#d4d4d4"
+        size={50}
+        onIconTap={(position) => setCount(position)}
+        icon="ios-star"
+        direction="row"
       />
 
       <TextInput
         style={styles.input}
-        placeholderTextColor="#aaaaaa"
-        placeholder="Enter your name"
-        onChangeText={(text) => setName(text)}
         value={name}
+        editable={false}
         underlineColorAndroid="transparent"
         returnKeyType={"done"}
       />
@@ -95,43 +113,6 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#FAFAFA",
   },
-  changePassInput: {
-    fontSize: 140,
-    marginTop: 35,
-    ...Platform.select({
-      ios: {
-        marginLeft: 115,
-      },
-      android: {
-        marginLeft: 135,
-      },
-      default: {
-        marginLeft: 125,
-      },
-    }),
-  },
-  boxGender: {
-    ...Platform.select({
-      ios: {
-        top: 15,
-        right: 52,
-        flex: 1,
-        alignItems: "stretch",
-      },
-      android: {
-        top: 15,
-        right: 48,
-        flex: 1,
-        alignItems: "stretch",
-      },
-      default: {
-        top: 15,
-        right: 50,
-        flex: 1,
-        alignItems: "stretch",
-      },
-    }),
-  },
   changePassText: {
     fontSize: 28,
     marginTop: 30,
@@ -147,30 +128,11 @@ const styles = StyleSheet.create({
       },
     }),
   },
-  logo: {
-    flex: 1,
-    height: 120,
-    width: 140,
-    alignSelf: "center",
-    margin: 30,
-    ...Platform.select({
-      ios: {
-        shadowColor: "#000",
-        shadowOffset: { width: 1, height: 1 },
-        shadowOpacity: 0.4,
-        shadowRadius: 2,
-      },
-      default: {
-        shadowColor: "#000",
-        shadowOffset: { width: 1, height: 1 },
-        shadowOpacity: 0.4,
-        shadowRadius: 2,
-      },
-    }),
-  },
   input: {
     height: 50,
     borderRadius: 5,
+    color: "black",
+    fontSize: 20,
     ...Platform.select({
       ios: {
         shadowColor: "#000",
@@ -201,6 +163,8 @@ const styles = StyleSheet.create({
   },
   inputLast: {
     height: 250,
+    fontSize: 18,
+    color: "black",
     borderRadius: 5,
     ...Platform.select({
       ios: {
@@ -231,7 +195,7 @@ const styles = StyleSheet.create({
     paddingLeft: 16,
   },
   button: {
-    backgroundColor: "#70AF1A",
+    backgroundColor: "#006400",
     ...Platform.select({
       ios: {
         shadowColor: "#000",

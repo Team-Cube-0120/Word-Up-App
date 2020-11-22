@@ -7,15 +7,22 @@ import {
   ScrollView,
   ActivityIndicator,
   RefreshControl,
+  Button,
+  TouchableHighlight,
+  LogBox,
 } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import EventCard from "../../../components/card/EventCard";
 import ApiService from "../../../service/api/ApiService";
 import { FAB } from "react-native-paper";
-import FilterEventDialog from '../../../components/dialog/FilterEventDialog';
+import FilterEventDialog from "../../../components/dialog/FilterEventDialog";
+import { Icon } from "react-native-elements";
 import { USERINFO } from "../../../enums/StorageKeysEnum";
 import { getData } from "../../../util/LocalStorage";
 
+LogBox.ignoreLogs([
+  "Warning: Cannot update a component from inside the function body of a different component.",
+]);
 
 class EventsScreen extends Component {
   constructor(props) {
@@ -26,17 +33,28 @@ class EventsScreen extends Component {
       events: [],
       users: new Map(),
       isFilterDialogOpen: false,
-      filterOption: 'All'
+      filterOption: "All",
     };
   }
 
   componentDidMount() {
-    this.fetchEvents()
+    this.fetchEvents();
+    this.props.navigation.setOptions({
+      headerRight: () => (
+        <TouchableHighlight
+          style={{ backgroundColor: "#70AF1A", marginRight: 15 }}
+          onPress={() => this.openFilterDialog()}
+        >
+          <View style={{ backgroundColor: "#70AF1A" }}>
+            <Icon name="filter-list" size={34} color="white" />
+          </View>
+        </TouchableHighlight>
+      ),
+    });
   }
 
-
-  fetchEvents() {    
-    if(this.state.filterOption == 'All'){
+  fetchEvents() {
+    if (this.state.filterOption == "All") {
       this.fetchAllEvents();
     } else if (this.state.filterOption == 'My Events'){
       this.filterByOther();
@@ -95,7 +113,8 @@ class EventsScreen extends Component {
 
   async fetchFilteredEvents() {
     ApiService.get(
-      "data/filterEvents/get?collection=events&filterOption=" + this.state.filterOption
+      "data/filterEvents/get?collection=events&filterOption=" +
+        this.state.filterOption
     )
       .then((events) => {
         this.setState({ isLoading: false, events: events, refreshing: false });
@@ -171,15 +190,6 @@ class EventsScreen extends Component {
         >
           {eventList}
         </ScrollView>
-        <FAB
-          style={styles.filter}
-          medium
-          animated={true}
-          color="#fff"
-          icon="filter"
-          theme={{ colors: { accent: "#70AF1A" } }}
-          onPress={() => this.openFilterDialog()}
-        />
 
         <FilterEventDialog
           onSubmit={(selectedValue) => this.filterEvents(selectedValue)}
@@ -188,18 +198,16 @@ class EventsScreen extends Component {
           visible={this.state.isFilterDialogOpen}
         ></FilterEventDialog>
 
-        <TouchableOpacity
-          style={styles.button}
+        <FAB
+          style={styles.fab}
+          medium
+          animated={true}
+          color="#fff"
+          icon="plus"
+          label={"Create Event"}
+          theme={{ colors: { accent: "#006400" } }}
           onPress={() => navigation.navigate("CreateEvent")}
-        >
-          <Text style={styles.btnText}>Create Event</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={styles.button}
-          onPress={() => navigation.navigate("Feedback")}
-        >
-          <Text style={styles.btnText}>Signed Up Events</Text>
-        </TouchableOpacity>
+        />
       </View>
     );
   }
@@ -210,6 +218,11 @@ const styles = StyleSheet.create({
     position: "relative",
     flex: 1,
     backgroundColor: "#FAFAFA",
+  },
+  iconContainer: {
+    flexDirection: "row",
+    justifyContent: "space-evenly",
+    width: 120,
   },
   header: {
     fontSize: 24,
@@ -249,6 +262,37 @@ const styles = StyleSheet.create({
     alignSelf: "flex-end",
     marginRight: 20,
     marginBottom: 20,
+  },
+  fab: {
+    position: "absolute",
+    width: 170,
+    margin: 16,
+    alignSelf: "center",
+    bottom: -3,
+    ...Platform.select({
+      ios: {
+        shadowColor: "#000",
+        shadowOffset: { width: 1, height: 1 },
+        shadowOpacity: 0.4,
+        shadowRadius: 2,
+      },
+      android: {
+        elevation: 3,
+      },
+      default: {
+        shadowColor: "#000",
+        shadowOffset: { width: 1, height: 1 },
+        shadowOpacity: 0.4,
+        shadowRadius: 2,
+        elevation: 2,
+      },
+    }),
+  },
+  filter: {
+    position: "absolute",
+    margin: 16,
+    right: 0,
+    bottom: 0,
   },
 });
 

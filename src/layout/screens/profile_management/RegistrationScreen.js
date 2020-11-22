@@ -81,7 +81,8 @@ class RegistrationScreen extends Component {
                 eventIds: [],
                 signedUpEvents: [],
                 alertIds: [],
-                datePosted: this.state.datePosted
+                datePosted: this.state.datePosted,
+                isDisabled: false,
               };
               const usersRef = firebase.firestore().collection("users");
               usersRef
@@ -93,8 +94,9 @@ class RegistrationScreen extends Component {
                   this.setState({ password: "" });
                   this.setState({ confirmPassword: "" });
                   this.setState({ checked: false });
-                  await storeData(USERINFO, data);
-                  this.props.navigation.navigate("TabNavigator");
+                  await storeData(USERINFO, data).then(() => {
+                    this.props.navigation.navigate("TabNavigator");
+                  });
                 })
                 .catch((error) => {
                   alert(error);
