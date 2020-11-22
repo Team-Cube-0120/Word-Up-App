@@ -7,6 +7,7 @@ import {
   ActivityIndicator,
   RefreshControl,
   LogBox,
+  Button,
   TouchableHighlight,
 } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
@@ -21,6 +22,7 @@ import { ALL_TIME, MY_JOBS } from "../../../enums/FilterOptionsEnum";
 import { formatFilterOption } from "../../../formatter/FilterJobsFormatter";
 import { USERINFO } from "../../../enums/StorageKeysEnum";
 import { Icon } from "react-native-elements";
+import { DEFAULT_PAGINATION_START, DEFAULT_PAGINATION_INCREMENT } from "../../../enums/DefaultEnums";
 LogBox.ignoreLogs([
   "Warning: Cannot update a component from inside the function body of a different component.",
 ]);
@@ -35,11 +37,11 @@ class JobsScreen extends Component {
       users: new Map(),
       isFilterDialogOpen: false,
       filterOption: ALL_TIME,
+      numItems: DEFAULT_PAGINATION_START
     };
   }
 
   componentDidMount() {
-    console.log("mounted");
     this.fetchJobs();
     this.fetchAllUsers();
     this.props.navigation.setOptions({
@@ -57,7 +59,6 @@ class JobsScreen extends Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    console.log(this.props.route.params);
     if (this.props.route.params != null && this.props.route.params.isJobCreated) {
       this.fetchJobs();
       this.fetchAllUsers();
@@ -65,6 +66,12 @@ class JobsScreen extends Component {
     }
   }
 
+  paginate() {
+    this.setState({ numItems: this.state.numItems + DEFAULT_PAGINATION_INCREMENT }, () => {
+      this.fetchJobs();
+      this.fetchAllUsers(); // could try to avoid doing this
+    })
+  }
 
   fetchJobs() {
     if (this.state.filterOption == ALL_TIME) {
@@ -75,7 +82,8 @@ class JobsScreen extends Component {
   }
 
   fetchAllJobs() {
-    ApiService.get("data/getAll?collection=jobs")
+    this.setState({ isLoading: true });
+    ApiService.get("data/getAllLimit?collection=jobs&numItems=" + this.state.numItems)
       .then((jobs) => {
         this.setState({ isLoading: false, jobs: jobs, refreshing: false });
       })
@@ -162,9 +170,11 @@ class JobsScreen extends Component {
   }
 
   async onRefresh() {
-    this.setState({ refreshing: true });
-    this.fetchJobs();
-    this.fetchAllUsers();
+    this.setState({ refreshing: true, numItems: DEFAULT_PAGINATION_START }, () => {
+      this.fetchJobs();
+      this.fetchAllUsers();
+    });
+
   }
 
   openFilterDialog() {
@@ -203,6 +213,20 @@ class JobsScreen extends Component {
           </View>
         );
 
+    let buttonView = this.state.jobs.length > 0 && this.state.users.size > 0 && this.state.filterOption == ALL_TIME ? (
+      <FAB
+        style={{ marginTop: '3%', marginBottom: '5%' }}
+        medium
+        animated={true}
+        icon="plus"
+        label="See more jobs"
+        theme={{ colors: { accent: "#70AF1A" }}}
+        onPress={() => this.paginate()}>
+        </FAB>
+    ) : (
+        <View></View>
+      )
+
     if (this.state.isLoading) {
       return (
         <View style={styles.activityContainer}>
@@ -225,6 +249,7 @@ class JobsScreen extends Component {
             }
           >
             {jobList}
+            {buttonView}
           </ScrollView>
 
           <FAB

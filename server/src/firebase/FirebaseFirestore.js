@@ -237,6 +237,24 @@ class FirebaseFirestore {
         });
     }
 
+    async getAllLimit(collection, numItems) {
+        return new Promise((resolve, reject) => {
+            this.database
+                .collection(collection)
+                .orderBy('datePosted', 'desc')
+                .limit(Number(numItems))
+                .get()
+                .then((payload) => {
+                    let data = [];
+                    payload.forEach((doc) => {
+                        data.push(doc.data());
+                    })
+                    resolve(data);
+                })
+                .catch((error) => { console.log(error); reject("Error retrieving data: " + error)});
+        })
+    }
+
     async getAll(collection) {
         return new Promise((resolve, reject) => {
             this.database
@@ -250,7 +268,7 @@ class FirebaseFirestore {
                     })
                     resolve(data);
                 })
-                .catch((error) => reject("Error retrieving data: " + error));
+                .catch((error) => { console.log(error); reject("Error retrieving data: " + error)});
         })
     }
 
