@@ -34,7 +34,19 @@ class CreateJobScreen extends Component {
       zip: "N/A",
       jobId: "N/A",
       userId: "N/A",
+      postedTime: "N/A",
     };
+    this.positionInput = React.createRef();
+    this.jobTypeInput = React.createRef();
+    this.companyInput = React.createRef();
+    this.jobDescriptionInput = React.createRef();
+    this.jobAppUrlInput = React.createRef();
+    this.emailInput = React.createRef();
+    this.phoneNumberInput = React.createRef();
+    this.streetInput = React.createRef();
+    this.cityInput = React.createRef();
+    this.stateInput = React.createRef();
+    this.zipInput = React.createRef();
   }
 
   isInputEmpty() {
@@ -70,6 +82,12 @@ class CreateJobScreen extends Component {
                 onChangeText={(position) =>
                   this.setState({ position: position })
                 }
+                ref={this.positionInput}
+                returnKeyType={"next"}
+                onSubmitEditing={() => {
+                  this.jobTypeInput.current.focus();
+                }}
+                blurOnSubmit={false}
               />
             </View>
             <View style={styles.viewItem}>
@@ -81,6 +99,12 @@ class CreateJobScreen extends Component {
                 style={styles.textInput}
                 placeholder="e.g. Full-time, Part-time, etc."
                 onChangeText={(jobType) => this.setState({ jobType: jobType })}
+                ref={this.jobTypeInput}
+                returnKeyType={"next"}
+                onSubmitEditing={() => {
+                  this.companyInput.current.focus();
+                }}
+                blurOnSubmit={false}
               />
             </View>
             <View style={styles.viewItem}>
@@ -92,6 +116,12 @@ class CreateJobScreen extends Component {
                 style={styles.textInput}
                 placeholder="e.g. Google"
                 onChangeText={(company) => this.setState({ company: company })}
+                ref={this.companyInput}
+                returnKeyType={"next"}
+                onSubmitEditing={() => {
+                  this.jobDescriptionInput.current.focus();
+                }}
+                blurOnSubmit={false}
               />
             </View>
             <View style={styles.viewItem}>
@@ -106,6 +136,9 @@ class CreateJobScreen extends Component {
                 onChangeText={(jobDescription) =>
                   this.setState({ jobDescription: jobDescription })
                 }
+                ref={this.jobDescriptionInput}
+                returnKeyType={"done"}
+                blurOnSubmit={false}
               />
             </View>
             <View style={styles.viewItem}>
@@ -119,6 +152,12 @@ class CreateJobScreen extends Component {
                 onChangeText={(jobAppUrl) =>
                   this.setState({ jobAppUrl: jobAppUrl })
                 }
+                ref={this.jobAppUrlInput}
+                returnKeyType={"next"}
+                onSubmitEditing={() => {
+                  this.emailInput.current.focus();
+                }}
+                blurOnSubmit={false}
               />
             </View>
             <View style={styles.viewItem}>
@@ -130,6 +169,12 @@ class CreateJobScreen extends Component {
                 style={styles.textInput}
                 placeholder="e.g. John.Doe@gmail.com"
                 onChangeText={(email) => this.setState({ email: email })}
+                ref={this.emailInput}
+                returnKeyType={"next"}
+                onSubmitEditing={() => {
+                  this.phoneNumberInput.current.focus();
+                }}
+                blurOnSubmit={false}
               />
             </View>
             <View style={styles.viewItem}>
@@ -143,6 +188,12 @@ class CreateJobScreen extends Component {
                 onChangeText={(phoneNumber) =>
                   this.setState({ phoneNumber: phoneNumber })
                 }
+                ref={this.phoneNumberInput}
+                returnKeyType={"next"}
+                onSubmitEditing={() => {
+                  this.streetInput.current.focus();
+                }}
+                blurOnSubmit={false}
               />
             </View>
             <View style={styles.viewItem}>
@@ -154,6 +205,12 @@ class CreateJobScreen extends Component {
                 style={styles.textInput}
                 placeholder="e.g. 1234 Honeywell Lane"
                 onChangeText={(street) => this.setState({ street: street })}
+                ref={this.streetInput}
+                returnKeyType={"next"}
+                onSubmitEditing={() => {
+                  this.cityInput.current.focus();
+                }}
+                blurOnSubmit={false}
               />
             </View>
             <View style={styles.viewItem}>
@@ -165,6 +222,12 @@ class CreateJobScreen extends Component {
                 style={styles.textInput}
                 placeholder="e.g. Hampton"
                 onChangeText={(city) => this.setState({ city: city })}
+                ref={this.cityInput}
+                returnKeyType={"next"}
+                onSubmitEditing={() => {
+                  this.stateInput.current.focus();
+                }}
+                blurOnSubmit={false}
               />
             </View>
             <View style={styles.viewItem}>
@@ -176,6 +239,12 @@ class CreateJobScreen extends Component {
                 style={styles.textInput}
                 placeholder="e.g. Virginia"
                 onChangeText={(state) => this.setState({ state: state })}
+                ref={this.stateInput}
+                returnKeyType={"next"}
+                onSubmitEditing={() => {
+                  this.zipInput.current.focus();
+                }}
+                blurOnSubmit={false}
               />
             </View>
             <View style={styles.viewItem}>
@@ -185,15 +254,19 @@ class CreateJobScreen extends Component {
               </View>
               <TextInput
                 style={styles.textInput}
+                ref={this.zipInput}
+                returnKeyType={"done"}
                 placeholder="e.g. 12345"
                 onChangeText={(zip) => this.setState({ zip: zip })}
+                blurOnSubmit={false}
               />
             </View>
             <TouchableOpacity
-              style = {styles.buttonReview}
+              style={styles.buttonReview}
               onPress={async () => {
                 this.state.jobId = await UuidGenerator.generateUuid();
                 let userInfo = await getData(USERINFO);
+                this.setState({ postedTime: new Date().getTime() });
                 this.state.userId = userInfo.profile.id;
                 if (this.isInputEmpty()) {
                   alert(
@@ -244,6 +317,8 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     paddingLeft: 10,
     height: 150,
+    marginRight: "3%",
+    paddingRight: "3%",
     textAlignVertical: "top",
     paddingTop: 10,
     paddingBottom: 10,
@@ -268,7 +343,7 @@ const styles = StyleSheet.create({
   },
 
   buttonReview: {
-    backgroundColor: "#70AF1A",
+    backgroundColor: "#006400",
     ...Platform.select({
       ios: {
         shadowColor: "#000",
@@ -287,10 +362,9 @@ const styles = StyleSheet.create({
         elevation: 3,
       },
     }),
-    height: 50,
+    height: 45,
     marginLeft: 5,
     marginRight: 5,
-    borderRadius: 30,
     alignItems: "center",
     justifyContent: "center",
   },

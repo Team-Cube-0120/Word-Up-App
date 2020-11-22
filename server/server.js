@@ -49,6 +49,22 @@ app.post('/data/events/add', (req, res) => {
         .then((message) => { res.send({ Status: 200, Message: message }) })
         .catch((error) => { res.send({ Status: 400, Message: error }) });
 });
+app.post('/data/signup/add', (req, res) => {
+    let collection = req.body.collection;
+    let document = req.body.document;
+    let data = req.body.data;
+    firebaseFirestore.postSignedUpEvent(collection, document, data)
+        .then((message) => { res.send({ Status: 200, Message: message }) })
+        .catch((error) => { res.send({ Status: 400, Message: error }) });
+});
+app.post('/data/unregister/delete', (req, res) => {
+    let collection = req.body.collection;
+    let document = req.body.document;
+    let data = req.body.data;
+    firebaseFirestore.unRegister(collection, document, data)
+        .then((message) => { res.send({ Status: 200, Message: message }) })
+        .catch((error) => { res.send({ Status: 400, Message: error }) });
+});
 
 app.put('/data/update', (req, res) => {
     let collection = req.body.collection;
@@ -111,9 +127,41 @@ app.get('/data/filter/other/get', (req, res) => {
         .catch((error) => { res.send({ Status: 400, Message: error }) });
 });
 
+app.get('/data/filter/signed/get', (req, res) => {
+    let collection = req.query.collection;
+    let filterType = req.query.filterType;
+    let filterOption = req.query.filterOption
+    firebaseFirestore.filterBySigned(collection, filterOption)
+        .then((data) => { res.send({ Status: 200, data: data }) })
+        .catch((error) => { res.send({ Status: 400, Message: error }) });
+});
+
+app.get('/data/filterEvents/get', (req, res) => {
+    let collection = req.query.collection;
+    let filterOption = req.query.filterOption
+    firebaseFirestore.getFilteredEvents(collection, filterOption)
+        .then((data) => { res.send({ Status: 200, data: data }) })
+        .catch((error) => { res.send({ Status: 400, Message: error }) });
+});
+
+app.get('/data/filterAlerts/get', (req, res) => {
+    let collection = req.query.collection;
+    let filterOption = req.query.filterOption
+    firebaseFirestore.getFilteredAlerts(collection, filterOption)
+        .then((data) => { res.send({ Status: 200, data: data }) })
+        .catch((error) => { res.send({ Status: 400, Message: error }) });
+});
+
 app.get('/data/getAll', (req, res) => {
     let collection = req.query.collection;
     firebaseFirestore.getAll(collection)
+        .then((data) => { res.send({ Status: 200, data: data }) })
+        .catch((error) => { res.send({ Status: 400, Message: error }) })
+});
+
+app.get('/data/getAllFeedback', (req, res) => {
+    let collection = req.query.collection;
+    firebaseFirestore.getAllFeedback(collection)
         .then((data) => { res.send({ Status: 200, data: data }) })
         .catch((error) => { res.send({ Status: 400, Message: error }) })
 });

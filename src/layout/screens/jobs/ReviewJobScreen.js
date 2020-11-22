@@ -85,12 +85,12 @@ class ReviewJobScreen extends Component {
               <Text style={styles.title}>Company: </Text>
               <Text style={styles.value}>{this.jobInfo.company}</Text>
             </View>
-            <View style={styles.containerView}>
-              <Text style={styles.title}>Job Description: </Text>
+            <View style={styles.containerViewDetail}>
+              <Text style={styles.titleDetail}>Job Description: </Text>
               <Text style={styles.value}>{this.jobInfo.jobDescription}</Text>
             </View>
-            <View style={styles.containerView}>
-              <Text style={styles.title}>Job Application URL: </Text>
+            <View style={styles.containerViewDetail}>
+              <Text style={styles.titleDetail}>Job Application URL: </Text>
               <Text style={styles.value}>{this.jobInfo.jobAppUrl}</Text>
             </View>
             <View style={styles.containerView}>
@@ -101,8 +101,8 @@ class ReviewJobScreen extends Component {
               <Text style={styles.title}>Phone Number: </Text>
               <Text style={styles.value}>{this.jobInfo.phoneNumber}</Text>
             </View>
-            <View style={styles.containerView}>
-              <Text style={styles.title}>Street: </Text>
+            <View style={styles.containerViewDetail}>
+              <Text style={styles.titleDetail}>Street: </Text>
               <Text style={styles.value}>{this.jobInfo.street}</Text>
             </View>
             <View style={styles.containerView}>
@@ -117,13 +117,7 @@ class ReviewJobScreen extends Component {
               <Text style={styles.title}>Zip: </Text>
               <Text style={styles.value}>{this.jobInfo.zip}</Text>
             </View>
-            {/* <View style={styles.buttonView}>
-              <Button
-                style={styles.buttonLeft}
-                color={"#70AF1A"}
-                title="Go Back"
-                onPress={() => this.props.navigation.goBack()}
-              ></Button> */}
+
             <TouchableOpacity
               style={styles.buttonSubmit}
               onPress={() => this.addJob()}
@@ -138,13 +132,7 @@ class ReviewJobScreen extends Component {
                 Submit
               </Text>
             </TouchableOpacity>
-            {/* <Button
-                style={styles.buttonRight}
-                color="#006400"
-                title="Submit"
-                onPress={() => this.addJob()}
-              ></Button> */}
-            {/* </View> */}
+
             <ActivityIndicator animating={this.state.isLoading} />
           </Card>
         </ScrollView>
@@ -173,10 +161,32 @@ const styles = StyleSheet.create({
     paddingLeft: "3%",
   },
 
+  containerViewDetail: {
+    flex: 1,
+    width: "100%",
+    marginBottom: "5%",
+    borderColor: "gray",
+    borderWidth: 1,
+    borderRadius: 10,
+    paddingTop: "3%",
+    paddingBottom: "3%",
+    paddingLeft: "3%",
+    alignSelf: "flex-start",
+    paddingRight: "3%",
+    backgroundColor: "#FAFAFA",
+  },
+
   title: {
     fontWeight: "bold",
     marginRight: "1%",
     fontSize: 16,
+  },
+
+  titleDetail: {
+    fontWeight: "bold",
+    marginRight: "1%",
+    fontSize: 16,
+    alignSelf: "flex-start",
   },
 
   value: {
@@ -214,7 +224,6 @@ const styles = StyleSheet.create({
     height: 45,
     marginLeft: 5,
     marginRight: 5,
-    borderRadius: 30,
     alignItems: "center",
     justifyContent: "center",
   },

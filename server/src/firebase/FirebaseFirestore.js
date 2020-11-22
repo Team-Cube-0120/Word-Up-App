@@ -48,6 +48,30 @@ class FirebaseFirestore {
         });
     }
 
+    async postSignedUpEvent(collection, document, data) {
+        return new Promise((resolve, reject) => {
+            try {
+                this.updateUserItemId(data.userId, { signedUpEvents: firestore.FieldValue.arrayUnion(data.eventId) })
+                    .then((response) => resolve(response))
+                    .then((error) => reject(error))
+            } catch (e) {
+                reject(e);
+            }
+        });
+    }
+
+    async unRegister(collection, document, data) {
+        return new Promise((resolve, reject) => {
+            try {
+                this.updateUserItemId(data.userId, { signedUpEvents: firestore.FieldValue.arrayRemove(data.eventId) })
+                    .then((response) => resolve(response))
+                    .then((error) => reject(error))
+            } catch (e) {
+                reject(e);
+            }
+        });
+    }
+
     async update(collection, document, data) {
         return new Promise((resolve, reject) => {
             this.database
@@ -98,6 +122,7 @@ class FirebaseFirestore {
         return new Promise(async (resolve, reject) => {
             try {
                 this.updateUserItemId(userId, { eventIds: firestore.FieldValue.arrayRemove(document) })
+                .then()
                     .then((response) => this.delete(collection, document))
                     .then((response) => resolve(response))
                     .catch((error) => reject(error));
@@ -106,6 +131,8 @@ class FirebaseFirestore {
             }
         });
     }
+
+
 
     /**
      * updates the job, event, or alert id in the user account
@@ -122,6 +149,25 @@ class FirebaseFirestore {
     }
 
     async filterByOther(collection, filterOption) {
+        return new Promise((resolve, reject) => {
+            this.database
+                .collection(collection)
+                .where('userId', '==', filterOption)
+                .get()
+                .then(payload => {
+                    let data = [];
+                    payload.forEach((doc) => {
+                        data.push(doc.data());
+                    })
+                    resolve(data);
+                })
+                .catch((error) => reject("Error retrieving data: " + error));
+        });
+    }
+
+    //TODO
+
+    async filterBySigned(collection, filterOption) {
         return new Promise((resolve, reject) => {
             this.database
                 .collection(collection)
@@ -159,11 +205,59 @@ class FirebaseFirestore {
         });
     }
 
+    async getFilteredEvents(collection, filterOption) {
+        return new Promise((resolve, reject) => {
+            this.database
+                .collection(collection).where('eventType', '==', filterOption)
+                .get()
+                .then(payload => {
+                    let data = []
+                    payload.forEach((doc) => {
+                        data.push(doc.data());
+                    });
+                    resolve(data);
+                })
+                .catch((error) => reject("Error retrieving data: " + error));
+        });
+    }
+
+    async getFilteredAlerts(collection, filterOption) {
+        return new Promise((resolve, reject) => {
+            this.database
+                .collection(collection).where('alertType', '==', filterOption)
+                .get()
+                .then(payload => {
+                    let data = []
+                    payload.forEach((doc) => {
+                        data.push(doc.data());
+                    });
+                    resolve(data);
+                })
+                .catch((error) => reject("Error retrieving data: " + error));
+        });
+    }
+
     async getAll(collection) {
         return new Promise((resolve, reject) => {
             this.database
                 .collection(collection)
                 .orderBy('datePosted', 'desc')
+                .get()
+                .then((payload) => {
+                    let data = [];
+                    payload.forEach((doc) => {
+                        data.push(doc.data());
+                    })
+                    resolve(data);
+                })
+                .catch((error) => reject("Error retrieving data: " + error));
+        })
+    }
+
+    async getAllFeedback(collection) {
+        return new Promise((resolve, reject) => {
+            this.database
+                .collection(collection)
                 .get()
                 .then((payload) => {
                     let data = [];

@@ -229,20 +229,9 @@ class SettingsScreen extends Component {
 
   compareData() {
     this.setState({ isEditProfile: false });
-    // console.log(this.state.tmpData);
-    // console.log(this.state.profile);
-    // var objNotSame =
-    //   JSON.stringify(this.state.profile) === JSON.stringify(this.state.tmpData);
-    // console.log(objNotSame);
-    // if (objNotSame === false) {
     const data = Object.assign(this.state.profile, this.state.tmpData);
     this.setState({ profile: data });
     this.uploadData().catch((e) => console.log(e));
-    //}
-    // else {
-    //   alert("No changes were made. Profile information not updated.");
-    // }
-    // console.log(this.state.profile);
   }
 
   async uploadData() {
@@ -338,7 +327,7 @@ class SettingsScreen extends Component {
               title={this.state.title}
             />
             <View style={styles.userInfoSection}>
-              <View style={{ flexDirection: "row", marginTop: 10 }}>
+              <View style={{ flexDirection: "row", marginTop: 15 }}>
                 {this.state.profile.profileImageUrl == "" &&
                   this.state.isImgLoaded && (
                     <Image
@@ -1051,7 +1040,7 @@ const styles = StyleSheet.create({
     color: "#C0C0C0",
   },
   button: {
-    backgroundColor: "#70AF1A",
+    backgroundColor: "#006400",
     borderColor: "#006400",
     borderLeftWidth: 1,
     borderBottomWidth: 1,

@@ -12,7 +12,7 @@ import {
 } from "react-native";
 import PropTypes from "prop-types";
 
-class EventCard extends BaseCard {
+class FilterCard extends BaseCard {
   static propTypes = {
     title: PropTypes.string,
     data: PropTypes.object,
@@ -39,53 +39,21 @@ class EventCard extends BaseCard {
   }
 
   renderCardViews() {
-    if (this.props.data.eventType == "Outdoor") {
-      styles.rightBox = {
-        width: "8%",
-        height: 150,
-        backgroundColor: "green",
-        padding: 10,
-      };
-    } else if (this.props.data.eventType == "Party") {
-      styles.rightBox = {
-        width: "8%",
-        height: 150,
-        backgroundColor: "salmon",
-        padding: 10,
-      };
-    } else if (this.props.data.eventType == "Food") {
-      styles.rightBox = {
-        width: "8%",
-        height: 150,
-        backgroundColor: "lightblue",
-        padding: 10,
-      };
-    } else if (this.props.data.eventType == "Meeting") {
-      styles.rightBox = {
-        width: "8%",
-        height: 150,
-        backgroundColor: "red",
-        padding: 10,
-      };
-    }
     return (
       <View>
         <View style={styles.containerView}>
-          <Text style={styles.labels}>Event Type:</Text>
-          <Text style={styles.text}>{this.props.data.eventType}</Text>
+          <Text style={styles.labels}>User:</Text>
+          <Text style={styles.text}>{this.props.data.name}</Text>
         </View>
         <View style={styles.containerView}>
-          <Text style={styles.labels}>Event Start:</Text>
-          <Text style={styles.text}>{this.props.data.startDate}</Text>
+          <Text style={styles.labels}>Rating:</Text>
+          <Text style={styles.text}>{this.props.data.rating}</Text>
         </View>
         <View style={styles.containerView}>
-          <Text style={styles.labels}>Event End:</Text>
-          <Text style={styles.text}>{this.props.data.endDate}</Text>
+          <Text style={styles.labels}>Feedback:</Text>
+          <Text style={styles.text}>{this.props.data.feedback}</Text>
         </View>
-        <View style={styles.containerView}>
-          <Text style={styles.labels}>Location:</Text>
-          <Text style={styles.text}>{this.props.data.location}</Text>
-        </View>
+        
       </View>
     );
   }
@@ -101,7 +69,6 @@ const styles = StyleSheet.create({
     height: 150,
     backgroundColor: "white",
     padding: 10,
-    borderBottomColor:"gray",
     ...Platform.select({
       ios: {
         shadowColor: "#000",
@@ -151,4 +118,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default EventCard;
+export default FilterCard;

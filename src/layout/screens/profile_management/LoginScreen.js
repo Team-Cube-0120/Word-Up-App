@@ -42,21 +42,16 @@ export default function LoginScreen({ navigation }) {
           .doc(user.uid)
           .get()
           .then(async (firestoreDocument) => {
-            if (!firestoreDocument.exists) {
-              alert("User does not exist anymore.");
-              return;
+            let user = firestoreDocument.data();
+            if (user.isDisabled) {
+              alert("This account has been disabled");
+              await firebase.auth().signOut();
+              navigation.navigate("Login");
             } else {
-              let user = firestoreDocument.data();
-              if (user.isDisabled) {
-                alert("This account has been disabled");
-                await firebase.auth().signOut();
-                navigation.navigate("Login");
-              } else {
-                setEmail("");
-                setPassword("");
-                await storeData(USERINFO, user);
-                navigation.navigate("TabNavigator");
-              }
+              setEmail("");
+              setPassword("");
+              await storeData(USERINFO, user);
+              navigation.navigate("TabNavigator");
             }
           })
           .catch((error) => {
@@ -125,8 +120,9 @@ export default function LoginScreen({ navigation }) {
                   jobIds: [],
                   eventIds: [],
                   alertIds: [],
+                  signedUpEvents: [],
+                  datePosted: new Date(),
                   isDisabled: false,
-                  datePosted: new Date()
                 };
                 const usersRef = firebase.firestore().collection("users");
                 usersRef

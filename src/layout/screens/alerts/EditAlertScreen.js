@@ -1,52 +1,89 @@
-import React, { useState, Component } from "react";
+import React, { Component } from "react";
 import {
-  StyleSheet,
+  View,
+  ScrollView,
+  Button,
   Text,
   TextInput,
-  Button,
-  ScrollView,
-  TouchableOpacity,
+  StyleSheet,
+  Alert,
+  ActivityIndicator,
 } from "react-native";
-import { Card, Input } from "react-native-elements";
-import UuidGenerator from "../../../util/UuidGenerator";
-import PickerExample from "./PickerExample";
-import DropDownSeverityExample from "./DropDownSeverityExample";
-import ModalSelector from "react-native-modal-selector";
-import { USERINFO } from "../../../enums/StorageKeysEnum";
+import { Card } from "react-native-elements";
+import ApiService from "../../../service/api/ApiService";
+import RequestOptions from "../../../service/api/RequestOptions";
+import SubmissionDialog from "../../../components/dialog/SubmissionDialog";
 import { getData, storeData } from "../../../util/LocalStorage";
+import { USERINFO } from "../../../enums/StorageKeysEnum";
+import ReviewEditAlertDialog from "../../../components/dialog/ReviewEditAlertDialog";
+import PickerExample from "./PickerExample";
+const sleep = require("../../../util/Thread");
 import moment from "moment";
+import ModalSelector from "react-native-modal-selector";
 
-class CreateAlertsScreen extends Component {
+class editAlertScreen extends Component {
   constructor(props) {
     super(props);
+    let alertInfo = this.props.route.params.alertInfo;
     this.state = {
-      name: "N/A",
-      severity: "N/A",
-      details: "N/A",
-      location: "N/A",
-      alertType: "N/A",
-      alertId: "N/A",
-      userId: "N/A",
-      profileImage: "N/A",
-      fullname: "N/A",
-      postedTime: "N/A",
+      name: alertInfo.name,
+      details: alertInfo.details,
+      location: alertInfo.location,
+      severity: alertInfo.severity,
+      alertType: alertInfo.alertType,
+      alertId: alertInfo.alertId,
+      toggleDialog: false,
+      isLoading: false,
     };
+  }
+
+  editAlert() {
+    this.setState({ isLoading: true });
+    RequestOptions.setUpRequestBody("alerts", this.state.alertId, this.state)
+      .then((body) => ApiService.update("data/update", body))
+      .then((response) => sleep(5000))
+      .then(() => {
+        this.closeDialog();
+        this.setState({ isLoading: false });
+        this.props.navigation.navigate("Alerts");
+        Alert.alert(
+          "Congratulations!",
+          "Your job information has been successfully edited!"
+        );
+      })
+      .catch((error) => {
+        this.closeDialog();
+        this.setState({ isLoading: false });
+        Alert.alert(
+          "Error",
+          "There was a problem editing your job information. Please try again."
+        );
+      });
+  }
+
+  closeDialog() {
+    this.setState({ toggleDialog: false });
+  }
+
+  openDialog() {
+    this.setState({ toggleDialog: true });
   }
 
   render() {
     return (
       <ScrollView style={styles.container}>
-        <Card containerStyle={styles.cardShadows}>
-          <Card.Title>Create Alert</Card.Title>
+        <Card>
+          <Card.Title>Edit Alert Information</Card.Title>
           <Card.Divider />
           <Text style={styles.text}>
-            Name <Text style={{ color: "red" }}>*</Text>
+            Alert Name <Text style={{ color: "red" }}>*</Text>
           </Text>
           <TextInput
             style={styles.textInput}
-            placeholder="e.g. tropical storm"
+            value={this.state.name}
             onChangeText={(name) => this.setState({ name: name })}
-          ></TextInput>
+          />
+
           <Text style={styles.text}>
             Severity <Text style={{ color: "red" }}>*</Text>
           </Text>
@@ -58,8 +95,9 @@ class CreateAlertsScreen extends Component {
               { key: 2, label: "Medium" },
               { key: 3, label: "High" },
               { key: 4, label: "Urgent" },
+              { key: 5, label: "Other" },
             ]}
-            initValue={"N/A"}
+            initValue={this.state.severity}
             supportedOrientations={["portrait"]}
             accessible={true}
             animationType="fade"
@@ -116,27 +154,26 @@ class CreateAlertsScreen extends Component {
               ></TextInput>
             )}
           </ModalSelector>
-
-          <Text style={styles.text}>
-            Location <Text style={{ color: "red" }}>*</Text>
-          </Text>
-          <TextInput
-            style={styles.textInput}
-            placeholder="e.g. 1234 Cherry Lane, Hampton, VA 42039"
-            onChangeText={(location) => this.setState({ location: location })}
-          ></TextInput>
           <Text style={styles.text}>
             Details <Text style={{ color: "red" }}>*</Text>
           </Text>
           <TextInput
             style={styles.textInputMultipleLine}
-            placeholder="e.g. relevant details for this alert"
-            multiline={true}
+            multiline = {true}
+            value={this.state.details}
             onChangeText={(details) => this.setState({ details: details })}
+          />
+          <Text style={styles.text}>
+            Location <Text style={{ color: "red" }}>*</Text>
+          </Text>
+          <TextInput
+            style={styles.textInput}
+            value={this.state.location}
+            onChangeText={(location) => this.setState({ location: location })}
           ></TextInput>
 
           <Text style={styles.text}>
-            Choose an Alert Type <Text style={{ color: "red" }}>*</Text>
+            Alert Type <Text style={{ color: "red" }}>*</Text>
           </Text>
 
           <ModalSelector
@@ -147,7 +184,7 @@ class CreateAlertsScreen extends Component {
               { key: 3, label: "Special Announcement" },
               { key: 4, label: "Other" },
             ]}
-            initValue={"N/A"}
+            initValue={this.state.alertType}
             supportedOrientations={["portrait"]}
             accessible={true}
             animationType="fade"
@@ -205,54 +242,48 @@ class CreateAlertsScreen extends Component {
             )}
           </ModalSelector>
 
-          <TouchableOpacity style={styles.button}>
+          <View style={styles.buttonView}>
             <Button
-              style={styles.btnText}
+              style={styles.buttonRight}
               title="Review"
               color={"#70AF1A"}
-              onPress={async () => {
-                let userInfo = await getData(USERINFO);
-                this.state.alertId = await UuidGenerator.generateUuid();
-                this.setState({ postedTime: new Date().getTime() });
-                this.state.fullname = userInfo.fullname;
-                this.state.profileImage = userInfo.profile.profileImageUrl;
-                this.state.userId = userInfo.profile.id;
-                this.props.navigation.navigate("ReviewAlerts", {
-                  alertInfo: this.state,
-                });
-              }}
+              onPress={() => this.openDialog()}
             ></Button>
-          </TouchableOpacity>
+          </View>
         </Card>
+
+        <ReviewEditAlertDialog
+          visible={this.state.toggleDialog}
+          onSubmit={() => this.editAlert()}
+          onClose={() => this.closeDialog()}
+          data={this.state}
+        />
       </ScrollView>
     );
   }
 }
-//use this as reference for edit/confirm screens
+
 const styles = StyleSheet.create({
+  containerView: {
+    width: "100%",
+    // flexDirection: 'row',
+    marginBottom: "3%",
+  },
   container: {
     backgroundColor: "#FAFAFA",
     flexDirection: "column",
   },
-  space: {
-    margin: 10,
+  cardTitle: {
+    textAlign: "left",
   },
-  error: {
-    color: "red",
+
+  instructions: {
+    marginBottom: "5%",
   },
   text: {
     fontSize: 16,
     marginBottom: 5,
     fontWeight: "bold",
-  },
-  header: {
-    fontSize: 24,
-    color: "#fff",
-    paddingBottom: 10,
-    marginBottom: 20,
-    borderBottomColor: "#fff",
-    borderBottomWidth: 1,
-    alignSelf: "center",
   },
   textInput: {
     alignSelf: "stretch",
@@ -262,21 +293,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     paddingLeft: 10,
   },
-  textInputMultipleLine: {
-    borderColor: "gray",
-    borderWidth: 1,
-    borderRadius: 10,
-    paddingLeft: 10,
-    height: 100,
-    textAlignVertical: "top",
-    paddingTop: 10,
-    paddingBottom: 10,
-    marginBottom: 20,
-  },
-  btnText: {
-    color: "#fff",
-    fontWeight: "bold",
-  },
+
   textInputOther: {
     alignSelf: "stretch",
     height: 40,
@@ -286,26 +303,48 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     paddingLeft: 10,
   },
-  cardShadows: {
-    ...Platform.select({
-      ios: {
-        shadowColor: "#000",
-        shadowOffset: { width: 1, height: 1 },
-        shadowOpacity: 0.4,
-        shadowRadius: 2,
-      },
-      android: {
-        elevation: 2,
-      },
-      default: {
-        shadowColor: "#000",
-        shadowOffset: { width: 1, height: 1 },
-        shadowOpacity: 0.4,
-        shadowRadius: 2,
-        elevation: 2,
-      },
-    }),
+
+  title: {
+    fontWeight: "bold",
+    marginRight: "1%",
+    fontSize: 16,
+  },
+
+  value: {
+    fontSize: 16,
+    borderColor: "gray",
+    width: "100%",
+    borderWidth: 1,
+    borderRadius: 5,
+    padding: "2%",
+  },
+
+  textInputMultipleLine: {
+    borderColor: "gray",
+    borderWidth: 1,
+    borderRadius: 10,
+    paddingLeft: 10,
+    height: 150,
+    textAlignVertical: "top",
+    paddingTop: 10,
+    paddingBottom: 10,
+  },
+  textDate: {
+    fontSize: 16,
+    padding: 10,
+    fontWeight: "bold",
+    textAlign: "center",
+  },
+
+  buttonView: {
+    flexDirection: "column",
+    width: "100%",
+    height: 60, // might be a problem for other screens
+    justifyContent: "space-evenly",
+  },
+  buttonRight: {
+    alignSelf: "stretch",
   },
 });
 
-export default CreateAlertsScreen;
+export default editAlertScreen;

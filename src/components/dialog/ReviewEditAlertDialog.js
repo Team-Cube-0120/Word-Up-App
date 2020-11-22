@@ -5,17 +5,13 @@ import {
   StyleSheet,
   ActivityIndicator,
   Button,
-  Dimensions,
 } from "react-native";
 import { Card, Input } from "react-native-elements";
 import Dialog from "react-native-dialog";
 import PropTypes from "prop-types";
 import { ScrollView } from "react-native-gesture-handler";
 
-const screenWidth = Math.round(Dimensions.get("window").width);
-const screenHeight = Math.round(Dimensions.get("window").height);
-
-class ReviewEditEventDialog extends Component {
+class ReviewEditAlertDialog extends Component {
   static propTypes = {
     onSubmit: PropTypes.func,
     onClose: PropTypes.func,
@@ -30,28 +26,20 @@ class ReviewEditEventDialog extends Component {
   render() {
     return (
       <View>
-        <Dialog.Container
-          contentStyle={{ width: screenWidth - 25, height: screenHeight - 75 }}
-          visible={this.props.visible}
-        >
+        <Dialog.Container visible={this.props.visible}>
           <Dialog.Title style={styles.dialogTitle}>
             Confirm Edited Information:
           </Dialog.Title>
           <ScrollView>
             <Card style={styles.cardView}>
               <View style={styles.containerViewMultiLine}>
-                <Text style={styles.title}>Event Name: </Text>
-                <Text style={styles.value}>{this.props.data.eventName}</Text>
+                <Text style={styles.title}>Alert Name: </Text>
+                <Text style={styles.value}>{this.props.data.name}</Text>
               </View>
               <Card.Divider />
               <View style={styles.containerViewMultiLine}>
-                <Text style={styles.title}>Start Date: </Text>
-                <Text style={styles.value}>{this.props.data.startDate}</Text>
-              </View>
-              <Card.Divider />
-              <View style={styles.containerViewMultiLine}>
-                <Text style={styles.title}>End Date: </Text>
-                <Text style={styles.value}>{this.props.data.endDate}</Text>
+                <Text style={styles.title}>Severity: </Text>
+                <Text style={styles.value}>{this.props.data.severity}</Text>
               </View>
               <Card.Divider />
               <View style={styles.containerViewMultiLine}>
@@ -63,20 +51,11 @@ class ReviewEditEventDialog extends Component {
                 <Text style={styles.title}>Location: </Text>
                 <Text style={styles.value}>{this.props.data.location}</Text>
               </View>
+
               <Card.Divider />
               <View style={styles.containerViewMultiLine}>
-                <Text style={styles.title}>RSVP Code: </Text>
-                <Text style={styles.value}>{this.props.data.rsvpCode}</Text>
-              </View>
-              <Card.Divider />
-              <View style={styles.containerViewMultiLine}>
-                <Text style={styles.title}>Co Hosts: </Text>
-                <Text style={styles.value}>{this.props.data.coHosts}</Text>
-              </View>
-              <Card.Divider />
-              <View style={styles.containerViewMultiLine}>
-                <Text style={styles.title}>Event Type: </Text>
-                <Text style={styles.value}>{this.props.data.eventType}</Text>
+                <Text style={styles.title}>Alert Type: </Text>
+                <Text style={styles.value}>{this.props.data.alertType}</Text>
               </View>
             </Card>
           </ScrollView>
@@ -134,13 +113,15 @@ const styles = StyleSheet.create({
   buttonView: {
     flexDirection: "column",
     width: "100%",
-    height: 150, // might be a problem for other screens
+    height: 100, // might be a problem for other screens
     justifyContent: "space-evenly",
   },
+
+  buttonLeft: {},
 
   buttonRight: {
     alignSelf: "stretch",
   },
 });
 
-export default ReviewEditEventDialog;
+export default ReviewEditAlertDialog;

@@ -6,6 +6,8 @@ import {
   ScrollView,
   ActivityIndicator,
   RefreshControl,
+  LogBox,
+  TouchableHighlight,
 } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import JobCard from "../../../components/card/JobCard";
@@ -18,6 +20,10 @@ import { getData } from "../../../util/LocalStorage";
 import { ALL_TIME, MY_JOBS } from "../../../enums/FilterOptionsEnum";
 import { formatFilterOption } from "../../../formatter/FilterJobsFormatter";
 import { USERINFO } from "../../../enums/StorageKeysEnum";
+import { Icon } from "react-native-elements";
+LogBox.ignoreLogs([
+  "Warning: Cannot update a component from inside the function body of a different component.",
+]);
 
 class JobsScreen extends Component {
   constructor(props) {
@@ -35,13 +41,18 @@ class JobsScreen extends Component {
   componentDidMount() {
     this.fetchJobs();
     this.fetchAllUsers();
-    // this.willFocusSubscription = this.props.navigation.addListener(
-    //   "focus",
-    //   () => {
-    //     this.fetchJobs();
-    //     this.fetchAllUsers();
-    //   }
-    // );
+    this.props.navigation.setOptions({
+      headerRight: () => (
+        <TouchableHighlight
+          style={{ backgroundColor: "#70AF1A", marginRight: 15 }}
+          onPress={() => this.openFilterDialog()}
+        >
+          <View style={{ backgroundColor: "#70AF1A" }}>
+            <Icon name="filter-list" size={34} color="white" />
+          </View>
+        </TouchableHighlight>
+      ),
+    });
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -52,6 +63,7 @@ class JobsScreen extends Component {
       this.props.route.params.isJobCreated = false;
     }
   }
+
 
   fetchJobs() {
     if (this.state.filterOption == ALL_TIME) {
@@ -86,8 +98,10 @@ class JobsScreen extends Component {
   async filterByOther() {
     let userInfo = await getData(USERINFO);
     let formattedFilterOption = userInfo.id;
-    ApiService
-      .get("data/filter/other/get?collection=jobs&filterOption=" + formattedFilterOption)
+    ApiService.get(
+      "data/filter/other/get?collection=jobs&filterOption=" +
+      formattedFilterOption
+    )
       .then((jobs) => {
         this.setState({ isLoading: false, jobs: jobs, refreshing: false });
       })
@@ -101,9 +115,13 @@ class JobsScreen extends Component {
   }
 
   async filterByDate() {
-    let formattedFilterOption = await formatFilterOption(this.state.filterOption);
-    ApiService
-      .get("data/filter/date/get?collection=jobs&filterOption=" + formattedFilterOption)
+    let formattedFilterOption = await formatFilterOption(
+      this.state.filterOption
+    );
+    ApiService.get(
+      "data/filter/date/get?collection=jobs&filterOption=" +
+      formattedFilterOption
+    )
       .then((jobs) => {
         this.setState({ isLoading: false, jobs: jobs, refreshing: false });
       })
@@ -117,9 +135,16 @@ class JobsScreen extends Component {
   }
 
   async filterJobs(selectedValue) {
-    this.setState({ filterOption: selectedValue, isLoading: true, isFilterDialogOpen: false }, () => {
-      this.fetchJobs();
-    });
+    this.setState(
+      {
+        filterOption: selectedValue,
+        isLoading: true,
+        isFilterDialogOpen: false,
+      },
+      () => {
+        this.fetchJobs();
+      }
+    );
   }
 
   fetchAllUsers() {
@@ -157,12 +182,12 @@ class JobsScreen extends Component {
           <TouchableOpacity
             style={styles.cardShadows}
             key={index}
-            onPress={() =>{
+            onPress={() => {
               this.props.navigation.push("ViewJob", {
                 jobInfo: job,
                 userInfo: this.state.users.get(job.userId),
-              })}
-            }
+              });
+            }}
           >
             <JobCard
               title={job.position}
@@ -190,7 +215,6 @@ class JobsScreen extends Component {
     } else {
       return (
         <View style={styles.container}>
-
           <ScrollView
             refreshControl={
               <RefreshControl
@@ -202,15 +226,6 @@ class JobsScreen extends Component {
             {jobList}
           </ScrollView>
 
-          <FAB
-            style={styles.filter}
-            medium
-            animated={true}
-            color="#fff"
-            icon="filter"
-            theme={{ colors: { accent: "#70AF1A" } }}
-            onPress={() => this.openFilterDialog()}
-          />
           <FAB
             style={styles.fab}
             medium
@@ -293,23 +308,6 @@ const styles = StyleSheet.create({
     position: "absolute",
     width: 75,
     height: 75,
-  },
-
-  filter: {
-    position: "absolute",
-    margin: 16,
-    right: 0,
-    ...Platform.select({
-      ios: {
-        bottom: "9.5%",
-      },
-      android: {
-        bottom: "11%",
-      },
-      default: {
-        bottom: "11%",
-      },
-    }),
   },
 
   cardShadows: {
