@@ -14,10 +14,12 @@ import {
 import PropTypes from "prop-types";
 import moment from "moment";
 
+
 class AlertCard extends BaseCard {
   static propTypes = {
     title: PropTypes.string,
     data: PropTypes.object,
+    userInfo: PropTypes.object,
   };
   constructor(props) {
     super(props);
