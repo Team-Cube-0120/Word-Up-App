@@ -3,7 +3,6 @@ import {Button} from 'react-native';
 import EditEventScreen from '../../layout/screens/events/EditEventScreen';
 import EventComments from '../../layout/screens/events/EventComments';
 import ViewEventScreen from '../../layout/screens/events/ViewEventScreen';
-import FeedbackScreen from '../../layout/screens/events/FeedbackScreen';
 
 const { createStackNavigator } = require("@react-navigation/stack");
 const {
@@ -92,19 +91,6 @@ const EventsStackScreen = () => {
         options={{
           headerLeft: null,
           title: "Comment",
-          headerStyle: {
-            backgroundColor: "#70AF1A",
-          },
-          headerTitleStyle: {
-            color: "white",
-          },
-        }}
-      />
-      <EventsStack.Screen
-        name="Feedback"
-        component={FeedbackScreen}
-        options={{
-          title: "Feedback",
           headerStyle: {
             backgroundColor: "#70AF1A",
           },

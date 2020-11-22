@@ -12,7 +12,7 @@ import { TouchableOpacity } from "react-native-gesture-handler";
 import FilterCard from "../../../components/card/FilterCard";
 import ApiService from "../../../service/api/ApiService";
 
-class FeedbackScreen extends Component {
+class ViewFeedbackScreen extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -143,4 +143,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default FeedbackScreen;
+export default ViewFeedbackScreen;

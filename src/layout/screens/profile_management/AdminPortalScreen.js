@@ -60,7 +60,7 @@ class AdminPortalScreen extends Component {
 
                     <TouchableOpacity
                         style={styles.infoBoxWrapper}
-                        onPress={() => this.props.navigation.navigate("ViewFeedBackScreen")}
+                        onPress={() => this.props.navigation.navigate("ViewFeedback")}
                     >
                         <MaterialCommunityIconsIcon
                             name="comment-account"

@@ -35,7 +35,6 @@ class editEventScreen extends Component {
       eventType: eventInfo.eventType,
       startDate: eventInfo.startDate,
       endDate: eventInfo.endDate,
-      datePosted: new Date().toISOString().slice(0, 10),
       eventId: eventInfo.eventId,
       toggleDialog: false,
       isLoading: false,
@@ -58,7 +57,7 @@ class editEventScreen extends Component {
       .then(() => {
         this.closeDialog();
         this.setState({ isLoading: false });
-        this.props.navigation.navigate("Events");
+        this.props.navigation.navigate("Events", { isEventCreated: true });
         Alert.alert(
           "Congratulations!",
           "Your job information has been successfully edited!"

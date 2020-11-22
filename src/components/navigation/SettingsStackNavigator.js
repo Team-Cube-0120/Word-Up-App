@@ -18,6 +18,9 @@ const {
 const {
   default: ManageAccountsScreen,
 } = require("../../layout/screens/profile_management/ManageAccountsScreen");
+const {
+  default: ViewFeedbackScreen,
+} = require("../../layout/screens/profile_management/ViewFeedbackScreen");
 
 const SettingsStack = createStackNavigator();
 
@@ -83,6 +86,7 @@ const SettingsStackScreen = () => {
           headerTitleStyle: {
             color: "white",
           },
+          title: "Admin Portal"
         }}
       />
       <SettingsStack.Screen
@@ -95,6 +99,20 @@ const SettingsStackScreen = () => {
           headerTitleStyle: {
             color: "white",
           },
+          title: "Manage Accounts"
+        }}
+      />
+      <SettingsStack.Screen
+        name="ViewFeedback"
+        component={ViewFeedbackScreen}
+        options={{
+          headerStyle: {
+            backgroundColor: "#70AF1A",
+          },
+          headerTitleStyle: {
+            color: "white",
+          },
+          title: "View Feedback"
         }}
       />
     </SettingsStack.Navigator>

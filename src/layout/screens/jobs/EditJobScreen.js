@@ -35,7 +35,6 @@ class EditJobScreen extends Component {
       city: jobInfo.city,
       state: jobInfo.state,
       zip: jobInfo.zip,
-      datePosted: new Date().toISOString().slice(0, 10),
       jobId: jobInfo.jobId,
       toggleDialog: false,
       isLoading: false,

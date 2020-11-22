@@ -39,6 +39,7 @@ class JobsScreen extends Component {
   }
 
   componentDidMount() {
+    console.log("mounted");
     this.fetchJobs();
     this.fetchAllUsers();
     this.props.navigation.setOptions({

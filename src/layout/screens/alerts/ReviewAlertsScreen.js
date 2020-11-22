@@ -82,7 +82,7 @@ class ReviewAlertsScreen extends Component {
   closeDialog() {
     this.setState({ toggleDialog: false });
     if (!this.state.isResponseError) {
-      this.props.navigation.navigate("Alerts");
+      this.props.navigation.navigate("Alerts", { isAlertCreated: true });
     }
     this.setState({ isResponseError: false });
   }

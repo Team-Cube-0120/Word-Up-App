@@ -45,7 +45,7 @@ class editAlertScreen extends Component {
       .then(() => {
         this.closeDialog();
         this.setState({ isLoading: false });
-        this.props.navigation.navigate("Alerts");
+        this.props.navigation.navigate("Alerts", { isAlertCreated: true });
         Alert.alert(
           "Congratulations!",
           "Your job information has been successfully edited!"
