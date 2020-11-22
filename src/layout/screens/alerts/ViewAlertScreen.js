@@ -23,6 +23,7 @@ class ViewAlertScreen extends Component {
   constructor(props) {
     super(props);
     let alertInfo = this.props.route.params.alertInfo;
+    let userInfo = this.props.route.params.userInfo;
     this.state = {
       alertInfo: alertInfo,
       editButtonView: <View></View>,

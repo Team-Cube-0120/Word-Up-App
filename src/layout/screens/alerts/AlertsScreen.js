@@ -39,6 +39,7 @@ class AlertsScreen extends Component {
 
   componentDidMount() {
     this.fetchAlerts();
+    this.fetchAllUsers();
     this.props.navigation.setOptions({
       headerRight: () => (
         <TouchableHighlight
@@ -54,13 +55,26 @@ class AlertsScreen extends Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    console.log(this.props.route.params);
+    // console.log(this.props.route.params);
     if (this.props.route.params != null && this.props.route.params.isAlertCreated) {
       this.fetchAlerts();
+      this.fetchAllUsers();
       this.props.route.params.isAlertCreated = false;
     }
   }
-
+  
+  fetchAllUsers() {
+    ApiService.get("data/getAll?collection=users")
+      .then(async (users) => {
+        let userMap = new Map();
+        users.forEach((user, index) =>
+          userMap.set(user.profile.id, user.profile)
+        );
+        this.setState({ users: userMap });
+        return;
+      })
+      .catch((error) => console.log("error retrieving data"));
+  }
 
   fetchAlerts() {
     if (this.state.filterOption == 'All') {
@@ -129,6 +143,7 @@ class AlertsScreen extends Component {
   async onRefresh() {
     this.setState({ refreshing: true });
     this.fetchAllalerts();
+    this.fetchAllUsers();
   }
 
   openFilterDialog() {
@@ -150,11 +165,11 @@ class AlertsScreen extends Component {
             onPress={() =>
               this.props.navigation.push("ViewAlert", {
                 alertInfo: alert,
-                index: index,
+                userInfo: this.state.users.get(alert.userId)
               })
             }
           >
-            <AlertCard title={alert.name} data={alert} />
+            <AlertCard title={alert.name} data={alert} userInfo={this.state.users.get(alert.userId)} />
           </TouchableOpacity>
         ))
       ) : (

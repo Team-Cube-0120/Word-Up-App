@@ -39,6 +39,7 @@ class EventsScreen extends Component {
 
   componentDidMount() {
     this.fetchEvents();
+    this.fetchAllUsers();
     this.props.navigation.setOptions({
       headerRight: () => (
         <TouchableHighlight
@@ -57,6 +58,7 @@ class EventsScreen extends Component {
     console.log(this.props.route.params);
     if (this.props.route.params != null && this.props.route.params.isEventCreated) {
       this.fetchEvents();
+      this.fetchAllUsers();
       this.props.route.params.isEventCreated = false;
     }
   }
@@ -71,6 +73,19 @@ class EventsScreen extends Component {
     } else {
       this.fetchFilteredEvents();
     }
+  }
+
+  fetchAllUsers() {
+    ApiService.get("data/getAll?collection=users")
+      .then(async (users) => {
+        let userMap = new Map();
+        users.forEach((user, index) =>
+          userMap.set(user.profile.id, user.profile)
+        );
+        this.setState({ users: userMap });
+        return;
+      })
+      .catch((error) => console.log("error retrieving data"));
   }
   
 
@@ -146,6 +161,7 @@ class EventsScreen extends Component {
   async onRefresh() {
     this.setState({ refreshing: true });
     this.fetchAllEvents();
+    this.fetchAllUsers();
   }
 
   openFilterDialog() {
@@ -164,7 +180,7 @@ class EventsScreen extends Component {
           <TouchableOpacity
             key={index}
             onPress={() =>
-              this.props.navigation.push("ViewEvent", { eventInfo: event })
+              this.props.navigation.push("ViewEvent", { eventInfo: event, userInfo: this.state.users.get(event.userId) })
             }
           >
             <EventCard title={event.eventName} data={event} />

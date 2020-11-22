@@ -26,9 +26,10 @@ class ViewEventScreen extends Component {
   constructor(props) {
     super(props);
     let eventInfo = this.props.route.params.eventInfo;
+    let userInfo = this.props.route.params.userInfo;
     this.state = {
       eventInfo: eventInfo,
-      userInfo: <View></View>,
+      userInfo: userInfo,
       editButtonView: <View></View>,
       deleteEventView: <View></View>,
       signUpButtonView: <View></View>,
@@ -45,22 +46,6 @@ class ViewEventScreen extends Component {
 
   componentDidMount() {
     this.isEditable();
-    this.setState({ userInfo: (
-      <Card style={styles.lastCard}>
-      <Card.Title style={styles.cardTitle}>Event Poster</Card.Title>
-      <View style={styles.profileImage}>
-        <Avatar
-          rounded
-          source={{
-            uri: this.state.eventInfo.profileImage,
-          }}
-        />
-        <Text style={styles.profileTitle}>
-          {this.state.eventInfo.fullname}
-        </Text>
-      </View>
-    </Card>
-    )})
     this.props.navigation.setOptions({
       title: "Event Information",
       headerRight: () => (
@@ -185,17 +170,6 @@ class ViewEventScreen extends Component {
       })
   }
 
-
-  // async unRegister() {
-  //   alert("Unregistered!");
-  //   setTimeout(
-  //     () =>
-  //       this.props.navigation.push("SignUp", {
-  //         eventInfo: this.state.eventInfo,
-  //       }),
-  //     2000
-  //   );
-  // }
   async isEditable() {
     let userInfo = await getData(USERINFO);
     if (
@@ -324,7 +298,20 @@ class ViewEventScreen extends Component {
               isSubmitting={this.state.deleteLoading}
             ></DeleteDialog>
           </Card>
-          {this.state.userInfo}
+          <Card style={styles.lastCard}>
+            <Card.Title style={styles.cardTitle}>Event Poster</Card.Title>
+            <View style={styles.profileImage}>
+              <Avatar
+                rounded
+                source={{
+                  uri: this.state.userInfo.profileImageUrl,
+                }}
+              />
+              <Text style={styles.profileTitle}>
+                {this.state.userInfo.fullname}
+              </Text>
+            </View>
+          </Card>
         </ScrollView>
       </View>
     );

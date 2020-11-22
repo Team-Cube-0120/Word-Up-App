@@ -39,7 +39,6 @@ class JobsScreen extends Component {
   }
 
   componentDidMount() {
-    console.log("mounted");
     this.fetchJobs();
     this.fetchAllUsers();
     this.props.navigation.setOptions({
@@ -57,7 +56,7 @@ class JobsScreen extends Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    console.log(this.props.route.params);
+    // console.log(this.props.route.params);
     if (this.props.route.params != null && this.props.route.params.isJobCreated) {
       this.fetchJobs();
       this.fetchAllUsers();
