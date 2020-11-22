@@ -48,6 +48,20 @@ class CreateEventsScreen extends Component {
     this.eventTypeInput = React.createRef();
   }
 
+  isInputEmpty() {
+    var empty = false;
+    for (var key in this.state) {
+      if (key != "userId" && key != "eventId" && key != "rsvpCode" && key != "profileImage" && key != "coHosts" && key != "start"  && key != "end" && key != "signedUp" && key != "endDate" && key != "startDate" && key != "isVisible" && key != "isMenuVisible") {
+        if (this.state[key] == "N/A" || this.state[key] == "" || this.state[key] === "-" || this.state[key] === false)  {
+          console.log(key);
+          empty = true;
+        }
+      }
+    }
+    return empty;
+  }
+
+
   startState = () => {
     this.setState({
       start: true,
@@ -312,9 +326,15 @@ class CreateEventsScreen extends Component {
               this.state.fullname = userInfo.fullname;
               this.state.profileImage = userInfo.profile.profileImageUrl;
               this.state.userId = userInfo.profile.id;
-              this.props.navigation.push("ReviewEvents", {
-                eventInfo: this.state,
-              });
+              if (this.isInputEmpty()) {
+                alert(
+                  "Empty fields detected! Please complete all fields before submitting!"
+                );
+              } else {
+                this.props.navigation.push("ReviewEvents", {
+                  eventInfo: this.state,
+                });
+              }
             }}
           >
             <Text

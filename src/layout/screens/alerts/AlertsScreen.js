@@ -54,15 +54,15 @@ class AlertsScreen extends Component {
   }
 
 
-  fetchAlerts() {    
-    if(this.state.filterOption == 'All'){
+  fetchAlerts() {
+    if (this.state.filterOption == 'All') {
       this.fetchAllalerts();
-    } else if (this.state.filterOption == 'My Alerts'){
+    } else if (this.state.filterOption == 'My Alerts') {
       this.filterByOther();
     } else {
       this.fetchFilteredAlerts();
     }
-    
+
   }
 
   fetchAllalerts() {
@@ -110,7 +110,7 @@ class AlertsScreen extends Component {
       });
   }
 
-  
+
   async filterEvents(selectedValue) {
     this.setState({ filterOption: selectedValue, isLoading: true }, () => {
       this.closeFilterDialog();
@@ -150,8 +150,10 @@ class AlertsScreen extends Component {
           </TouchableOpacity>
         ))
       ) : (
-        <Text>Error Retrieving Data</Text>
-      );
+          <View style={styles.errorView}>
+            <Text style={styles.errorText}>No alerts available at this time</Text>
+          </View>
+        );
 
     if (this.state.isLoading) {
       return (
@@ -177,15 +179,7 @@ class AlertsScreen extends Component {
         >
           {alertList}
         </ScrollView>
-        <FAB
-          style={styles.filter}
-          medium
-          animated={true}
-          color="#fff"
-          icon="filter"
-          theme={{ colors: { accent: "#70AF1A" } }}
-          onPress={() => this.openFilterDialog()}
-        />
+       
         <FilterAlertDialog
           onSubmit={(selectedValue) => this.filterEvents(selectedValue)}
           onClose={() => this.closeFilterDialog()}
@@ -252,6 +246,16 @@ const styles = StyleSheet.create({
     width: 50,
     height: 50,
     backgroundColor: "black",
+  },
+  errorText: {
+    fontSize: 16,
+    fontWeight: "bold",
+  },
+  errorView: {
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "center",
+    marginTop: "50%",
   },
 });
 

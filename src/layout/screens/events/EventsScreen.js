@@ -129,7 +129,7 @@ class EventsScreen extends Component {
   }
 
   async filterEvents(selectedValue) {
-    this.setState({ filterOption: selectedValue, isLoading: true }, () => {
+    this.setState({ filterOption: selectedValue, isLoading: true, isFilterDialogOpen: false }, () => {
       this.closeFilterDialog();
       this.fetchEvents();
     });
@@ -163,7 +163,9 @@ class EventsScreen extends Component {
           </TouchableOpacity>
         ))
       ) : (
-          <Text>Error Retrieving Data</Text>
+        <View style={styles.errorView}> 
+          <Text style={styles.errorText}>No events available at this time</Text>
+        </View>
         );
 
     if (this.state.isLoading) {
@@ -293,6 +295,16 @@ const styles = StyleSheet.create({
     margin: 16,
     right: 0,
     bottom: 0,
+  },
+  errorText: {
+    fontSize: 16,
+    fontWeight: "bold",
+  },
+  errorView: {
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "center",
+    marginTop: "50%",
   },
 });
 
