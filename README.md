@@ -38,7 +38,7 @@ WordUP is an application dedicated towards enhancing communication in the ECO Di
 * Admin can’t signup for an event
 
 #### INSTALLATION
-##### PRE-REQUISITES
+  ##### PRE-REQUISITES
 * You must have an Android device. (iphone coming soon)
     
 ##### DEPENDENCIES
@@ -49,7 +49,7 @@ WordUP is an application dedicated towards enhancing communication in the ECO Di
 * https://github.com/Team-Cube-0120/Word-Up-App/releases/tag/v1.0.0
     
 ##### BUILD
-* No build necessary for this app.  wordupv1.apk contains an executable.
+* No build necessary for this app wordupv1.apk contains an executable.
     
 ##### INSTALLATION
 * Upon download, Click on the executable wordupv1 file.
