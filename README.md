@@ -1,4 +1,4 @@
-# WORD UP App
+# WORDUP App
 
 ---
 ## Table of Contents
@@ -13,7 +13,7 @@
 ---
 ## Introduction
 
-TODO- introduction to our app and purpose 
+TODO- Introduction to our app and purpose 
 
 ---
 
