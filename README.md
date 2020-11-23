@@ -1,4 +1,4 @@
-# WORD UP App
+# WORDUP App
 
 ---
 ## Table of Contents
@@ -13,7 +13,7 @@
 ---
 ## Introduction
 
-TODO- introduction to our app and purpose 
+TODO- Introduction to our app and purpose 
 
 ---
 
@@ -35,7 +35,7 @@ TODO- introduction to our app and purpose
 * Fixed Alerts UI screen to position alert types
 #### KNOWN BUGS
 * Screens do not have pagination 
-* Admin can’t signup fir an event
+* Admin can’t signup for an event
 
 #### INSTALLATION
 
