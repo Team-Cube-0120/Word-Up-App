@@ -115,7 +115,7 @@ class RegistrationScreen extends Component {
       <KeyboardAwareScrollView extraScrollHeight={25} style={styles.container}>
         <Image style={styles.logo} source={icon} />
         <View style={styles.checkBoxContainer}>
-          <Text
+          {/* <Text
             style={{
               top: 18,
               ...Platform.select({
@@ -132,13 +132,16 @@ class RegistrationScreen extends Component {
               fontWeight: "bold",
             }}
           >
-            Admin
-          </Text>
-          <CheckBox
+            {/* Admin */}
+          {/* </Text> */} 
+          {/* <CheckBox
             checked={this.state.checked}
             onPress={() => this.setState({ checked: !this.state.checked })}
-          ></CheckBox>
+          ></CheckBox> */}
         </View>
+        <Text>
+          
+        </Text>
         <TextInput
           style={styles.topInput}
           placeholder="Full Name"
@@ -148,7 +151,7 @@ class RegistrationScreen extends Component {
             this.emailInput.current.focus();
           }}
           onChangeText={(text) => this.setState({ name: text })}
-          value={this.state.name}
+          // value={this.state.name}
           underlineColorAndroid="transparent"
           autoCapitalize="none"
           blurOnSubmit={false}
@@ -164,7 +167,7 @@ class RegistrationScreen extends Component {
           placeholder="Email"
           placeholderTextColor="#aaaaaa"
           onChangeText={(text) => this.setState({ email: text })}
-          value={this.state.email}
+          // value={this.state.email}
           underlineColorAndroid="transparent"
           autoCapitalize="none"
           blurOnSubmit={false}
@@ -181,7 +184,7 @@ class RegistrationScreen extends Component {
           secureTextEntry
           placeholder="Password"
           onChangeText={(text) => this.setState({ password: text })}
-          value={this.state.password}
+          // value={this.state.password}
           underlineColorAndroid="transparent"
           autoCapitalize="none"
           blurOnSubmit={false}
@@ -195,7 +198,7 @@ class RegistrationScreen extends Component {
           secureTextEntry
           placeholder="Confirm Password"
           onChangeText={(text) => this.setState({ confirmPassword: text })}
-          value={this.state.confirmPassword}
+          // value={this.state.confirmPassword}
           underlineColorAndroid="transparent"
           autoCapitalize="none"
         />

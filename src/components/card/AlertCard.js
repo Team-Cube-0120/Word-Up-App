@@ -24,7 +24,7 @@ class AlertCard extends BaseCard {
   };
   constructor(props) {
     super(props);
-    console.log(this.props)
+    // console.log(this.props)
     this.state = {
       titleOne: <View></View>,
       titleTwo: <Text></Text>,
