@@ -22,6 +22,14 @@ let getData = async (key) => {
     }
 }
 
+let clearUserAccount = async (key) => {
+    try {
+        await storeData(USERINFO, {});
+    } catch (error) {
+        console.log("error clearing user data: " + error);
+    }
+}
+
 /**
  * Calls the server to update the local storage whenever user is updated
  * @param {} key 
@@ -40,3 +48,4 @@ let updateUserInfo = async (userId) => {
 exports.storeData = storeData;
 exports.getData = getData;
 exports.updateUserInfo = updateUserInfo;
+exports.clearUserAccount = clearUserAccount;
