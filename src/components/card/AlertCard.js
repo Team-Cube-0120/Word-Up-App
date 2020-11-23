@@ -12,6 +12,7 @@ import {
   TextInput,
 } from "react-native";
 import PropTypes from "prop-types";
+import { DEFAULT_PROFILE_IMAGE } from "../../enums/DefaultEnums";
 import moment from "moment";
 
 
@@ -23,9 +24,12 @@ class AlertCard extends BaseCard {
   };
   constructor(props) {
     super(props);
+    console.log(this.props)
     this.state = {
       titleOne: <View></View>,
       titleTwo: <Text></Text>,
+      userProfileImageUrl: DEFAULT_PROFILE_IMAGE,
+      userFullName: "N/A",
     };
   }
 
@@ -188,11 +192,11 @@ class AlertCard extends BaseCard {
                 rounded
                 size={"small"}
                 source={{
-                  uri: this.props.data.profileImage,
+                  uri: this.props.userInfo.profileImageUrl,
                 }}
               ></Avatar>
               <Text style={{ marginLeft: "5%", marginTop: "3%" }}>
-                {this.props.data.fullname}
+                {this.props.userInfo.fullname}
               </Text>
             </View>
           </View>
