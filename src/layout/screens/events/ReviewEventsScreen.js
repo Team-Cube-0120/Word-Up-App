@@ -37,7 +37,7 @@ class ReviewJobScreen extends Component {
       this.eventInfo
     )
       .then((body) => ApiService.post("data/events/add", body))
-      .then((response) => updateUserInfo(this.eventInfo.userId))
+      .then((response) => updateUserInfo())
       .then((response) =>
         this.setState({
           title: "Congratulations",

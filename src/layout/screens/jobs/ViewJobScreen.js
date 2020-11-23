@@ -84,7 +84,7 @@ class ViewJobScreen extends Component {
         "&userId=" +
         this.state.jobInfo.userId
     )
-      .then((response) => updateUserInfo(this.state.jobInfo.userId))
+      .then((response) => updateUserInfo())
       .then((response) => {
         this.closeDialog();
         Alert.alert("Notice", "Your job has been deleted", [

@@ -85,7 +85,7 @@ class ViewEventScreen extends Component {
         "&userId=" +
         this.state.eventInfo.userId
     )
-      .then((response) => updateUserInfo(this.state.eventInfo.userId))
+      .then((response) => updateUserInfo())
       .then((response) => {
         this.closeDialog();
         Alert.alert("Notice", "Your event has been deleted", [
@@ -117,7 +117,7 @@ class ViewEventScreen extends Component {
     console.log(userInfo.id);
     RequestOptions.setUpRequestBody("events", this.state.eventInfo.eventId, this.state.eventInfo)
     .then((body) => ApiService.post("data/signup/add?userId="+userInfo.id, body))
-    .then((response) => updateUserInfo(userInfo.id))
+    .then((response) => updateUserInfo())
     .then((response) => {
         this.closeDialog();
         Alert.alert(
@@ -149,7 +149,7 @@ class ViewEventScreen extends Component {
     console.log(userInfo.id);
     RequestOptions.setUpRequestBody("events", this.state.eventInfo.eventId, this.state.eventInfo)
     .then((body) => ApiService.post("data/unregister/delete?userId="+userInfo.id, body))
-    .then((response) => updateUserInfo(userInfo.id))
+    .then((response) => updateUserInfo())
     .then((response) => {
         this.closeDialog();
         Alert.alert(

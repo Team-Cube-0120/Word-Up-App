@@ -254,7 +254,7 @@ class SettingsScreen extends Component {
             "Profile information has been successfully updated!",
         })
       )
-      .then(async () => updateUserInfo(storeDataA.id))
+      .then(async () => updateUserInfo())
       .catch((error) =>
         this.setState({
           title: "Error!",

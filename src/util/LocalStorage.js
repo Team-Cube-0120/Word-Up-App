@@ -35,9 +35,10 @@ let clearUserAccount = async (key) => {
  * @param {} key 
  * @param {*} userId 
  */
-let updateUserInfo = async (userId) => {
-    return new Promise((resolve, reject) => {
-        ApiService.get('data/get?collection=users&document=' + userId)
+let updateUserInfo = async () => {
+    return new Promise(async (resolve, reject) => {
+        let userInfo = await getData(USERINFO);
+        ApiService.get('data/get?collection=users&document=' + userInfo.id)
             .then((user) => storeData(USERINFO, user))
             .then(() => resolve("Updated User"))
             .catch((error) => reject("Error updating user: " + error));

@@ -280,9 +280,8 @@ class FirebaseFirestore {
 
     async addComment(collection, document, newComment) {
         return new Promise((resolve, reject) => {
-            let currentDate = new Date(Date.now()).toLocaleString(); // YYY-MM-DD
-            let dateList = currentDate.split(",");
-            newComment.datePosted = dateList[1] + " on " + dateList[0];
+            // let currentDate = new Date(Date.now()).toLocaleString(); // YYY-MM-DD
+            newComment.datePosted = new Date().getTime();
             let updateArgs = { comments: admin.firestore.FieldValue.arrayUnion(newComment) };
             this.update(collection, document, updateArgs)
                 .then((message) => resolve(message))

@@ -17,6 +17,7 @@ import { getData } from "../../../util/LocalStorage";
 import { USERINFO } from "../../../enums/StorageKeysEnum";
 import { ScrollView } from "react-native-gesture-handler";
 import { SafeAreaView } from "react-navigation";
+import moment from 'moment';
 
 class EventComments extends Component {
   constructor(props) {
@@ -121,7 +122,7 @@ class EventComments extends Component {
                         {item.item.name}
                       </Text>
                       <Text style={{ fontStyle: "italic" }}>
-                        {item.item.datePosted}
+                        {moment(item.item.datePosted).fromNow()}
                       </Text>
                     </View>
                     <Text>{item.item.comment}</Text>

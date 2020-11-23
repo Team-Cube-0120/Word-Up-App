@@ -33,7 +33,7 @@ class ReviewJobScreen extends Component {
     this.setState({ isLoading: true });
     RequestOptions.setUpRequestBody("jobs", this.jobInfo.jobId, this.jobInfo)
       .then((body) => ApiService.post("data/jobs/add", body))
-      .then((response) => updateUserInfo(this.jobInfo.userId))
+      .then((response) => updateUserInfo())
       .then((response) =>
         this.setState({
           title: "Congratulations",
