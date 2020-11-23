@@ -113,9 +113,11 @@ class ViewEventScreen extends Component {
   async signUp() {
     let itemId = this.state.eventInfo.eventId;
     this.setState({ deleteLoading: true });
+    let userInfo = await getData(USERINFO);
+    console.log(userInfo.id);
     RequestOptions.setUpRequestBody("events", this.state.eventInfo.eventId, this.state.eventInfo)
-    .then((body) => ApiService.post("data/signup/add", body))
-    .then((response) => updateUserInfo(this.state.eventInfo.userId))
+    .then((body) => ApiService.post("data/signup/add?userId="+userInfo.id, body))
+    .then((response) => updateUserInfo(userInfo.id))
     .then((response) => {
         this.closeDialog();
         Alert.alert(
@@ -140,13 +142,14 @@ class ViewEventScreen extends Component {
   }
 
 
-
   async unRegister() {
     let itemId = this.state.eventInfo.eventId;
     this.setState({ deleteLoading: true });
+    let userInfo = await getData(USERINFO);
+    console.log(userInfo.id);
     RequestOptions.setUpRequestBody("events", this.state.eventInfo.eventId, this.state.eventInfo)
-    .then((body) => ApiService.post("data/unregister/delete", body))
-    .then((response) => updateUserInfo(this.state.eventInfo.userId))
+    .then((body) => ApiService.post("data/unregister/delete?userId="+userInfo.id, body))
+    .then((response) => updateUserInfo(userInfo.id))
     .then((response) => {
         this.closeDialog();
         Alert.alert(

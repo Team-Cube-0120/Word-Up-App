@@ -48,10 +48,10 @@ class FirebaseFirestore {
         });
     }
 
-    async postSignedUpEvent(collection, document, data) {
+    async postSignedUpEvent(collection, document, data, userId) {
         return new Promise((resolve, reject) => {
             try {
-                this.updateUserItemId(data.userId, { signedUpEvents: firestore.FieldValue.arrayUnion(data.eventId) })
+                this.updateUserItemId(userId, { signedUpEvents: firestore.FieldValue.arrayUnion(data.eventId) })
                     .then((response) => resolve(response))
                     .then((error) => reject(error))
             } catch (e) {
@@ -60,10 +60,10 @@ class FirebaseFirestore {
         });
     }
 
-    async unRegister(collection, document, data) {
+    async unRegister(collection, document, data, userId) {
         return new Promise((resolve, reject) => {
             try {
-                this.updateUserItemId(data.userId, { signedUpEvents: firestore.FieldValue.arrayRemove(data.eventId) })
+                this.updateUserItemId(userId, { signedUpEvents: firestore.FieldValue.arrayRemove(data.eventId) })
                     .then((response) => resolve(response))
                     .then((error) => reject(error))
             } catch (e) {

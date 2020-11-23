@@ -237,6 +237,7 @@ class SettingsScreen extends Component {
   async uploadData() {
     this.setState({ isLoading: true });
     let storeDataA = await getData(USERINFO);
+    storeDataA.fullname = this.state.profile.fullname;
     storeDataA.profile = this.state.profile;
     const userID = firebase.auth().currentUser.uid;
     // console.log(userID)
@@ -244,6 +245,7 @@ class SettingsScreen extends Component {
     db.collection("users")
       .doc(userID)
       .update({ profile: this.state.profile })
+      .update({fullname: this.state.profile.fullname})
       .then((response) =>
         this.setState({
           title: "Congratulations!",
