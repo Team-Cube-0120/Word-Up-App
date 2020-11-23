@@ -33,6 +33,7 @@ import SubmissionDialog from "../../../components/dialog/SubmissionDialog";
 import moment from "moment";
 import ApiService from "../../../service/api/ApiService";
 import * as ImagePicker from "expo-image-picker";
+import { updateUserInfo } from '../../../util/LocalStorage';
 
 const screenWidth = Math.round(Dimensions.get("window").width);
 
@@ -253,12 +254,7 @@ class SettingsScreen extends Component {
             "Profile information has been successfully updated!",
         })
       )
-      .then(async () => {
-        let storeDataA = await getData(USERINFO);
-        storeDataA.profile = this.state.profile;
-        await storeData(USERINFO, storeDataA);
-        return;
-      })
+      .then(async () => updateUserInfo(storeData.id))
       .catch((error) =>
         this.setState({
           title: "Error!",
