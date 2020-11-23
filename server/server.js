@@ -12,7 +12,7 @@ const FirebaseFirestore = require('./src/firebase/FirebaseFirestore');
 // server instances
 var firebaseFirestore;
 const app = express();
-const PORT = 8000;
+const PORT = process.env.PORT || 8000;
 const startService = async () => {
     console.log("Starting service...");
     firebaseFirestore = new FirebaseFirestore();
