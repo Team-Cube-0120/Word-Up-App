@@ -9,7 +9,7 @@ import {
     RefreshControl,
 } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
-import FilterCard from "../../../components/card/FilterCard";
+import FeedbackCard from "../../../components/card/FeedbackCard";
 import ApiService from "../../../service/api/ApiService";
 
 class ViewFeedbackScreen extends Component {
@@ -19,11 +19,13 @@ class ViewFeedbackScreen extends Component {
             isLoading: true,
             refreshing: false,
             feedback: [],
+            users: new Map(),
         };
     }
 
     componentDidMount() {
         this.fetchFeedback();
+        this.fetchAllUsers();
     }
 
     fetchFeedback() {
@@ -39,68 +41,83 @@ class ViewFeedbackScreen extends Component {
             });
     }
 
+    fetchAllUsers() {
+        ApiService.get("data/getAll?collection=users")
+          .then(async (users) => {
+            let userMap = new Map();
+            users.forEach((user, index) =>
+              userMap.set(user.profile.id, user.profile)
+            );
+            this.setState({ users: userMap });
+            return;
+          })
+          .catch((error) => console.log("error retrieving data"));
+      }
+
     async onRefresh() {
         this.setState({ refreshing: true });
         this.fetchFeedback();
+        this.fetchAllUsers();
     }
 
-    openFilterDialog() {
-        this.setState({ isFilterDialogOpen: true });
-    }
-
-    closeFilterDialog() {
-        this.setState({ isFilterDialogOpen: false });
-    }
-
-    render() {
-        const navigation = this.props.navigation;
-        let feedbacklist =
-            this.state.feedback.length > 0 ? (
-                this.state.feedback.map((feedback, index) => (
-                    <TouchableOpacity
-                        key={index}
-                    >
-                        <FilterCard title={feedback.name} data={feedback} />
-                    </TouchableOpacity>
-                ))
-            ) : (
-                    <Text>Error Retrieving Data</Text>
-                );
-
-        if (this.state.isLoading) {
-            return (
-                <View style={styles.activityContainer}>
-                    <ActivityIndicator
-                        size="large"
-                        color="#70AF1A"
-                        animating={this.state.isLoading}
-                    />
-                </View>
-            );
-        }
-        return (
-            <View style={styles.container}>
-                <ScrollView
-                    refreshControl={
-                        <RefreshControl
-                            refreshing={this.state.refreshing}
-                            onRefresh={() => this.onRefresh()}
-                        />
-                    }
-                >
-                    {feedbacklist}
-                </ScrollView>
-                
-            </View>
+    
+  render() {
+    const navigation = this.props.navigation;
+    let feedbackList =
+      this.state.feedback.length > 0 ? (
+        this.state.feedback.map((feedback, index) => (
+          <TouchableOpacity
+            key={index}
+          >
+            <FeedbackCard
+              title={feedback.name}
+              data={feedback}
+              userInfo={this.state.users.get(feedback.userId)}
+            />
+          </TouchableOpacity>
+        ))
+      ) : (
+          <View style={styles.errorView}>
+            <Text style={styles.errorText}>No Feedback available at this time</Text>
+          </View>
         );
+
+    if (this.state.isLoading) {
+      return (
+        <View style={styles.activityContainer}>
+          <ActivityIndicator
+            size="large"
+            color="#70AF1A"
+            animating={this.state.isLoading}
+          />
+        </View>
+      );
+    } else {
+      return (
+        <View style={styles.container}>
+          <ScrollView
+            refreshControl={
+              <RefreshControl
+                refreshing={this.state.refreshing}
+                onRefresh={() => this.onRefresh()}
+              />
+            }
+          >
+            {feedbackList}
+          </ScrollView>
+        </View>
+      );
     }
+  }
 }
 
 const styles = StyleSheet.create({
     container: {
         position: "relative",
         flex: 1,
-        backgroundColor: "#36485f",
+        // backgroundColor: "#36485f",
+        backgroundColor: "gray",
+
     },
     header: {
         fontSize: 24,
@@ -141,6 +158,17 @@ const styles = StyleSheet.create({
         marginRight: 20,
         marginBottom: 20,
     },
+    errorView: {
+        flex: 1,
+        alignItems: "center",
+        justifyContent: "center",
+        marginTop: "50%",
+      },
+    
+      errorText: {
+        fontSize: 16,
+        fontWeight: "bold",
+      },
 });
 
 export default ViewFeedbackScreen;
