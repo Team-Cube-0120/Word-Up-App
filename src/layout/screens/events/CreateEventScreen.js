@@ -53,7 +53,7 @@ class CreateEventsScreen extends Component {
     for (var key in this.state) {
       if (key != "userId" && key != "eventId" && key != "rsvpCode" && key != "profileImage" && key != "coHosts" && key != "start"  && key != "end" && key != "signedUp" && key != "endDate" && key != "startDate" && key != "isVisible" && key != "isMenuVisible") {
         if (this.state[key] == "N/A" || this.state[key] == "" || this.state[key] === "-" || this.state[key] === false)  {
-          console.log(key);
+          // console.log(key);
           empty = true;
         }
       }

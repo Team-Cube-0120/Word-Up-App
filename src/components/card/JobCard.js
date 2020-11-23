@@ -11,7 +11,6 @@ import {
   Button,
 } from "react-native";
 import PropTypes from "prop-types";
-import ApiService from "../../service/api/ApiService";
 import { DEFAULT_PROFILE_IMAGE } from "../../enums/DefaultEnums";
 import moment from "moment";
 

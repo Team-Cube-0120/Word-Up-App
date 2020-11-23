@@ -158,7 +158,7 @@ class AlertsScreen extends Component {
   render() {
     const navigation = this.props.navigation;
     let alertList =
-      this.state.alerts.length > 0 ? (
+      this.state.alerts.length > 0 && this.state.users.size > 0 ? (
         this.state.alerts.map((alert, index) => (
           <TouchableOpacity
             key={index}
@@ -169,7 +169,10 @@ class AlertsScreen extends Component {
               })
             }
           >
-            <AlertCard title={alert.name} data={alert} userInfo={this.state.users.get(alert.userId)} />
+            <AlertCard 
+             title={alert.name}
+             data={alert} 
+             userInfo={this.state.users.get(alert.userId)} />
           </TouchableOpacity>
         ))
       ) : (
