@@ -37,7 +37,7 @@ import { updateUserInfo } from '../../../util/LocalStorage';
 
 const screenWidth = Math.round(Dimensions.get("window").width);
 
-class SettingsScreen extends Component {
+class ProfileScreen extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -246,7 +246,6 @@ class SettingsScreen extends Component {
     db.collection("users")
       .doc(userID)
       .update({ profile: this.state.profile })
-      // .update({fullname: this.state.profile.fullname})
       .then((response) =>
         this.setState({
           title: "Congratulations!",
@@ -271,7 +270,9 @@ class SettingsScreen extends Component {
   }
 
   closeDialog() {
-    this.setState({ toggleDialog: false });
+    this.setState({ toggleDialog: false }, () => {
+      this.props.navigation.navigate("Settings", { isProfileUpdated: true });
+    });
   }
 
   handleEditProfileRequest() {
@@ -1152,4 +1153,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default SettingsScreen;
+export default ProfileScreen;

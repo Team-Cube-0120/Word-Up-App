@@ -31,16 +31,24 @@ class SettingsScreen extends Component {
       profileImageUrl: "",
       notifications: "",
     };
-    this.willFocusSubscription = this.props.navigation.addListener(
-      "focus",
-      () => {
-        this.getUserInfo();
-      }
-    );
+    // this.willFocusSubscription = this.props.navigation.addListener(
+    //   "focus",
+    //   () => {
+    //     this.getUserInfo();
+    //   }
+    // );
   }
 
   componentDidMount() {
     this.getUserInfo().catch((e) => console.log(e));
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    // console.log(this.props.route.params);
+    if (this.props.route.params != null && this.props.route.params.isProfileUpdated) {
+      this.getUserInfo().catch((e) => console.log(e));
+      this.props.route.params.isProfileUpdated = false;
+    }
   }
 
   async getUserInfo() {

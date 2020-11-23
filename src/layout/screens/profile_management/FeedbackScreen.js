@@ -28,7 +28,7 @@ export default function FeedbackScreen({ navigation }) {
 
   const getUserInfo = async () => {
     let userInfo = await getData(USERINFO);
-    setName(userInfo.fullname);
+    setName(userInfo.profile.fullname);
     setProfileImg(userInfo.profile.profileImageUrl);
     setUserID(userInfo.id);
   };
