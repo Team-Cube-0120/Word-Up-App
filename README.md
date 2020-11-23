@@ -13,7 +13,7 @@
 ---
 ## Introduction
 
-TODO- Introduction to our app and purpose 
+WordUP is an application dedicated towards enhancing communication in the ECO District Hampton Roads Project community. Community engagement is a challenging in this district because of the vast geographic size. This serve as a social platform intended to bring the residents of the community together. Our project will engender various features such as community events, local job listings, neighborhood alerts, and profile personalization. 
 
 ---
 
