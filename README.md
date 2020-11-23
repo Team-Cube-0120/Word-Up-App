@@ -36,7 +36,7 @@ WordUP is an application dedicated towards enhancing communication in the ECO Di
 * Screens do not have pagination 
 * Admin can’t signup for an event
 ---
-# Installation
+## Installation
   
 #### PRE-REQUISITES
 * You must have an Android device. (Iphone app coming soon)
