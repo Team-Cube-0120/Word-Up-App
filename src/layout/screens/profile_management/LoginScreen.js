@@ -54,8 +54,9 @@ export default function LoginScreen({ navigation }) {
               navigation.navigate("TabNavigator");
             }
           })
-          .catch((error) => {
+          .catch(async (error) => {
             alert(error);
+            await firebase.auth().signOut();
           });
       } else {
         setLoading(false);

@@ -90,12 +90,12 @@ class SettingsScreen extends Component {
 
   componentDidMount() {
     this.getUserInfo().catch((e) => console.log(e));
-    this.willFocusSubscription = this.props.navigation.addListener(
-      "focus",
-      () => {
-        this.getUserInfo().catch((e) => console.log(e));
-      }
-    );
+    // this.willFocusSubscription = this.props.navigation.addListener(
+    //   "focus",
+    //   () => {
+    //     this.getUserInfo().catch((e) => console.log(e));
+    //   }
+    // );
     (async () => {
       if (Platform.OS !== "web") {
         const {
@@ -246,7 +246,7 @@ class SettingsScreen extends Component {
     db.collection("users")
       .doc(userID)
       .update({ profile: this.state.profile })
-      .update({fullname: this.state.profile.fullname})
+      // .update({fullname: this.state.profile.fullname})
       .then((response) =>
         this.setState({
           title: "Congratulations!",
@@ -254,7 +254,7 @@ class SettingsScreen extends Component {
             "Profile information has been successfully updated!",
         })
       )
-      .then(async () => updateUserInfo(storeData.id))
+      .then(async () => updateUserInfo(storeDataA.id))
       .catch((error) =>
         this.setState({
           title: "Error!",
