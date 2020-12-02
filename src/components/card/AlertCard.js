@@ -15,7 +15,6 @@ import PropTypes from "prop-types";
 import { DEFAULT_PROFILE_IMAGE } from "../../enums/DefaultEnums";
 import moment from "moment";
 
-
 class AlertCard extends BaseCard {
   static propTypes = {
     title: PropTypes.string,
@@ -40,9 +39,9 @@ class AlertCard extends BaseCard {
         <View style={{ flexDirection: "row" }}>
           <Icon name="announcement" size={28} color="#006400" />
           <Text
+            textBreakStrategy="simple"
             style={{
-              marginLeft: 5,
-              marginBottom: 10,
+              marginBottom: "3%",
               borderBottomColor: "#000",
               fontSize: 16,
               fontWeight: "bold",
@@ -60,10 +59,11 @@ class AlertCard extends BaseCard {
         <View style={{ flexDirection: "row" }}>
           <Icon name="cloud" size={28} color="blue" />
           <Text
+            textBreakStrategy="simple"
             style={{
               marginTop: 5,
-              marginLeft: 5,
-              marginBottom: 10,
+              marginLeft: "2%",
+              marginBottom: "3%",
               borderBottomColor: "#000",
               fontSize: 16,
               fontWeight: "bold",
@@ -81,10 +81,11 @@ class AlertCard extends BaseCard {
         <View style={{ flexDirection: "row" }}>
           <Icon name="warning" size={28} color="red" />
           <Text
+            textBreakStrategy="simple"
             style={{
-              marginLeft: 5,
               marginTop: 5,
-              marginBottom: 10,
+              marginLeft: "2%",
+              marginBottom: "3%",
               borderBottomColor: "#000",
               fontSize: 16,
               fontWeight: "bold",
@@ -101,10 +102,11 @@ class AlertCard extends BaseCard {
         <View style={{ flexDirection: "row" }}>
           <Icon name="info" size={28} color="#70AF1A" />
           <Text
+            textBreakStrategy="simple"
             style={{
-              marginLeft: 5,
               marginTop: 5,
-              marginBottom: 10,
+              marginLeft: "2%",
+              marginBottom: "3%",
               borderBottomColor: "#000",
               fontSize: 16,
               fontWeight: "bold",
@@ -121,10 +123,11 @@ class AlertCard extends BaseCard {
         <View style={{ flexDirection: "row" }}>
           <Icon name="add-alert" size={28} color="gray" />
           <Text
+            textBreakStrategy="simple"
             style={{
-              marginLeft: 5,
               marginTop: 5,
-              marginBottom: 10,
+              marginLeft: "2%",
+              marginBottom: "3%",
               borderBottomColor: "#000",
               fontSize: 16,
               fontWeight: "bold",
@@ -141,10 +144,11 @@ class AlertCard extends BaseCard {
         <View style={{ flexDirection: "row" }}>
           <Icon name="add-alert" size={28} color="gray" />
           <Text
+            textBreakStrategy="simple"
             style={{
-              marginLeft: 5,
               marginTop: 5,
-              marginBottom: 10,
+              marginLeft: "2%",
+              marginBottom: "3%",
               borderBottomColor: "#000",
               fontSize: 16,
               fontWeight: "bold",
@@ -177,12 +181,9 @@ class AlertCard extends BaseCard {
           <Text style={{ fontWeight: "bold", fontSize: 18 }}>
             {this.props.data.name}
           </Text>
-          <TextInput
-            multiline={true}
-            style={{ fontWeight: "bold", fontSize: 15, color: "#a9a9a9" }}
-            editable={false}
-            value={this.props.data.details}
-          ></TextInput>
+          <Text style={{ fontWeight: "bold", fontSize: 15, color: "#a9a9a9" }}>
+            {this.props.data.details}
+          </Text>
         </View>
         <Card.Divider style={{ borderBottomWidth: 1 }}></Card.Divider>
         <View style={{ flex: 1, flexDirection: "row" }}>
@@ -240,31 +241,37 @@ class AlertCard extends BaseCard {
       if (this.props.data.alertType == "Special Announcement") {
         return (
           <Text
+            textBreakStrategy="simple"
             style={{
               marginTop: 3,
-              marginLeft: 45,
+              marginLeft: "10%",
               fontSize: 12,
               color: "black",
               fontWeight: "bold",
             }}
           >
             Severity:{" "}
-            <Text style={{ color: "gray" }}>{this.props.data.severity}</Text>
+            <Text textBreakStrategy="simple" style={{ color: "gray" }}>
+              {this.props.data.severity}
+            </Text>
           </Text>
         );
       } else {
         return (
           <Text
+            textBreakStrategy="simple"
             style={{
               marginTop: 8,
-              marginLeft: 65,
+              marginLeft: "18%",
               fontSize: 12,
               color: "black",
               fontWeight: "bold",
             }}
           >
             Severity:{" "}
-            <Text style={{ color: "gray" }}>{this.props.data.severity}</Text>
+            <Text textBreakStrategy="simple" style={{ color: "gray" }}>
+              {this.props.data.severity}
+            </Text>
           </Text>
         );
       }
@@ -297,31 +304,37 @@ class AlertCard extends BaseCard {
       if (this.props.data.alertType == "Special Announcement") {
         return (
           <Text
+            textBreakStrategy="simple"
             style={{
               top: 3,
-              marginLeft: 45,
+              marginLeft: "10%",
               fontSize: 12,
               color: "black",
               fontWeight: "bold",
             }}
           >
             Severity:{" "}
-            <Text style={{ color: "#006400" }}>{this.props.data.severity}</Text>
+            <Text textBreakStrategy="simple" style={{ color: "#006400" }}>
+              {this.props.data.severity}
+            </Text>
           </Text>
         );
       } else {
         return (
           <Text
+            textBreakStrategy="simple"
             style={{
               marginTop: 8,
-              marginLeft: 65,
+              marginLeft: "18%",
               fontSize: 12,
               color: "black",
               fontWeight: "bold",
             }}
           >
             Severity:{" "}
-            <Text style={{ color: "#006400" }}>{this.props.data.severity}</Text>
+            <Text textBreakStrategy="simple" style={{ color: "#006400" }}>
+              {this.props.data.severity}
+            </Text>
           </Text>
         );
       }
@@ -354,31 +367,37 @@ class AlertCard extends BaseCard {
       if (this.props.data.alertType == "Special Announcement") {
         return (
           <Text
+            textBreakStrategy="simple"
             style={{
-              top: 3,
-              marginLeft: 45,
+              marginTop: "1%",
+              marginLeft: "10%",
               fontSize: 12,
               color: "black",
               fontWeight: "bold",
             }}
           >
             Severity:{" "}
-            <Text style={{ color: "#FDE541" }}>{this.props.data.severity}</Text>
+            <Text textBreakStrategy="simple" style={{ color: "#FDE541" }}>
+              {this.props.data.severity}
+            </Text>
           </Text>
         );
       } else {
         return (
           <Text
+            textBreakStrategy="simple"
             style={{
               marginTop: 8,
-              marginLeft: 65,
+              marginLeft: "18%",
               fontSize: 12,
               color: "black",
               fontWeight: "bold",
             }}
           >
             Severity:{" "}
-            <Text style={{ color: "#FDE541" }}>{this.props.data.severity}</Text>
+            <Text textBreakStrategy="simple" style={{ color: "#FDE541" }}>
+              {this.props.data.severity}
+            </Text>
           </Text>
         );
       }
@@ -410,31 +429,37 @@ class AlertCard extends BaseCard {
       if (this.props.data.alertType == "Special Announcement") {
         return (
           <Text
+            textBreakStrategy="simple"
             style={{
               top: 3,
-              marginLeft: 45,
+              marginLeft: "10%",
               fontSize: 12,
               color: "black",
               fontWeight: "bold",
             }}
           >
             Severity:{" "}
-            <Text style={{ color: "orange" }}>{this.props.data.severity}</Text>
+            <Text textBreakStrategy="simple" style={{ color: "orange" }}>
+              {this.props.data.severity}
+            </Text>
           </Text>
         );
       } else {
         return (
           <Text
+            textBreakStrategy="simple"
             style={{
               marginTop: 8,
-              marginLeft: 65,
+              marginLeft: "15%",
               fontSize: 12,
               color: "black",
               fontWeight: "bold",
             }}
           >
             Severity:{" "}
-            <Text style={{ color: "orange" }}>{this.props.data.severity}</Text>
+            <Text textBreakStrategy="simple" style={{ color: "orange" }}>
+              {this.props.data.severity}
+            </Text>
           </Text>
         );
       }
@@ -466,31 +491,37 @@ class AlertCard extends BaseCard {
       if (this.props.data.alertType == "Special Announcement") {
         return (
           <Text
+            textBreakStrategy="simple"
             style={{
               top: 3,
-              marginLeft: 45,
+              marginLeft: "10%",
               fontSize: 12,
               color: "black",
               fontWeight: "bold",
             }}
           >
             Severity:{" "}
-            <Text style={{ color: "red" }}>{this.props.data.severity}</Text>
+            <Text textBreakStrategy="simple" style={{ color: "red" }}>
+              {this.props.data.severity}
+            </Text>
           </Text>
         );
       } else {
         return (
           <Text
+            textBreakStrategy="simple"
             style={{
               marginTop: 8,
-              marginLeft: 65,
+              marginLeft: "18%",
               fontSize: 12,
               color: "black",
               fontWeight: "bold",
             }}
           >
             Severity:{" "}
-            <Text style={{ color: "red" }}>{this.props.data.severity}</Text>
+            <Text textBreakStrategy="simple" style={{ color: "red" }}>
+              {this.props.data.severity}
+            </Text>
           </Text>
         );
       }

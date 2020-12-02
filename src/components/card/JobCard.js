@@ -85,6 +85,7 @@ class JobCard extends BaseCard {
 const styles = StyleSheet.create({
   cardShadows: {
     borderBottomColor: "gray",
+    borderBottomWidth: 0.5,
     ...Platform.select({
       ios: {
         shadowColor: "#000",

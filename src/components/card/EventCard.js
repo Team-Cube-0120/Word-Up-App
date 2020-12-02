@@ -102,6 +102,7 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
     padding: 10,
     borderBottomColor:"gray",
+    borderBottomWidth: 0.3,
     ...Platform.select({
       ios: {
         shadowColor: "#000",
@@ -126,12 +127,14 @@ const styles = StyleSheet.create({
   },
 
   labels: {
+    
     fontWeight: "bold",
     marginRight: "3%",
     fontSize: 16,
   },
 
   cardTitle: {
+    
     textAlign: "left",
     borderBottomWidth: 5,
     marginBottom: 10,
@@ -147,6 +150,7 @@ const styles = StyleSheet.create({
     padding: 10,
   },
   text: {
+    
     fontSize: 16,
   },
 });

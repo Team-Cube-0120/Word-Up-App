@@ -236,22 +236,26 @@ const styles = StyleSheet.create({
   },
 
   title: {
+    
     fontWeight: "bold",
   },
 
   jobTitle: {
+    
     fontWeight: "bold",
     marginTop: "2%",
     fontSize: 20,
   },
 
   companyTitle: {
+    
     fontWeight: "200",
     // marginTop: '1%',
     fontSize: 16,
   },
 
   value: {
+    
     fontSize: 16,
   },
 
@@ -289,10 +293,12 @@ const styles = StyleSheet.create({
   },
 
   locationText: {
+    
     marginLeft: "1%",
   },
 
   datePostedText: {
+    
     textAlign: "right",
     fontSize: 12,
     fontStyle: "italic",
@@ -305,6 +311,7 @@ const styles = StyleSheet.create({
   },
 
   profileTitle: {
+    
     marginLeft: "3%",
     marginTop: "2%",
   },

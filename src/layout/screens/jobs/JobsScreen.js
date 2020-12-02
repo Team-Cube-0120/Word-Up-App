@@ -289,6 +289,7 @@ const styles = StyleSheet.create({
   },
 
   errorText: {
+    
     fontSize: 16,
     fontWeight: "bold",
   },

@@ -17,7 +17,7 @@ import { getData } from "../../../util/LocalStorage";
 import { USERINFO } from "../../../enums/StorageKeysEnum";
 import { ScrollView } from "react-native-gesture-handler";
 import { SafeAreaView } from "react-navigation";
-import moment from 'moment';
+import moment from "moment";
 
 class EventComments extends Component {
   constructor(props) {
@@ -41,7 +41,7 @@ class EventComments extends Component {
     }
     ApiService.get(
       "data/comments/get?collection=events&document=" +
-      this.state.eventInfo.eventId
+        this.state.eventInfo.eventId
     )
       .then((comments) => {
         this.setState({
@@ -110,7 +110,7 @@ class EventComments extends Component {
             renderItem={(item) => {
               return (
                 <View style={styles.container}>
-                  <TouchableOpacity onPress={() => { }}>
+                  <TouchableOpacity onPress={() => {}}>
                     <Image
                       style={styles.image}
                       source={{ uri: item.item.image }}
@@ -131,8 +131,7 @@ class EventComments extends Component {
               );
             }}
           ></FlatList>
-          <ScrollView keyboardShouldPersistTaps={true}
-            style={{ height: 200 }}>
+          <ScrollView keyboardShouldPersistTaps={true} style={{ height: 200 }}>
             <TextInput
               style={styles.comment}
               multiline={true}
@@ -145,7 +144,13 @@ class EventComments extends Component {
 
             <TouchableOpacity
               style={styles.buttonComment}
-              onPress={() => this.addComment(this.state.commentValue)}
+              onPress={() => {
+                if (this.state.commentValue.length > 0) {
+                  this.addComment(this.state.commentValue);
+                } else {
+                  alert("Comment empty! Please type a comment");
+                }
+              }}
             >
               <Text
                 style={{
@@ -195,6 +200,7 @@ const styles = StyleSheet.create({
   },
 
   comment: {
+    
     marginBottom: 0,
   },
 

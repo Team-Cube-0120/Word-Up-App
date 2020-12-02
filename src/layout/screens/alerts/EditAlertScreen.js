@@ -281,11 +281,13 @@ const styles = StyleSheet.create({
     marginBottom: "5%",
   },
   text: {
+    
     fontSize: 16,
     marginBottom: 5,
     fontWeight: "bold",
   },
   textInput: {
+    
     alignSelf: "stretch",
     height: 40,
     marginBottom: 30,
@@ -295,6 +297,7 @@ const styles = StyleSheet.create({
   },
 
   textInputOther: {
+    
     alignSelf: "stretch",
     height: 40,
     marginBottom: 30,
@@ -305,6 +308,7 @@ const styles = StyleSheet.create({
   },
 
   title: {
+    
     fontWeight: "bold",
     marginRight: "1%",
     fontSize: 16,
@@ -320,6 +324,7 @@ const styles = StyleSheet.create({
   },
 
   textInputMultipleLine: {
+    
     borderColor: "gray",
     borderWidth: 1,
     borderRadius: 10,

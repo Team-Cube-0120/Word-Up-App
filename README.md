@@ -16,7 +16,6 @@
 WordUP is an application dedicated towards enhancing communication in the ECO District Hampton Roads Project community. Community engagement is a challenging in this district because of the vast geographic size. This serve as a social platform intended to bring the residents of the community together. Our project will engender various features such as community events, local job listings, neighborhood alerts, and profile personalization. 
 
 ---
-
 ## Architecture
 [Diagram](assets/snack-icon.png)
 
@@ -36,10 +35,29 @@ WordUP is an application dedicated towards enhancing communication in the ECO Di
 #### KNOWN BUGS
 * Screens do not have pagination 
 * Admin can’t signup for an event
-
-#### INSTALLATION
-
+---
+## Installation
+  
 #### PRE-REQUISITES
+* You must have an Android device. (Iphone app coming soon)
+    
+#### DEPENDENCIES
+* No dependencies are required
+    
+##### DOWNLOAD
+* Download wordupv1.apk found in our releases or click the link below.
+    * https://github.com/Team-Cube-0120/Word-Up-App/releases/tag/v1.0.0
+    
+##### BUILD
+* No build necessary for this app. The wordupv1.apk contains an executable.
+    
+##### INSTALLATION
+* Upon download, Find and click on the wordupv1 app.
+     
+##### RUNNING APPLICATION
+* Open the application on your Android device. 
+
+###### Note: Android may give you a warning saying that this app is harmful but that is because we have not published it on the Play Store yet. We can assure you that this app has been tested and is safe. 
 
 
 ---

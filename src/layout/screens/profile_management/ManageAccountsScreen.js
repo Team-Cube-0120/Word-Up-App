@@ -150,17 +150,6 @@ class ManageAccountsScreen extends Component {
         let userList =
             this.state.users.length > 0 ?
                 (
-                    // this.state.users.map((user, index) => (
-                    //     <TouchableOpacity
-                    //         style={styles.cardShadows}
-                    //         key={index}
-                    //         onPress={() => this.openAccountDetailsDialog(user)}
-                    //     >
-                    //         <AccountCard
-                    //             userInfo={user}
-                    //         />
-                    //     </TouchableOpacity>
-                    // ))
                     <FlatList
                         data={this.state.users}
                         refreshControl={
@@ -201,32 +190,6 @@ class ManageAccountsScreen extends Component {
             return (
                 <View style={styles.container}>
                     {userList}
-                    {/* <FlatList
-                        data={this.state.filterResults}
-                        renderItem={({ user }, index) => (
-                            <TouchableOpacity
-                                style={styles.cardShadows}
-                                key={index}
-                                onPress={() => this.openAccountDetailsDialog(user)}
-                            >
-                                <AccountCard
-                                    userInfo={user}
-                                />
-                            </TouchableOpacity>
-                        )}
-                        keyExtractor={user => user.fullname}
-                        ListHeaderComponent={this.renderHeader}></FlatList> */}
-                    {/* <ScrollView
-                    
-                        refreshControl={
-                            <RefreshControl
-                                refreshing={this.state.refreshing}
-                                onRefresh={() => this.onRefresh()}
-                            />
-                        }
-                    >
-                        {userList}
-                    </ScrollView> */}
 
                     <AccountOptionsDialog
                         onAdminSubmit={() => this.changeAdminStatus(this.state.selectedUser)}
@@ -284,6 +247,7 @@ const styles = StyleSheet.create({
     },
 
     errorText: {
+        
         fontSize: 16,
         fontWeight: "bold",
     },

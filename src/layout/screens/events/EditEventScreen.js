@@ -260,6 +260,7 @@ class editEventScreen extends Component {
               borderBottomWidth: 1,
             }}
             optionTextStyle={{
+              
               color: "#70AF1A",
               alignItems: "center",
               fontWeight: "bold",
@@ -341,11 +342,13 @@ const styles = StyleSheet.create({
     marginBottom: "5%",
   },
   text: {
+    
     fontSize: 16,
     marginBottom: 5,
     fontWeight: "bold",
   },
   textInput: {
+    
     alignSelf: "stretch",
     height: 40,
     marginBottom: 30,
@@ -354,12 +357,14 @@ const styles = StyleSheet.create({
     paddingLeft: 10,
   },
   title: {
+    
     fontWeight: "bold",
     marginRight: "1%",
     fontSize: 16,
   },
 
   value: {
+    
     fontSize: 16,
     borderColor: "gray",
     width: "100%",
@@ -369,6 +374,7 @@ const styles = StyleSheet.create({
   },
 
   textInputMultipleLine: {
+    
     borderColor: "gray",
     borderWidth: 1,
     borderRadius: 10,
@@ -379,6 +385,7 @@ const styles = StyleSheet.create({
     paddingBottom: 10,
   },
   textDate: {
+    
     fontSize: 16,
     padding: 10,
     fontWeight: "bold",
@@ -393,6 +400,7 @@ const styles = StyleSheet.create({
   },
 
   textInput: {
+    
     alignSelf: "stretch",
     height: 40,
     marginBottom: 30,
@@ -401,6 +409,7 @@ const styles = StyleSheet.create({
     paddingLeft: 10,
   },
   textInputOther: {
+    
     alignSelf: "stretch",
     height: 40,
     marginBottom: 30,
