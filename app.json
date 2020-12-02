@@ -21,13 +21,10 @@
     "assetBundlePatterns": [
       "**/*"
     ],
-    "ios": {
-      "supportsTablet": true,
-      "config": {
-        "googleSignIn": {
-          "reservedClientId": "com.googleusercontent.apps.422334804938-2dbd1f4th6fv4e48e88q1oi39v64jqg2"
-        }
-      }
+    "sdkVersion": "39.0.0",
+    "android": {
+      "package": "com.ecodistrict.wordup",
+      "versionCode": 1
     }
   }
 }
