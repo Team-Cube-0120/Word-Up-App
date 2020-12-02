@@ -1,7 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
 import {
   Image,
-  Text,
   TextInput,
   TouchableOpacity,
   View,
@@ -9,6 +8,7 @@ import {
   Platform,
   ScrollView,
   ActivityIndicator,
+  Text
 } from "react-native";
 import Modal from "react-native-modal";
 import { firebase } from "../../../../server/config/firebase/firebaseConfig";
@@ -17,6 +17,8 @@ import { storeData, getData } from "../../../util/LocalStorage";
 import { USERINFO } from "../../../enums/StorageKeysEnum";
 import MaterialCommunityIconsIcon from "react-native-vector-icons/MaterialCommunityIcons";
 import * as Google from "expo-google-app-auth";
+import { AppLoading } from 'expo';
+import { useFonts } from 'expo-font';
 
 export default function LoginScreen({ navigation }) {
   const [email, setEmail] = useState("");
@@ -32,6 +34,10 @@ export default function LoginScreen({ navigation }) {
   const onFooterLinkPress = () => {
     navigation.navigate("Registration");
   };
+
+  let [fontsLoaded] = useFonts({
+    'Roboto': require('../../../../assets/Roboto-Regular.ttf'),
+  });
 
   useEffect(() => {
     setLoading(true);
@@ -55,7 +61,7 @@ export default function LoginScreen({ navigation }) {
             }
           })
           .catch(async (error) => {
-            alert(error);
+            console.log(error);
             await firebase.auth().signOut();
           });
       } else {
@@ -67,10 +73,11 @@ export default function LoginScreen({ navigation }) {
   const signInWithGoogle = async () => {
     try {
       const result = await Google.logInAsync({
+        androidStandaloneAppClientId: "737324073545-g3e0p7k5bflbs0str7mnrteo3hkihj5h.apps.googleusercontent.com",
+        androidClientId:"737324073545-k2gg7rdmk5b56a4mbk133qeov3hhgiv7.apps.googleusercontent.com",
+        iosStandaloneAppClientId: "737324073545-017bbmgjgmn4mrtp0p12qkb89jq8f3jt.apps.googleusercontent.com",
         iosClientId:
-          "422334804938-2dbd1f4th6fv4e48e88q1oi39v64jqg2.apps.googleusercontent.com",
-        androidClientId:
-          "422334804938-uhb4dfa1n31otro4fj98de6fljlbv620.apps.googleusercontent.com",
+          "737324073545-vpl2snatedel1phivai07l7v6e885nhp.apps.googleusercontent.com",
         scopes: ["profile", "email"],
       });
 
@@ -254,7 +261,7 @@ export default function LoginScreen({ navigation }) {
       });
   };
 
-  if (loading) {
+  if (loading && !fontsLoaded) {
     return (
       <View
         style={{
@@ -306,6 +313,7 @@ export default function LoginScreen({ navigation }) {
                   ></MaterialCommunityIconsIcon>
                   <Text
                     style={{
+                      fontFamily:"Roboto",
                       alignItems: "center",
                       fontSize: 28,
                       fontWeight: "bold",
@@ -331,7 +339,7 @@ export default function LoginScreen({ navigation }) {
                       }
                     }}
                   >
-                    <Text style={{ color: "#fff", fontSize: 18 }}>Submit</Text>
+                    <Text style={{ color: "#fff", fontSize: 18, fontFamily:"Roboto" }}>Submit</Text>
                   </TouchableOpacity>
                 </View>
                 <TouchableOpacity
@@ -342,7 +350,7 @@ export default function LoginScreen({ navigation }) {
                     height: 35,
                   }}
                 >
-                  <Text style={{ color: "#fff", fontSize: 20, top: 5 }}>
+                  <Text style={{ fontFamily:"Roboto", color: "#fff", fontSize: 20, top: 5 }}>
                     Close
                   </Text>
                 </TouchableOpacity>
@@ -387,7 +395,7 @@ export default function LoginScreen({ navigation }) {
           </TouchableOpacity>
 
           <View style={{ flex: 1, alignItems: "center", marginTop: 5 }}>
-            <Text style={{ fontSize: 16, color: "gray" }}>or </Text>
+            <Text style={{ fontSize: 16, color: "gray", fontFamily:"Roboto"}}>or </Text>
           </View>
 
           <TouchableOpacity
@@ -395,7 +403,7 @@ export default function LoginScreen({ navigation }) {
             onPress={() => signInWithGoogle()}
           >
             <Text
-              style={{ fontSize: 16, color: "#70AF1A", fontWeight: "bold" }}
+              style={{ fontSize: 16, color: "#70AF1A", fontWeight: "bold", fontFamily:"Roboto"}}
             >
               Sign in with Google
             </Text>
@@ -469,6 +477,7 @@ const styles = StyleSheet.create({
     }),
   },
   resetInput: {
+    fontFamily:"Roboto",
     height: 48,
     borderRadius: 5,
     width: 225,
@@ -498,6 +507,7 @@ const styles = StyleSheet.create({
     paddingLeft: 5,
   },
   input: {
+    fontFamily:"Roboto",
     height: 48,
     borderRadius: 5,
     ...Platform.select({
@@ -586,6 +596,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   buttonTitle: {
+    fontFamily:"Roboto",
     color: "white",
     fontSize: 16,
     fontWeight: "bold",
@@ -605,6 +616,7 @@ const styles = StyleSheet.create({
     }),
   },
   resetText: {
+    fontFamily:"Roboto",
     fontSize: 14,
     color: "#039BE5",
     textDecorationLine: "underline",
@@ -615,10 +627,12 @@ const styles = StyleSheet.create({
     marginTop: 20,
   },
   footerText: {
+    fontFamily:"Roboto",
     fontSize: 16,
     color: "#2e2e2d",
   },
   footerLink: {
+    fontFamily:"Roboto",
     color: "#006400",
     fontWeight: "bold",
     fontSize: 16,

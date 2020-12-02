@@ -95,23 +95,33 @@ class ReviewAlertsScreen extends Component {
             <Card.Title>Review Alerts Information</Card.Title>
             <Card.Divider></Card.Divider>
             <View style={styles.containerViewDetail}>
-              <Text style={styles.title}>Name: </Text>
+              <Text textBreakStrategy="simple" style={styles.title}>
+                Name:{" "}
+              </Text>
               <Text style={styles.value}>{this.alertInfo.name}</Text>
             </View>
             <View style={styles.containerView}>
-              <Text style={styles.title}>Severity: </Text>
+              <Text textBreakStrategy="simple" style={styles.title}>
+                Severity:{" "}
+              </Text>
               <Text style={styles.value}>{this.alertInfo.severity}</Text>
             </View>
             <View style={styles.containerViewDetail}>
-              <Text style={styles.titleDetail}>Details: </Text>
+              <Text textBreakStrategy="simple" style={styles.titleDetail}>
+                Details:{" "}
+              </Text>
               <Text style={styles.value}>{this.alertInfo.details}</Text>
             </View>
             <View style={styles.containerViewDetail}>
-              <Text style={styles.titleDetail}>Location: </Text>
+              <Text textBreakStrategy="simple" style={styles.titleDetail}>
+                Location:{" "}
+              </Text>
               <Text style={styles.value}>{this.alertInfo.location}</Text>
             </View>
             <View style={styles.containerView}>
-              <Text style={styles.title}>Alert Type: </Text>
+              <Text textBreakStrategy="simple" style={styles.title}>
+                Alert Type:{" "}
+              </Text>
               <Text style={styles.value}>{this.alertInfo.alertType}</Text>
             </View>
             <View style={styles.buttonView}>

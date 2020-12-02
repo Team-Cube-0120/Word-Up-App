@@ -92,7 +92,7 @@ class CreateJobScreen extends Component {
             </View>
             <View style={styles.viewItem}>
               <View style={{ flexDirection: "row" }}>
-                <Text style={styles.text}>Job Type</Text>
+                <Text  style={styles.text}>Job Type</Text>
                 <Text style={styles.inlineText}> *</Text>
               </View>
               <TextInput
@@ -109,7 +109,7 @@ class CreateJobScreen extends Component {
             </View>
             <View style={styles.viewItem}>
               <View style={{ flexDirection: "row" }}>
-                <Text style={styles.text}>Company</Text>
+                <Text  style={styles.text}>Company</Text>
                 <Text style={styles.inlineText}> *</Text>
               </View>
               <TextInput
@@ -126,7 +126,7 @@ class CreateJobScreen extends Component {
             </View>
             <View style={styles.viewItem}>
               <View style={{ flexDirection: "row" }}>
-                <Text style={styles.text}>Job Description</Text>
+                <Text  style={styles.text}>Job Description</Text>
                 <Text style={styles.inlineText}> *</Text>
               </View>
               <TextInput
@@ -143,7 +143,7 @@ class CreateJobScreen extends Component {
             </View>
             <View style={styles.viewItem}>
               <View style={{ flexDirection: "row" }}>
-                <Text style={styles.text}>Job Application URL</Text>
+                <Text  style={styles.text}>Job Application URL</Text>
                 <Text style={styles.inlineText}> *</Text>
               </View>
               <TextInput
@@ -162,7 +162,7 @@ class CreateJobScreen extends Component {
             </View>
             <View style={styles.viewItem}>
               <View style={{ flexDirection: "row" }}>
-                <Text style={styles.text}>Email</Text>
+                <Text  style={styles.text}>Email</Text>
                 <Text style={styles.inlineText}> *</Text>
               </View>
               <TextInput
@@ -179,7 +179,7 @@ class CreateJobScreen extends Component {
             </View>
             <View style={styles.viewItem}>
               <View style={{ flexDirection: "row" }}>
-                <Text style={styles.text}>Phone Number</Text>
+                <Text  style={styles.text}>Phone Number</Text>
                 <Text style={styles.inlineText}> *</Text>
               </View>
               <TextInput
@@ -198,7 +198,7 @@ class CreateJobScreen extends Component {
             </View>
             <View style={styles.viewItem}>
               <View style={{ flexDirection: "row" }}>
-                <Text style={styles.text}>Street</Text>
+                <Text  style={styles.text}>Street</Text>
                 <Text style={styles.inlineText}> *</Text>
               </View>
               <TextInput
@@ -215,7 +215,7 @@ class CreateJobScreen extends Component {
             </View>
             <View style={styles.viewItem}>
               <View style={{ flexDirection: "row" }}>
-                <Text style={styles.text}>City</Text>
+                <Text  style={styles.text}>City</Text>
                 <Text style={styles.inlineText}> *</Text>
               </View>
               <TextInput
@@ -232,7 +232,7 @@ class CreateJobScreen extends Component {
             </View>
             <View style={styles.viewItem}>
               <View style={{ flexDirection: "row" }}>
-                <Text style={styles.text}>State</Text>
+                <Text  style={styles.text}>State</Text>
                 <Text style={styles.inlineText}> *</Text>
               </View>
               <TextInput
@@ -249,7 +249,7 @@ class CreateJobScreen extends Component {
             </View>
             <View style={styles.viewItem}>
               <View style={{ flexDirection: "row" }}>
-                <Text style={styles.text}>Zipcode</Text>
+                <Text  style={styles.text}>Zipcode</Text>
                 <Text style={styles.inlineText}> *</Text>
               </View>
               <TextInput
@@ -281,6 +281,7 @@ class CreateJobScreen extends Component {
             >
               <Text
                 style={{
+                  
                   fontSize: 18,
                   color: "white",
                   alignItems: "center",
@@ -303,6 +304,7 @@ const styles = StyleSheet.create({
     flexDirection: "column",
   },
   textInput: {
+    
     borderColor: "gray",
     borderWidth: 1,
     borderRadius: 10,
@@ -331,6 +333,7 @@ const styles = StyleSheet.create({
   },
 
   inlineText: {
+    
     fontSize: 16,
     marginBottom: 5,
     fontWeight: "bold",

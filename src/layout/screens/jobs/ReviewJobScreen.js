@@ -124,6 +124,7 @@ class ReviewJobScreen extends Component {
             >
               <Text
                 style={{
+                  
                   fontSize: 18,
                   color: "white",
                   alignItems: "center",
@@ -177,12 +178,14 @@ const styles = StyleSheet.create({
   },
 
   title: {
+    
     fontWeight: "bold",
     marginRight: "1%",
     fontSize: 16,
   },
 
   titleDetail: {
+    
     fontWeight: "bold",
     marginRight: "1%",
     fontSize: 16,
@@ -190,6 +193,7 @@ const styles = StyleSheet.create({
   },
 
   value: {
+    
     fontSize: 16,
   },
 

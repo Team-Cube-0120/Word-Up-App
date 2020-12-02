@@ -301,7 +301,7 @@ class ViewEventScreen extends Component {
               isSubmitting={this.state.deleteLoading}
             ></DeleteDialog>
           </Card>
-          <Card style={styles.lastCard}>
+          <Card containerStyle={styles.cardShadows}>
             <Card.Title style={styles.cardTitle}>Event Poster</Card.Title>
             <View style={styles.profileImage}>
               <Avatar
@@ -336,6 +336,7 @@ const styles = StyleSheet.create({
   },
 
   title: {
+    
     fontWeight: "bold",
     marginRight: "1%",
     fontSize: 16,
@@ -348,11 +349,13 @@ const styles = StyleSheet.create({
   },
 
   profileTitle: {
+    
     marginLeft: "3%",
     marginTop: "2%",
   },
 
   value: {
+    
     fontSize: 16,
   },
 
@@ -476,6 +479,7 @@ const styles = StyleSheet.create({
   },
 
   cardShadows: {
+    borderBottomWidth: 3,
     ...Platform.select({
       ios: {
         shadowColor: "#000",

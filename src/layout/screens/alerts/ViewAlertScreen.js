@@ -104,6 +104,12 @@ class ViewAlertScreen extends Component {
       userInfo.admin ||
       userInfo.alertIds.includes(this.state.alertInfo.alertId)
     ) {
+      styles.buttonView = {
+        flexDirection: "column",
+        width: "100%",
+        height: 110,
+        justifyContent: "space-evenly",
+      };
       this.setState({
         editButtonView: (
           <Button
@@ -125,35 +131,51 @@ class ViewAlertScreen extends Component {
           ></Button>
         ),
       });
+    } else {
+      styles.buttonView = {
+        flexDirection: "column",
+        width: "100%",
+        justifyContent: "space-evenly",
+      };
     }
   }
 
   render() {
     return (
       <ScrollView style={styles.container}>
-        <Card style={styles.cardShadows}>
+        <Card containerStyle={styles.cardShadows}>
           <Card.Title style={styles.cardTitle}>
             {this.state.alertInfo.name}
           </Card.Title>
           <Card.Divider></Card.Divider>
           <View style={styles.containerView}>
-            <Text style={styles.title}>Alert Name: </Text>
+            <Text textBreakStrategy="simple" style={styles.title}>
+              Alert Name:{" "}
+            </Text>
             <Text style={styles.value}>{this.state.alertInfo.name}</Text>
           </View>
           <View style={styles.containerView}>
-            <Text style={styles.title}>Severity: </Text>
+            <Text textBreakStrategy="simple" style={styles.title}>
+              Severity:{" "}
+            </Text>
             <Text style={styles.value}>{this.state.alertInfo.severity}</Text>
           </View>
           <View style={styles.containerView}>
-            <Text style={styles.title}>Location: </Text>
+            <Text textBreakStrategy="simple" style={styles.title}>
+              Location:{" "}
+            </Text>
             <Text style={styles.value}>{this.state.alertInfo.location}</Text>
           </View>
           <View style={styles.containerViewDetail}>
-            <Text style={styles.titleDetail}>Details: </Text>
+            <Text textBreakStrategy="simple" style={styles.titleDetail}>
+              Details:{" "}
+            </Text>
             <Text style={styles.value}>{this.state.alertInfo.details}</Text>
           </View>
           <View style={styles.containerView}>
-            <Text style={styles.title}>Alert Type: </Text>
+            <Text textBreakStrategy="simple" style={styles.title}>
+              Alert Type:{" "}
+            </Text>
             <Text style={styles.value}>{this.state.alertInfo.alertType}</Text>
           </View>
 
@@ -210,11 +232,10 @@ const styles = StyleSheet.create({
   buttonView: {
     flexDirection: "column",
     width: "100%",
-    height: 120, // might be a problem for other screens
-    justifyContent: "space-evenly",
   },
 
   cardShadows: {
+    borderBottomWidth: 3,
     ...Platform.select({
       ios: {
         shadowColor: "#000",

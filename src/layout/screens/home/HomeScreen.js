@@ -83,6 +83,9 @@ class HomeScreen extends Component {
             fontSize: 20,
             alignItems: "center",
             textAlign: "center",
+            marginLeft: "1%",
+            marginRight: "1%",
+            marginBottom: "1%",
             alignContent: "center",
             color: "#006400",
           }}
@@ -95,6 +98,7 @@ class HomeScreen extends Component {
   }
 
   render() {
+    this.renderView();
     if (this.state.loading) {
       return (
         <View
@@ -115,7 +119,7 @@ class HomeScreen extends Component {
           <View style={{ alignItems: "center" }}>
             <Image source={icon} style={styles.logo}></Image>
             <View style={styles.welcomeCard}>
-              <Text style={{ fontSize: 20, top: 10, left: 5 }}>
+              <Text style={{fontSize: 20, top: 10, left: 5 }}>
                 Good {this.getGreetingTime(moment())}, {this.state.fullname}
               </Text>
             </View>
@@ -164,6 +168,91 @@ class HomeScreen extends Component {
 
     return g;
   }
+
+  renderView() {
+    if (screenHeight == 749 && screenWidth == 411) {
+      styles.welcomeCard = {
+        top: "20%",
+        backgroundColor: "white",
+        borderRadius: 5,
+        marginLeft: 15,
+        marginRight: 15,
+        width: screenWidth - 30,
+        height: 50,
+        ...Platform.select({
+          ios: {
+            shadowColor: "#000",
+            shadowOffset: { width: 1, height: 1 },
+            shadowOpacity: 0.4,
+            shadowRadius: 2,
+            bottom: 30,
+          },
+          android: {
+            elevation: 2,
+            bottom: 15,
+          },
+          default: {
+            shadowColor: "#000",
+            shadowOffset: { width: 1, height: 1 },
+            shadowOpacity: 0.4,
+            shadowRadius: 2,
+            elevation: 2,
+            bottom: 20,
+          },
+        }),
+      };
+
+      styles.logo = {
+        top: "30%",
+        width: 100,
+        height: 100,
+        alignContent: "center",
+        ...Platform.select({
+          ios: {
+            shadowColor: "#000",
+            shadowOffset: { width: 1, height: 1 },
+            shadowOpacity: 0.4,
+            shadowRadius: 2,
+            bottom: 25,
+          },
+          default: {
+            shadowColor: "#000",
+            shadowOffset: { width: 1, height: 1 },
+            shadowOpacity: 0.4,
+            shadowRadius: 2,
+          },
+        }),
+      };
+
+      styles.cardView = {
+        top: "9%",
+        backgroundColor: "white",
+        borderRadius: 5,
+        marginLeft: 15,
+        marginRight: 15,
+        ...Platform.select({
+          ios: {
+            height: screenHeight - 300,
+            shadowColor: "#000",
+            shadowOffset: { width: 1, height: 1 },
+            shadowOpacity: 0.4,
+            shadowRadius: 2,
+          },
+          android: {
+            height: screenHeight - 230,
+            elevation: 2,
+          },
+          default: {
+            shadowColor: "#000",
+            shadowOffset: { width: 1, height: 1 },
+            shadowOpacity: 0.4,
+            shadowRadius: 2,
+            elevation: 2,
+          },
+        }),
+      };
+    }
+  }
 }
 
 const styles = StyleSheet.create({
@@ -175,6 +264,7 @@ const styles = StyleSheet.create({
   cardView: {
     backgroundColor: "white",
     borderRadius: 5,
+    top: 5,
     marginLeft: 15,
     marginRight: 15,
     ...Platform.select({

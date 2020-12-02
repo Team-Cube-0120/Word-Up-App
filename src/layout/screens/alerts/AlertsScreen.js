@@ -274,6 +274,7 @@ const styles = StyleSheet.create({
     backgroundColor: "black",
   },
   errorText: {
+    
     fontSize: 16,
     fontWeight: "bold",
   },

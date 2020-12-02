@@ -8,14 +8,16 @@ import {
   StyleSheet,
   Platform,
   Dimensions,
+  Button
 } from "react-native";
-import { CheckBox } from "react-native-elements";
 import { firebase } from "../../../../server/config/firebase/firebaseConfig";
 import icon from "../../../../assets/appLogo.png";
 import { storeData } from "../../../util/LocalStorage";
 import { USERINFO } from "../../../enums/StorageKeysEnum";
 import { DEFAULT_PROFILE_IMAGE } from "../../../enums/DefaultEnums";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import Dialog from 'react-native-dialog';
+import * as Font from 'expo-font';
 
 const screenWidth = Math.round(Dimensions.get("window").width);
 
@@ -36,78 +38,134 @@ class RegistrationScreen extends Component {
       confirmPassword: "N/A",
       datePosted: new Date(),
       checked: false,
+      isEmailVerified: false,
+      emailVerifyDialog: <View></View>
     };
     this.passInput = React.createRef();
     this.emailInput = React.createRef();
     this.confirmInput = React.createRef();
   }
 
+  componentDidMount() {
+    Font.loadAsync({
+      'Roboto': require('../../../../assets/Roboto-Regular.ttf'),
+    });
+  }
+
+  closeDialog() {
+    this.setState({ isEmailVerified: false });
+  }
+
+  storeCreds = async (user) => {
+      if (user) {
+        if (user.emailVerified) {
+          this.setState({ emailVerifyDialog: (
+            <View>
+          </View>
+          )})
+              user
+              .updateProfile({
+                displayName: this.state.name,
+              })
+              .then((s) => {
+                const uid = user.uid;
+                const data = {
+                  profile: {
+                    profileImageUrl: this.state.imageUrl,
+                    id: uid,
+                    email: this.state.email,
+                    fullname: this.state.name,
+                    birthday: this.state.birthday,
+                    phoneNum: this.state.phoneNum,
+                    username: this.state.username,
+                    bio: this.state.bio,
+                    location: this.state.location,
+                    gender: this.state.gender,
+                  },
+                  id: uid,
+                  email: this.state.email,
+                  fullname: this.state.name,
+                  admin: this.state.checked,
+                  jobIds: [],
+                  eventIds: [],
+                  signedUpEvents: [],
+                  alertIds: [],
+                  datePosted: this.state.datePosted,
+                  isDisabled: false,
+                };
+                const usersRef = firebase.firestore().collection("users");
+                usersRef
+                  .doc(uid)
+                  .set(data)
+                  .then(async () => {
+                    this.setState({ name: "" });
+                    this.setState({ email: "" });
+                    this.setState({ password: "" });
+                    this.setState({ confirmPassword: "" });
+                    this.setState({ checked: false });
+                    await storeData(USERINFO, data).then(() => {
+                      this.props.navigation.navigate("TabNavigator");
+                    });
+                  })
+                  .catch((error) => {
+                    alert(error);
+                  });
+              });
+        } else {
+          alert("Email not verified! Please check your email or resend for email verification.")
+        }
+      } else {
+        alert("Account not found");
+      }
+  };
+
+  sendEmail = async (user) => {
+    user.sendEmailVerification();
+  };
+
   onRegisterPress = () => {
-    if (this.state.password !== this.state.confirmPassword) {
+    if (this.state.name.trim().length < 2) {
+      alert("Name length is too short");
+      return;
+    }
+
+    if (this.state.password.length < 7) {
+      alert("Password length is too short");
+      return;
+    }
+
+    if ((this.state.password !== this.state.confirmPassword)) {
       alert("Passwords don't match.");
       return;
     }
 
     firebase
       .auth()
-      .createUserWithEmailAndPassword(this.state.email, this.state.password)
-      .then((response) => {
-        if (response.user) {
-          response.user
-            .updateProfile({
-              displayName: this.state.name,
-            })
-            .then((s) => {
-              const uid = response.user.uid;
-              const data = {
-                profile: {
-                  profileImageUrl: this.state.imageUrl,
-                  id: uid,
-                  email: this.state.email,
-                  fullname: this.state.name,
-                  birthday: this.state.birthday,
-                  phoneNum: this.state.phoneNum,
-                  username: this.state.username,
-                  bio: this.state.bio,
-                  location: this.state.location,
-                  gender: this.state.gender,
-                },
-                id: uid,
-                email: this.state.email,
-                fullname: this.state.name,
-                admin: this.state.checked,
-                jobIds: [],
-                eventIds: [],
-                signedUpEvents: [],
-                alertIds: [],
-                datePosted: this.state.datePosted,
-                isDisabled: false,
-              };
-              const usersRef = firebase.firestore().collection("users");
-              usersRef
-                .doc(uid)
-                .set(data)
-                .then(async () => {
-                  this.setState({ name: "" });
-                  this.setState({ email: "" });
-                  this.setState({ password: "" });
-                  this.setState({ confirmPassword: "" });
-                  this.setState({ checked: false });
-                  await storeData(USERINFO, data).then(() => {
-                    this.props.navigation.navigate("TabNavigator");
-                  });
-                })
-                .catch((error) => {
-                  alert(error);
-                });
-            });
-        } else {
-          alert("Account not found");
-        }
-      })
-      .catch((error) => {
-        alert(error);
-      });
+      .createUserWithEmailAndPassword(this.state.email, this.state.password).then((res) => {
+        // console.log(res)
+        res.user.sendEmailVerification();
+        this.setState({ emailVerifyDialog: (
+          <View>
+          <Dialog.Container visible={true}>
+              <Dialog.Title style={{marginBottom: 5, fontSize: 20, fontWeight: "bold", textAlign:"center", fontFamily:"Roboto"}}>Verification email sent!</Dialog.Title>
+              <Dialog.Title style={{marginBottom: 10, fontSize: 15, textAlign:"center", fontFamily:"Roboto"}}>Please check your email</Dialog.Title>
+              <View style={{ flexDirection: 'column'}}>
+                  <Button onPress={() => {
+                    res.user.reload().then(() => {
+                      this.storeCreds(res.user)
+                    })
+                  }} title="Email Verified, Log Me In!"></Button>
+                  <View style={{marginTop:10}}>
+                  <Button onPress={() => {
+                    this.sendEmail(res.user)
+                  }} title="Resend Email"></Button>
+                  </View>
+              </View>
+          </Dialog.Container>
+        </View>
+        )})
+      }).catch((e) => alert(e))
+    
   };
 
   render() {
@@ -115,29 +173,6 @@ class RegistrationScreen extends Component {
       <KeyboardAwareScrollView extraScrollHeight={25} style={styles.container}>
         <Image style={styles.logo} source={icon} />
         <View style={styles.checkBoxContainer}>
-          {/* <Text
-            style={{
-              top: 18,
-              ...Platform.select({
-                ios: {
-                  marginLeft: 42,
-                },
-                android: {
-                  marginLeft: 60,
-                },
-                default: {
-                  marginLeft: 48,
-                },
-              }),
-              fontWeight: "bold",
-            }}
-          >
-            {/* Admin */}
-          {/* </Text> */} 
-          {/* <CheckBox
-            checked={this.state.checked}
-            onPress={() => this.setState({ checked: !this.state.checked })}
-          ></CheckBox> */}
         </View>
         <Text>
           
@@ -221,6 +256,7 @@ class RegistrationScreen extends Component {
             </Text>
           </Text>
         </View>
+        {this.state.emailVerifyDialog}
       </KeyboardAwareScrollView>
     );
   }
@@ -261,6 +297,7 @@ const styles = StyleSheet.create({
     marginBottom: 0,
   },
   topInput: {
+    fontFamily:"Roboto",
     height: 48,
     borderRadius: 5,
     ...Platform.select({
@@ -288,6 +325,7 @@ const styles = StyleSheet.create({
     paddingLeft: 16,
   },
   input: {
+    fontFamily:"Roboto",
     height: 48,
     borderRadius: 5,
     ...Platform.select({
@@ -344,6 +382,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   buttonTitle: {
+    fontFamily:"Roboto",
     color: "white",
     fontSize: 16,
     fontWeight: "bold",
@@ -354,10 +393,12 @@ const styles = StyleSheet.create({
     marginTop: 20,
   },
   footerText: {
+    fontFamily:"Roboto",
     fontSize: 16,
     color: "#2e2e2d",
   },
   footerLink: {
+    fontFamily:"Roboto",
     color: "#006400",
     fontWeight: "bold",
     fontSize: 16,

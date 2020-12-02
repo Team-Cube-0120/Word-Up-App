@@ -308,6 +308,7 @@ class EditJobScreen extends Component {
             >
               <Text
                 style={{
+                  
                   fontSize: 18,
                   color: "white",
                   alignItems: "center",
@@ -345,16 +346,19 @@ const styles = StyleSheet.create({
   },
 
   instructions: {
+    
     marginBottom: "5%",
   },
 
   title: {
+    
     fontWeight: "bold",
     marginRight: "1%",
     fontSize: 16,
   },
 
   value: {
+    
     fontSize: 16,
     borderColor: "gray",
     width: "100%",
@@ -364,6 +368,7 @@ const styles = StyleSheet.create({
   },
 
   textInputMultipleLine: {
+    
     borderColor: "gray",
     borderWidth: 1,
     borderRadius: 10,

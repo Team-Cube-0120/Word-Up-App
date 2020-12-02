@@ -11,11 +11,17 @@ import {
 import MaterialCommunityIconsIcon from "react-native-vector-icons/MaterialCommunityIcons";
 import { firebase } from "../../../../server/config/firebase/firebaseConfig";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import { AppLoading } from "expo";
+import { useFonts } from "expo-font";
 
 export default function PasswordScreen({ navigation }) {
   const [currentPassword, setcurrentPassword] = useState("");
   const [newPassword, setnewPassword] = useState("");
   const [confirmPassword, setconfirmPassword] = useState("");
+
+  let [fontsLoaded] = useFonts({
+    Roboto: require("../../../../assets/Roboto-Regular.ttf"),
+  });
 
   const changePassword = async (currPassword, newPswrd) => {
     const user = firebase.auth().currentUser;
@@ -44,80 +50,86 @@ export default function PasswordScreen({ navigation }) {
     return user.reauthenticateWithCredential(cred);
   };
 
-  return (
-    // <View>
-    <KeyboardAwareScrollView extraScrollHeight={25} style={styles.container}>
-      <MaterialCommunityIconsIcon
-        name="lock-reset"
-        color="#70AF1A"
-        style={styles.changePassInput}
-      ></MaterialCommunityIconsIcon>
+  if (!fontsLoaded) {
+    return <AppLoading></AppLoading>;
+  } else {
+    return (
+      // <View>
+      <KeyboardAwareScrollView extraScrollHeight={25} style={styles.container}>
+        <MaterialCommunityIconsIcon
+          name="lock-reset"
+          color="#70AF1A"
+          style={styles.changePassInput}
+        ></MaterialCommunityIconsIcon>
 
-      <Text style={styles.changePassText}>Change Your Password</Text>
+        <Text style={styles.changePassText}>Change Your Password</Text>
 
-      <TextInput
-        style={styles.input}
-        placeholderTextColor="#aaaaaa"
-        secureTextEntry
-        placeholder="Current Password"
-        onChangeText={(text) => setcurrentPassword(text)}
-        value={currentPassword}
-        underlineColorAndroid="transparent"
-        autoCapitalize="none"
-        returnKeyType={"done"}
-      />
+        <TextInput
+          style={styles.input}
+          placeholderTextColor="#aaaaaa"
+          secureTextEntry
+          placeholder="Current Password"
+          onChangeText={(text) => setcurrentPassword(text)}
+          value={currentPassword}
+          underlineColorAndroid="transparent"
+          autoCapitalize="none"
+          returnKeyType={"done"}
+        />
 
-      <TextInput
-        style={styles.input}
-        placeholderTextColor="#aaaaaa"
-        secureTextEntry
-        placeholder="New Password"
-        onChangeText={(text) => setnewPassword(text)}
-        value={newPassword}
-        underlineColorAndroid="transparent"
-        autoCapitalize="none"
-        returnKeyType={"done"}
-      />
+        <TextInput
+          style={styles.input}
+          placeholderTextColor="#aaaaaa"
+          secureTextEntry
+          placeholder="New Password"
+          onChangeText={(text) => setnewPassword(text)}
+          value={newPassword}
+          underlineColorAndroid="transparent"
+          autoCapitalize="none"
+          returnKeyType={"done"}
+        />
 
-      <TextInput
-        style={styles.input}
-        placeholderTextColor="#aaaaaa"
-        secureTextEntry
-        placeholder="Confirm Password"
-        onChangeText={(text) => setconfirmPassword(text)}
-        value={confirmPassword}
-        underlineColorAndroid="transparent"
-        autoCapitalize="none"
-        returnKeyType={"done"}
-      />
+        <TextInput
+          style={styles.input}
+          placeholderTextColor="#aaaaaa"
+          secureTextEntry
+          placeholder="Confirm Password"
+          onChangeText={(text) => setconfirmPassword(text)}
+          value={confirmPassword}
+          underlineColorAndroid="transparent"
+          autoCapitalize="none"
+          returnKeyType={"done"}
+        />
 
-      <TouchableOpacity
-        style={styles.button}
-        onPress={() => {
-          if (newPassword != confirmPassword) {
-            alert("New and confirmed password don't match. Please try again.");
-          } else {
-            Alert.alert(
-              "Are you sure?",
-              "Please confirm your password change",
-              [
-                {
-                  text: "Confirm",
-                  onPress: () => changePassword(currentPassword, newPassword),
-                },
-                {
-                  text: "Cancel",
-                  onPress: "",
-                },
-              ]
-            );
-          }
-        }}
-      >
-        <Text style={styles.buttonTitle}>Change Password</Text>
-      </TouchableOpacity>
-    </KeyboardAwareScrollView>
-  );
+        <TouchableOpacity
+          style={styles.button}
+          onPress={() => {
+            if (newPassword != confirmPassword) {
+              alert(
+                "New and confirmed password don't match. Please try again."
+              );
+            } else {
+              Alert.alert(
+                "Are you sure?",
+                "Please confirm your password change",
+                [
+                  {
+                    text: "Confirm",
+                    onPress: () => changePassword(currentPassword, newPassword),
+                  },
+                  {
+                    text: "Cancel",
+                    onPress: "",
+                  },
+                ]
+              );
+            }
+          }}
+        >
+          <Text style={styles.buttonTitle}>Change Password</Text>
+        </TouchableOpacity>
+      </KeyboardAwareScrollView>
+    );
+  }
 }
 
 const styles = StyleSheet.create({
@@ -126,6 +138,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#FAFAFA",
   },
   changePassInput: {
+    fontFamily:"Roboto",
     fontSize: 140,
     marginTop: 35,
     ...Platform.select({
@@ -141,6 +154,7 @@ const styles = StyleSheet.create({
     }),
   },
   changePassText: {
+    fontFamily:"Roboto",
     fontSize: 28,
     ...Platform.select({
       ios: {
@@ -176,6 +190,7 @@ const styles = StyleSheet.create({
     }),
   },
   input: {
+    fontFamily:"Roboto",
     height: 50,
     borderRadius: 5,
     ...Platform.select({
@@ -207,7 +222,7 @@ const styles = StyleSheet.create({
     paddingLeft: 16,
   },
   button: {
-    backgroundColor: "#70AF1A",
+    backgroundColor: "#006400",
     ...Platform.select({
       ios: {
         shadowColor: "#000",
@@ -238,6 +253,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   buttonTitle: {
+    fontFamily:"Roboto",
     color: "white",
     fontSize: 16,
     fontWeight: "bold",

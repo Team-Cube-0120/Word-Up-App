@@ -1,31 +1,35 @@
 {
   "expo": {
-    "name": "Team-CUBE",
+    "name": "WordUP",
     "slug": "snack-4fe504f2-957c-48b1-9249-e97093b69fe1",
-    "platforms": [
-      "ios",
-      "android",
-      "web"
-    ],
+    "platforms": ["ios", "android", "web"],
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/appLogo.png",
+    "updates": {
+      "fallbackToCacheTimeout": 0
+    },
     "splash": {
       "image": "./assets/appLogo.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
-    "updates": {
-      "fallbackToCacheTimeout": 0
-    },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
-    "ios": {
-      "supportsTablet": true,
+    "assetBundlePatterns": ["**/*"],
+    "android": {
+      "package": "com.wordup.app",
       "config": {
         "googleSignIn": {
-          "reservedClientId": "com.googleusercontent.apps.422334804938-2dbd1f4th6fv4e48e88q1oi39v64jqg2"
+          "apiKey" : "AIzaSyBDhQQICm2SGG27H2FqkAUOyAo3h5SfFls",
+          "certificateHash": "20C1C93F98AE3BAE97A3D8ACC05D3CC183CFF6BA"
+        }
+      }
+    },
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.wordup.app",
+      "config": {
+        "googleSignIn": {
+          "reservedClientId": "com.googleusercontent.apps.737324073545-017bbmgjgmn4mrtp0p12qkb89jq8f3jt"
         }
       }
     }

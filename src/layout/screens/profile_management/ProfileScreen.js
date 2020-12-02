@@ -90,12 +90,6 @@ class ProfileScreen extends Component {
 
   componentDidMount() {
     this.getUserInfo().catch((e) => console.log(e));
-    // this.willFocusSubscription = this.props.navigation.addListener(
-    //   "focus",
-    //   () => {
-    //     this.getUserInfo().catch((e) => console.log(e));
-    //   }
-    // );
     (async () => {
       if (Platform.OS !== "web") {
         const {
@@ -918,6 +912,7 @@ const styles = StyleSheet.create({
     color: "red",
   },
   input: {
+    
     minHeight: 40,
     maxHeight: 130,
     fontSize: 18,
@@ -1109,11 +1104,13 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   buttonTitleSubmit: {
+    
     color: "#fff",
     fontSize: 16,
     fontWeight: "bold",
   },
   buttonTitle: {
+    
     color: "#fff",
     fontSize: 16,
     fontWeight: "bold",

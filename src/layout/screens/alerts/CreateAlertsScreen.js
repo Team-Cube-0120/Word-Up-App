@@ -39,7 +39,7 @@ class CreateAlertsScreen extends Component {
         <Card containerStyle={styles.cardShadows}>
           <Card.Title>Create Alert</Card.Title>
           <Card.Divider />
-          <Text style={styles.text}>
+          <Text textBreakStrategy="simple" style={styles.text}>
             Name <Text style={{ color: "red" }}>*</Text>
           </Text>
           <TextInput
@@ -117,7 +117,7 @@ class CreateAlertsScreen extends Component {
             )}
           </ModalSelector>
 
-          <Text style={styles.text}>
+          <Text textBreakStrategy="simple" style={styles.text}>
             Location <Text style={{ color: "red" }}>*</Text>
           </Text>
           <TextInput
@@ -125,7 +125,7 @@ class CreateAlertsScreen extends Component {
             placeholder="e.g. 1234 Cherry Lane, Hampton, VA 42039"
             onChangeText={(location) => this.setState({ location: location })}
           ></TextInput>
-          <Text style={styles.text}>
+          <Text textBreakStrategy="simple" style={styles.text}>
             Details <Text style={{ color: "red" }}>*</Text>
           </Text>
           <TextInput
@@ -135,7 +135,7 @@ class CreateAlertsScreen extends Component {
             onChangeText={(details) => this.setState({ details: details })}
           ></TextInput>
 
-          <Text style={styles.text}>
+          <Text textBreakStrategy="simple" style={styles.text}>
             Choose an Alert Type <Text style={{ color: "red" }}>*</Text>
           </Text>
 

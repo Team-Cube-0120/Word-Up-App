@@ -17,6 +17,7 @@ import { firebase } from "../../../../server/config/firebase/firebaseConfig";
 import MaterialCommunityIconsIcon from "react-native-vector-icons/MaterialCommunityIcons";
 import { getData } from "../../../util/LocalStorage";
 import { USERINFO } from "../../../enums/StorageKeysEnum";
+import SubmissionDialog from "../../../components/dialog/ConfirmDialog";
 
 const screenWidth = Math.round(Dimensions.get("window").width);
 
@@ -26,17 +27,12 @@ class SettingsScreen extends Component {
     this.state = {
       isLoading: true,
       fullname: "",
+      toggleDialog: false,
       email: "",
       admin: false,
       profileImageUrl: "",
       notifications: "",
     };
-    // this.willFocusSubscription = this.props.navigation.addListener(
-    //   "focus",
-    //   () => {
-    //     this.getUserInfo();
-    //   }
-    // );
   }
 
   componentDidMount() {
@@ -45,7 +41,10 @@ class SettingsScreen extends Component {
 
   componentDidUpdate(prevProps, prevState) {
     // console.log(this.props.route.params);
-    if (this.props.route.params != null && this.props.route.params.isProfileUpdated) {
+    if (
+      this.props.route.params != null &&
+      this.props.route.params.isProfileUpdated
+    ) {
       this.getUserInfo().catch((e) => console.log(e));
       this.props.route.params.isProfileUpdated = false;
     }
@@ -58,8 +57,6 @@ class SettingsScreen extends Component {
     this.setState({ admin: userInfo.admin });
     this.setState({ profileImageUrl: userInfo.profile.profileImageUrl });
     this.setState({ isLoading: false });
-    // console.log(user)
-    // console.log(this.state)
   }
 
   showAboutUs() {
@@ -84,6 +81,14 @@ class SettingsScreen extends Component {
       console.log(e);
     }
   };
+
+  openDialog() {
+    this.setState({ toggleDialog: true });
+  }
+
+  closeDialog() {
+    this.setState({ toggleDialog: false });
+  }
 
   render() {
     // console.log(this.state.isLoading);
@@ -145,7 +150,6 @@ class SettingsScreen extends Component {
             <View style={styles.divider}></View>
 
             <ScrollView style={styles.container}>
-
               <TouchableOpacity
                 style={styles.infoBoxWrapper}
                 onPress={() => this.props.navigation.navigate("AdminPortal")}
@@ -162,7 +166,6 @@ class SettingsScreen extends Component {
                   ></MaterialCommunityIconsIcon>
                 </View>
               </TouchableOpacity>
-
 
               {/* Edit/View Profile Section */}
               <TouchableOpacity
@@ -400,10 +403,16 @@ class SettingsScreen extends Component {
 
               <TouchableOpacity
                 style={styles.button}
-                onPress={() => this.onLoginOutPress()}
+                onPress={() => this.openDialog()}
               >
                 <Text style={styles.buttonTitle}>Log Out</Text>
               </TouchableOpacity>
+              <SubmissionDialog
+                visible={this.state.toggleDialog}
+                onClose={() => this.closeDialog()}
+                onSubmit={() => this.onLoginOutPress()}
+                isSubmitting={false}
+              />
             </ScrollView>
           </View>
         );
@@ -422,6 +431,7 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   title: {
+    
     alignItems: "center",
     fontSize: 24,
     fontWeight: "bold",
@@ -446,6 +456,7 @@ const styles = StyleSheet.create({
     // justifyContent: "center"
   },
   menuTitleM: {
+    
     flexDirection: "row",
     alignItems: "center",
     position: "relative",
@@ -482,6 +493,8 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   buttonTitle: {
+    
+    
     color: "white",
     fontSize: 16,
     fontWeight: "bold",

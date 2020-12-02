@@ -80,14 +80,14 @@ class CreateEventsScreen extends Component {
       this.setState({
         isVisible: false,
         startDate: moment(datetime, "MMMM, Do YYYY hh:mm A").format(
-          "MMMM, Do YYYY    hh:mm A"
+          "MMMM, Do YYYY hh:mm A"
         ),
       });
     } else if (this.state.end) {
       this.setState({
         isVisible: false,
         endDate: moment(datetime, "MMMM, Do YYYY hh:mm A").format(
-          "MMMM, Do YYYY    hh:mm A"
+          "MMMM, Do YYYY hh:mm A"
         ),
       });
     }
@@ -146,6 +146,7 @@ class CreateEventsScreen extends Component {
             >
               <Text
                 style={{
+                  
                   fontSize: 18,
                   color: "white",
                   alignItems: "center",
@@ -174,6 +175,7 @@ class CreateEventsScreen extends Component {
             >
               <Text
                 style={{
+                  
                   fontSize: 18,
                   color: "white",
                   alignItems: "center",
@@ -276,6 +278,7 @@ class CreateEventsScreen extends Component {
               borderBottomWidth: 1,
             }}
             optionTextStyle={{
+              
               color: "#70AF1A",
               alignItems: "center",
               fontWeight: "bold",
@@ -339,6 +342,7 @@ class CreateEventsScreen extends Component {
           >
             <Text
               style={{
+                
                 fontSize: 18,
                 color: "white",
                 alignItems: "center",
@@ -365,12 +369,14 @@ const styles = StyleSheet.create({
     color: "red",
   },
   text: {
+    
     flexDirection: "row",
     fontSize: 16,
     marginBottom: 5,
     fontWeight: "bold",
   },
   textDate: {
+    
     fontSize: 15,
     padding: 10,
     color: "gray",
@@ -386,6 +392,7 @@ const styles = StyleSheet.create({
     alignSelf: "center",
   },
   textInput: {
+    
     alignSelf: "stretch",
     height: 40,
     marginBottom: 30,
@@ -394,6 +401,7 @@ const styles = StyleSheet.create({
     paddingLeft: 10,
   },
   textInputOther: {
+    
     alignSelf: "stretch",
     height: 40,
     marginBottom: 30,
@@ -403,6 +411,7 @@ const styles = StyleSheet.create({
     paddingLeft: 10,
   },
   textInputMultipleLine: {
+    
     borderColor: "gray",
     borderWidth: 1,
     borderRadius: 10,

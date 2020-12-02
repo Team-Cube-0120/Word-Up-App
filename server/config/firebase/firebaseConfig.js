@@ -3,7 +3,7 @@ import '@firebase/auth';
 import '@firebase/firestore';
 
 var firebaseConfig = {
-    apiKey: "AIzaSyDZ9W_ylzTckrcHB2GHfG1solSse4BPEMo",
+    apiKey: "AIzaSyD96tYLq0r6PjxvD6LQBkUM4U2mB0hWRjg",
     authDomain: "wordup-50b05.firebaseapp.com",
     databaseURL: "https://wordup-50b05.firebaseio.com",
     projectId: "wordup-50b05",
