@@ -161,6 +161,14 @@ app.get('/data/getAll', (req, res) => {
         .catch((error) => { res.send({ Status: 400, Message: error }) })
 });
 
+app.get('/data/getAllLimit', (req, res) => {
+    let collection = req.query.collection;
+    let numItems = req.query.numItems;
+    firebaseFirestore.getAllLimit(collection, numItems)
+        .then((data) => { res.send({ Status: 200, data: data }) })
+        .catch((error) => { res.send({ Status: 400, Message: error }) })
+});
+
 app.get('/data/getAllFeedback', (req, res) => {
     let collection = req.query.collection;
     firebaseFirestore.getAllFeedback(collection)
