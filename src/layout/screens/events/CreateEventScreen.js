@@ -119,7 +119,7 @@ class CreateEventsScreen extends Component {
 
   render() {
     return (
-      <ScrollView keyboardShouldPersistTaps={true} style={styles.container}>
+      <ScrollView keyboardShouldPersistTaps="always" style={styles.container}>
         <Card containerStyle={styles.cardShadows}>
           <Card.Title>Create Event</Card.Title>
           <Card.Divider />

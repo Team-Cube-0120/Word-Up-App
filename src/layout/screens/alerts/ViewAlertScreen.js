@@ -83,7 +83,7 @@ class ViewAlertScreen extends Component {
       .then((body) => ApiService.delete("data/delete", body))
       .then(() => {
         this.removeAlertInfo().then(() => {
-          this.props.navigation.navigate("Alerts");
+          this.props.navigation.navigate("Alerts", { isAlertCreated: true });
           Alert.alert(
             "Congratulations!",
             "Your event has been successfully deleted!"

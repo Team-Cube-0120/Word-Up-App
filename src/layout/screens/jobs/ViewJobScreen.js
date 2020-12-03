@@ -90,7 +90,7 @@ class ViewJobScreen extends Component {
         Alert.alert("Notice", "Your job has been deleted", [
           {
             text: "Return",
-            onPress: () => this.props.navigation.navigate("Jobs"),
+            onPress: () => this.props.navigation.navigate("Jobs", { isJobCreated: true }),
           },
         ]);
       })

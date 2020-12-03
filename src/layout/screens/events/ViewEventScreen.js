@@ -91,7 +91,7 @@ class ViewEventScreen extends Component {
         Alert.alert("Notice", "Your event has been deleted", [
           {
             text: "Return",
-            onPress: () => this.props.navigation.navigate("Events"),
+            onPress: () => this.props.navigation.navigate("Events", { isEventCreated: true }),
           },
         ]);
       })

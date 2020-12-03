@@ -94,7 +94,7 @@ class EventComments extends Component {
           <FlatList
             style={styles.root}
             data={this.state.comments}
-            keyboardShouldPersistTaps={true}
+            keyboardShouldPersistTaps="always"
             ref={(ref) => {
               this.flatListView = ref;
             }}
@@ -131,7 +131,7 @@ class EventComments extends Component {
               );
             }}
           ></FlatList>
-          <ScrollView keyboardShouldPersistTaps={true} style={{ height: 200 }}>
+          <ScrollView keyboardShouldPersistTaps="always" style={{ height: 200 }}>
             <TextInput
               style={styles.comment}
               multiline={true}

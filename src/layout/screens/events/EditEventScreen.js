@@ -125,7 +125,7 @@ class editEventScreen extends Component {
 
   render() {
     return (
-      <ScrollView keyboardShouldPersistTaps={true} style={styles.container}>
+      <ScrollView keyboardShouldPersistTaps="always" style={styles.container}>
         <Card containerStyle={styles.cardShadows}>
           <Card.Title>Edit Event Information</Card.Title>
           <Card.Divider />
