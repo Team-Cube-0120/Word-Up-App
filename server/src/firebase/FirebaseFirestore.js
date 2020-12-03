@@ -60,10 +60,34 @@ class FirebaseFirestore {
         });
     }
 
+    async postSignedUpUser(collection, document, data, userId) {
+        return new Promise((resolve, reject) => {
+            try {
+                this.updateEventItemId(data.eventId, { signedUpUsers: firestore.FieldValue.arrayUnion(userId) })
+                    .then((response) => resolve(response))
+                    .then((error) => reject(error))
+            } catch (e) {
+                reject(e);
+            }
+        });
+    }
+
     async unRegister(collection, document, data, userId) {
         return new Promise((resolve, reject) => {
             try {
                 this.updateUserItemId(userId, { signedUpEvents: firestore.FieldValue.arrayRemove(data.eventId) })
+                    .then((response) => resolve(response))
+                    .then((error) => reject(error))
+            } catch (e) {
+                reject(e);
+            }
+        });
+    }
+
+    async unRegisterUser(collection, document, data, userId) {
+        return new Promise((resolve, reject) => {
+            try {
+                this.updateEventItemId(data.eventId, { signedUpUsers: firestore.FieldValue.arrayRemove(userId) })
                     .then((response) => resolve(response))
                     .then((error) => reject(error))
             } catch (e) {
@@ -148,6 +172,17 @@ class FirebaseFirestore {
         })
     }
 
+    async updateEventItemId(eventId, updatedIdListObject) {
+        return new Promise((resolve, reject) => {
+            this.database
+                .collection("events")
+                .doc(eventId)
+                .update(updatedIdListObject)
+                .then((response) => resolve("Data successfully updated"))
+                .catch((error) => reject("Error updating document: " + error))
+        })
+    }
+
     async filterByOther(collection, filterOption) {
         return new Promise((resolve, reject) => {
             this.database
@@ -171,7 +206,7 @@ class FirebaseFirestore {
         return new Promise((resolve, reject) => {
             this.database
                 .collection(collection)
-                .where('userId', '==', filterOption)
+                .where('signedUpUsers', 'array-contains', filterOption)
                 .get()
                 .then(payload => {
                     let data = [];
