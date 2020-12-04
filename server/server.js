@@ -105,6 +105,15 @@ app.put('/data/events/delete', (req, res) => {
         .catch((error) => { res.send({ Status: 400, Message: error }) });
 });
 
+app.put('/data/alerts/delete', (req, res) => {
+    let collection = req.query.collection;
+    let document = req.query.document;
+    let userId = req.query.userId;
+    firebaseFirestore.deleteAlert(collection, document, userId)
+        .then((message) => { res.send({ Status: 200, Message: message }) })
+        .catch((error) => { res.send({ Status: 400, Message: error }) });
+});
+
 app.get('/data/get', (req, res) => {
     let collection = req.query.collection;
     let document = req.query.document;

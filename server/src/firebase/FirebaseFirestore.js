@@ -156,6 +156,20 @@ class FirebaseFirestore {
         });
     }
 
+    async deleteAlert(collection, document, userId) {
+        return new Promise(async (resolve, reject) => {
+            try {
+                this.updateUserItemId(userId, { alertIds: firestore.FieldValue.arrayRemove(document) })
+                .then()
+                    .then((response) => this.delete(collection, document))
+                    .then((response) => resolve(response))
+                    .catch((error) => reject(error));
+            } catch (e) {
+                reject(e);
+            }
+        });
+    }
+
 
 
     /**

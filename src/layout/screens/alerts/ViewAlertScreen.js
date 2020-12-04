@@ -51,66 +51,37 @@ class ViewAlertScreen extends Component {
     this.setState({ toggleDialog: true });
   }
 
-  async removeAlertInfo() {
-    return new Promise(async (resolve, reject) => {
-      try {
-        let userInfo = await getData(USERINFO);
-        for (var i = 0; i < userInfo.alertIds.length; i++) {
-          if (userInfo.alertIds[i] === this.state.alertInfo.alertId) {
-            userInfo.alertIds.splice(i, 1);
-          }
-        }
-        let body = await RequestOptions.setUpRequestBody(
-          "users",
-          userInfo.id,
-          userInfo
-        );
-        await ApiService.update("data/update", body);
-        await storeData(USERINFO, userInfo);
-        resolve();
-      } catch (error) {
-        console.log("error: " + error);
-        reject(error);
-      }
-    });
-  }
 
   deleteAlert() {
-    this.removeAlertInfo();
-    this.setState({ isLoading: true });
-    RequestOptions.setUpRequestBody(
-      "alerts",
-      this.state.alertInfo.alertId,
-      this.state
+    let itemId = this.state.alertInfo.alertId;
+    this.setState({ deleteLoading: true });
+    ApiService.delete(
+      "data/alerts/delete?collection=alerts&document=" +
+        itemId +
+        "&userId=" +
+        this.state.alertInfo.userId
     )
-      .then((body) => ApiService.delete("data/delete", body))
-      .then(() => {
-        this.removeAlertInfo().then(() => {
-          this.closeDialog();
-          Alert.alert(
-            "Congratulations!",
-            "Your alert has been successfully deleted!", [
-              {
-                text: "Return",
-                onPress: () => this.props.navigation.navigate("Alerts", { isAlertCreated: true }),
-              },
-            ]
-          );
-        });
+      .then((response) => updateUserInfo())
+      .then((response) => {
+        this.closeDialog();
+        Alert.alert("Notice", "Your alert has been deleted", [
+          {
+            text: "Return",
+            onPress: () => this.props.navigation.navigate("Alerts"),
+          },
+        ]);
       })
       .catch((error) => {
         this.closeDialog();
         Alert.alert(
-          "Error",
-          "There was a problem deleting your alert. Please try again.",
-          [
-            {
-              text: "Close",
-              onPress: () => this.closeDialog(),
-            },
-          ]
-        );
-      });
+          'Error',
+          'There was a problem deleting this alert. Please try again.',
+          [{
+            text: 'Close',
+            onPress: () => this.closeDialog()
+          }]
+        )
+      })
   }
 
   async isEditable() {
