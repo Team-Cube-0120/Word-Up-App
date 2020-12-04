@@ -19,20 +19,24 @@ export default function PasswordScreen({ navigation }) {
   const [confirmPassword, setconfirmPassword] = useState("");
 
   const changePassword = async (currPassword, newPswrd) => {
-    const user = firebase.auth().currentUser;
-    try {
-      // reauthenticating
-      await reauthenticate(currPassword);
+    if (newPswrd.length < 8) {
+      alert("Invalid password format. Please make sure that it is at least 8 characters long.");
+    } else {
+      const user = firebase.auth().currentUser;
+      try {
+        // reauthenticating
+        await reauthenticate(currPassword);
 
-      await user
-        .updatePassword(newPswrd)
-        .then(() => {
-          alert("Success! Password has been changed");
-          navigation.navigate("Settings");
-        })
-        .catch((e) => console.log(e));
-    } catch (err) {
-      alert("Current Password " + err);
+        await user
+          .updatePassword(newPswrd)
+          .then(() => {
+            alert("Success! Password has been changed");
+            navigation.navigate("Settings");
+          })
+          .catch((e) => console.log(e));
+      } catch (err) {
+        alert("Current Password " + err);
+      }
     }
   };
 

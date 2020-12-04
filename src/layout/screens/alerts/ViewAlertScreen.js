@@ -67,7 +67,7 @@ class ViewAlertScreen extends Component {
         Alert.alert("Notice", "Your alert has been deleted", [
           {
             text: "Return",
-            onPress: () => this.props.navigation.navigate("Alerts"),
+            onPress: () => this.props.navigation.navigate("Alerts", { isAlertCreated: true }),
           },
         ]);
       })

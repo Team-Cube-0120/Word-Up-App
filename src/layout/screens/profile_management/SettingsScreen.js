@@ -63,7 +63,7 @@ class SettingsScreen extends Component {
   showAboutUs() {
     Alert.alert(
       "WordUP",
-      "We are a team of Georgia Tech Students who are committed to making a difference in the lives of people through Technology. Our mission for this application is to be able to promote engagement and connectedness by enabling people to create and attend events within the community as well as allowing people to view local jobs and news.",
+      "We are a team of Georgia Tech students committed to making a difference through technology. Our mission for this application is to promote community engagement by enabling people to create and attend events within the community as well as allowing people to view local jobs and news.",
       [
         {
           text: "OK",
@@ -266,6 +266,7 @@ class SettingsScreen extends Component {
               >
                 <Text style={styles.buttonTitle}>Log Out</Text>
               </TouchableOpacity>
+              <View style={{marginBottom: '5%'}}></View>
             </ScrollView>
           </View>
         );
@@ -414,6 +415,7 @@ class SettingsScreen extends Component {
                 onSubmit={() => this.onLoginOutPress()}
                 isSubmitting={false}
               />
+              <View style={{marginBottom: '5%'}}></View>
             </ScrollView>
           </View>
         );

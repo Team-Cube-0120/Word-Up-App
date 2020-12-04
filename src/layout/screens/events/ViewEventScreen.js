@@ -129,7 +129,7 @@ class ViewEventScreen extends Component {
           'Your event has been signed up',
           [{
             text: 'Return',
-            onPress: () => this.props.navigation.navigate("Events")
+            onPress: () => this.props.navigation.navigate("Events", { isEventCreated: true })
           }])
       })
       .catch((error) => {
@@ -161,7 +161,7 @@ class ViewEventScreen extends Component {
           'Your have successfully unregistered',
           [{
             text: 'Return',
-            onPress: () => this.props.navigation.navigate("Events")
+            onPress: () => this.props.navigation.navigate("Events", { isEventCreated: true })
           }])
       })
       .catch((error) => {
