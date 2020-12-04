@@ -42,6 +42,7 @@ class CreateEventsScreen extends Component {
       start: false,
       end: false,
       signedUp: false,
+      signedUpUsers: [],
     };
     this.eventNameInput = React.createRef();
     this.detailsInput = React.createRef();
@@ -54,7 +55,7 @@ class CreateEventsScreen extends Component {
   isInputEmpty() {
     var empty = false;
     for (var key in this.state) {
-      if (key != "userId" && key != "eventId" && key != "rsvpCode" && key != "profileImage" && key != "coHosts" && key != "start"  && key != "end" && key != "signedUp" && key != "endDate" && key != "startDate" && key != "isVisible" && key != "isMenuVisible") {
+      if (key != "userId" && key != "eventId" && key != "rsvpCode" && key != "profileImage" && key != "coHosts" && key != "start"  && key != "end" && key != "signedUp" && key != "endDate" && key != "startDate" && key != "isVisible" && key != "isMenuVisible" && key != "signedUpUsers") {
         if (this.state[key] == "N/A" || this.state[key] == "" || this.state[key] === "-" || this.state[key] === false)  {
           // console.log(key);
           empty = true;

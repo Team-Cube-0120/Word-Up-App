@@ -55,6 +55,7 @@ app.post('/data/signup/add', (req, res) => {
     let document = req.body.document;
     let data = req.body.data;
     firebaseFirestore.postSignedUpEvent(collection, document, data, userId)
+    firebaseFirestore.postSignedUpUser(collection, document, data, userId)
         .then((message) => { res.send({ Status: 200, Message: message }) })
         .catch((error) => { res.send({ Status: 400, Message: error }) });
 });
@@ -64,6 +65,7 @@ app.post('/data/unregister/delete', (req, res) => {
     let document = req.body.document;
     let data = req.body.data;
     firebaseFirestore.unRegister(collection, document, data, userId)
+    firebaseFirestore.unRegisterUser(collection, document, data, userId)
         .then((message) => { res.send({ Status: 200, Message: message }) })
         .catch((error) => { res.send({ Status: 400, Message: error }) });
 });

@@ -118,6 +118,7 @@ class ViewEventScreen extends Component {
     this.setState({ deleteLoading: true });
     let userInfo = await getData(USERINFO);
     console.log(userInfo.id);
+    this.state.eventInfo.signedUpUsers.push(userInfo.id);
     RequestOptions.setUpRequestBody("events", this.state.eventInfo.eventId, this.state.eventInfo)
     .then((body) => ApiService.post("data/signup/add?userId="+userInfo.id, body))
     .then((response) => updateUserInfo())

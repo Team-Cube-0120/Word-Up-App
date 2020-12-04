@@ -25,11 +25,7 @@ class FilterEventDialog extends Component {
             {label: 'Food', value: 'Food'},
             {label: 'All', value: 'All'},
             {label: 'My Events', value: 'My Events'},
-            // {label: 'Signed Up Events', value: 'Signed Up Events'},
-
-
-
-           
+            {label: 'Signed Up Events', value: 'Signed Up Events'},
         ];
 
         this.state = {
