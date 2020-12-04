@@ -18,6 +18,8 @@ import MaterialCommunityIconsIcon from "react-native-vector-icons/MaterialCommun
 import { getData } from "../../../util/LocalStorage";
 import { USERINFO } from "../../../enums/StorageKeysEnum";
 
+const font = Platform.OS === "ios" ? "Helvetica" : "Roboto";
+
 const screenWidth = Math.round(Dimensions.get("window").width);
 
 class AdminPortalScreen extends Component {
@@ -31,10 +33,6 @@ class AdminPortalScreen extends Component {
             profileImageUrl: "",
             notifications: "",
         };
-    }
-
-    componentDidMount() {
-
     }
 
     render() {
@@ -114,6 +112,7 @@ const styles = StyleSheet.create({
         // justifyContent: "center"
     },
     menuTitleM: {
+        fontFamily: font,
         flexDirection: "row",
         alignItems: "center",
         position: "relative",

@@ -12,6 +12,8 @@ import {
 } from "react-native";
 import PropTypes from "prop-types";
 
+const font = Platform.OS === "ios" ? "Helvetica" : "Roboto";
+
 class EventCard extends BaseCard {
   static propTypes = {
     title: PropTypes.string,
@@ -127,14 +129,14 @@ const styles = StyleSheet.create({
   },
 
   labels: {
-    
+    fontFamily: font,
     fontWeight: "bold",
     marginRight: "3%",
     fontSize: 16,
   },
 
   cardTitle: {
-    
+    fontFamily: font,
     textAlign: "left",
     borderBottomWidth: 5,
     marginBottom: 10,
@@ -150,7 +152,7 @@ const styles = StyleSheet.create({
     padding: 10,
   },
   text: {
-    
+    fontFamily: font,
     fontSize: 16,
   },
 });

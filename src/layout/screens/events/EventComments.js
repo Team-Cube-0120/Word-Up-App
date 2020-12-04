@@ -4,6 +4,7 @@ import {
   Text,
   Image,
   Button,
+  Platform,
   StyleSheet,
   TouchableOpacity,
   ActivityIndicator,
@@ -18,6 +19,8 @@ import { USERINFO } from "../../../enums/StorageKeysEnum";
 import { ScrollView } from "react-native-gesture-handler";
 import { SafeAreaView } from "react-navigation";
 import moment from "moment";
+
+const font = Platform.OS === "ios" ? "Helvetica" : "Roboto";
 
 class EventComments extends Component {
   constructor(props) {
@@ -118,14 +121,14 @@ class EventComments extends Component {
                   </TouchableOpacity>
                   <View style={styles.content}>
                     <View style={styles.contentHeader}>
-                      <Text style={{ fontWeight: "bold" }}>
+                      <Text style={{ fontFamily: font, fontWeight: "bold" }}>
                         {item.item.name}
                       </Text>
-                      <Text style={{ fontStyle: "italic" }}>
+                      <Text style={{ fontFamily: font, fontStyle: "italic" }}>
                         {moment(item.item.datePosted).fromNow()}
                       </Text>
                     </View>
-                    <Text>{item.item.comment}</Text>
+                    <Text style={{ fontFamily: font }}>{item.item.comment}</Text>
                   </View>
                 </View>
               );
@@ -154,6 +157,7 @@ class EventComments extends Component {
             >
               <Text
                 style={{
+                  fontFamily: font,
                   fontSize: 18,
                   color: "white",
                   alignItems: "center",
@@ -169,6 +173,7 @@ class EventComments extends Component {
             >
               <Text
                 style={{
+                  fontFamily: font,
                   fontSize: 18,
                   color: "#006400",
                   alignItems: "center",
@@ -200,7 +205,7 @@ const styles = StyleSheet.create({
   },
 
   comment: {
-    
+    fontFamily: font,
     marginBottom: 0,
   },
 

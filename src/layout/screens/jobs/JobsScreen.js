@@ -3,6 +3,7 @@ import {
   Text,
   View,
   Image,
+  Platform,
   ScrollView,
   ActivityIndicator,
   RefreshControl,
@@ -24,6 +25,8 @@ import { Icon } from "react-native-elements";
 LogBox.ignoreLogs([
   "Warning: Cannot update a component from inside the function body of a different component.",
 ]);
+
+const font = Platform.OS === "ios" ? "Helvetica" : "Roboto";
 
 class JobsScreen extends Component {
   constructor(props) {
@@ -80,7 +83,7 @@ class JobsScreen extends Component {
       })
       .catch((error) => {
         this.setState({
-          jobs: <Text>Error Retrieving Data {error}</Text>,
+          jobs: <Text style={{fontFamily: font}}>Error Retrieving Data {error}</Text>,
           isLoading: false,
           refreshing: false,
         });
@@ -107,7 +110,7 @@ class JobsScreen extends Component {
       })
       .catch((error) => {
         this.setState({
-          jobs: <Text>Error Retrieving Data {error}</Text>,
+          jobs: <Text style={{fontFamily: font}}>Error Retrieving Data {error}</Text>,
           isLoading: false,
           refreshing: false,
         });
@@ -127,7 +130,7 @@ class JobsScreen extends Component {
       })
       .catch((error) => {
         this.setState({
-          jobs: <Text>Error Retrieving Data {error}</Text>,
+          jobs: <Text style={{fontFamily: font}}>Error Retrieving Data {error}</Text>,
           isLoading: false,
           refreshing: false,
         });
@@ -289,7 +292,7 @@ const styles = StyleSheet.create({
   },
 
   errorText: {
-    
+    fontFamily: font,
     fontSize: 16,
     fontWeight: "bold",
   },

@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
-import { Text, View, StyleSheet, ActivityIndicator } from 'react-native';
+import { Text, View, StyleSheet, ActivityIndicator, Platform } from 'react-native';
 import { Card, Input } from 'react-native-elements';
 import Dialog from 'react-native-dialog';
 import PropTypes from 'prop-types';
 import RadioForm, {RadioButton, RadioButtonInput, RadioButtonLabel } from 'react-native-simple-radio-button';
+const font = Platform.OS === "ios" ? "Helvetica" : "Roboto";
 
 class FilterAlertDialog extends Component {
     static propTypes = {
@@ -56,6 +57,7 @@ const styles = StyleSheet.create({
     },
 
     dialogTitle: {
+        fontFamily: font,
         textAlign: 'center',
         fontWeight: 'bold'
     },

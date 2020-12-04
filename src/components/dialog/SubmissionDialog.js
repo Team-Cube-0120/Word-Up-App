@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
-import { Text, View } from 'react-native';
+import { Text, View, Platform } from 'react-native';
 import Dialog from 'react-native-dialog';
 import PropTypes from 'prop-types';
+const font = Platform.OS === "ios" ? "Helvetica" : "Roboto";
 
 class SubmissionDialog extends Component {
     static propTypes = {
@@ -19,7 +20,7 @@ class SubmissionDialog extends Component {
         return (
             <View>
                 <Dialog.Container visible={this.props.visible}>
-                    <Dialog.Title>{this.props.title}</Dialog.Title>
+                    <Dialog.Title style={{ fontFamily: font }}>{this.props.title}</Dialog.Title>
                     <Dialog.Description>
                         {this.props.text}
                     </Dialog.Description>

@@ -7,6 +7,7 @@ import {
   View,
   ScrollView,
   SafeAreaView,
+  Platform,
   TouchableOpacity,
 } from "react-native";
 import { Card, Input } from "react-native-elements";
@@ -17,6 +18,8 @@ import UuidGenerator from "../../../util/UuidGenerator";
 import { getData, storeData, updateUserInfo } from "../../../util/LocalStorage";
 import { USERINFO } from "../../../enums/StorageKeysEnum";
 import ModalSelector from "react-native-modal-selector";
+
+const font = Platform.OS === "ios" ? "Helvetica" : "Roboto";
 
 class CreateEventsScreen extends Component {
   constructor(props) {
@@ -121,10 +124,10 @@ class CreateEventsScreen extends Component {
     return (
       <ScrollView keyboardShouldPersistTaps="always" style={styles.container}>
         <Card containerStyle={styles.cardShadows}>
-          <Card.Title>Create Event</Card.Title>
+          <Card.Title style={{ fontFamily: font }}>Create Event</Card.Title>
           <Card.Divider />
           <Text style={styles.text}>
-            Event Name <Text style={{ color: "red" }}>*</Text>
+            Event Name <Text style={{ fontFamily: font, color: "red" }}>*</Text>
           </Text>
           <TextInput
             style={styles.textInput}
@@ -146,7 +149,7 @@ class CreateEventsScreen extends Component {
             >
               <Text
                 style={{
-                  
+                  fontFamily: font,
                   fontSize: 18,
                   color: "white",
                   alignItems: "center",
@@ -175,7 +178,7 @@ class CreateEventsScreen extends Component {
             >
               <Text
                 style={{
-                  
+                  fontFamily: font,
                   fontSize: 18,
                   color: "white",
                   alignItems: "center",
@@ -198,7 +201,7 @@ class CreateEventsScreen extends Component {
             <Text> </Text>
           </View>
           <Text style={styles.text}>
-            Details <Text style={{ color: "red" }}>*</Text>
+            Details <Text style={{ fontFamily: font, color: "red" }}>*</Text>
           </Text>
           <TextInput
             style={styles.textInputMultipleLine}
@@ -213,7 +216,7 @@ class CreateEventsScreen extends Component {
             onChangeText={(details) => this.setState({ details: details })}
           ></TextInput>
           <Text style={styles.text}>
-            Location <Text style={{ color: "red" }}>*</Text>
+            Location <Text style={{ fontFamily: font, color: "red" }}>*</Text>
           </Text>
           <TextInput
             style={styles.textInput}
@@ -252,7 +255,7 @@ class CreateEventsScreen extends Component {
             onChangeText={(coHosts) => this.setState({ coHosts: coHosts })}
           ></TextInput>
           <Text style={styles.text}>
-            Choose an Event Type <Text style={{ color: "red" }}>*</Text>
+            Choose an Event Type <Text style={{ fontFamily: font, color: "red" }}>*</Text>
           </Text>
           <ModalSelector
             data={[
@@ -278,7 +281,7 @@ class CreateEventsScreen extends Component {
               borderBottomWidth: 1,
             }}
             optionTextStyle={{
-              
+              fontFamily: font,
               color: "#70AF1A",
               alignItems: "center",
               fontWeight: "bold",
@@ -342,7 +345,7 @@ class CreateEventsScreen extends Component {
           >
             <Text
               style={{
-                
+                fontFamily: font,
                 fontSize: 18,
                 color: "white",
                 alignItems: "center",
@@ -369,14 +372,14 @@ const styles = StyleSheet.create({
     color: "red",
   },
   text: {
-    
+    fontFamily: font,
     flexDirection: "row",
     fontSize: 16,
     marginBottom: 5,
     fontWeight: "bold",
   },
   textDate: {
-    
+    fontFamily: font,
     fontSize: 15,
     padding: 10,
     color: "gray",
@@ -392,7 +395,7 @@ const styles = StyleSheet.create({
     alignSelf: "center",
   },
   textInput: {
-    
+    fontFamily: font,
     alignSelf: "stretch",
     height: 40,
     marginBottom: 30,
@@ -401,7 +404,7 @@ const styles = StyleSheet.create({
     paddingLeft: 10,
   },
   textInputOther: {
-    
+    fontFamily: font,
     alignSelf: "stretch",
     height: 40,
     marginBottom: 30,
@@ -411,7 +414,7 @@ const styles = StyleSheet.create({
     paddingLeft: 10,
   },
   textInputMultipleLine: {
-    
+    fontFamily: font,
     borderColor: "gray",
     borderWidth: 1,
     borderRadius: 10,

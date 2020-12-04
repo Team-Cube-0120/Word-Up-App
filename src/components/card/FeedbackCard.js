@@ -9,10 +9,13 @@ import {
   TextInput,
   ScrollView,
   Button,
+  Platform
 } from "react-native";
 import PropTypes from "prop-types";
 import { DEFAULT_PROFILE_IMAGE } from "../../enums/DefaultEnums";
 import { Rating } from "react-native-rating-element";
+
+const font = Platform.OS === "ios" ? "Helvetica" : "Roboto";
 
 class FeedbackCard extends BaseCard {
   static propTypes = {
@@ -65,7 +68,7 @@ class FeedbackCard extends BaseCard {
           />
         </View>
         <View>
-          <Text>{this.props.data.feedback}</Text>
+          <Text style={{ fontFamily: font }}>{this.props.data.feedback}</Text>
         </View>
       </View>
     );
@@ -74,7 +77,7 @@ class FeedbackCard extends BaseCard {
 
 const styles = StyleSheet.create({
   cardTitle: {
-    
+    fontFamily: font,
     paddingLeft: 15,
     textAlign: "left",
     borderBottomWidth: 4,
@@ -95,7 +98,7 @@ const styles = StyleSheet.create({
     marginBottom: "2%",
   },
   text2: {
-    
+    fontFamily: font,
     fontSize: 16,
     color: "salmon",
     fontWeight: "bold",

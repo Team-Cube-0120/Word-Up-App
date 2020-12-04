@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
-import { Text, View, ActivityIndicator, StyleSheet } from 'react-native';
+import { Text, View, ActivityIndicator, StyleSheet, Platform } from 'react-native';
 import Dialog from 'react-native-dialog';
 import PropTypes from 'prop-types';
+
+const font = Platform.OS === "ios" ? "Helvetica" : "Roboto";
 
 class ConfirmDialog extends Component {
     static propTypes = {
@@ -19,7 +21,7 @@ class ConfirmDialog extends Component {
         return (
             <View>
                 <Dialog.Container visible={this.props.visible}>
-                    <Dialog.Title>Are you sure you want to Logout?</Dialog.Title>
+                    <Dialog.Title style={{ fontFamily: font }}>Are you sure you want to Logout?</Dialog.Title>
                     <View style={{ flexDirection: 'row-reverse',}}>
                         <Dialog.Button label="Yes" onPress={this.props.onSubmit}></Dialog.Button>
                         <Dialog.Button style={{ marginRight: '10%' }} label="No" onPress={this.props.onClose}></Dialog.Button>

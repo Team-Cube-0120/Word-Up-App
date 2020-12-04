@@ -5,6 +5,7 @@ import {
   Button,
   Text,
   StyleSheet,
+  Platform,
   ActivityIndicator,
   Alert,
   LogBox,
@@ -12,12 +13,14 @@ import {
 import { Card } from "react-native-elements";
 import { USERINFO } from "../../../enums/StorageKeysEnum";
 import { getData, storeData, updateUserInfo } from "../../../util/LocalStorage";
-
+import DeleteDialog from "../../../components/dialog/DeleteDialog";
 import ApiService from "../../../service/api/ApiService";
 import RequestOptions from "../../../service/api/RequestOptions";
 LogBox.ignoreLogs([
   "Warning: Cannot update a component from inside the function body of a different component.",
 ]);
+
+const font = Platform.OS === "ios" ? "Helvetica" : "Roboto";
 
 class ViewAlertScreen extends Component {
   constructor(props) {
@@ -83,17 +86,29 @@ class ViewAlertScreen extends Component {
       .then((body) => ApiService.delete("data/delete", body))
       .then(() => {
         this.removeAlertInfo().then(() => {
-          this.props.navigation.navigate("Alerts", { isAlertCreated: true });
+          this.closeDialog();
           Alert.alert(
             "Congratulations!",
-            "Your event has been successfully deleted!"
+            "Your alert has been successfully deleted!", [
+              {
+                text: "Return",
+                onPress: () => this.props.navigation.navigate("Alerts", { isAlertCreated: true }),
+              },
+            ]
           );
         });
       })
       .catch((error) => {
+        this.closeDialog();
         Alert.alert(
           "Error",
-          "There was a problem deleting your event. Please try again."
+          "There was a problem deleting your alert. Please try again.",
+          [
+            {
+              text: "Close",
+              onPress: () => this.closeDialog(),
+            },
+          ]
         );
       });
   }
@@ -127,7 +142,7 @@ class ViewAlertScreen extends Component {
             style={styles.buttonRight}
             color={"red"}
             title="Delete"
-            onPress={() => this.deleteAlert()}
+            onPress={() => this.openDialog()}
           ></Button>
         ),
       });
@@ -149,35 +164,42 @@ class ViewAlertScreen extends Component {
           </Card.Title>
           <Card.Divider></Card.Divider>
           <View style={styles.containerView}>
-            <Text textBreakStrategy="simple" style={styles.title}>
+            <Text  style={styles.title}>
               Alert Name:{" "}
             </Text>
             <Text style={styles.value}>{this.state.alertInfo.name}</Text>
           </View>
           <View style={styles.containerView}>
-            <Text textBreakStrategy="simple" style={styles.title}>
+            <Text  style={styles.title}>
               Severity:{" "}
             </Text>
             <Text style={styles.value}>{this.state.alertInfo.severity}</Text>
           </View>
           <View style={styles.containerView}>
-            <Text textBreakStrategy="simple" style={styles.title}>
+            <Text  style={styles.title}>
               Location:{" "}
             </Text>
             <Text style={styles.value}>{this.state.alertInfo.location}</Text>
           </View>
           <View style={styles.containerViewDetail}>
-            <Text textBreakStrategy="simple" style={styles.titleDetail}>
+            <Text  style={styles.titleDetail}>
               Details:{" "}
             </Text>
             <Text style={styles.value}>{this.state.alertInfo.details}</Text>
           </View>
           <View style={styles.containerView}>
-            <Text textBreakStrategy="simple" style={styles.title}>
+            <Text  style={styles.title}>
               Alert Type:{" "}
             </Text>
             <Text style={styles.value}>{this.state.alertInfo.alertType}</Text>
           </View>
+
+          <DeleteDialog
+            visible={this.state.toggleDialog}
+            onClose={() => this.closeDialog()}
+            onSubmit={() => this.deleteAlert()}
+            isSubmitting={false}
+          ></DeleteDialog>
 
           <View style={styles.buttonView}>
             {this.state.editButtonView}
@@ -199,17 +221,20 @@ const styles = StyleSheet.create({
     flexDirection: "column",
   },
   cardTitle: {
+    fontFamily: font,
     textAlign: "center",
     fontSize: 20,
   },
 
   title: {
+    fontFamily: font,
     fontWeight: "bold",
     marginRight: "1%",
     fontSize: 16,
   },
 
   titleDetail: {
+    fontFamily: font,
     fontWeight: "bold",
     marginRight: "1%",
     fontSize: 16,
@@ -226,6 +251,7 @@ const styles = StyleSheet.create({
   },
 
   value: {
+    fontFamily: font,
     fontSize: 16,
   },
 

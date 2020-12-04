@@ -18,6 +18,7 @@ import MaterialCommunityIconsIcon from "react-native-vector-icons/MaterialCommun
 import { getData } from "../../../util/LocalStorage";
 import { USERINFO } from "../../../enums/StorageKeysEnum";
 import SubmissionDialog from "../../../components/dialog/ConfirmDialog";
+const font = Platform.OS === "ios" ? "Helvetica" : "Roboto";
 
 const screenWidth = Math.round(Dimensions.get("window").width);
 
@@ -431,12 +432,13 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   title: {
-    
+    fontFamily: font,
     alignItems: "center",
     fontSize: 24,
     fontWeight: "bold",
   },
   caption: {
+    fontFamily: font,
     fontSize: 14,
     lineHeight: 18,
     fontWeight: "500",
@@ -456,7 +458,7 @@ const styles = StyleSheet.create({
     // justifyContent: "center"
   },
   menuTitleM: {
-    
+    fontFamily: font,
     flexDirection: "row",
     alignItems: "center",
     position: "relative",
@@ -493,8 +495,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   buttonTitle: {
-    
-    
+    fontFamily: font,
     color: "white",
     fontSize: 16,
     fontWeight: "bold",

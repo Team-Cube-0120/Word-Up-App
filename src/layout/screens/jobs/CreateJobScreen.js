@@ -5,6 +5,7 @@ import {
   StyleSheet,
   TextInput,
   ScrollView,
+  Platform,
   Button,
 } from "react-native";
 import { Card, Input } from "react-native-elements";
@@ -16,6 +17,8 @@ import UuidGenerator from "../../../util/UuidGenerator";
 import { getData } from "../../../util/LocalStorage";
 import { USERINFO } from "../../../enums/StorageKeysEnum";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+
+const font = Platform.OS === "ios" ? "Helvetica" : "Roboto";
 
 class CreateJobScreen extends Component {
   constructor(props) {
@@ -69,7 +72,9 @@ class CreateJobScreen extends Component {
           style={styles.container}
         >
           <Card containerStyle={styles.cardShadows}>
-            <Card.Title>New Job Listing</Card.Title>
+            <Card.Title style={{ fontFamily: font }}>
+              New Job Listing
+            </Card.Title>
             <Card.Divider />
             <View style={styles.viewItem}>
               <View style={{ flexDirection: "row" }}>
@@ -92,7 +97,7 @@ class CreateJobScreen extends Component {
             </View>
             <View style={styles.viewItem}>
               <View style={{ flexDirection: "row" }}>
-                <Text  style={styles.text}>Job Type</Text>
+                <Text style={styles.text}>Job Type</Text>
                 <Text style={styles.inlineText}> *</Text>
               </View>
               <TextInput
@@ -109,7 +114,7 @@ class CreateJobScreen extends Component {
             </View>
             <View style={styles.viewItem}>
               <View style={{ flexDirection: "row" }}>
-                <Text  style={styles.text}>Company</Text>
+                <Text style={styles.text}>Company</Text>
                 <Text style={styles.inlineText}> *</Text>
               </View>
               <TextInput
@@ -126,7 +131,7 @@ class CreateJobScreen extends Component {
             </View>
             <View style={styles.viewItem}>
               <View style={{ flexDirection: "row" }}>
-                <Text  style={styles.text}>Job Description</Text>
+                <Text style={styles.text}>Job Description</Text>
                 <Text style={styles.inlineText}> *</Text>
               </View>
               <TextInput
@@ -143,7 +148,7 @@ class CreateJobScreen extends Component {
             </View>
             <View style={styles.viewItem}>
               <View style={{ flexDirection: "row" }}>
-                <Text  style={styles.text}>Job Application URL</Text>
+                <Text style={styles.text}>Job Application URL</Text>
                 <Text style={styles.inlineText}> *</Text>
               </View>
               <TextInput
@@ -162,7 +167,7 @@ class CreateJobScreen extends Component {
             </View>
             <View style={styles.viewItem}>
               <View style={{ flexDirection: "row" }}>
-                <Text  style={styles.text}>Email</Text>
+                <Text style={styles.text}>Email</Text>
                 <Text style={styles.inlineText}> *</Text>
               </View>
               <TextInput
@@ -179,7 +184,7 @@ class CreateJobScreen extends Component {
             </View>
             <View style={styles.viewItem}>
               <View style={{ flexDirection: "row" }}>
-                <Text  style={styles.text}>Phone Number</Text>
+                <Text style={styles.text}>Phone Number</Text>
                 <Text style={styles.inlineText}> *</Text>
               </View>
               <TextInput
@@ -198,7 +203,7 @@ class CreateJobScreen extends Component {
             </View>
             <View style={styles.viewItem}>
               <View style={{ flexDirection: "row" }}>
-                <Text  style={styles.text}>Street</Text>
+                <Text style={styles.text}>Street</Text>
                 <Text style={styles.inlineText}> *</Text>
               </View>
               <TextInput
@@ -215,7 +220,7 @@ class CreateJobScreen extends Component {
             </View>
             <View style={styles.viewItem}>
               <View style={{ flexDirection: "row" }}>
-                <Text  style={styles.text}>City</Text>
+                <Text style={styles.text}>City</Text>
                 <Text style={styles.inlineText}> *</Text>
               </View>
               <TextInput
@@ -232,7 +237,7 @@ class CreateJobScreen extends Component {
             </View>
             <View style={styles.viewItem}>
               <View style={{ flexDirection: "row" }}>
-                <Text  style={styles.text}>State</Text>
+                <Text style={styles.text}>State</Text>
                 <Text style={styles.inlineText}> *</Text>
               </View>
               <TextInput
@@ -249,7 +254,7 @@ class CreateJobScreen extends Component {
             </View>
             <View style={styles.viewItem}>
               <View style={{ flexDirection: "row" }}>
-                <Text  style={styles.text}>Zipcode</Text>
+                <Text style={styles.text}>Zipcode</Text>
                 <Text style={styles.inlineText}> *</Text>
               </View>
               <TextInput
@@ -281,7 +286,7 @@ class CreateJobScreen extends Component {
             >
               <Text
                 style={{
-                  
+                  fontFamily: font,
                   fontSize: 18,
                   color: "white",
                   alignItems: "center",
@@ -304,7 +309,7 @@ const styles = StyleSheet.create({
     flexDirection: "column",
   },
   textInput: {
-    
+    fontFamily: font,
     borderColor: "gray",
     borderWidth: 1,
     borderRadius: 10,
@@ -314,6 +319,7 @@ const styles = StyleSheet.create({
   },
 
   textInputMultipleLine: {
+    fontFamily: font,
     borderColor: "gray",
     borderWidth: 1,
     borderRadius: 10,
@@ -327,13 +333,14 @@ const styles = StyleSheet.create({
   },
 
   text: {
+    fontFamily: font,
     fontSize: 16,
     marginBottom: 5,
     fontWeight: "bold",
   },
 
   inlineText: {
-    
+    fontFamily: font,
     fontSize: 16,
     marginBottom: 5,
     fontWeight: "bold",

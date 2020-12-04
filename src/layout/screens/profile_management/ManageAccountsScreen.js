@@ -2,6 +2,7 @@ import {
     StyleSheet,
     Text,
     View,
+    Platform,
     Image,
     ScrollView,
     ActivityIndicator,
@@ -20,6 +21,7 @@ import { ALL_TIME, MY_JOBS } from "../../../enums/FilterOptionsEnum";
 import { formatFilterOption } from "../../../formatter/FilterJobsFormatter";
 import { USERINFO } from "../../../enums/StorageKeysEnum";
 import { Input, SearchBar } from "react-native-elements";
+const font = Platform.OS === "ios" ? "Helvetica" : "Roboto";
 
 
 class ManageAccountsScreen extends Component {
@@ -247,7 +249,7 @@ const styles = StyleSheet.create({
     },
 
     errorText: {
-        
+        fontFamily: font,
         fontSize: 16,
         fontWeight: "bold",
     },

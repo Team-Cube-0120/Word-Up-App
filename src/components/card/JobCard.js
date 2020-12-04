@@ -9,10 +9,13 @@ import {
   TextInput,
   ScrollView,
   Button,
+  Platform
 } from "react-native";
 import PropTypes from "prop-types";
 import { DEFAULT_PROFILE_IMAGE } from "../../enums/DefaultEnums";
 import moment from "moment";
+
+const font = Platform.OS === "ios" ? "Helvetica" : "Roboto";
 
 class JobCard extends BaseCard {
   static propTypes = {

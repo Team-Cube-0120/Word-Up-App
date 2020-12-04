@@ -4,6 +4,7 @@ import {
   Text,
   TextInput,
   Button,
+  Platform,
   ScrollView,
   TouchableOpacity,
 } from "react-native";
@@ -15,6 +16,8 @@ import ModalSelector from "react-native-modal-selector";
 import { USERINFO } from "../../../enums/StorageKeysEnum";
 import { getData, storeData } from "../../../util/LocalStorage";
 import moment from "moment";
+
+const font = Platform.OS === "ios" ? "Helvetica" : "Roboto";
 
 class CreateAlertsScreen extends Component {
   constructor(props) {
@@ -37,10 +40,10 @@ class CreateAlertsScreen extends Component {
     return (
       <ScrollView style={styles.container}>
         <Card containerStyle={styles.cardShadows}>
-          <Card.Title>Create Alert</Card.Title>
+          <Card.Title style={{ fontFamily: font }}>Create Alert</Card.Title>
           <Card.Divider />
-          <Text textBreakStrategy="simple" style={styles.text}>
-            Name <Text style={{ color: "red" }}>*</Text>
+          <Text style={styles.text}>
+            Name <Text style={{ fontFamily: font, color: "red" }}>*</Text>
           </Text>
           <TextInput
             style={styles.textInput}
@@ -48,7 +51,7 @@ class CreateAlertsScreen extends Component {
             onChangeText={(name) => this.setState({ name: name })}
           ></TextInput>
           <Text style={styles.text}>
-            Severity <Text style={{ color: "red" }}>*</Text>
+            Severity <Text style={{ fontFamily: font, color: "red" }}>*</Text>
           </Text>
 
           <ModalSelector
@@ -75,11 +78,12 @@ class CreateAlertsScreen extends Component {
               borderBottomWidth: 1,
             }}
             optionTextStyle={{
+              fontFamily: font,
               color: "#70AF1A",
               alignItems: "center",
               fontWeight: "bold",
             }}
-            cancelTextStyle={{ color: "red", fontWeight: "bold" }}
+            cancelTextStyle={{ fontFamily: font, color: "red", fontWeight: "bold" }}
             cancelContainerStyle={{
               backgroundColor: "#fff",
               borderColor: "#006400",
@@ -117,16 +121,16 @@ class CreateAlertsScreen extends Component {
             )}
           </ModalSelector>
 
-          <Text textBreakStrategy="simple" style={styles.text}>
-            Location <Text style={{ color: "red" }}>*</Text>
+          <Text style={styles.text}>
+            Location <Text style={{ fontFamily: font, color: "red" }}>*</Text>
           </Text>
           <TextInput
             style={styles.textInput}
             placeholder="e.g. 1234 Cherry Lane, Hampton, VA 42039"
             onChangeText={(location) => this.setState({ location: location })}
           ></TextInput>
-          <Text textBreakStrategy="simple" style={styles.text}>
-            Details <Text style={{ color: "red" }}>*</Text>
+          <Text  style={styles.text}>
+            Details <Text style={{ fontFamily: font, color: "red" }}>*</Text>
           </Text>
           <TextInput
             style={styles.textInputMultipleLine}
@@ -135,8 +139,8 @@ class CreateAlertsScreen extends Component {
             onChangeText={(details) => this.setState({ details: details })}
           ></TextInput>
 
-          <Text textBreakStrategy="simple" style={styles.text}>
-            Choose an Alert Type <Text style={{ color: "red" }}>*</Text>
+          <Text  style={styles.text}>
+            Choose an Alert Type <Text style={{ fontFamily: font, color: "red" }}>*</Text>
           </Text>
 
           <ModalSelector
@@ -163,6 +167,7 @@ class CreateAlertsScreen extends Component {
               borderBottomWidth: 1,
             }}
             optionTextStyle={{
+              fontFamily: font,
               color: "#70AF1A",
               alignItems: "center",
               fontWeight: "bold",
@@ -241,6 +246,7 @@ const styles = StyleSheet.create({
     color: "red",
   },
   text: {
+    fontFamily: font,
     fontSize: 16,
     marginBottom: 5,
     fontWeight: "bold",
@@ -255,6 +261,7 @@ const styles = StyleSheet.create({
     alignSelf: "center",
   },
   textInput: {
+    fontFamily: font,
     alignSelf: "stretch",
     height: 40,
     marginBottom: 30,
@@ -263,6 +270,7 @@ const styles = StyleSheet.create({
     paddingLeft: 10,
   },
   textInputMultipleLine: {
+    fontFamily: font,
     borderColor: "gray",
     borderWidth: 1,
     borderRadius: 10,
@@ -274,10 +282,12 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   btnText: {
+    fontFamily: font,
     color: "#fff",
     fontWeight: "bold",
   },
   textInputOther: {
+    fontFamily: font,
     alignSelf: "stretch",
     height: 40,
     marginBottom: 30,

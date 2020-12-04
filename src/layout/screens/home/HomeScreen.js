@@ -6,6 +6,7 @@ import {
   SafeAreaView,
   Dimensions,
   Image,
+  Platform,
   ActivityIndicator,
 } from "react-native";
 import Carousel from "react-native-snap-carousel";
@@ -23,6 +24,8 @@ import moment from "moment";
 
 const screenWidth = Math.round(Dimensions.get("window").width);
 const screenHeight = Math.round(Dimensions.get("window").height);
+
+const font = Platform.OS === "ios" ? "Helvetica" : "Roboto";
 
 class HomeScreen extends Component {
   constructor(props) {
@@ -80,6 +83,7 @@ class HomeScreen extends Component {
         ></Image>
         <Text
           style={{
+            fontFamily: font,
             fontSize: 20,
             alignItems: "center",
             textAlign: "center",
@@ -119,7 +123,7 @@ class HomeScreen extends Component {
           <View style={{ alignItems: "center" }}>
             <Image source={icon} style={styles.logo}></Image>
             <View style={styles.welcomeCard}>
-              <Text style={{fontSize: 20, top: 10, left: 5 }}>
+              <Text style={{ fontFamily: font, fontSize: 20, top: 10, left: 5 }}>
                 Good {this.getGreetingTime(moment())}, {this.state.fullname}
               </Text>
             </View>

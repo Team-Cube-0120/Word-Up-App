@@ -5,6 +5,7 @@ import {
   View,
   Image,
   ScrollView,
+  Platform,
   ActivityIndicator,
   RefreshControl,
   Button,
@@ -23,6 +24,8 @@ import { getData } from "../../../util/LocalStorage";
 LogBox.ignoreLogs([
   "Warning: Cannot update a component from inside the function body of a different component.",
 ]);
+
+const font = Platform.OS === "ios" ? "Helvetica" : "Roboto";
 
 class EventsScreen extends Component {
   constructor(props) {
@@ -96,7 +99,7 @@ class EventsScreen extends Component {
       })
       .catch((error) => {
         this.setState({
-          events: <Text>Error Retrieving Data {error}</Text>,
+          events: <Text style={{ fontFamily: font }}>Error Retrieving Data {error}</Text>,
           refreshing: false,
         });
       });
@@ -111,7 +114,7 @@ class EventsScreen extends Component {
       })
       .catch((error) => {
         this.setState({
-          events: <Text>You have created no Events yet!{error}</Text>,
+          events: <Text style={{ fontFamily: font }}>You have created no Events yet!{error}</Text>,
           isLoading: false,
           refreshing: false,
         });
@@ -127,7 +130,7 @@ class EventsScreen extends Component {
       })
       .catch((error) => {
         this.setState({
-          events: <Text>You have created no Events yet!{error}</Text>,
+          events: <Text style={{ fontFamily: font }}>You have created no Events yet!{error}</Text>,
           isLoading: false,
           refreshing: false,
         });
@@ -321,7 +324,7 @@ const styles = StyleSheet.create({
     bottom: 0,
   },
   errorText: {
-    
+    fontFamily: font,
     fontSize: 16,
     fontWeight: "bold",
   },

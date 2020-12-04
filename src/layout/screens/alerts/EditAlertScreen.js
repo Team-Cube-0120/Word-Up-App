@@ -7,6 +7,7 @@ import {
   TextInput,
   StyleSheet,
   Alert,
+  Platform,
   ActivityIndicator,
 } from "react-native";
 import { Card } from "react-native-elements";
@@ -20,6 +21,8 @@ import PickerExample from "./PickerExample";
 const sleep = require("../../../util/Thread");
 import moment from "moment";
 import ModalSelector from "react-native-modal-selector";
+
+const font = Platform.OS === "ios" ? "Helvetica" : "Roboto";
 
 class editAlertScreen extends Component {
   constructor(props) {
@@ -73,10 +76,10 @@ class editAlertScreen extends Component {
     return (
       <ScrollView style={styles.container}>
         <Card>
-          <Card.Title>Edit Alert Information</Card.Title>
+          <Card.Title style={{ fontFamily: font }}>Edit Alert Information</Card.Title>
           <Card.Divider />
           <Text style={styles.text}>
-            Alert Name <Text style={{ color: "red" }}>*</Text>
+            Alert Name <Text style={{ fontFamily:font, color: "red" }}>*</Text>
           </Text>
           <TextInput
             style={styles.textInput}
@@ -85,7 +88,7 @@ class editAlertScreen extends Component {
           />
 
           <Text style={styles.text}>
-            Severity <Text style={{ color: "red" }}>*</Text>
+            Severity <Text style={{ fontFamily: font, color: "red" }}>*</Text>
           </Text>
 
           <ModalSelector
@@ -113,11 +116,12 @@ class editAlertScreen extends Component {
               borderBottomWidth: 1,
             }}
             optionTextStyle={{
+              fontFamily:font,
               color: "#70AF1A",
               alignItems: "center",
               fontWeight: "bold",
             }}
-            cancelTextStyle={{ color: "red", fontWeight: "bold" }}
+            cancelTextStyle={{ fontFamily:font, color: "red", fontWeight: "bold" }}
             cancelContainerStyle={{
               backgroundColor: "#fff",
               borderColor: "#006400",
@@ -155,7 +159,7 @@ class editAlertScreen extends Component {
             )}
           </ModalSelector>
           <Text style={styles.text}>
-            Details <Text style={{ color: "red" }}>*</Text>
+            Details <Text style={{ fontFamily: font, color: "red" }}>*</Text>
           </Text>
           <TextInput
             style={styles.textInputMultipleLine}
@@ -164,7 +168,7 @@ class editAlertScreen extends Component {
             onChangeText={(details) => this.setState({ details: details })}
           />
           <Text style={styles.text}>
-            Location <Text style={{ color: "red" }}>*</Text>
+            Location <Text style={{ fontFamily: font, color: "red" }}>*</Text>
           </Text>
           <TextInput
             style={styles.textInput}
@@ -173,7 +177,7 @@ class editAlertScreen extends Component {
           ></TextInput>
 
           <Text style={styles.text}>
-            Alert Type <Text style={{ color: "red" }}>*</Text>
+            Alert Type <Text style={{ fontFamily: font, color: "red" }}>*</Text>
           </Text>
 
           <ModalSelector
@@ -200,11 +204,12 @@ class editAlertScreen extends Component {
               borderBottomWidth: 1,
             }}
             optionTextStyle={{
+              fontFamily: font,
               color: "#70AF1A",
               alignItems: "center",
               fontWeight: "bold",
             }}
-            cancelTextStyle={{ color: "red", fontWeight: "bold" }}
+            cancelTextStyle={{ fontFamily: font, color: "red", fontWeight: "bold" }}
             cancelContainerStyle={{
               backgroundColor: "#fff",
               borderColor: "#006400",
@@ -281,13 +286,13 @@ const styles = StyleSheet.create({
     marginBottom: "5%",
   },
   text: {
-    
+    fontFamily: font,
     fontSize: 16,
     marginBottom: 5,
     fontWeight: "bold",
   },
   textInput: {
-    
+    fontFamily: font,
     alignSelf: "stretch",
     height: 40,
     marginBottom: 30,
@@ -297,7 +302,7 @@ const styles = StyleSheet.create({
   },
 
   textInputOther: {
-    
+    fontFamily: font,
     alignSelf: "stretch",
     height: 40,
     marginBottom: 30,
@@ -308,13 +313,14 @@ const styles = StyleSheet.create({
   },
 
   title: {
-    
+    fontFamily: font,
     fontWeight: "bold",
     marginRight: "1%",
     fontSize: 16,
   },
 
   value: {
+    fontFamily: font,
     fontSize: 16,
     borderColor: "gray",
     width: "100%",
@@ -324,7 +330,7 @@ const styles = StyleSheet.create({
   },
 
   textInputMultipleLine: {
-    
+    fontFamily: font,
     borderColor: "gray",
     borderWidth: 1,
     borderRadius: 10,

@@ -13,8 +13,8 @@ import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view
 import { Rating } from "react-native-rating-element";
 import { getData, storeData } from "../../../util/LocalStorage";
 import { USERINFO } from "../../../enums/StorageKeysEnum";
-import { useFonts } from "expo-font";
-import { AppLoading } from "expo";
+
+const font = Platform.OS === "ios" ? "Helvetica" : "Roboto";
 
 export default function FeedbackScreen({ navigation }) {
   const [name, setName] = useState("");
@@ -26,10 +26,6 @@ export default function FeedbackScreen({ navigation }) {
 
   useEffect(() => {
     getUserInfo().catch((e) => alert(e));
-  });
-
-  let [fontsLoaded] = useFonts({
-    'Roboto': require('../../../../assets/Roboto-Regular.ttf'),
   });
 
   const getUserInfo = async () => {
@@ -61,62 +57,58 @@ export default function FeedbackScreen({ navigation }) {
       });
   };
 
-  if (!fontsLoaded) {
-    return <AppLoading></AppLoading>;
-  } else {
-    return (
-      // <View>
-      <KeyboardAwareScrollView extraScrollHeight={25} style={styles.container}>
-        <Text style={styles.changePassText}>We want to hear from you!</Text>
+  return (
+    // <View>
+    <KeyboardAwareScrollView extraScrollHeight={25} style={styles.container}>
+      <Text style={styles.changePassText}>We want to hear from you!</Text>
 
-        <Rating
-          rated={count}
-          totalCount={5}
-          ratingColor="#f1c644"
-          ratingBackgroundColor="#d4d4d4"
-          size={50}
-          onIconTap={(position) => setCount(position)}
-          icon="ios-star"
-          direction="row"
-        />
+      <Rating
+        rated={count}
+        totalCount={5}
+        ratingColor="#f1c644"
+        ratingBackgroundColor="#d4d4d4"
+        size={50}
+        onIconTap={(position) => setCount(position)}
+        icon="ios-star"
+        direction="row"
+      />
 
-        <TextInput
-          style={styles.input}
-          value={name}
-          editable={false}
-          underlineColorAndroid="transparent"
-          returnKeyType={"done"}
-        />
+      <TextInput
+        style={styles.input}
+        value={name}
+        editable={false}
+        underlineColorAndroid="transparent"
+        returnKeyType={"done"}
+      />
 
-        <TextInput
-          style={styles.inputLast}
-          placeholderTextColor="#aaaaaa"
-          textAlignVertical="top"
-          multiline={true}
-          placeholder="Tell us about your experience"
-          onChangeText={(text) => setfeedback(text)}
-          value={feedback}
-          underlineColorAndroid="transparent"
-          returnKeyType={"done"}
-        />
+      <TextInput
+        style={styles.inputLast}
+        placeholderTextColor="#aaaaaa"
+        textAlignVertical="top"
+        multiline={true}
+        placeholder="Tell us about your experience"
+        onChangeText={(text) => setfeedback(text)}
+        value={feedback}
+        underlineColorAndroid="transparent"
+        returnKeyType={"done"}
+      />
 
-        <TouchableOpacity
-          style={styles.button}
-          onPress={() => {
-            if (feedback.length == 0) {
-              alert("Feedback is empty! Please enter your feedback");
-            } else if (name.length == 0) {
-              alert("Name is empty! Please enter your name");
-            } else {
-              giveFeedback();
-            }
-          }}
-        >
-          <Text style={styles.buttonTitle}>Submit Feedback</Text>
-        </TouchableOpacity>
-      </KeyboardAwareScrollView>
-    );
-  }
+      <TouchableOpacity
+        style={styles.button}
+        onPress={() => {
+          if (feedback.length == 0) {
+            alert("Feedback is empty! Please enter your feedback");
+          } else if (name.length == 0) {
+            alert("Name is empty! Please enter your name");
+          } else {
+            giveFeedback();
+          }
+        }}
+      >
+        <Text style={styles.buttonTitle}>Submit Feedback</Text>
+      </TouchableOpacity>
+    </KeyboardAwareScrollView>
+  );
 }
 
 const styles = StyleSheet.create({
@@ -125,13 +117,13 @@ const styles = StyleSheet.create({
     backgroundColor: "#FAFAFA",
   },
   changePassText: {
-    fontFamily:"Roboto",
+    fontFamily: font,
     fontSize: 28,
     marginTop: "5%",
     textAlign: "center",
   },
   input: {
-    fontFamily:"Roboto",
+    fontFamily: font,
     height: 50,
     borderRadius: 5,
     color: "black",
@@ -163,7 +155,7 @@ const styles = StyleSheet.create({
     paddingRight: "3%",
   },
   inputLast: {
-    fontFamily:"Roboto",
+    fontFamily: font,
     height: 250,
     fontSize: 18,
     color: "black",
@@ -224,7 +216,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   buttonTitle: {
-    fontFamily:"Roboto",
+    fontFamily: font,
     color: "white",
     fontSize: 16,
     fontWeight: "bold",

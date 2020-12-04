@@ -7,6 +7,7 @@ import {
   TextInput,
   StyleSheet,
   Alert,
+  Platform,
   ActivityIndicator,
 } from "react-native";
 import { Card } from "react-native-elements";
@@ -21,6 +22,8 @@ const sleep = require("../../../util/Thread");
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import moment from "moment";
 import ModalSelector from "react-native-modal-selector";
+
+const font = Platform.OS === "ios" ? "Helvetica" : "Roboto";
 
 class editEventScreen extends Component {
   constructor(props) {
@@ -127,7 +130,7 @@ class editEventScreen extends Component {
     return (
       <ScrollView keyboardShouldPersistTaps="always" style={styles.container}>
         <Card containerStyle={styles.cardShadows}>
-          <Card.Title>Edit Event Information</Card.Title>
+          <Card.Title style={{ fontFamily: font }}>Edit Event Information</Card.Title>
           <Card.Divider />
           <Text style={styles.text}>Event Name *</Text>
           <TextInput
@@ -260,7 +263,7 @@ class editEventScreen extends Component {
               borderBottomWidth: 1,
             }}
             optionTextStyle={{
-              
+              fontFamily: font,
               color: "#70AF1A",
               alignItems: "center",
               fontWeight: "bold",
@@ -335,6 +338,7 @@ const styles = StyleSheet.create({
     flexDirection: "column",
   },
   cardTitle: {
+    fontFamily: font,
     textAlign: "left",
   },
 
@@ -342,13 +346,13 @@ const styles = StyleSheet.create({
     marginBottom: "5%",
   },
   text: {
-    
+    fontFamily: font,
     fontSize: 16,
     marginBottom: 5,
     fontWeight: "bold",
   },
   textInput: {
-    
+    fontFamily: font,
     alignSelf: "stretch",
     height: 40,
     marginBottom: 30,
@@ -357,14 +361,14 @@ const styles = StyleSheet.create({
     paddingLeft: 10,
   },
   title: {
-    
+    fontFamily: font,
     fontWeight: "bold",
     marginRight: "1%",
     fontSize: 16,
   },
 
   value: {
-    
+    fontFamily: font,
     fontSize: 16,
     borderColor: "gray",
     width: "100%",
@@ -374,7 +378,7 @@ const styles = StyleSheet.create({
   },
 
   textInputMultipleLine: {
-    
+    fontFamily: font,
     borderColor: "gray",
     borderWidth: 1,
     borderRadius: 10,
@@ -385,7 +389,7 @@ const styles = StyleSheet.create({
     paddingBottom: 10,
   },
   textDate: {
-    
+    fontFamily: font,
     fontSize: 16,
     padding: 10,
     fontWeight: "bold",
@@ -400,7 +404,7 @@ const styles = StyleSheet.create({
   },
 
   textInput: {
-    
+    fontFamily: font,
     alignSelf: "stretch",
     height: 40,
     marginBottom: 30,
@@ -409,7 +413,7 @@ const styles = StyleSheet.create({
     paddingLeft: 10,
   },
   textInputOther: {
-    
+    fontFamily: font,
     alignSelf: "stretch",
     height: 40,
     marginBottom: 30,

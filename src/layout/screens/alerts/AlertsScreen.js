@@ -8,6 +8,7 @@ import {
   ActivityIndicator,
   RefreshControl,
   LogBox,
+  Platform,
   TouchableHighlight,
 } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
@@ -22,6 +23,8 @@ import moment from "moment";
 LogBox.ignoreLogs([
   "Warning: Cannot update a component from inside the function body of a different component.",
 ]);
+
+const font = Platform.OS === "ios" ? "Helvetica" : "Roboto";
 
 class AlertsScreen extends Component {
   constructor(props) {
@@ -94,7 +97,7 @@ class AlertsScreen extends Component {
       })
       .catch((error) => {
         this.setState({
-          alerts: <Text>Error Retrieving Data {error}</Text>,
+          alerts: <Text style={{ fontFamily: font }}>Error Retrieving Data {error}</Text>,
           refreshing: false,
         });
       });
@@ -109,7 +112,7 @@ class AlertsScreen extends Component {
       })
       .catch((error) => {
         this.setState({
-          alerts: <Text>You have created no Alerts yet!{error}</Text>,
+          alerts: <Text style={{ fontFamily: font }}>You have created no Alerts yet!{error}</Text>,
           isLoading: false,
           refreshing: false,
         });
@@ -125,7 +128,7 @@ class AlertsScreen extends Component {
       })
       .catch((error) => {
         this.setState({
-          alerts: <Text>Error Retrieving Data {error}</Text>,
+          alerts: <Text style={{ fontFamily: font }}>Error Retrieving Data {error}</Text>,
           isLoading: false,
           refreshing: false,
         });
@@ -274,7 +277,7 @@ const styles = StyleSheet.create({
     backgroundColor: "black",
   },
   errorText: {
-    
+    fontFamily: font,
     fontSize: 16,
     fontWeight: "bold",
   },

@@ -10,6 +10,7 @@ import {
   Alert,
   ActivityIndicator,
   Linking,
+  Platform,
   LogBox
 } from "react-native";
 import DeleteDialog from "../../../components/dialog/DeleteDialog";
@@ -21,6 +22,8 @@ import { USERINFO } from "../../../enums/StorageKeysEnum";
 LogBox.ignoreLogs([
   "Warning: Cannot update a component from inside the function body of a different component.",
 ]);
+
+const font = Platform.OS === "ios" ? "Helvetica" : "Roboto";
 
 class ViewJobScreen extends Component {
   constructor(props) {
@@ -232,30 +235,31 @@ const styles = StyleSheet.create({
   },
 
   cardTitle: {
+    fontFamily: font,
     textAlign: "left",
   },
 
   title: {
-    
+    fontFamily: font,
     fontWeight: "bold",
   },
 
   jobTitle: {
-    
+    fontFamily: font,
     fontWeight: "bold",
     marginTop: "2%",
     fontSize: 20,
   },
 
   companyTitle: {
-    
+    fontFamily: font,
     fontWeight: "200",
     // marginTop: '1%',
     fontSize: 16,
   },
 
   value: {
-    
+    fontFamily: font,
     fontSize: 16,
   },
 
@@ -293,12 +297,12 @@ const styles = StyleSheet.create({
   },
 
   locationText: {
-    
+    fontFamily: font,
     marginLeft: "1%",
   },
 
   datePostedText: {
-    
+    fontFamily: font,
     textAlign: "right",
     fontSize: 12,
     fontStyle: "italic",
@@ -311,7 +315,7 @@ const styles = StyleSheet.create({
   },
 
   profileTitle: {
-    
+    fontFamily: font,
     marginLeft: "3%",
     marginTop: "2%",
   },

@@ -5,6 +5,7 @@ import {
   Button,
   Text,
   StyleSheet,
+  Platform,
   ActivityIndicator,
   TouchableOpacity,
 } from "react-native";
@@ -15,6 +16,8 @@ import SubmissionDialog from "../../../components/dialog/SubmissionDialog";
 import { getData, storeData, updateUserInfo } from "../../../util/LocalStorage";
 import { USERINFO } from "../../../enums/StorageKeysEnum";
 const sleep = require("../../../util/Thread");
+
+const font = Platform.OS === "ios" ? "Helvetica" : "Roboto";
 
 class ReviewJobScreen extends Component {
   constructor(props) {
@@ -75,7 +78,7 @@ class ReviewJobScreen extends Component {
       <View>
         <ScrollView>
           <Card>
-            <Card.Title>Review Event Information</Card.Title>
+            <Card.Title style={{ fontFamily: font }}>Review Event Information</Card.Title>
             <Card.Divider></Card.Divider>
             <View style={styles.containerViewDetail}>
               <Text style={styles.titleDetail}>Event Name: </Text>
@@ -109,7 +112,7 @@ class ReviewJobScreen extends Component {
               >
                 <Text
                   style={{
-                    
+                    fontFamily: font,
                     fontSize: 18,
                     color: "white",
                     alignItems: "center",
@@ -164,14 +167,14 @@ const styles = StyleSheet.create({
   },
 
   title: {
-    
+    fontFamily: font,
     fontWeight: "bold",
     marginRight: "1%",
     fontSize: 16,
   },
 
   titleDetail: {
-    
+    fontFamily: font,
     fontWeight: "bold",
     marginRight: "1%",
     fontSize: 16,
@@ -207,7 +210,7 @@ const styles = StyleSheet.create({
   },
 
   value: {
-    
+    fontFamily: font,
     fontSize: 16,
   },
 

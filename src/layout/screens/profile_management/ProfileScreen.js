@@ -37,6 +37,8 @@ import { updateUserInfo } from '../../../util/LocalStorage';
 
 const screenWidth = Math.round(Dimensions.get("window").width);
 
+const font = Platform.OS === "ios" ? "Helvetica" : "Roboto";
+
 class ProfileScreen extends Component {
   constructor(props) {
     super(props);
@@ -361,7 +363,7 @@ class ProfileScreen extends Component {
                   <Caption style={styles.caption}>Name</Caption>
                 </View>
                 <View style={styles.boxName}>
-                  <Text style={{ fontSize: 20 }}>
+                  <Text style={{ fontFamily: font, fontSize: 20 }}>
                     {this.state.profile.fullname}
                   </Text>
                 </View>
@@ -372,7 +374,7 @@ class ProfileScreen extends Component {
                   <Caption style={styles.caption}>Username</Caption>
                 </View>
                 <View style={styles.boxUsername}>
-                  <Text style={{ fontSize: 20 }}>
+                  <Text style={{ fontFamily: font, fontSize: 20 }}>
                     {this.state.profile.username}
                   </Text>
                 </View>
@@ -383,7 +385,7 @@ class ProfileScreen extends Component {
                   <Caption style={styles.caption}>Location</Caption>
                 </View>
                 <View style={styles.boxLocation}>
-                  <Text style={{ fontSize: 20 }}>
+                  <Text style={{ fontFamily: font, fontSize: 20 }}>
                     {this.state.profile.location}
                   </Text>
                 </View>
@@ -394,7 +396,7 @@ class ProfileScreen extends Component {
                   <Caption style={styles.captionDob}>Birthday</Caption>
                 </View>
                 <View style={styles.boxBirthday}>
-                  <Text style={{ fontSize: 20 }}>
+                  <Text style={{ fontFamily: font, fontSize: 20 }}>
                     {this.state.profile.birthday}
                   </Text>
                 </View>
@@ -405,7 +407,7 @@ class ProfileScreen extends Component {
                   <Caption style={styles.caption}>Gender</Caption>
                 </View>
                 <View style={styles.boxGender}>
-                  <Text style={{ fontSize: 20 }}>
+                  <Text style={{ fontFamily: font, fontSize: 20 }}>
                     {this.state.profile.gender}
                   </Text>
                 </View>
@@ -416,7 +418,7 @@ class ProfileScreen extends Component {
                   <Caption style={styles.caption}>Phone Number</Caption>
                 </View>
                 <View style={styles.boxPhone}>
-                  <Text style={{ fontSize: 18 }}>
+                  <Text style={{ fontFamily: font, fontSize: 18 }}>
                     {this.state.profile.phoneNum}
                   </Text>
                 </View>
@@ -492,7 +494,7 @@ class ProfileScreen extends Component {
                     style={styles.editIcon}
                   ></MaterialCommunityIconsIcon>
                 </View>
-                <Text style={{ bottom: 10, fontSize: 15, color: "#C0C0C0" }}>
+                <Text style={{ fontFamily: font, bottom: 10, fontSize: 15, color: "#C0C0C0" }}>
                   Click to Change Profile Picture
                 </Text>
               </View>
@@ -506,7 +508,7 @@ class ProfileScreen extends Component {
                 </View>
                 <View style={styles.boxName}>
                   <TextInput
-                    style={{ fontSize: 20, color: "black" }}
+                    style={{ fontFamily: font, fontSize: 20, color: "black" }}
                     placeholder={this.state.profile.fullname}
                     returnKeyType={"done"}
                     onChangeText={(fullname) => {
@@ -524,7 +526,7 @@ class ProfileScreen extends Component {
                 </View>
                 <View style={styles.boxUsername}>
                   <TextInput
-                    style={{ fontSize: 20, color: "black" }}
+                    style={{ fontFamily: font, fontSize: 20, color: "black" }}
                     placeholder={this.state.profile.username}
                     returnKeyType={"done"}
                     onChangeText={(username) => {
@@ -547,7 +549,7 @@ class ProfileScreen extends Component {
                 </View>
                 <View style={styles.boxLocation}>
                   <TextInput
-                    style={{ fontSize: 20, color: "black" }}
+                    style={{ fontFamily: font, fontSize: 20, color: "black" }}
                     placeholder={this.state.profile.location}
                     returnKeyType={"done"}
                     onChangeText={(location) => {
@@ -579,7 +581,7 @@ class ProfileScreen extends Component {
                   {this.state.isDateChanged && (
                     <Text
                       onPress={this.handleOpenDate}
-                      style={{ fontSize: 20, color: "black" }}
+                      style={{ fontFamily: font, fontSize: 20, color: "black" }}
                     >
                       {this.state.tmpData.birthday}
                     </Text>
@@ -588,7 +590,7 @@ class ProfileScreen extends Component {
                   {this.state.isDateChanged === false && (
                     <Text
                       onPress={this.handleOpenDate}
-                      style={{ fontSize: 20, color: "#a6a6a6" }}
+                      style={{ fontFamily: font, fontSize: 20, color: "#a6a6a6" }}
                     >
                       {this.state.profile.birthday}
                     </Text>
@@ -653,14 +655,14 @@ class ProfileScreen extends Component {
                   >
                     {this.state.isGenderChanged && (
                       <TextInput
-                        style={{ fontSize: 20, color: "black" }}
+                        style={{ fontFamily: font, fontSize: 20, color: "black" }}
                         editable={false}
                         value={this.state.tmpData.gender}
                       />
                     )}
                     {this.state.isGenderChanged == false && (
                       <TextInput
-                        style={{ fontSize: 20 }}
+                        style={{ fontFamily: font, fontSize: 20 }}
                         editable={false}
                         placeholder={this.state.profile.gender}
                       />
@@ -675,7 +677,7 @@ class ProfileScreen extends Component {
                 </View>
                 <View style={styles.boxPhone}>
                   <TextInput
-                    style={{ fontSize: 20, color: "black" }}
+                    style={{ fontFamily: font, fontSize: 20, color: "black" }}
                     placeholder={this.state.profile.phoneNum}
                     keyboardType={"numeric"}
                     returnKeyType={"done"}
@@ -702,7 +704,7 @@ class ProfileScreen extends Component {
                     <Caption style={styles.captionParagraph}>Bio</Caption>
                   </View>
                   <View style={{ marginRight: 10 }}>
-                    <Paragraph style={{ marginRight: 10, fontSize: 18 }}>
+                    <Paragraph style={{ fontFamily: font, marginRight: 10, fontSize: 18 }}>
                       {this.state.tmpData.bio}
                     </Paragraph>
                     <Portal>
@@ -719,14 +721,14 @@ class ProfileScreen extends Component {
                         onDismiss={this.handleDone}
                       >
                         <Dialog.Title
-                          style={{ alignItems: "center", color: "#006400" }}
+                          style={{ fontFamily: font, alignItems: "center", color: "#006400" }}
                         >
                           Bio
                         </Dialog.Title>
                         <Dialog.Content>
                           {true && (
                             <TextInput
-                              style={{ fontSize: 20, color: "black" }}
+                              style={{ fontFamily: font, fontSize: 20, color: "black" }}
                               defaultValue={this.state.tmpData.bio}
                               multiline={true}
                               onChangeText={(bio) => {
@@ -740,7 +742,7 @@ class ProfileScreen extends Component {
                         </Dialog.Content>
                         <Dialog.Actions>
                           <Button onPress={this.handleDone}>
-                            <Text style={{ color: "#006400" }}>Done</Text>
+                            <Text style={{ fontFamily: font, color: "#006400" }}>Done</Text>
                           </Button>
                         </Dialog.Actions>
                       </Dialog>
@@ -912,7 +914,7 @@ const styles = StyleSheet.create({
     color: "red",
   },
   input: {
-    
+    fontFamily: font,
     minHeight: 40,
     maxHeight: 130,
     fontSize: 18,
@@ -970,6 +972,7 @@ const styles = StyleSheet.create({
     bottom: 20,
   },
   captionParagraph: {
+    fontFamily: font,
     fontSize: 14,
     lineHeight: 18,
     fontWeight: "500",
@@ -1104,13 +1107,13 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   buttonTitleSubmit: {
-    
+    fontFamily: font,
     color: "#fff",
     fontSize: 16,
     fontWeight: "bold",
   },
   buttonTitle: {
-    
+    fontFamily: font,
     color: "#fff",
     fontSize: 16,
     fontWeight: "bold",

@@ -4,6 +4,7 @@ import {
   Text,
   View,
   Image,
+  Platform,
   ScrollView,
   ActivityIndicator,
   RefreshControl,
@@ -11,6 +12,7 @@ import {
 import { TouchableOpacity } from "react-native-gesture-handler";
 import FeedbackCard from "../../../components/card/FeedbackCard";
 import ApiService from "../../../service/api/ApiService";
+const font = Platform.OS === "ios" ? "Helvetica" : "Roboto";
 
 class ViewFeedbackScreen extends Component {
   constructor(props) {
@@ -39,7 +41,11 @@ class ViewFeedbackScreen extends Component {
       })
       .catch((error) => {
         this.setState({
-          feedback: <Text>Error Retrieving Data {error}</Text>,
+          feedback: (
+            <Text style={{ fontFamily: font }}>
+              Error Retrieving Data {error}
+            </Text>
+          ),
           refreshing: false,
         });
       });
@@ -167,7 +173,7 @@ const styles = StyleSheet.create({
   },
 
   errorText: {
-    
+    fontFamily: font,
     fontSize: 16,
     fontWeight: "bold",
   },

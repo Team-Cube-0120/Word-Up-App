@@ -6,6 +6,7 @@ import {
     Text,
     Image,
     StyleSheet,
+    Platform,
     TextInput,
     ScrollView,
     Button,
@@ -15,6 +16,8 @@ import ApiService from "../../service/api/ApiService";
 import { DEFAULT_PROFILE_IMAGE } from "../../enums/DefaultEnums";
 const calculateDaysPassed = require("../../formatter/TimeFormatter")
     .calculateDaysPassed;
+
+const font = Platform.OS === "ios" ? "Helvetica" : "Roboto";
 
 class AccountCard extends BaseCard {
     static propTypes = {
@@ -86,6 +89,7 @@ const styles = StyleSheet.create({
     },
 
     userTitle: {
+        fontFamily: font,
         marginLeft: '3%',
         marginTop: '2%'
     },

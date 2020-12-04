@@ -4,6 +4,7 @@ import {
   ScrollView,
   Button,
   Text,
+  Platform,
   StyleSheet,
   ActivityIndicator,
 } from "react-native";
@@ -14,6 +15,8 @@ import SubmissionDialog from "../../../components/dialog/SubmissionDialog";
 import { getData, storeData } from "../../../util/LocalStorage";
 import { USERINFO } from "../../../enums/StorageKeysEnum";
 const sleep = require("../../../util/Thread");
+
+const font = Platform.OS === "ios" ? "Helvetica" : "Roboto";
 
 class ReviewAlertsScreen extends Component {
   constructor(props) {
@@ -92,34 +95,34 @@ class ReviewAlertsScreen extends Component {
       <View>
         <ScrollView>
           <Card style={styles.cardShadows}>
-            <Card.Title>Review Alerts Information</Card.Title>
+            <Card.Title style={{ fontFamily: font }}>Review Alerts Information</Card.Title>
             <Card.Divider></Card.Divider>
             <View style={styles.containerViewDetail}>
-              <Text textBreakStrategy="simple" style={styles.title}>
+              <Text  style={styles.title}>
                 Name:{" "}
               </Text>
               <Text style={styles.value}>{this.alertInfo.name}</Text>
             </View>
             <View style={styles.containerView}>
-              <Text textBreakStrategy="simple" style={styles.title}>
+              <Text  style={styles.title}>
                 Severity:{" "}
               </Text>
               <Text style={styles.value}>{this.alertInfo.severity}</Text>
             </View>
             <View style={styles.containerViewDetail}>
-              <Text textBreakStrategy="simple" style={styles.titleDetail}>
+              <Text  style={styles.titleDetail}>
                 Details:{" "}
               </Text>
               <Text style={styles.value}>{this.alertInfo.details}</Text>
             </View>
             <View style={styles.containerViewDetail}>
-              <Text textBreakStrategy="simple" style={styles.titleDetail}>
+              <Text  style={styles.titleDetail}>
                 Location:{" "}
               </Text>
               <Text style={styles.value}>{this.alertInfo.location}</Text>
             </View>
             <View style={styles.containerView}>
-              <Text textBreakStrategy="simple" style={styles.title}>
+              <Text  style={styles.title}>
                 Alert Type:{" "}
               </Text>
               <Text style={styles.value}>{this.alertInfo.alertType}</Text>
@@ -162,6 +165,7 @@ const styles = StyleSheet.create({
   },
 
   titleDetail: {
+    fontFamily: font,
     fontWeight: "bold",
     marginRight: "1%",
     fontSize: 16,
@@ -204,12 +208,14 @@ const styles = StyleSheet.create({
   },
 
   title: {
+    fontFamily: font,
     fontWeight: "bold",
     marginRight: "1%",
     fontSize: 16,
   },
 
   value: {
+    fontFamily: font,
     fontSize: 16,
   },
 

@@ -5,14 +5,17 @@ import {
   StyleSheet,
   ActivityIndicator,
   Dimensions,
+  Platform
 } from "react-native";
 import { Card, Avatar, Input } from "react-native-elements";
 import Dialog from "react-native-dialog";
 import PropTypes from "prop-types";
 import { ScrollView } from "react-native-gesture-handler";
+import { formatToMMDDYYYY } from "../../formatter/TimeFormatter";
 
 const screenWidth = Math.round(Dimensions.get("window").width);
 const screenHeight = Math.round(Dimensions.get("window").height);
+const font = Platform.OS === "ios" ? "Helvetica" : "Roboto";
 
 class AccountOptionsDialog extends Component {
   static propTypes = {
@@ -60,22 +63,22 @@ class AccountOptionsDialog extends Component {
                 </Text>
               </View>
               <View>
-                <Text>Email: {this.props.userInfo.profile.email}</Text>
+                <Text style={{ fontFamily: font }}>Email: {this.props.userInfo.profile.email}</Text>
               </View>
               <View>
-                <Text>Phone Number: {this.props.userInfo.profile.phoneNum}</Text>
+                <Text style={{ fontFamily: font }}>Phone Number: {this.props.userInfo.profile.phoneNum}</Text>
               </View>
               <View>
-                <Text>Location: {this.props.userInfo.profile.location}</Text>
+                <Text style={{ fontFamily: font }}>Location: {this.props.userInfo.profile.location}</Text>
               </View>
               <View>
-                <Text>Gender: {this.props.userInfo.profile.gender}</Text>
+                <Text style={{ fontFamily: font }}>Gender: {this.props.userInfo.profile.gender}</Text>
               </View>
               <View>
-                <Text>Is admin user? {this.props.dialogLabels.isAdmin}</Text>
+                <Text style={{ fontFamily: font }}>Is admin user? {this.props.dialogLabels.isAdmin}</Text>
               </View>
               <View>
-                <Text>Is account disabled? {this.props.dialogLabels.isDisabled}</Text>
+                <Text style={{ fontFamily: font }}>Is account disabled? {this.props.dialogLabels.isDisabled}</Text>
               </View>
             </ScrollView>
             <ActivityIndicator
@@ -113,6 +116,7 @@ const styles = StyleSheet.create({
   },
 
   dialogTitle: {
+    fontFamily: font,
     textAlign: "center",
     fontWeight: "bold",
   },
@@ -130,12 +134,14 @@ const styles = StyleSheet.create({
   },
 
   title: {
+    fontFamily: font,
     fontWeight: "bold",
     marginRight: "1%",
     fontSize: 16,
   },
 
   value: {
+    fontFamily: font,
     fontSize: 16,
     flex: 1,
     flexWrap: "wrap",
@@ -178,6 +184,7 @@ const styles = StyleSheet.create({
   },
 
   labels: {
+    fontFamily: font,
     marginRight: '2%'
   },
 
@@ -188,17 +195,20 @@ const styles = StyleSheet.create({
   },
 
   userTitle: {
+    fontFamily: font,
     marginLeft: '3%',
     marginTop: '2%'
   },
 
   jobTitle: {
+    fontFamily: font,
     fontSize: 20,
     fontWeight: 'bold',
     marginBottom: '3%'
   },
 
   datePostedText: {
+    fontFamily: font,
     textAlign: 'right',
     fontSize: 12,
     fontStyle: 'italic',
@@ -206,6 +216,7 @@ const styles = StyleSheet.create({
   },
 
   companyInfo: {
+    fontFamily: font,
     fontSize: 16
   },
 

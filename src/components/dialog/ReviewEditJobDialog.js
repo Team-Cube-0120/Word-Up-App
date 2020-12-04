@@ -5,11 +5,13 @@ import {
   StyleSheet,
   ActivityIndicator,
   Dimensions,
+  Platform
 } from "react-native";
 import { Card, Input } from "react-native-elements";
 import Dialog from "react-native-dialog";
 import PropTypes from "prop-types";
 import { ScrollView } from "react-native-gesture-handler";
+const font = Platform.OS === "ios" ? "Helvetica" : "Roboto";
 
 const screenWidth = Math.round(Dimensions.get("window").width);
 const screenHeight = Math.round(Dimensions.get("window").height);
@@ -119,6 +121,7 @@ const styles = StyleSheet.create({
   },
 
   dialogTitle: {
+    fontFamily: font,
     textAlign: "center",
     fontWeight: "bold",
   },
@@ -136,12 +139,14 @@ const styles = StyleSheet.create({
   },
 
   title: {
+    fontFamily: font,
     fontWeight: "bold",
     marginRight: "1%",
     fontSize: 16,
   },
 
   value: {
+    fontFamily: font,
     fontSize: 16,
     flex: 1,
     flexWrap: "wrap",

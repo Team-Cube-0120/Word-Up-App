@@ -7,6 +7,7 @@ import {
   StyleSheet,
   ActivityIndicator,
   Alert,
+  Platform,
   TouchableOpacity,
   LogBox,
   TouchableHighlight,
@@ -21,6 +22,8 @@ import { Icon } from "react-native-elements";
 LogBox.ignoreLogs([
   "Warning: Cannot update a component from inside the function body of a different component.",
 ]);
+
+const font = Platform.OS === "ios" ? "Helvetica" : "Roboto";
 
 class ViewEventScreen extends Component {
   constructor(props) {
@@ -201,7 +204,7 @@ class ViewEventScreen extends Component {
               onPress={() => this.openDialog()}
             >
               <Text
-                style={{ fontSize: 16, color: "white", alignItems: "center" }}
+                style={{ fontFamily: font, fontSize: 16, color: "white", alignItems: "center" }}
               >
                 Delete
               </Text>
@@ -218,7 +221,7 @@ class ViewEventScreen extends Component {
             onPress={() => this.signUp()}
           >
             <Text
-              style={{ fontSize: 18, color: "white", alignItems: "center" }}
+              style={{ fontFamily: font, fontSize: 18, color: "white", alignItems: "center" }}
             >
               Sign Up / Register
             </Text>
@@ -235,7 +238,7 @@ class ViewEventScreen extends Component {
             onPress={() => this.unRegister()}
           >
             <Text
-              style={{ fontSize: 18, color: "white", alignItems: "center" }}
+              style={{ fontFamily: font, fontSize: 18, color: "white", alignItems: "center" }}
             >
               Unregister
             </Text>
@@ -331,12 +334,13 @@ const styles = StyleSheet.create({
     flexDirection: "column",
   },
   cardTitle: {
+    fontFamily: font,
     textAlign: "center",
     fontSize: 20,
   },
 
   title: {
-    
+    fontFamily: font,
     fontWeight: "bold",
     marginRight: "1%",
     fontSize: 16,
@@ -349,13 +353,13 @@ const styles = StyleSheet.create({
   },
 
   profileTitle: {
-    
+    fontFamily: font,
     marginLeft: "3%",
     marginTop: "2%",
   },
 
   value: {
-    
+    fontFamily: font,
     fontSize: 16,
   },
 

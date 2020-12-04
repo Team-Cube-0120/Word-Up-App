@@ -6,6 +6,7 @@ import {
   Text,
   TextInput,
   StyleSheet,
+  Platform,
   Alert,
   ActivityIndicator,
   TouchableOpacity,
@@ -18,6 +19,8 @@ import { getData, storeData } from "../../../util/LocalStorage";
 import { USERINFO } from "../../../enums/StorageKeysEnum";
 import ReviewEditJobDialog from "../../../components/dialog/ReviewEditJobDialog";
 const sleep = require("../../../util/Thread");
+
+const font = Platform.OS === "ios" ? "Helvetica" : "Roboto";
 
 class EditJobScreen extends Component {
   constructor(props) {
@@ -106,12 +109,12 @@ class EditJobScreen extends Component {
             </Card.Title>
             <Text style={styles.instructions}>
               Please carefully change the fields below. Fields marked with (
-              <Text style={{ color: "red" }}>*</Text>) must not be left empty.
+              <Text style={{ fontFamily: font, color: "red" }}>*</Text>) must not be left empty.
             </Text>
             <Card.Divider />
             <View style={styles.containerView}>
               <Text style={styles.title}>
-                Position: <Text style={{ color: "red" }}>*</Text>
+                Position: <Text style={{ fontFamily: font, color: "red" }}>*</Text>
               </Text>
               <TextInput
                 style={styles.value}
@@ -130,7 +133,7 @@ class EditJobScreen extends Component {
             <Card.Divider />
             <View style={styles.containerView}>
               <Text style={styles.title}>
-                Job Type: <Text style={{ color: "red" }}>*</Text>
+                Job Type: <Text style={{ fontFamily: font, color: "red" }}>*</Text>
               </Text>
               <TextInput
                 style={styles.value}
@@ -147,7 +150,7 @@ class EditJobScreen extends Component {
             <Card.Divider />
             <View style={styles.containerView}>
               <Text style={styles.title}>
-                Company: <Text style={{ color: "red" }}>*</Text>
+                Company: <Text style={{ fontFamily: font, color: "red" }}>*</Text>
               </Text>
               <TextInput
                 style={styles.value}
@@ -164,7 +167,7 @@ class EditJobScreen extends Component {
             <Card.Divider />
             <View style={styles.containerView}>
               <Text style={styles.title}>
-                Job Description: <Text style={{ color: "red" }}>*</Text>
+                Job Description: <Text style={{ fontFamily: font, color: "red" }}>*</Text>
               </Text>
               <TextInput
                 style={styles.textInputMultipleLine}
@@ -181,7 +184,7 @@ class EditJobScreen extends Component {
             <Card.Divider />
             <View style={styles.containerView}>
               <Text style={styles.title}>
-                Job Application URL: <Text style={{ color: "red" }}>*</Text>
+                Job Application URL: <Text style={{ fontFamily: font, color: "red" }}>*</Text>
               </Text>
               <TextInput
                 style={styles.value}
@@ -200,7 +203,7 @@ class EditJobScreen extends Component {
             <Card.Divider />
             <View style={styles.containerView}>
               <Text style={styles.title}>
-                Email: <Text style={{ color: "red" }}>*</Text>
+                Email: <Text style={{ fontFamily: font, color: "red" }}>*</Text>
               </Text>
               <TextInput
                 style={styles.value}
@@ -217,7 +220,7 @@ class EditJobScreen extends Component {
             <Card.Divider />
             <View style={styles.containerView}>
               <Text style={styles.title}>
-                Phone Number: <Text style={{ color: "red" }}>*</Text>
+                Phone Number: <Text style={{ fontFamily: font, color: "red" }}>*</Text>
               </Text>
               <TextInput
                 style={styles.value}
@@ -236,7 +239,7 @@ class EditJobScreen extends Component {
             <Card.Divider />
             <View style={styles.containerView}>
               <Text style={styles.title}>
-                Street: <Text style={{ color: "red" }}>*</Text>
+                Street: <Text style={{ fontFamily: font, color: "red" }}>*</Text>
               </Text>
               <TextInput
                 style={styles.value}
@@ -253,7 +256,7 @@ class EditJobScreen extends Component {
             <Card.Divider />
             <View style={styles.containerView}>
               <Text style={styles.title}>
-                City: <Text style={{ color: "red" }}>*</Text>
+                City: <Text style={{ fontFamily: font, color: "red" }}>*</Text>
               </Text>
               <TextInput
                 style={styles.value}
@@ -270,7 +273,7 @@ class EditJobScreen extends Component {
             <Card.Divider />
             <View style={styles.containerView}>
               <Text style={styles.title}>
-                State: <Text style={{ color: "red" }}>*</Text>
+                State: <Text style={{ fontFamily: font, color: "red" }}>*</Text>
               </Text>
               <TextInput
                 style={styles.value}
@@ -287,7 +290,7 @@ class EditJobScreen extends Component {
             <Card.Divider />
             <View style={styles.containerView}>
               <Text style={styles.title}>
-                Zipcode: <Text style={{ color: "red" }}>*</Text>
+                Zipcode: <Text style={{ fontFamily: font, color: "red" }}>*</Text>
               </Text>
               <TextInput
                 style={styles.value}
@@ -308,7 +311,7 @@ class EditJobScreen extends Component {
             >
               <Text
                 style={{
-                  
+                  fontFamily: font,
                   fontSize: 18,
                   color: "white",
                   alignItems: "center",
@@ -342,23 +345,24 @@ const styles = StyleSheet.create({
   },
 
   cardTitle: {
+    fontFamily: font,
     textAlign: "left",
   },
 
   instructions: {
-    
+    fontFamily: font,
     marginBottom: "5%",
   },
 
   title: {
-    
+    fontFamily: font,
     fontWeight: "bold",
     marginRight: "1%",
     fontSize: 16,
   },
 
   value: {
-    
+    fontFamily: font,
     fontSize: 16,
     borderColor: "gray",
     width: "100%",
@@ -368,7 +372,7 @@ const styles = StyleSheet.create({
   },
 
   textInputMultipleLine: {
-    
+    fontFamily: font,
     borderColor: "gray",
     borderWidth: 1,
     borderRadius: 10,
