@@ -3,7 +3,7 @@
     "name": "WordUP",
     "slug": "snack-4fe504f2-957c-48b1-9249-e97093b69fe1",
     "platforms": ["ios", "android", "web"],
-    "version": "1.0.0",
+    "version": "3.0.0",
     "orientation": "portrait",
     "icon": "./assets/appLogo.png",
     "updates": {
@@ -16,10 +16,37 @@
     },
     "assetBundlePatterns": ["**/*"],
     "android": {
+      "versionCode": 3,
+      "permissions": [
+        "CAMERA",
+        "RECORD_AUDIO",
+        "READ_CONTACTS",
+        "WRITE_CONTACTS",
+        "READ_CALENDAR",
+        "WRITE_CALENDAR",
+        "READ_EXTERNAL_STORAGE",
+        "WRITE_EXTERNAL_STORAGE",
+        "USE_FINGERPRINT",
+        "USE_BIOMETRIC",
+        "WRITE_SETTINGS",
+        "VIBRATE",
+        "READ_PHONE_STATE",
+        "com.anddoes.launcher.permission.UPDATE_COUNT",
+        "com.android.launcher.permission.INSTALL_SHORTCUT",
+        "com.google.android.c2dm.permission.RECEIVE",
+        "com.google.android.gms.permission.ACTIVITY_RECOGNITION",
+        "com.google.android.providers.gsf.permission.READ_GSERVICES",
+        "com.htc.launcher.permission.READ_SETTINGS",
+        "com.htc.launcher.permission.UPDATE_SHORTCUT",
+        "com.majeur.launcher.permission.UPDATE_BADGE",
+        "com.sec.android.provider.badge.permission.READ",
+        "com.sec.android.provider.badge.permission.WRITE",
+        "com.sonyericsson.home.permission.BROADCAST_BADGE"
+      ],
       "package": "com.wordup.app",
       "config": {
         "googleSignIn": {
-          "apiKey" : "AIzaSyBDhQQICm2SGG27H2FqkAUOyAo3h5SfFls",
+          "apiKey": "AIzaSyBDhQQICm2SGG27H2FqkAUOyAo3h5SfFls",
           "certificateHash": "20C1C93F98AE3BAE97A3D8ACC05D3CC183CFF6BA"
         }
       }
