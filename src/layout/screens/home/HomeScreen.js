@@ -10,7 +10,7 @@ import {
   ActivityIndicator,
 } from "react-native";
 import Carousel from "react-native-snap-carousel";
-import icon from "../../../../assets/appLogo.png";
+import icon from "../../../../assets/appLogoX.png";
 import img7 from "../../../../assets/hampton1.jpg";
 import img5 from "../../../../assets/hampton2.jpg";
 import img3 from "../../../../assets/hampton3.jpg";

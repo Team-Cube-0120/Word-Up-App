@@ -18,6 +18,8 @@ import UuidGenerator from "../../../util/UuidGenerator";
 import { getData, storeData, updateUserInfo } from "../../../util/LocalStorage";
 import { USERINFO } from "../../../enums/StorageKeysEnum";
 import ModalSelector from "react-native-modal-selector";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+
 
 const font = Platform.OS === "ios" ? "Helvetica" : "Roboto";
 
@@ -123,7 +125,10 @@ class CreateEventsScreen extends Component {
 
   render() {
     return (
-      <ScrollView keyboardShouldPersistTaps="always" style={styles.container}>
+      <KeyboardAwareScrollView
+          extraScrollHeight={25}
+          style={styles.container}
+        >
         <Card containerStyle={styles.cardShadows}>
           <Card.Title style={{ fontFamily: font }}>Create Event</Card.Title>
           <Card.Divider />
@@ -356,7 +361,7 @@ class CreateEventsScreen extends Component {
             </Text>
           </TouchableOpacity>
         </Card>
-      </ScrollView>
+      </KeyboardAwareScrollView>
     );
   }
 }

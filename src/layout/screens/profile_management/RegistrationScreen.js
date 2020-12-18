@@ -11,7 +11,7 @@ import {
   Button,
 } from "react-native";
 import { firebase } from "../../../../server/config/firebase/firebaseConfig";
-import icon from "../../../../assets/appLogo.png";
+import icon from "../../../../assets/appLogoX.png";
 import { storeData } from "../../../util/LocalStorage";
 import { USERINFO } from "../../../enums/StorageKeysEnum";
 import { DEFAULT_PROFILE_IMAGE } from "../../../enums/DefaultEnums";

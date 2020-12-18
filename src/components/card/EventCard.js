@@ -109,24 +109,6 @@ const styles = StyleSheet.create({
     padding: 10,
     borderBottomColor:"gray",
     borderBottomWidth: 0.3,
-    ...Platform.select({
-      ios: {
-        shadowColor: "#000",
-        shadowOffset: { width: 2, height: 2 },
-        shadowOpacity: 4,
-        shadowRadius: 3,
-      },
-      android: {
-        elevation: 3,
-      },
-      default: {
-        shadowColor: "#000",
-        shadowOffset: { width: 2, height: 2 },
-        shadowOpacity: 4,
-        shadowRadius: 3,
-        elevation: 3,
-      },
-    }),
   },
   containerStyleCard: {
     backgroundColor: "powderblue",

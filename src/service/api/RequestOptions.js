@@ -30,7 +30,7 @@ class RequestOptions {
                     headers: {
                         'Content-Type': 'application/json'
                     },
-                    data: data
+                    data: undefined
                 }
             case DELETE:
                 return {

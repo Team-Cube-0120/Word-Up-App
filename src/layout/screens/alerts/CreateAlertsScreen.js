@@ -16,6 +16,8 @@ import ModalSelector from "react-native-modal-selector";
 import { USERINFO } from "../../../enums/StorageKeysEnum";
 import { getData, storeData } from "../../../util/LocalStorage";
 import moment from "moment";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+
 
 const font = Platform.OS === "ios" ? "Helvetica" : "Roboto";
 
@@ -38,7 +40,10 @@ class CreateAlertsScreen extends Component {
 
   render() {
     return (
-      <ScrollView style={styles.container}>
+      <KeyboardAwareScrollView
+          extraScrollHeight={25}
+          style={styles.container}
+        >
         <Card containerStyle={styles.cardShadows}>
           <Card.Title style={{ fontFamily: font }}>Create Alert</Card.Title>
           <Card.Divider />
@@ -229,7 +234,7 @@ class CreateAlertsScreen extends Component {
             ></Button>
           </TouchableOpacity>
         </Card>
-      </ScrollView>
+      </KeyboardAwareScrollView>
     );
   }
 }
