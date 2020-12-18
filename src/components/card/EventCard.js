@@ -139,7 +139,7 @@ const styles = StyleSheet.create({
   },
   text: {
     fontFamily: font,
-    fontSize: 16,
+    fontSize: 13.5,
   },
 });
 
