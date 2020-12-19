@@ -118,7 +118,7 @@ const styles = StyleSheet.create({
     fontFamily: font,
     fontWeight: "bold",
     marginRight: "3%",
-    fontSize: 16,
+    fontSize: 14,
   },
 
   cardTitle: {
@@ -139,7 +139,7 @@ const styles = StyleSheet.create({
   },
   text: {
     fontFamily: font,
-    fontSize: 13.5,
+    fontSize: 14,
   },
 });
 
