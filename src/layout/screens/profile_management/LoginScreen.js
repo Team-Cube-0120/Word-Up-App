@@ -66,151 +66,151 @@ export default function LoginScreen({ navigation }) {
     });
   }, []);
 
-  const signInWithGoogle = async () => {
-    try {
-      const result = await Google.logInAsync({
-        androidStandaloneAppClientId:
-          "737324073545-g3e0p7k5bflbs0str7mnrteo3hkihj5h.apps.googleusercontent.com",
-        androidClientId:
-          "737324073545-k2gg7rdmk5b56a4mbk133qeov3hhgiv7.apps.googleusercontent.com",
-        iosStandaloneAppClientId:
-          "737324073545-017bbmgjgmn4mrtp0p12qkb89jq8f3jt.apps.googleusercontent.com",
-        iosClientId:
-          "737324073545-vpl2snatedel1phivai07l7v6e885nhp.apps.googleusercontent.com",
-        scopes: ["profile", "email"],
-      });
+  // const signInWithGoogle = async () => {
+  //   try {
+  //     const result = await Google.logInAsync({
+  //       androidStandaloneAppClientId:
+  //         "737324073545-g3e0p7k5bflbs0str7mnrteo3hkihj5h.apps.googleusercontent.com",
+  //       androidClientId:
+  //         "737324073545-k2gg7rdmk5b56a4mbk133qeov3hhgiv7.apps.googleusercontent.com",
+  //       iosStandaloneAppClientId:
+  //         "737324073545-017bbmgjgmn4mrtp0p12qkb89jq8f3jt.apps.googleusercontent.com",
+  //       iosClientId:
+  //         "737324073545-vpl2snatedel1phivai07l7v6e885nhp.apps.googleusercontent.com",
+  //       scopes: ["profile", "email"],
+  //     });
 
-      if (result.type === "success") {
-        onSignIn(result);
-      } else {
-        alert("Login Unsuccessful!");
-      }
-    } catch (e) {
-      alert(e);
-    }
-  };
+  //     if (result.type === "success") {
+  //       onSignIn(result);
+  //     } else {
+  //       alert("Login Unsuccessful!");
+  //     }
+  //   } catch (e) {
+  //     alert(e);
+  //   }
+  // };
 
-  onSignIn = (googleUser) => {
-    var unsubscribe = firebase
-      .auth()
-      .onAuthStateChanged(function (firebaseUser) {
-        unsubscribe();
-        if (!isUserEqual(googleUser, firebaseUser)) {
-          var credential = firebase.auth.GoogleAuthProvider.credential(
-            googleUser.idToken,
-            googleUser.accessToken
-          );
-          firebase
-            .auth()
-            .signInWithCredential(credential)
-            .then(function (response) {
-              console.log("User signed in ");
-              const uid = response.user.uid;
-              if (response.additionalUserInfo.isNewUser) {
-                const data = {
-                  profile: {
-                    profileImageUrl: response.user.photoURL,
-                    id: uid,
-                    email: response.user.email,
-                    fullname: response.user.displayName,
-                    birthday: "N/A",
-                    phoneNum: "N/A",
-                    username: "N/A",
-                    bio: "N/A",
-                    location: "N/A",
-                    gender: "N/A",
-                  },
-                  id: uid,
-                  email: response.user.email,
-                  fullname: response.user.displayName,
-                  admin: false,
-                  jobIds: [],
-                  eventIds: [],
-                  alertIds: [],
-                  signedUpEvents: [],
-                  datePosted: new Date(),
-                  isDisabled: false,
-                };
-                const usersRef = firebase.firestore().collection("users");
-                usersRef
-                  .doc(uid)
-                  .set(data)
-                  .then(async () => {
-                    await storeData(USERINFO, data);
-                  })
-                  .then(() => {
-                    const usersRef = firebase.firestore().collection("users");
-                    usersRef
-                      .doc(uid)
-                      .get()
-                      .then(async (firestoreDocument) => {
-                        if (!firestoreDocument.exists) {
-                          alert("User does not exist anymore.");
-                          return;
-                        } else {
-                          setEmail("");
-                          setPassword("");
-                          await storeData(USERINFO, firestoreDocument.data());
-                          navigation.navigate("TabNavigator");
-                        }
-                      })
-                      .catch((error) => {
-                        alert(error);
-                      });
-                  })
-                  .catch((error) => {
-                    alert(error);
-                  });
-              } else {
-                const usersRef = firebase.firestore().collection("users");
-                usersRef
-                  .doc(uid)
-                  .get()
-                  .then(async (firestoreDocument) => {
-                    if (!firestoreDocument.exists) {
-                      alert("User does not exist anymore.");
-                      return;
-                    } else {
-                      let user = firestoreDocument.data();
-                      if (user.isDisabled) {
-                        alert("This account has been disabled");
-                      } else {
-                        setEmail("");
-                        setPassword("");
-                        await storeData(USERINFO, user);
-                        navigation.navigate("TabNavigator");
-                      }
-                    }
-                  })
-                  .catch((error) => {
-                    alert(error);
-                  });
-              }
-            })
-            .catch(function (error) {
-              alert(error.message);
-            });
-        } else {
-          console.log("User already signed-in Firebase.");
-        }
-      });
-  };
+  // onSignIn = (googleUser) => {
+  //   var unsubscribe = firebase
+  //     .auth()
+  //     .onAuthStateChanged(function (firebaseUser) {
+  //       unsubscribe();
+  //       if (!isUserEqual(googleUser, firebaseUser)) {
+  //         var credential = firebase.auth.GoogleAuthProvider.credential(
+  //           googleUser.idToken,
+  //           googleUser.accessToken
+  //         );
+  //         firebase
+  //           .auth()
+  //           .signInWithCredential(credential)
+  //           .then(function (response) {
+  //             console.log("User signed in ");
+  //             const uid = response.user.uid;
+  //             if (response.additionalUserInfo.isNewUser) {
+  //               const data = {
+  //                 profile: {
+  //                   profileImageUrl: response.user.photoURL,
+  //                   id: uid,
+  //                   email: response.user.email,
+  //                   fullname: response.user.displayName,
+  //                   birthday: "N/A",
+  //                   phoneNum: "N/A",
+  //                   username: "N/A",
+  //                   bio: "N/A",
+  //                   location: "N/A",
+  //                   gender: "N/A",
+  //                 },
+  //                 id: uid,
+  //                 email: response.user.email,
+  //                 fullname: response.user.displayName,
+  //                 admin: false,
+  //                 jobIds: [],
+  //                 eventIds: [],
+  //                 alertIds: [],
+  //                 signedUpEvents: [],
+  //                 datePosted: new Date(),
+  //                 isDisabled: false,
+  //               };
+  //               const usersRef = firebase.firestore().collection("users");
+  //               usersRef
+  //                 .doc(uid)
+  //                 .set(data)
+  //                 .then(async () => {
+  //                   await storeData(USERINFO, data);
+  //                 })
+  //                 .then(() => {
+  //                   const usersRef = firebase.firestore().collection("users");
+  //                   usersRef
+  //                     .doc(uid)
+  //                     .get()
+  //                     .then(async (firestoreDocument) => {
+  //                       if (!firestoreDocument.exists) {
+  //                         alert("User does not exist anymore.");
+  //                         return;
+  //                       } else {
+  //                         setEmail("");
+  //                         setPassword("");
+  //                         await storeData(USERINFO, firestoreDocument.data());
+  //                         navigation.navigate("TabNavigator");
+  //                       }
+  //                     })
+  //                     .catch((error) => {
+  //                       alert(error);
+  //                     });
+  //                 })
+  //                 .catch((error) => {
+  //                   alert(error);
+  //                 });
+  //             } else {
+  //               const usersRef = firebase.firestore().collection("users");
+  //               usersRef
+  //                 .doc(uid)
+  //                 .get()
+  //                 .then(async (firestoreDocument) => {
+  //                   if (!firestoreDocument.exists) {
+  //                     alert("User does not exist anymore.");
+  //                     return;
+  //                   } else {
+  //                     let user = firestoreDocument.data();
+  //                     if (user.isDisabled) {
+  //                       alert("This account has been disabled");
+  //                     } else {
+  //                       setEmail("");
+  //                       setPassword("");
+  //                       await storeData(USERINFO, user);
+  //                       navigation.navigate("TabNavigator");
+  //                     }
+  //                   }
+  //                 })
+  //                 .catch((error) => {
+  //                   alert(error);
+  //                 });
+  //             }
+  //           })
+  //           .catch(function (error) {
+  //             alert(error.message);
+  //           });
+  //       } else {
+  //         console.log("User already signed-in Firebase.");
+  //       }
+  //     });
+  // };
 
-  isUserEqual = (googleUser, firebaseUser) => {
-    if (firebaseUser) {
-      var providerData = firebaseUser.providerData;
-      for (var i = 0; i < providerData.length; i++) {
-        if (
-          providerData[i].providerId ===
-            firebase.auth.GoogleAuthProvider.PROVIDER_ID &&
-          providerData[i].uid === googleUser.getBasicProfile().getId()
-        ) {
-          return true;
-        }
-      }
-    }
-    return false;
-  };
+  // isUserEqual = (googleUser, firebaseUser) => {
+  //   if (firebaseUser) {
+  //     var providerData = firebaseUser.providerData;
+  //     for (var i = 0; i < providerData.length; i++) {
+  //       if (
+  //         providerData[i].providerId ===
+  //           firebase.auth.GoogleAuthProvider.PROVIDER_ID &&
+  //         providerData[i].uid === googleUser.getBasicProfile().getId()
+  //       ) {
+  //         return true;
+  //       }
+  //     }
+  //   }
+  //   return false;
+  // };
 
   const forgotPassword = (Email) => {
     firebase
@@ -402,28 +402,6 @@ export default function LoginScreen({ navigation }) {
             onPress={() => onLoginPress()}
           >
             <Text style={styles.buttonTitle}>Log in</Text>
-          </TouchableOpacity>
-
-          <View style={{ flex: 1, alignItems: "center", marginTop: 5 }}>
-            <Text style={{ fontSize: 16, color: "gray", fontFamily: font }}>
-              or{" "}
-            </Text>
-          </View>
-
-          <TouchableOpacity
-            style={styles.signButton}
-            onPress={() => signInWithGoogle()}
-          >
-            <Text
-              style={{
-                fontSize: 16,
-                color: "#70AF1A",
-                fontWeight: "bold",
-                fontFamily: font,
-              }}
-            >
-              Sign in with Google
-            </Text>
           </TouchableOpacity>
 
           <View style={styles.footerView}>

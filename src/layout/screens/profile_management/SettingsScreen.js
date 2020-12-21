@@ -262,10 +262,17 @@ class SettingsScreen extends Component {
 
               <TouchableOpacity
                 style={styles.button}
-                onPress={() => this.onLoginOutPress()}
+                onPress={() => this.openDialog()}
               >
                 <Text style={styles.buttonTitle}>Log Out</Text>
               </TouchableOpacity>
+              <SubmissionDialog
+                visible={this.state.toggleDialog}
+                onClose={() => this.closeDialog()}
+                onSubmit={() => this.onLoginOutPress()}
+                isSubmitting={false}
+              />
+              
               <View style={{marginBottom: '5%'}}></View>
             </ScrollView>
           </View>

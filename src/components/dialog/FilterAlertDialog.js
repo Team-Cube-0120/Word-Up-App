@@ -22,9 +22,6 @@ class FilterAlertDialog extends Component {
             {label: 'Community Alert', value: 'Community Alert'},
             {label: 'My Alerts', value: 'My Alerts'},
 
-
-
-           
         ];
 
         this.state = {
@@ -37,14 +34,14 @@ class FilterAlertDialog extends Component {
             <View>
                 <Dialog.Container visible={this.props.visible}>
                     <Dialog.Title style={styles.dialogTitle}>Event Type</Dialog.Title>
-                    <View>
+                    <View style={{left: 10, bottom: 2}}>
                         <RadioForm
                             radio_props={this.radio_props}
                             initial={this.props.filterOption}
                             onPress={(value) => this.setState({ selectedValue: value })} />
                     </View>
-                    <Dialog.Button label="Close" onPress={() => this.props.onClose()}></Dialog.Button>
-                    <Dialog.Button label="Submit" onPress={() => this.props.onSubmit(this.state.selectedValue)}></Dialog.Button>
+                    <Dialog.Button label="Close" color="#70AF1A" onPress={() => this.props.onClose()}></Dialog.Button>
+                    <Dialog.Button label="Submit" color="#70AF1A" onPress={() => this.props.onSubmit(this.state.selectedValue)}></Dialog.Button>
                 </Dialog.Container>
             </View>
         )

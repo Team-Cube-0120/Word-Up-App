@@ -135,7 +135,7 @@ class ViewJobScreen extends Component {
   render() {
     return (
       <ScrollView>
-        <Card containerStyle={styles.cardShadows}>
+        <Card>
           {/* <Image
             source={{ uri: "https://reactjs.org/logo-og.png" }}
             style={styles.companyImage}
@@ -162,7 +162,7 @@ class ViewJobScreen extends Component {
           ></DeleteDialog>
           <View style={styles.buttonLeft}>
             <Button
-              color="#70AF1A"
+              color="white"
               title="Apply"
               disabled={false}
               onPress={() => this.applyToJob()}
@@ -273,6 +273,7 @@ const styles = StyleSheet.create({
 
   buttonLeft: {
     marginBottom: "5%",
+    backgroundColor: "#70AF1A"
   },
 
   buttonRight: {

@@ -38,8 +38,9 @@ class FilterEventDialog extends Component {
             <View>
                 <Dialog.Container visible={this.props.visible}>
                     <Dialog.Title style={styles.dialogTitle}>Event Type</Dialog.Title>
-                    <View>
+                    <View style={{left: 10, bottom: 2}}>
                         <RadioForm
+                            
                             radio_props={this.radio_props}
                             initial={this.props.filterOption}
                             onPress={(value) => this.setState({ selectedValue: value })} />

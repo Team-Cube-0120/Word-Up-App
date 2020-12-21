@@ -3,7 +3,7 @@
     "name": "WordUP",
     "slug": "snack-4fe504f2-957c-48b1-9249-e97093b69fe1",
     "platforms": ["ios", "android", "web"],
-    "version": "4.0.0",
+    "version": "5.0.0",
     "orientation": "portrait",
     "icon": "./assets/appLogo.png",
     "updates": {
@@ -16,7 +16,7 @@
     },
     "assetBundlePatterns": ["**/*"],
     "android": {
-      "versionCode": 4,
+      "versionCode": 5,
       "permissions": [
         "CAMERA",
         "RECORD_AUDIO",
@@ -53,8 +53,11 @@
     },
     "ios": {
       "supportsTablet": true,
-      "buildNumber": "4",
+      "buildNumber": "5",
       "bundleIdentifier": "com.wordup.app",
+      "infoPlist": {
+        "NSPhotoLibraryUsageDescription": "WordUP would like access to your photo gallery to update your profile photo"
+    },
       "config": {
         "googleSignIn": {
           "reservedClientId": "com.googleusercontent.apps.737324073545-017bbmgjgmn4mrtp0p12qkb89jq8f3jt"

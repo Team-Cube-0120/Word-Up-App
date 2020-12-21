@@ -88,13 +88,13 @@ class JobCard extends BaseCard {
 const styles = StyleSheet.create({
   cardShadows: {
     borderBottomColor: "gray",
-    borderBottomWidth: 0.5,
+    borderBottomWidth: 0.3,
     ...Platform.select({
       ios: {
         shadowColor: "#000",
         shadowOffset: { width: 1, height: 1 },
-        shadowOpacity: 0.4,
-        shadowRadius: 2,
+        shadowOpacity: 0.2,
+        shadowRadius: 1,
       },
       android: {
         elevation: 2,
@@ -102,8 +102,8 @@ const styles = StyleSheet.create({
       default: {
         shadowColor: "#000",
         shadowOffset: { width: 1, height: 1 },
-        shadowOpacity: 0.4,
-        shadowRadius: 2,
+        shadowOpacity: 0.3,
+        shadowRadius: 1,
         elevation: 2,
       },
     }),

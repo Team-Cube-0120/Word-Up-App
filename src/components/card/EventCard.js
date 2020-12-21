@@ -47,6 +47,24 @@ class EventCard extends BaseCard {
         height: 180,
         backgroundColor: "green",
         padding: 10,
+        ...Platform.select({
+          ios: {
+            shadowColor: "#000",
+            shadowOffset: { width: 1, height: 1 },
+            shadowOpacity: 0.2,
+            shadowRadius: 1,
+          },
+          android: {
+            elevation: 2,
+          },
+          default: {
+            shadowColor: "#000",
+            shadowOffset: { width: 1, height: 1 },
+            shadowOpacity: 0.4,
+            shadowRadius: 2,
+            elevation: 2,
+          },
+        }),
       };
     } else if (this.props.data.eventType == "Party") {
       styles.rightBox = {
@@ -54,6 +72,24 @@ class EventCard extends BaseCard {
         height: 180,
         backgroundColor: "salmon",
         padding: 10,
+        ...Platform.select({
+          ios: {
+            shadowColor: "#000",
+            shadowOffset: { width: 1, height: 1 },
+            shadowOpacity: 0.2,
+            shadowRadius: 1,
+          },
+          android: {
+            elevation: 2,
+          },
+          default: {
+            shadowColor: "#000",
+            shadowOffset: { width: 1, height: 1 },
+            shadowOpacity: 0.4,
+            shadowRadius: 2,
+            elevation: 2,
+          },
+        }),
       };
     } else if (this.props.data.eventType == "Food") {
       styles.rightBox = {
@@ -61,6 +97,24 @@ class EventCard extends BaseCard {
         height: 180,
         backgroundColor: "lightblue",
         padding: 10,
+        ...Platform.select({
+          ios: {
+            shadowColor: "#000",
+            shadowOffset: { width: 1, height: 1 },
+            shadowOpacity: 0.2,
+            shadowRadius: 1,
+          },
+          android: {
+            elevation: 2,
+          },
+          default: {
+            shadowColor: "#000",
+            shadowOffset: { width: 1, height: 1 },
+            shadowOpacity: 0.4,
+            shadowRadius: 2,
+            elevation: 2,
+          },
+        }),
       };
     } else if (this.props.data.eventType == "Meeting") {
       styles.rightBox = {
@@ -68,6 +122,24 @@ class EventCard extends BaseCard {
         height: 180,
         backgroundColor: "red",
         padding: 10,
+        ...Platform.select({
+          ios: {
+            shadowColor: "#000",
+            shadowOffset: { width: 1, height: 1 },
+            shadowOpacity: 0.2,
+            shadowRadius: 1,
+          },
+          android: {
+            elevation: 2,
+          },
+          default: {
+            shadowColor: "#000",
+            shadowOffset: { width: 1, height: 1 },
+            shadowOpacity: 0.4,
+            shadowRadius: 2,
+            elevation: 2,
+          },
+        }),
       };
     }
     return (
@@ -109,6 +181,24 @@ const styles = StyleSheet.create({
     padding: 10,
     borderBottomColor:"gray",
     borderBottomWidth: 0.3,
+    ...Platform.select({
+      ios: {
+        shadowColor: "#000",
+        shadowOffset: { width: 1, height: 1 },
+        shadowOpacity: 0.2,
+        shadowRadius: 1,
+      },
+      android: {
+        elevation: 2,
+      },
+      default: {
+        shadowColor: "#000",
+        shadowOffset: { width: 1, height: 1 },
+        shadowOpacity: 0.4,
+        shadowRadius: 2,
+        elevation: 2,
+      },
+    }),
   },
   containerStyleCard: {
     backgroundColor: "powderblue",
@@ -118,7 +208,7 @@ const styles = StyleSheet.create({
     fontFamily: font,
     fontWeight: "bold",
     marginRight: "3%",
-    fontSize: 14,
+    fontSize: 13.5,
   },
 
   cardTitle: {
@@ -139,7 +229,7 @@ const styles = StyleSheet.create({
   },
   text: {
     fontFamily: font,
-    fontSize: 14,
+    fontSize: 13.5,
   },
 });
 
