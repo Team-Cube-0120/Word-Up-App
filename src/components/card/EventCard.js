@@ -44,7 +44,7 @@ class EventCard extends BaseCard {
     if (this.props.data.eventType == "Outdoor") {
       styles.rightBox = {
         width: "8%",
-        height: 180,
+        height: 150,
         backgroundColor: "green",
         padding: 10,
         ...Platform.select({
@@ -69,7 +69,7 @@ class EventCard extends BaseCard {
     } else if (this.props.data.eventType == "Party") {
       styles.rightBox = {
         width: "8%",
-        height: 180,
+        height: 150,
         backgroundColor: "salmon",
         padding: 10,
         ...Platform.select({
@@ -94,7 +94,7 @@ class EventCard extends BaseCard {
     } else if (this.props.data.eventType == "Food") {
       styles.rightBox = {
         width: "8%",
-        height: 180,
+        height: 150,
         backgroundColor: "lightblue",
         padding: 10,
         ...Platform.select({
@@ -119,7 +119,7 @@ class EventCard extends BaseCard {
     } else if (this.props.data.eventType == "Meeting") {
       styles.rightBox = {
         width: "8%",
-        height: 180,
+        height: 150,
         backgroundColor: "red",
         padding: 10,
         ...Platform.select({
@@ -176,7 +176,7 @@ const styles = StyleSheet.create({
   },
   containerStyle: {
     width: "90%",
-    height: 180,
+    height: 150,
     backgroundColor: "white",
     padding: 10,
     borderBottomColor:"gray",
@@ -223,7 +223,7 @@ const styles = StyleSheet.create({
   },
   rightBox: {
     width: "8%",
-    height: 180,
+    height: 150,
     backgroundColor: "salmon",
     padding: 10,
   },
