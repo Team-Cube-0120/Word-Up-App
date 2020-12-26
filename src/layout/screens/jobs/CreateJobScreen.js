@@ -7,6 +7,7 @@ import {
   ScrollView,
   Platform,
   Button,
+  Keyboard
 } from "react-native";
 import { Card, Input } from "react-native-elements";
 import {
@@ -142,8 +143,8 @@ class CreateJobScreen extends Component {
                   this.setState({ jobDescription: jobDescription })
                 }
                 ref={this.jobDescriptionInput}
-                returnKeyType={"done"}
-                blurOnSubmit={false}
+                blurOnSubmit={true}
+                onSubmitEditing={()=>{Keyboard.dismiss()}}
               />
             </View>
             <View style={styles.viewItem}>
@@ -260,10 +261,10 @@ class CreateJobScreen extends Component {
               <TextInput
                 style={styles.textInput}
                 ref={this.zipInput}
-                returnKeyType={"done"}
+                blurOnSubmit={true}
+                onSubmitEditing={()=>{Keyboard.dismiss()}}
                 placeholder="e.g. 12345"
                 onChangeText={(zip) => this.setState({ zip: zip })}
-                blurOnSubmit={false}
               />
             </View>
             <TouchableOpacity

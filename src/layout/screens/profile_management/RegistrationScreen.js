@@ -9,6 +9,7 @@ import {
   Platform,
   Dimensions,
   Button,
+  Keyboard
 } from "react-native";
 import { firebase } from "../../../../server/config/firebase/firebaseConfig";
 import icon from "../../../../assets/appLogoX.png";
@@ -247,7 +248,8 @@ class RegistrationScreen extends Component {
         <TextInput
           style={styles.input}
           ref={this.confirmInput}
-          returnKeyType={"done"}
+          blurOnSubmit={true}
+          onSubmitEditing={()=>{Keyboard.dismiss()}}
           placeholderTextColor="#aaaaaa"
           secureTextEntry
           placeholder="Confirm Password"

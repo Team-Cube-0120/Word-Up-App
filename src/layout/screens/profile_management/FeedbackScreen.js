@@ -7,6 +7,7 @@ import {
   Platform,
   Alert,
   View,
+  Keyboard
 } from "react-native";
 import { firebase } from "../../../../server/config/firebase/firebaseConfig";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
@@ -78,7 +79,8 @@ export default function FeedbackScreen({ navigation }) {
         value={name}
         editable={false}
         underlineColorAndroid="transparent"
-        returnKeyType={"done"}
+        blurOnSubmit={true}
+        onSubmitEditing={()=>{Keyboard.dismiss()}}
       />
 
       <TextInput
@@ -90,7 +92,8 @@ export default function FeedbackScreen({ navigation }) {
         onChangeText={(text) => setfeedback(text)}
         value={feedback}
         underlineColorAndroid="transparent"
-        returnKeyType={"done"}
+        blurOnSubmit={true}
+        onSubmitEditing={()=>{Keyboard.dismiss()}}
       />
 
       <TouchableOpacity
@@ -155,7 +158,6 @@ const styles = StyleSheet.create({
     paddingRight: "3%",
   },
   inputLast: {
-    fontFamily: font,
     height: 250,
     fontSize: 18,
     color: "black",

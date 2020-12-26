@@ -98,23 +98,27 @@ class ViewAlertScreen extends Component {
       };
       this.setState({
         editButtonView: (
+          <View style={styles.buttonRightEdit}>
           <Button
-            style={styles.buttonRight}
             title="Edit"
+            color="white"
             onPress={() =>
               this.props.navigation.push("EditAlert", {
                 alertInfo: this.state.alertInfo,
               })
             }
           ></Button>
+          </View>
         ),
         deleteAlertView: (
+          <View style={styles.buttonRightDelete}>
           <Button
             style={styles.buttonRight}
-            color={"red"}
+            color="white"
             title="Delete"
             onPress={() => this.openDialog()}
           ></Button>
+          </View>
         ),
       });
     } else {
@@ -219,6 +223,16 @@ const styles = StyleSheet.create({
     paddingTop: "3%",
     paddingBottom: "3%",
     paddingRight: "3%",
+  },
+
+  buttonRightEdit: {
+    marginBottom: "5%",
+    backgroundColor: "blue"
+  },
+
+  buttonRightDelete: {
+    marginBottom: "5%",
+    backgroundColor: "red"
   },
 
   value: {

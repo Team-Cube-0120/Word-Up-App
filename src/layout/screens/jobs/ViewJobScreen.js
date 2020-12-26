@@ -56,23 +56,27 @@ class ViewJobScreen extends Component {
     ) {
       this.setState({
         editButtonView: (
+          <View style={styles.buttonRightEdit}>
           <Button
-            style={styles.buttonRight}
+            style={styles.buttonRightEdit}
             title="Edit"
+            color={"white"}
             onPress={() =>
               this.props.navigation.push("EditJob", {
                 jobInfo: this.state.jobInfo,
               })
             }
           ></Button>
+          </View>
         ),
         deleteButtonView: (
+          <View style={styles.buttonRightDelete}>
           <Button
-            style={styles.buttonRight}
-            color={"red"}
+            color={"white"}
             title="Delete"
             onPress={() => this.openDialog()}
           ></Button>
+          </View>
         ),
       });
     }
@@ -115,6 +119,7 @@ class ViewJobScreen extends Component {
   applyToJob() {
     Linking.canOpenURL(this.state.jobInfo.jobAppUrl)
       .then((supported) => {
+        console.log(this.state.jobInfo.jobAppUrl)
         if (supported) {
           Linking.openURL(this.state.jobInfo.jobAppUrl);
         } else {
@@ -276,8 +281,14 @@ const styles = StyleSheet.create({
     backgroundColor: "#70AF1A"
   },
 
-  buttonRight: {
+  buttonRightEdit: {
     marginBottom: "5%",
+    backgroundColor: "blue"
+  },
+
+  buttonRightDelete: {
+    marginBottom: "5%",
+    backgroundColor: "red"
   },
 
   companyImage: {

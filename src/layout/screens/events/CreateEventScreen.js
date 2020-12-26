@@ -8,6 +8,7 @@ import {
   ScrollView,
   SafeAreaView,
   Platform,
+  Keyboard,
   TouchableOpacity,
 } from "react-native";
 import { Card, Input } from "react-native-elements";
@@ -138,8 +139,8 @@ class CreateEventsScreen extends Component {
           <TextInput
             style={styles.textInput}
             ref={this.eventNameInput}
-            returnKeyType={"done"}
-            blurOnSubmit={false}
+            blurOnSubmit={true}
+            onSubmitEditing={()=>{Keyboard.dismiss()}}
             placeholder="e.g. Harrison's birthday party"
             onChangeText={(eventName) =>
               this.setState({ eventName: eventName })
@@ -255,8 +256,8 @@ class CreateEventsScreen extends Component {
           <TextInput
             style={styles.textInput}
             ref={this.coHostsInput}
-            returnKeyType={"done"}
-            blurOnSubmit={false}
+            blurOnSubmit={true}
+            onSubmitEditing={()=>{Keyboard.dismiss()}}
             placeholder="e.g. Henry Lake, Bill Johnson"
             onChangeText={(coHosts) => this.setState({ coHosts: coHosts })}
           ></TextInput>

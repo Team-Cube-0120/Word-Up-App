@@ -19,6 +19,7 @@ import { USERINFO } from "../../../enums/StorageKeysEnum";
 import { ScrollView } from "react-native-gesture-handler";
 import { SafeAreaView } from "react-navigation";
 import moment from "moment";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 const font = Platform.OS === "ios" ? "Helvetica" : "Roboto";
 
@@ -134,7 +135,7 @@ class EventComments extends Component {
               );
             }}
           ></FlatList>
-          <ScrollView keyboardShouldPersistTaps="always" style={{ height: 200 }}>
+          <KeyboardAwareScrollView>
             <TextInput
               style={styles.comment}
               multiline={true}
@@ -190,7 +191,7 @@ class EventComments extends Component {
                 animating={this.state.isLoading}
               />
             </View>
-          </ScrollView>
+          </KeyboardAwareScrollView>
         </View>
       </View>
     );
@@ -201,12 +202,14 @@ const styles = StyleSheet.create({
   root: {
     backgroundColor: "#FAFAFA",
     marginTop: 10,
-    height: "62%",
+    height: "50%",
   },
 
   comment: {
     fontFamily: font,
-    marginBottom: 0,
+    marginTop: "5%",
+    marginBottom: 10,
+    height: 70
   },
 
   container: {

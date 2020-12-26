@@ -215,11 +215,11 @@ class CreateAlertsScreen extends Component {
             )}
           </ModalSelector>
 
-          <TouchableOpacity style={styles.button}>
+          <TouchableOpacity style={{backgroundColor:"#70AF1A"}}>
             <Button
               style={styles.btnText}
               title="Review"
-              color={"#70AF1A"}
+              color={"white"}
               onPress={async () => {
                 let userInfo = await getData(USERINFO);
                 this.state.alertId = await UuidGenerator.generateUuid();

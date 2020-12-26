@@ -22,8 +22,8 @@ class DeleteDialog extends Component {
                 <Dialog.Container visible={this.props.visible}>
                     <Dialog.Title style={{ fontFamily: font }}>Are you sure you want to delete?</Dialog.Title>
                     <View style={{ flexDirection: 'row-reverse',}}>
-                        <Dialog.Button label="Yes" onPress={this.props.onSubmit}></Dialog.Button>
-                        <Dialog.Button style={{ marginRight: '10%' }} label="No" onPress={this.props.onClose}></Dialog.Button>
+                        <Dialog.Button label="Yes" style={{right: 20}} onPress={this.props.onSubmit}></Dialog.Button>
+                        <Dialog.Button style={{marginRight: 80}} label="No" onPress={this.props.onClose}></Dialog.Button>
                         <ActivityIndicator
                             size="large"
                             color="#70AF1A"

@@ -8,6 +8,7 @@ import {
   StyleSheet,
   Platform,
   Alert,
+  Keyboard,
   ActivityIndicator,
   TouchableOpacity,
 } from "react-native";
@@ -19,6 +20,7 @@ import { getData, storeData } from "../../../util/LocalStorage";
 import { USERINFO } from "../../../enums/StorageKeysEnum";
 import ReviewEditJobDialog from "../../../components/dialog/ReviewEditJobDialog";
 const sleep = require("../../../util/Thread");
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 const font = Platform.OS === "ios" ? "Helvetica" : "Roboto";
 
@@ -102,7 +104,7 @@ class EditJobScreen extends Component {
   render() {
     return (
       <View style={{ backgroundColor: "#FAFAFA" }}>
-        <ScrollView>
+        <KeyboardAwareScrollView extraScrollHeight={25}>
           <Card containerStyle={styles.cardShadows}>
             <Card.Title style={styles.cardTitle}>
               Edit Job Information
@@ -177,8 +179,8 @@ class EditJobScreen extends Component {
                   this.setState({ jobDescription: jobDescription })
                 }
                 ref={this.jobDescriptionInput}
-                returnKeyType={"done"}
-                blurOnSubmit={false}
+                blurOnSubmit={true}
+                onSubmitEditing={()=>{Keyboard.dismiss()}}
               />
             </View>
             <Card.Divider />
@@ -295,10 +297,10 @@ class EditJobScreen extends Component {
               <TextInput
                 style={styles.value}
                 ref={this.zipInput}
-                returnKeyType={"done"}
+                blurOnSubmit={true}
+                onSubmitEditing={()=>{Keyboard.dismiss()}}
                 value={this.state.zip}
                 onChangeText={(zip) => this.setState({ zip: zip })}
-                blurOnSubmit={false}
               />
             </View>
             <Card.Divider />
@@ -325,7 +327,7 @@ class EditJobScreen extends Component {
                     onPress={() => this.openDialog()}
                   ></Button> */}
           </Card>
-        </ScrollView>
+        </KeyboardAwareScrollView>
         <ReviewEditJobDialog
           visible={this.state.toggleDialog}
           onSubmit={() => this.editJob()}

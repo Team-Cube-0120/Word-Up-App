@@ -7,6 +7,7 @@ import {
   StyleSheet,
   Platform,
   Alert,
+  Keyboard
 } from "react-native";
 import MaterialCommunityIconsIcon from "react-native-vector-icons/MaterialCommunityIcons";
 import { firebase } from "../../../../server/config/firebase/firebaseConfig";
@@ -69,7 +70,8 @@ export default function PasswordScreen({ navigation }) {
         value={currentPassword}
         underlineColorAndroid="transparent"
         autoCapitalize="none"
-        returnKeyType={"done"}
+        blurOnSubmit={true}
+        onSubmitEditing={()=>{Keyboard.dismiss()}}
       />
 
       <TextInput
@@ -81,7 +83,8 @@ export default function PasswordScreen({ navigation }) {
         value={newPassword}
         underlineColorAndroid="transparent"
         autoCapitalize="none"
-        returnKeyType={"done"}
+        blurOnSubmit={true}
+        onSubmitEditing={()=>{Keyboard.dismiss()}}
       />
 
       <TextInput
@@ -93,7 +96,8 @@ export default function PasswordScreen({ navigation }) {
         value={confirmPassword}
         underlineColorAndroid="transparent"
         autoCapitalize="none"
-        returnKeyType={"done"}
+        blurOnSubmit={true}
+        onSubmitEditing={()=>{Keyboard.dismiss()}}
       />
 
       <TouchableOpacity

@@ -510,7 +510,8 @@ class ProfileScreen extends Component {
                   <TextInput
                     style={{ fontFamily: font, fontSize: 20, color: "black" }}
                     placeholder={this.state.profile.fullname}
-                    returnKeyType={"done"}
+                    blurOnSubmit={true}
+                    onSubmitEditing={()=>{Keyboard.dismiss()}}
                     onChangeText={(fullname) => {
                       let copyTmpData = { ...this.state.tmpData };
                       copyTmpData["fullname"] = fullname;
@@ -528,7 +529,8 @@ class ProfileScreen extends Component {
                   <TextInput
                     style={{ fontFamily: font, fontSize: 20, color: "black" }}
                     placeholder={this.state.profile.username}
-                    returnKeyType={"done"}
+                    blurOnSubmit={true}
+                    onSubmitEditing={()=>{Keyboard.dismiss()}}
                     onChangeText={(username) => {
                       if (/^\S*[A-Za-z0-9]*\S*$/.test(username)) {
                         let copyTmpData = { ...this.state.tmpData };
@@ -551,7 +553,8 @@ class ProfileScreen extends Component {
                   <TextInput
                     style={{ fontFamily: font, fontSize: 20, color: "black" }}
                     placeholder={this.state.profile.location}
-                    returnKeyType={"done"}
+                    blurOnSubmit={true}
+                    onSubmitEditing={()=>{Keyboard.dismiss()}}
                     onChangeText={(location) => {
                       let copyTmpData = { ...this.state.tmpData };
                       copyTmpData["location"] = location;
@@ -680,7 +683,8 @@ class ProfileScreen extends Component {
                     style={{ fontFamily: font, fontSize: 20, color: "black" }}
                     placeholder={this.state.profile.phoneNum}
                     keyboardType={"numeric"}
-                    returnKeyType={"done"}
+                    blurOnSubmit={true}
+                    onSubmitEditing={()=>{Keyboard.dismiss()}}
                     maxLength={10}
                     onChangeText={(phoneNum) => {
                       if (/^[0-9]*$/.test(phoneNum)) {

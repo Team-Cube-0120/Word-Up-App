@@ -8,6 +8,7 @@ import {
   StyleSheet,
   Alert,
   Platform,
+  Keyboard,
   ActivityIndicator,
 } from "react-native";
 import { Card } from "react-native-elements";
@@ -231,8 +232,8 @@ class editEventScreen extends Component {
           <TextInput
             style={styles.textInput}
             ref={this.coHostsInput}
-            returnKeyType={"done"}
-            blurOnSubmit={false}
+            blurOnSubmit={true}
+            onSubmitEditing={()=>{Keyboard.dismiss()}}
             value={this.state.coHosts}
             onChangeText={(coHosts) => this.setState({ coHosts: coHosts })}
           ></TextInput>
@@ -306,9 +307,9 @@ class editEventScreen extends Component {
             )}
           </ModalSelector>
 
-          <View style={styles.buttonView}>
+          <View style={styles.buttonViewReview}>
             <Button
-              color="#70AF1A"
+              color="white"
               style={styles.buttonRight}
               title="Review"
               onPress={() => this.openDialog()}
@@ -401,6 +402,14 @@ const styles = StyleSheet.create({
     width: "100%",
     height: 50, // might be a problem for other screens
     justifyContent: "space-evenly",
+  },
+
+  buttonViewReview: {
+    flexDirection: "column",
+    width: "100%",
+    height: 50, // might be a problem for other screens
+    justifyContent: "space-evenly",
+    backgroundColor: "#70AF1A"
   },
 
   textInput: {

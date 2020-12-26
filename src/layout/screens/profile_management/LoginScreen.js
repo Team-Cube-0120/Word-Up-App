@@ -9,6 +9,7 @@ import {
   ScrollView,
   ActivityIndicator,
   Text,
+  Keyboard
 } from "react-native";
 import Modal from "react-native-modal";
 import { firebase } from "../../../../server/config/firebase/firebaseConfig";
@@ -394,7 +395,8 @@ export default function LoginScreen({ navigation }) {
             value={password}
             underlineColorAndroid="transparent"
             autoCapitalize="none"
-            returnKeyType={"done"}
+            blurOnSubmit={true}
+            onSubmitEditing={()=>{Keyboard.dismiss()}}
           />
 
           <TouchableOpacity

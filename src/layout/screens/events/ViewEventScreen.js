@@ -91,12 +91,7 @@ class ViewEventScreen extends Component {
       .then((response) => updateUserInfo())
       .then((response) => {
         this.closeDialog();
-        Alert.alert("Notice", "Your event has been deleted", [
-          {
-            text: "Return",
-            onPress: () => this.props.navigation.navigate("Events", { isEventCreated: true }),
-          },
-        ]);
+        this.props.navigation.navigate("Events", { isEventCreated: true })
       })
       .catch((error) => {
         this.closeDialog();
